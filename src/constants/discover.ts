@@ -19,7 +19,7 @@ export const DISCOVER_CATEGORY: {
   },
   {
     value: APP_CATEGORY.GAME,
-    label: "💰 Game",
+    label: "🎮 Game",
   },
   {
     value: APP_CATEGORY.EARN,
@@ -27,15 +27,15 @@ export const DISCOVER_CATEGORY: {
   },
   {
     value: APP_CATEGORY.FINANCE,
-    label: "💰 Finance",
+    label: "💵 Finance",
   },
   {
     value: APP_CATEGORY.SOCIAL,
-    label: "💰 Social",
+    label: "💬 Social",
   },
   {
     value: APP_CATEGORY.UTILITIES,
-    label: "💰 Utility",
+    label: "🔩 Utility",
   },
   {
     value: APP_CATEGORY.INFORMATION,
@@ -43,6 +43,6 @@ export const DISCOVER_CATEGORY: {
   },
   {
     value: APP_CATEGORY.ECOMMERCE,
-    label: "💰 E-commerce",
+    label: "🛒 E-commerce",
   },
 ];
