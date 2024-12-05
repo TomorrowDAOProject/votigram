@@ -1,0 +1,77 @@
+import React from "react";
+
+import { TAB_LIST } from "@/constants/navigation";
+
+import "./index.css";
+
+interface NavigationProps {
+  activeTab: TAB_LIST;
+  onMenuClick: (tab: TAB_LIST) => void;
+}
+
+const Navigation: React.FC<NavigationProps> = ({ activeTab, onMenuClick }) => {
+  const tabPositions = {
+    [TAB_LIST.HOME]: 0,
+    [TAB_LIST.DISCOVER]: 1,
+    [TAB_LIST.HEART]: 2,
+    [TAB_LIST.PEN]: 3,
+  };
+
+  const tabWidth = 70;
+  const indicatorStyle = {
+    transform: `translateX(${tabPositions[activeTab] * tabWidth}px)`,
+    transition: "transform 0.3s ease",
+  };
+
+  return (
+    <div className="navigation-container fixed w-[335px] gap-[46px] justify-center items-center flex bg-white bg-opacity-15 bottom-[11px] h-[61px] inset-x-0 m-auto rounded-[78px]">
+      <div
+        data-testid="home-tab"
+        className="flex flex-col items-center"
+        onClick={() => onMenuClick(TAB_LIST.HOME)}
+      >
+        <i
+          data-testid="votigram-icon-navbar-home"
+          className="votigram-icon-navbar-home text-[24px]"
+        />
+      </div>
+      <div
+        data-testid="discover-tab"
+        className="flex flex-col items-center"
+        onClick={() => onMenuClick(TAB_LIST.DISCOVER)}
+      >
+        <i
+          data-testid="votigram-icon-navbar-for-you"
+          className="votigram-icon-navbar-for-you text-[24px]"
+        />
+      </div>
+      <div
+        data-testid="heart-tab"
+        className="flex flex-col items-center"
+        onClick={() => onMenuClick(TAB_LIST.HEART)}
+      >
+        <i
+          data-testid="votigram-icon-navbar-vote"
+          className="votigram-icon-navbar-vote text-[24px]"
+        />
+      </div>
+      <div
+        data-testid="pen-tab"
+        className="flex flex-col items-center"
+        onClick={() => onMenuClick(TAB_LIST.PEN)}
+      >
+        <i
+          data-testid="votigram-icon-navbar-task-profile"
+          className="votigram-icon-navbar-task-profile text-[24px]"
+        />
+      </div>
+      <div
+        role="presentation"
+        className="flex top-[46px] left-[57px] bg-primary h-[2.5px] rounded-full w-[11px] absolute"
+        style={indicatorStyle}
+      />
+    </div>
+  );
+};
+
+export default Navigation;
