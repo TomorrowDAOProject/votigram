@@ -31,21 +31,21 @@ describe("CheckboxGroup Component", () => {
     });
   });
 
-  it("toggles checkbox option selection state on click", () => {
+  it('toggles checkbox option selection state on click', () => {
     render(<CheckboxGroup options={options} onChange={() => {}} />);
-
-    const firstOption = screen.getByText(options[0].label).parentElement;
-
-    // Ensure initial state is not selected
-    expect(firstOption).not.toHaveClass("border-secondary");
-
+  
+    const firstOption = screen.getByText(options[0].label);
+    
+    // Initial state is unchecked
+    expect(firstOption).not.toHaveClass('border-secondary');
+  
     // Click to select
-    fireEvent.click(firstOption!);
-    expect(firstOption).toHaveClass("border-secondary");
-
+    fireEvent.click(firstOption);
+    expect(firstOption).toHaveClass('border-secondary');
+  
     // Click again to deselect
-    fireEvent.click(firstOption!);
-    expect(firstOption).not.toHaveClass("border-secondary");
+    fireEvent.click(firstOption);
+    expect(firstOption).not.toHaveClass('border-secondary');
   });
 
   it("calls onChange with correct values", () => {
