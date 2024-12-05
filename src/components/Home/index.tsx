@@ -30,7 +30,6 @@ const Home = () => {
           />
           <div className="flex bg-[#00000038] rounded-full w-[32px] aspect-square justify-center items-center">
             <i className="votigram-icon-chat-bubble text-[20px] text-white opacity-40" />
-            {/* <img src="/chat-bubble.svg" /> */}
           </div>
           <span className="text-[11px] leading-[12px] font-normal">
             Community Leaderboard

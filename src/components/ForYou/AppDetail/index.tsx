@@ -6,7 +6,7 @@ const containerVariants = {
   hidden: { height: "max-content" },
   visible: {
     height: "auto",
-    background: "linear-gradient(rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 25.5%)",
+    background: "linear-gradient(rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 40%)",
   },
 };
 
@@ -55,7 +55,7 @@ const AppDetail = ({ item }: IAppDetailProps) => {
           stiffness: 300,
           damping: 20,
         }}
-        className="w-full flex flex-col absolute bottom-0 h-max z-[1] pl-5 pr-[30px]"
+        className="w-full flex flex-col absolute bottom-0 h-max z-[100] pl-5 pr-[30px]"
         onClick={() => {
           setIsExpand(!isExpand);
         }}

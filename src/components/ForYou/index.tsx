@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, PanInfo } from "framer-motion";
 import ImageCarousel from "../ImageCarousel";
-import AppDetail from "../AppDetail";
+import AppDetail from "./AppDetail";
 import Modal from "../Modal";
 import ActionButton from "./ActionButton";
 import CheckboxGroup from "../CheckboxGroup";
@@ -83,7 +83,7 @@ const fetchMoreVideos = () => {
 
 const DAILY_REWARDS = [2000, 2000, 2000, 2000, 2000, 2000, 5000];
 
-const FileScroll = () => {
+const ForYou = () => {
   const [videoFiles, setVideoFiles] = useState(initialVideoFiles);
   const [currentIndex, setCurrentIndex] = useState(0);
   const height = window.innerHeight;
@@ -128,6 +128,9 @@ const FileScroll = () => {
         dragDirectionLock
         onDragEnd={handleDragEnd}
         className="relative"
+        whileDrag={{
+          opacity: 0.5,
+        }}
       >
         {videoFiles.map((item, index) => (
           <div
@@ -180,4 +183,4 @@ const FileScroll = () => {
   );
 };
 
-export default FileScroll;
+export default ForYou;

@@ -4,7 +4,7 @@ import "./App.css";
 import { TAB_LIST } from "./constants/navigation";
 import Navigation from "./components/Navigation";
 import Home from "./components/Home";
-import Discover from "./components/Discover";
+import ForYou from "./components/ForYou";
 
 const App = () => {
   const [activeTab, setActiveTab] = useState(TAB_LIST.HOME);
@@ -15,7 +15,7 @@ const App = () => {
   return (
     <>
       {activeTab === TAB_LIST.HOME && <Home />}
-      {activeTab === TAB_LIST.DISCOVER && <Discover />}
+      {activeTab === TAB_LIST.FOR_YOU && <ForYou />}
       <Navigation activeTab={activeTab} onMenuClick={setActiveTab} />
     </>
   );
