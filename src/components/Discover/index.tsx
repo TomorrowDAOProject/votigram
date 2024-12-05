@@ -167,8 +167,8 @@ const FileScroll = () => {
         </button>
       </Modal>
       <Modal isVisible={false} rootClassName="px-[29px] pt-[45px] pb-[30px]">
-        <p className="text-[20px] font-bold leading-[20px] font-outfit">Select Your Areas of Interest</p>
-        <p className="mt-[8px] mb-[24px] text-[9px] leading-[10px] font-questrial">Your preferences will help us create a journey unique to you.</p>
+        <span className="block text-[20px] font-bold leading-[20px] font-outfit">Select Your Areas of Interest</span>
+        <span className="block mt-[8px] mb-[24px] text-[9px] leading-[10px] font-questrial">Your preferences will help us create a journey unique to you.</span>
 
         <CheckboxGroup options={DISCOVER_CATEGORY} onChange={console.log} />
 

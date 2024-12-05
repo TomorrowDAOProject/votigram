@@ -1,7 +1,7 @@
 import { APP_CATEGORY } from '@/constants/discover';
 import { useState } from 'react';
 
-export interface ICheckboxOption {
+type ICheckboxOption = {
   value: APP_CATEGORY;
   label: string;
 }
