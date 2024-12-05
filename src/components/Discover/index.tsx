@@ -4,6 +4,8 @@ import ImageCarousel from "../ImageCarousel";
 import AppDetail from "../AppDetail";
 import Modal from "../Modal";
 import ActionButton from "./ActionButton";
+import CheckboxGroup from "../CheckboxGroup";
+import { DISCOVER_CATEGORY } from "@/constants/discover";
 
 const initialVideoFiles = [
   {
@@ -164,6 +166,16 @@ const FileScroll = () => {
           Claim Today's Reward
         </button>
       </Modal>
+      <Modal isVisible={false} rootClassName="px-[29px] pt-[45px] pb-[30px]">
+        <span className="block text-[20px] font-bold leading-[20px] font-outfit">Select Your Areas of Interest</span>
+        <span className="block mt-[8px] mb-[24px] text-[9px] leading-[10px] font-questrial">Your preferences will help us create a journey unique to you.</span>
+
+        <CheckboxGroup options={DISCOVER_CATEGORY} onChange={console.log} />
+
+        <button className="mt-[24px] bg-primary text-white text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mt-[24px] mb-[16px]">
+          Let’s Begin
+        </button>
+      </Modal> 
     </div>
   );
 };
