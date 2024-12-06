@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@telegram-apps/bridge':
+        specifier: ^1.7.0
+        version: 1.7.0
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.49)
@@ -675,6 +678,21 @@ packages:
 
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
+
+  '@telegram-apps/bridge@1.7.0':
+    resolution: {integrity: sha512-Us8Z3jY03wpl4oM96DargDK2n7CqWIyULu1XsaE043L27waTQb7YHQFdjWUCFzDvcBnF0277NVvz+cKwE+t5KA==}
+
+  '@telegram-apps/signals@1.1.0':
+    resolution: {integrity: sha512-5qN7cU8t3l7n0cKcnzc/1TYKJTwAggUinfwbLHL1SYmB47pBHjCvfsRiYliFohk6lb635SBmNuVZL6LHFmGZaw==}
+
+  '@telegram-apps/toolkit@1.0.0':
+    resolution: {integrity: sha512-fSVoveLuMzwRKWeXEufMSXxH+HvjsFKb1DeT3pG5qLpnb2rdtejnNcwAt6WEPtiZ3a4YntYaFuR3KYgVv0ZxeQ==}
+
+  '@telegram-apps/transformers@1.1.0':
+    resolution: {integrity: sha512-g3cZruuJXpY8EscnO7CnZp/88/P+AyuK7YFId9jS1j4ah8VO/yoXa483JhrtftYEffRfi8tVfBCVADjiu3ms8w==}
+
+  '@telegram-apps/types@1.1.0':
+    resolution: {integrity: sha512-8tBIe9N8huDsfvv/EDv5S5tokVjl16adpsSlYdhvNzj0rWIebaf28gBBU9fAUWfwZNIBlDCOhFyk3dqjPhlHzA==}
 
   '@testing-library/dom@10.4.0':
     resolution: {integrity: sha512-pemlzrSESWbdAloYml3bAJMEfNh1Z7EduzqPKprCH5S341frlpYnUEW0H72dLxa6IsYr+mPno20GiSm+h9dEdQ==}
@@ -2941,6 +2959,24 @@ snapshots:
     optional: true
 
   '@rtsao/scc@1.1.0': {}
+
+  '@telegram-apps/bridge@1.7.0':
+    dependencies:
+      '@telegram-apps/signals': 1.1.0
+      '@telegram-apps/toolkit': 1.0.0
+      '@telegram-apps/transformers': 1.1.0
+      '@telegram-apps/types': 1.1.0
+
+  '@telegram-apps/signals@1.1.0': {}
+
+  '@telegram-apps/toolkit@1.0.0': {}
+
+  '@telegram-apps/transformers@1.1.0':
+    dependencies:
+      '@telegram-apps/toolkit': 1.0.0
+      '@telegram-apps/types': 1.1.0
+
+  '@telegram-apps/types@1.1.0': {}
 
   '@testing-library/dom@10.4.0':
     dependencies:

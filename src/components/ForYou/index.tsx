@@ -6,6 +6,7 @@ import Modal from "../Modal";
 import ActionButton from "./ActionButton";
 import CheckboxGroup from "../CheckboxGroup";
 import { DISCOVER_CATEGORY } from "@/constants/discover";
+import TelegramHeader from "../TelegramHeader";
 
 const initialVideoFiles = [
   {
@@ -13,7 +14,7 @@ const initialVideoFiles = [
     icon: "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/cywjzr5cxzwk92k/avatar_1H6S8YgTL8.jpg",
     briefDesc: "Animals are done! It’s PAWS Season 🐾",
     description:
-      "Earn rewards and NFTs in Bine Games! Complete tasks, open chests, and gear up for future airdrops! 🎮🚀💎",
+      "COLLECT $SYNQUEST points and secure a $SYNAI airdrop, INVITE your friends to score even more points. Play now and let your legend unfold!",
     tag: ["Finance", "Ecommerce"],
     screenshot: [
       "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_1_2024_10_21_19_21_47_MJzMu5TedA.webp?thumb=576x0",
@@ -26,7 +27,7 @@ const initialVideoFiles = [
     icon: "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/cywjzr5cxzwk92k/avatar_1H6S8YgTL8.jpg",
     briefDesc: "Animals are done! It’s PAWS Season 🐾",
     description:
-      "Earn rewards and NFTs in Bine Games! Complete tasks, open chests, and gear up for future airdrops! 🎮🚀💎",
+      "COLLECT $SYNQUEST points and secure a $SYNAI airdrop, INVITE your friends to score even more points. Play now and let your legend unfold!",
     tag: ["Finance", "Ecommerce"],
     screenshot: [
       "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_1_2024_10_21_19_21_47_MJzMu5TedA.webp?thumb=576x0",
@@ -39,7 +40,7 @@ const initialVideoFiles = [
     icon: "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/cywjzr5cxzwk92k/avatar_1H6S8YgTL8.jpg",
     briefDesc: "Animals are done! It’s PAWS Season 🐾",
     description:
-      "Earn rewards and NFTs in Bine Games! Complete tasks, open chests, and gear up for future airdrops! 🎮🚀💎",
+      "COLLECT $SYNQUEST points and secure a $SYNAI airdrop, INVITE your friends to score even more points. Play now and let your legend unfold!",
     tag: ["Finance", "Ecommerce"],
     screenshot: [
       "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_1_2024_10_21_19_21_47_MJzMu5TedA.webp?thumb=576x0",
@@ -57,7 +58,7 @@ const fetchMoreVideos = () => {
       icon: "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/cywjzr5cxzwk92k/avatar_1H6S8YgTL8.jpg",
       briefDesc: "Animals are done! It’s PAWS Season 🐾",
       description:
-        "Earn rewards and NFTs in Bine Games! Complete tasks, open chests, and gear up for future airdrops! 🎮🚀💎",
+        "COLLECT $SYNQUEST points and secure a $SYNAI airdrop, INVITE your friends to score even more points. Play now and let your legend unfold!",
       tag: ["Finance", "Ecommerce"],
       screenshot: [
         "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_1_2024_10_21_19_21_47_MJzMu5TedA.webp?thumb=576x0",
@@ -70,7 +71,7 @@ const fetchMoreVideos = () => {
       icon: "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/cywjzr5cxzwk92k/avatar_1H6S8YgTL8.jpg",
       briefDesc: "Animals are done! It’s PAWS Season 🐾",
       description:
-        "Earn rewards and NFTs in Bine Games! Complete tasks, open chests, and gear up for future airdrops! 🎮🚀💎",
+        "COLLECT $SYNQUEST points and secure a $SYNAI airdrop, INVITE your friends to score even more points. Play now and let your legend unfold!",
       tag: ["Finance", "Ecommerce"],
       screenshot: [
         "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_1_2024_10_21_19_21_47_MJzMu5TedA.webp?thumb=576x0",
@@ -116,70 +117,79 @@ const ForYou = () => {
   };
 
   return (
-    <div className="h-screen overflow-hidden bg-discover-background">
-      <motion.div
-        animate={{ y: -currentIndex * height }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        drag="y"
-        dragConstraints={{
-          top: -((videoFiles.length - 1) * height),
-          bottom: 0,
-        }}
-        dragDirectionLock
-        onDragEnd={handleDragEnd}
-        className="relative"
-        whileDrag={{
-          opacity: 0.5,
-        }}
-      >
-        {videoFiles.map((item, index) => (
-          <div
-            key={index}
-            className="h-screen pt-[25px] flex flex-col relative items-center"
-          >
-            <ImageCarousel items={item.screenshot} />
-            <AppDetail item={item} />
-            <ActionButton />
-          </div>
-        ))}
-      </motion.div>
-      <Modal isVisible={false} rootClassName="p-5">
-        <div className="col-12 items-center flex flex-col gap-[8px] mb-7">
-          <span className="font-outfit text-[20px] leading-[20px] font-bold">
-            Daily Rewards
-          </span>
-          <span className="text-[12px] leading-[13px]">
-            Log in everyday to earn extra points!
-          </span>
-        </div>
-        <div className="col-12 gap-[9px] flex flex-wrap justify-center mb-7">
-          {DAILY_REWARDS.map((item, index) => (
-            <div className="flex flex-col bg-tertiary w-[67px] rounded-[8px] gap-[15px] justify-center aspect-square items-center">
-              <span className="text-[9px] leading-[10px]">Day {index + 1}</span>
-              <span className="text-[14px] leading-[14px] text-secondary font-bold font-outfit">
-                + {item.toLocaleString()}
-              </span>
+    <>
+      <TelegramHeader title="For You" />
+      <div className="h-screen overflow-hidden bg-discover-background pt-telegramHeader">
+        <motion.div
+          animate={{ y: -currentIndex * height }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          drag="y"
+          dragConstraints={{
+            top: -((videoFiles.length - 1) * height),
+            bottom: 0,
+          }}
+          dragDirectionLock
+          onDragEnd={handleDragEnd}
+          className="relative"
+          whileDrag={{
+            opacity: 0.5,
+          }}
+        >
+          {videoFiles.map((item, index) => (
+            <div
+              key={index}
+              className="h-screen pt-[25px] flex flex-col relative items-center"
+            >
+              <ImageCarousel items={item.screenshot} />
+              <AppDetail item={item} />
+              <ActionButton />
             </div>
           ))}
-        </div>
-        <button className="bg-secondary text-black text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mb-2">
-          Watch Ads To Double The Point
-        </button>
-        <button className="bg-primary text-white text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px]">
-          Claim Today's Reward
-        </button>
-      </Modal>
-      <Modal isVisible={false} rootClassName="px-[29px] pt-[45px] pb-[30px]">
-        <span className="block text-[20px] font-bold leading-[20px] font-outfit">Select Your Areas of Interest</span>
-        <span className="block mt-[8px] mb-[24px] text-[9px] leading-[10px] font-questrial">Your preferences will help us create a journey unique to you.</span>
+        </motion.div>
+        <Modal isVisible={false} rootClassName="p-5">
+          <div className="col-12 items-center flex flex-col gap-[8px] mb-7">
+            <span className="font-outfit text-[20px] leading-[20px] font-bold">
+              Daily Rewards
+            </span>
+            <span className="text-[12px] leading-[13px]">
+              Log in everyday to earn extra points!
+            </span>
+          </div>
+          <div className="col-12 gap-[9px] flex flex-wrap justify-center mb-7">
+            {DAILY_REWARDS.map((item, index) => (
+              <div className="flex flex-col bg-tertiary w-[67px] rounded-[8px] gap-[15px] justify-center aspect-square items-center">
+                <span className="text-[9px] leading-[10px]">
+                  Day {index + 1}
+                </span>
+                <span className="text-[14px] leading-[14px] text-secondary font-bold font-outfit">
+                  + {item.toLocaleString()}
+                </span>
+              </div>
+            ))}
+          </div>
+          <button className="bg-secondary text-black text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mb-2">
+            Watch Ads To Double The Point
+          </button>
+          <button className="bg-primary text-white text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px]">
+            Claim Today's Reward
+          </button>
+        </Modal>
+        <Modal isVisible={false} rootClassName="px-[29px] pt-[45px] pb-[30px]">
+          <span className="block text-[20px] font-bold leading-[20px] font-outfit">
+            Select Your Areas of Interest
+          </span>
+          <span className="block mt-[8px] mb-[24px] text-[9px] leading-[10px]">
+            Your preferences will help us create a journey unique to you.
+          </span>
 
-        <CheckboxGroup options={DISCOVER_CATEGORY} onChange={console.log} />
+          <CheckboxGroup options={DISCOVER_CATEGORY} onChange={console.log} />
 
-        <button className="mt-[24px] bg-primary text-white text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mt-[24px] mb-[16px]">
-          Let’s Begin
-        </button>
-      </Modal> 
-    </div>
+          <button className="mt-[24px] bg-primary text-white text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mt-[24px] mb-[16px]">
+            Let's Begin
+          </button>
+        </Modal>
+      </div>
+    </>
   );
 };
 

@@ -24,7 +24,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onMenuClick }) => {
   };
 
   return (
-    <div className="navigation-container fixed w-[335px] gap-[46px] justify-center items-center flex bg-white bg-opacity-15 bottom-[11px] h-[61px] inset-x-0 m-auto rounded-[78px]">
+    <div className="navigation-container fixed w-[335px] gap-[46px] justify-center items-center flex bg-white bg-opacity-15 h-[61px] inset-x-0 m-auto rounded-[78px]">
       <div
         data-testid="home-tab"
         className="flex flex-col items-center"

@@ -16,7 +16,7 @@ describe("AppItem Component", () => {
     );
 
     // Check that the title and description are rendered
-    expect(screen.getByText("Capybare")).toBeInTheDocument();
+    expect(screen.getByText("Capybara")).toBeInTheDocument();
     expect(
       screen.getByText(/A one\/2 liner sentence about the game\./i)
     ).toBeInTheDocument();

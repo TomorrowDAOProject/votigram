@@ -1,10 +1,10 @@
-import { APP_CATEGORY } from '@/constants/discover';
-import { useState } from 'react';
+import { APP_CATEGORY } from "@/constants/discover";
+import { useState } from "react";
 
 type ICheckboxOption = {
   value: APP_CATEGORY;
   label: string;
-}
+};
 
 interface ICheckboxProps {
   options: ICheckboxOption[];
@@ -33,8 +33,10 @@ const CheckboxGroup = ({ options, onChange }: ICheckboxProps) => {
       {options.map((option) => (
         <div
           key={option.value}
-          className={`rounded-[8px] bg-tertiary border-[1px] border-solid text-[13px] font-normal font-questrial text-center py-[14px] text-white leading-[1] cursor-pointer ${
-            selectedValues.includes(option.value) ? 'border-secondary' : 'border-tertiary'
+          className={`rounded-[8px] bg-tertiary border-[1px] border-solid text-[13px] font-normal text-center py-[10px] text-white leading-[13px] cursor-pointer ${
+            selectedValues.includes(option.value)
+              ? "border-secondary"
+              : "border-tertiary"
           }`}
           onClick={() => handleToggle(option.value)}
         >

@@ -9,7 +9,7 @@ interface IAppList {
 const AppList = ({ title, items }: IAppList) => {
   return (
     <div className="flex flex-col votigram-grid items-start pb-24">
-      <span className="font-outfit text-[18px] leading-[18px] font-bold mb-[18px]">
+      <span className="font-outfit text-[20px] leading-[20px] font-bold mb-[18px]">
         {title}
       </span>
       <div className="flex gap-[20px] flex-col">

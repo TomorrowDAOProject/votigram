@@ -8,14 +8,14 @@ const AppItem = ({ showArrow = false }: IAppItem) => {
       <img
         className="w-[48px] aspect-square rounded-[8px]"
         src="https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/l0yw8rraanl7tzb/avatar_oo3_ozcpwl_e_waZQrn0OXb.jpg"
-        alt="Capybare"
+        alt="Capybara"
         data-testid="app-item-icon"
       />
       <div className="flex flex-col gap-[5px]">
         <span className="font-bold text-[16px] leading-[16px] font-outfit">
-          Capybare
+          Capybara
         </span>
-        <span className="font-normal text-[11px] leading-[10px] font-questrial">
+        <span className="font-normal text-[11px] leading-[13px]">
           A one/2 liner sentence about the game. A one/2 liner sentence about
           the game.
         </span>

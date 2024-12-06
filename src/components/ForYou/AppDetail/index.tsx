@@ -52,10 +52,10 @@ const AppDetail = ({ item }: IAppDetailProps) => {
         variants={containerVariants}
         transition={{
           type: "spring",
-          stiffness: 300,
+          stiffness: 500,
           damping: 20,
         }}
-        className="w-full flex flex-col absolute bottom-0 h-max z-[100] pl-5 pr-[30px]"
+        className="w-full flex flex-col absolute bottom-telegramHeader h-max z-[100] pl-5 pr-[20px]"
         onClick={() => {
           setIsExpand(!isExpand);
         }}
@@ -70,9 +70,7 @@ const AppDetail = ({ item }: IAppDetailProps) => {
             <span className="font-outfit font-bold text-[16px] leading-[16px]">
               {item.name}
             </span>
-            <span className="font-questrial text-[11px] leading-[12px]">
-              {item.briefDesc}
-            </span>
+            <span className="text-[11px] leading-[13px]">{item.briefDesc}</span>
           </div>
         </div>
         <motion.div
@@ -81,10 +79,10 @@ const AppDetail = ({ item }: IAppDetailProps) => {
           variants={descriptionVariants}
           transition={{
             type: "spring",
-            stiffness: 300,
-            damping: 30,
+            stiffness: 500,
+            damping: 20,
           }}
-          className="flex w-full font-questrial text-[12px] leading-[13px]"
+          className="flex w-full text-[13px] leading-[15px]"
         >
           {item.description}
         </motion.div>
@@ -92,12 +90,12 @@ const AppDetail = ({ item }: IAppDetailProps) => {
         <div className="flex pb-[90px]">
           <div className="flex flex-1 gap-[6px] items-center">
             <div className="flex item h-[22px] border-pill-border border-[1px] rounded-full">
-              <button className="w-max h-[22px] font-questrial px-2 text-[12px] leading-[13px]">
+              <button className="w-max h-[22px] px-2 text-[12px] leading-[13px]">
                 💰 New
               </button>
             </div>
             <div className="flex item h-[22px] border-pill-border border-[1px] rounded-full">
-              <button className="w-max h-[22px] font-questrial px-2 text-[12px] leading-[13px]">
+              <button className="w-max h-[22px] px-2 text-[12px] leading-[13px]">
                 🎮 Game
               </button>
             </div>
