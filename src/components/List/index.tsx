@@ -65,7 +65,7 @@ const List: React.FC<IListProps> = ({
     <div
       ref={listRef}
       role="list"
-      className={`overflow-x-hidden overflow-y-auto`}
+      className="overflow-x-hidden overflow-y-auto"
       style={{ height: calculatedHeight }}
     >
       {items.length === 0 && (
