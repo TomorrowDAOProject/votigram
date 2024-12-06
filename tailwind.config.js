@@ -55,6 +55,7 @@ export default {
         "app-icon-border": "#969696",
         "pill-border": "#2E2E2E",
         "modal-background": "#191919",
+        danger: "#FF2929",
       },
     },
   },

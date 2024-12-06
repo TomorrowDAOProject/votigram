@@ -6,6 +6,10 @@ import Modal from "../Modal";
 import ActionButton from "./ActionButton";
 import CheckboxGroup from "../CheckboxGroup";
 import { DISCOVER_CATEGORY } from "@/constants/discover";
+import Drawer from "../Drawer";
+import Textarea from "../Textarea";
+import List, { ListItem } from "../List";
+import { timeAgo } from "@/utils/time";
 
 const initialVideoFiles = [
   {
@@ -86,6 +90,7 @@ const DAILY_REWARDS = [2000, 2000, 2000, 2000, 2000, 2000, 5000];
 const FileScroll = () => {
   const [videoFiles, setVideoFiles] = useState(initialVideoFiles);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
   const height = window.innerHeight;
 
   const handleDragEnd = (
@@ -113,6 +118,27 @@ const FileScroll = () => {
         setVideoFiles((prev) => [...prev, ...moreVideos]);
       }
     }
+  };
+
+  const fetchMoreReviews = (
+    setItems: React.Dispatch<React.SetStateAction<ListItem[]>>,
+    currentItems: ListItem[] = []
+  ) => {
+    setTimeout(() => {
+      const nextItems = [...Array(10).keys()].map((n) => ({
+        title: `User ${currentItems.length + n}`,
+        subtitle: timeAgo(new Date("2022-01-01")),
+        avatar:
+          "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/cywjzr5cxzwk92k/avatar_1H6S8YgTL8.jpg",
+        content:
+          "This app is review! I love it so much! This app is review! I love it so much! This app is review! I love it so much!",
+      }));
+      setItems([...currentItems, ...nextItems]);
+
+      if (currentItems.length + nextItems.length >= 50) {
+        setHasMore(false);
+      }
+    }, 800);
   };
 
   return (
@@ -167,15 +193,42 @@ const FileScroll = () => {
         </button>
       </Modal>
       <Modal isVisible={false} rootClassName="px-[29px] pt-[45px] pb-[30px]">
-        <span className="block text-[20px] font-bold leading-[20px] font-outfit">Select Your Areas of Interest</span>
-        <span className="block mt-[8px] mb-[24px] text-[9px] leading-[10px] font-questrial">Your preferences will help us create a journey unique to you.</span>
+        <span className="block text-[20px] font-bold leading-[20px] font-outfit">
+          Select Your Areas of Interest
+        </span>
+        <span className="block mt-[8px] mb-[24px] text-[9px] leading-[10px] font-questrial">
+          Your preferences will help us create a journey unique to you.
+        </span>
 
         <CheckboxGroup options={DISCOVER_CATEGORY} onChange={console.log} />
 
         <button className="mt-[24px] bg-primary text-white text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mt-[24px] mb-[16px]">
           Let’s Begin
         </button>
-      </Modal> 
+      </Modal>
+      <Drawer isVisible={false} direction="bottom">
+        <div className="relative w-full flex items-center justify-center py-[17px] px-[19px]">
+          <span className="font-outfit text-[16px] leading-[1] font-bold text-white">
+            Reviews
+          </span>
+          <i
+            className="votigram-icon-cancel text-[14px] text-white absolute top-[15px] right-[18px] cursor-pointer"
+            // onClick={() => setShowDrawer(false)}
+          />
+        </div>
+        <div className="py-[4px]">
+          <List
+            hasMore={hasMore}
+            height="60vh"
+            loadData={fetchMoreReviews}
+            emptyText="Write the first review!"
+            rootClassname="px-[20px]"
+          />
+        </div>
+        <div className="py-[17px] px-[20px] border-t-[1px] border-tertiary border-solid">
+          <Textarea placeholder="Write a review" />
+        </div>
+      </Drawer>
     </div>
   );
 };
