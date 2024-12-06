@@ -226,7 +226,7 @@ const FileScroll = () => {
           />
         </div>
         <div className="py-[17px] px-[20px] border-t-[1px] border-tertiary border-solid">
-          <Textarea placeholder="Write a review" />
+          <Textarea placeholder="Add a comment" />
         </div>
       </Drawer>
     </div>
