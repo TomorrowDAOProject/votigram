@@ -8,8 +8,9 @@ import CheckboxGroup from "../CheckboxGroup";
 import { DISCOVER_CATEGORY } from "@/constants/discover";
 import Drawer from "../Drawer";
 import Textarea from "../Textarea";
-import List, { ListItem } from "../List";
+import List from "../List";
 import { timeAgo } from "@/utils/time";
+import { ListItem } from "../List/type";
 
 const initialVideoFiles = [
   {
@@ -127,7 +128,7 @@ const FileScroll = () => {
     setTimeout(() => {
       const nextItems = [...Array(10).keys()].map((n) => ({
         title: `User ${currentItems.length + n}`,
-        subtitle: timeAgo(new Date("2022-01-01")),
+        subtitle: timeAgo(new Date("2024-12-01")),
         avatar:
           "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/cywjzr5cxzwk92k/avatar_1H6S8YgTL8.jpg",
         content:
@@ -206,15 +207,12 @@ const FileScroll = () => {
           Let’s Begin
         </button>
       </Modal>
-      <Drawer isVisible={false} direction="bottom">
+      <Drawer isVisible={true} direction="bottom">
         <div className="relative w-full flex items-center justify-center py-[17px] px-[19px]">
           <span className="font-outfit text-[16px] leading-[1] font-bold text-white">
             Reviews
           </span>
-          <i
-            className="votigram-icon-cancel text-[14px] text-white absolute top-[15px] right-[18px] cursor-pointer"
-            // onClick={() => setShowDrawer(false)}
-          />
+          <i className="votigram-icon-cancel text-[14px] text-white absolute top-[15px] right-[18px] cursor-pointer" />
         </div>
         <div className="py-[4px]">
           <List

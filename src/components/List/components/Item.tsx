@@ -1,5 +1,5 @@
 import React from "react";
-import { ListItem } from "..";
+import { ListItem } from "../type";
 
 interface ItemProps {
   data: ListItem;
@@ -24,16 +24,16 @@ const Item = ({ data, className, onClick }: ItemProps) => {
       )}
       <div className="flex flex-col flex-1">
         <div className="flex flex-row items-end gap-[5px]">
-          <span className="font-normal text-[11px] text-white font-questrial leading-[1.1]">
+          <span className="font-normal text-[11px] text-white leading-[13.2px]">
             {data.title}
           </span>
           {data.subtitle && (
-            <span className="font-normal text-[11px] text-input-placeholder font-questrial leading-[1.1]">
+            <span className="font-normal text-[11px] text-input-placeholder leading-[13.2px]">
               {data.subtitle}
             </span>
           )}
         </div>
-        <div className="mt-[5px] font-normal text-[14px] text-white font-questrial leading-[1.2]">
+        <div className="mt-[5px] font-normal text-[14px] text-white leading-[16.8px]">
           {data?.content}
         </div>
       </div>

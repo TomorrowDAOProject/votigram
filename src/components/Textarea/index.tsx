@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React, { useRef, useState } from "react";
 
 interface ITextareaProps {
@@ -51,19 +52,22 @@ const Textarea = ({
       <div className="flex flex-col py-[12px] px-[16px] bg-input rounded-[20px] flex-1">
         <textarea
           ref={textareaRef}
-          className={`p-0 font-questrial text-[14px] leading-[1.2] outline-none resize-none overflow-hidden appearance-none bg-input ${rootClassName}`}
+          className={clsx(
+            "p-0 text-[14px] leading-[16.8px] outline-none resize-none overflow-hidden appearance-none bg-input",
+            rootClassName
+          )}
           value={text}
           maxLength={maxLength}
           onChange={handleChange}
-          placeholder={placeholder || "请输入..."}
+          placeholder={placeholder || "Please enter ..."}
           rows={1}
         />
         <span
-          className={`${
-            charCount > 0 ? "inline-block" : "hidden"
-          } mt-[10px] text-[11px] leading-[1.2] font-questrial text-input-placeholder ${
-            charCount === maxLength ? "text-danger" : ""
-          }`}
+          className={clsx(
+            charCount > 0 ? "inline-block" : "hidden",
+            "mt-[10px] text-[11px] leading-[16.8px] text-input-placeholder",
+            { "text-danger": charCount === maxLength }
+          )}
         >
           {charCount}/{maxLength}
         </span>
@@ -74,9 +78,10 @@ const Textarea = ({
         disabled={text.trim().length === 0}
       >
         <i
-          className={`votigram-icon-send text-[24px] ${
+          className={clsx(
+            "votigram-icon-send text-[24px]",
             charCount === 0 ? "text-input-placeholder" : "text-primary"
-          }`}
+          )}
         />
       </button>
     </div>

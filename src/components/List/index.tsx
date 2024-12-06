@@ -1,14 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Item from "./components/Item";
 import clsx from "clsx";
-
-export type ListItem = {
-  id?: number;
-  title: React.ReactNode;
-  subtitle?: React.ReactNode;
-  avatar?: string;
-  content?: React.ReactNode;
-};
+import { ListItem } from "./type";
 
 interface IListProps {
   height?: number | string;
