@@ -56,6 +56,14 @@ export default {
         "pill-border": "#2E2E2E",
         "modal-background": "#191919",
       },
+      inset: {
+        telegramHeader:
+          "calc(var(--tg-content-safe-area-inset-top) + var(--tg-safe-area-inset-top) + 14px)",
+      },
+      padding: {
+        telegramHeader:
+          "calc(var(--tg-content-safe-area-inset-top) + var(--tg-safe-area-inset-top))",
+      },
     },
   },
   plugins: [

@@ -12,7 +12,7 @@ interface NavigationProps {
 const Navigation: React.FC<NavigationProps> = ({ activeTab, onMenuClick }) => {
   const tabPositions = {
     [TAB_LIST.HOME]: 0,
-    [TAB_LIST.DISCOVER]: 1,
+    [TAB_LIST.FOR_YOU]: 1,
     [TAB_LIST.HEART]: 2,
     [TAB_LIST.PEN]: 3,
   };
@@ -24,7 +24,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onMenuClick }) => {
   };
 
   return (
-    <div className="navigation-container fixed w-[335px] gap-[46px] justify-center items-center flex bg-white bg-opacity-15 bottom-[11px] h-[61px] inset-x-0 m-auto rounded-[78px]">
+    <div className="navigation-container fixed w-[335px] gap-[46px] justify-center items-center flex bg-white bg-opacity-15 h-[61px] inset-x-0 m-auto rounded-[78px]">
       <div
         data-testid="home-tab"
         className="flex flex-col items-center"
@@ -36,9 +36,9 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onMenuClick }) => {
         />
       </div>
       <div
-        data-testid="discover-tab"
+        data-testid="for-you-tab"
         className="flex flex-col items-center"
-        onClick={() => onMenuClick(TAB_LIST.DISCOVER)}
+        onClick={() => onMenuClick(TAB_LIST.FOR_YOU)}
       >
         <i
           data-testid="votigram-icon-navbar-for-you"

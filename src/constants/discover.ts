@@ -15,15 +15,15 @@ export const DISCOVER_CATEGORY: {
 }[] = [
   {
     value: APP_CATEGORY.NEW,
-    label: "💰 New",
-  },
-  {
-    value: APP_CATEGORY.GAME,
-    label: "🎮 Game",
+    label: "✨ New",
   },
   {
     value: APP_CATEGORY.EARN,
     label: "💰 Earn",
+  },
+  {
+    value: APP_CATEGORY.GAME,
+    label: "🎮 Game",
   },
   {
     value: APP_CATEGORY.FINANCE,

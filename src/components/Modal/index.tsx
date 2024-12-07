@@ -17,7 +17,7 @@ const Modal = ({ isVisible, children, rootClassName }: IModalProps) => {
 
   return (
     isVisible && (
-      <div className="fixed votigram-grid inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="fixed votigram-grid inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[10000]">
         <motion.div
           className={clsx(
             `bg-modal-background rounded-lg shadow-lg w-full`,

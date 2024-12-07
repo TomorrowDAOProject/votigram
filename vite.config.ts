@@ -46,6 +46,7 @@ export default defineConfig({
         "public", // Static assets
         ".env", // Environment configuration file
         "src/types/*.ts",
+        "src/main.tsx",
       ],
     },
   },

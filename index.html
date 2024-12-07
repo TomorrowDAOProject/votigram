@@ -8,7 +8,6 @@
     data-precedence="default">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" crossorigin="" href="https://fonts.gstatic.com">
-  <link rel="preload" href="https://telegram.org/js/telegram-web-app.js?56" as="script">
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vite + React + TS</title>
@@ -17,6 +16,9 @@
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+  <script src="https://unpkg.com/vconsole@3.15.1/dist/vconsole.min.js"></script>
+  <script>new window.VConsole();</script>
 </body>
 
 </html>
