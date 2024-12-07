@@ -82,8 +82,6 @@ const fetchMoreVideos = () => {
   ];
 };
 
-const DAILY_REWARDS = [2000, 2000, 2000, 2000, 2000, 2000, 5000];
-
 const ForYou = () => {
   const [videoFiles, setVideoFiles] = useState(initialVideoFiles);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -146,34 +144,7 @@ const ForYou = () => {
             </div>
           ))}
         </motion.div>
-        <Modal isVisible={false} rootClassName="p-5">
-          <div className="col-12 items-center flex flex-col gap-[8px] mb-7">
-            <span className="font-outfit text-[20px] leading-[20px] font-bold">
-              Daily Rewards
-            </span>
-            <span className="text-[12px] leading-[13px]">
-              Log in everyday to earn extra points!
-            </span>
-          </div>
-          <div className="col-12 gap-[9px] flex flex-wrap justify-center mb-7">
-            {DAILY_REWARDS.map((item, index) => (
-              <div className="flex flex-col bg-tertiary w-[67px] rounded-[8px] gap-[15px] justify-center aspect-square items-center">
-                <span className="text-[9px] leading-[10px]">
-                  Day {index + 1}
-                </span>
-                <span className="text-[14px] leading-[14px] text-secondary font-bold font-outfit">
-                  + {item.toLocaleString()}
-                </span>
-              </div>
-            ))}
-          </div>
-          <button className="bg-secondary text-black text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mb-2">
-            Watch Ads To Double The Point
-          </button>
-          <button className="bg-primary text-white text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px]">
-            Claim Today's Reward
-          </button>
-        </Modal>
+
         <Modal isVisible={false} rootClassName="px-[29px] pt-[45px] pb-[30px]">
           <span className="block text-[20px] font-bold leading-[20px] font-outfit">
             Select Your Areas of Interest

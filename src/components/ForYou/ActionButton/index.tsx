@@ -1,5 +1,17 @@
+// import Realistic from "react-canvas-confetti/dist/presets/realistic";
+
+// import { useState } from "react";
+// import { TConductorInstance } from "react-canvas-confetti/dist/types";
+
 const ActionButton = () => {
+  // const [conductor, setConductor] = useState<TConductorInstance>();
+
+  // const onInit = ({ conductor }: { conductor: TConductorInstance }) => {
+  //   setConductor(conductor);
+  // };
+
   const onLikeClick = () => {
+    // conductor?.shoot();
     window.Telegram.WebApp.HapticFeedback.notificationOccurred("success");
   };
 
@@ -10,6 +22,7 @@ const ActionButton = () => {
         className="flex flex-col items-center gap-1"
         onClick={onLikeClick}
       >
+        {/* <Realistic onInit={onInit} /> */}
         <div className="flex w-[42px] h-[42px] rounded-full bg-white/25 justify-center items-center">
           <i className="votigram-icon-navbar-vote text-[32px] text-primary" />
         </div>

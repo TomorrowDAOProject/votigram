@@ -1,7 +1,7 @@
 export enum APP_CATEGORY {
   NEW,
-  GAME,
   EARN,
+  GAME,
   FINANCE,
   SOCIAL,
   UTILITIES,

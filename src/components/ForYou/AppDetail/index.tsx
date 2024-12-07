@@ -3,9 +3,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 const containerVariants = {
-  hidden: { height: "max-content" },
+  hidden: {
+    paddingTop: 0,
+  },
   visible: {
-    height: "auto",
+    paddingTop: 120,
     background: "linear-gradient(rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 40%)",
   },
 };
@@ -52,10 +54,10 @@ const AppDetail = ({ item }: IAppDetailProps) => {
         variants={containerVariants}
         transition={{
           type: "spring",
-          stiffness: 500,
-          damping: 20,
+          stiffness: 900,
+          damping: 100,
         }}
-        className="w-full flex flex-col absolute bottom-telegramHeader h-max z-[100] pl-5 pr-[20px]"
+        className="w-full pt-0 flex flex-col absolute bottom-telegramHeader h-max z-[100] pl-5 pr-[20px]"
         onClick={() => {
           setIsExpand(!isExpand);
         }}
@@ -90,12 +92,12 @@ const AppDetail = ({ item }: IAppDetailProps) => {
         <div className="flex pb-[90px]">
           <div className="flex flex-1 gap-[6px] items-center">
             <div className="flex item h-[22px] border-pill-border border-[1px] rounded-full">
-              <button className="w-max h-[22px] px-2 text-[12px] leading-[13px]">
+              <button className="w-max h-[22px] font-questrial px-2 text-[12px] leading-[13px]">
                 💰 New
               </button>
             </div>
             <div className="flex item h-[22px] border-pill-border border-[1px] rounded-full">
-              <button className="w-max h-[22px] px-2 text-[12px] leading-[13px]">
+              <button className="w-max h-[22px] font-questrial px-2 text-[12px] leading-[13px]">
                 🎮 Game
               </button>
             </div>
