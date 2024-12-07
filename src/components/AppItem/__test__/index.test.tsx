@@ -2,24 +2,23 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { describe, it, expect } from "vitest";
 import AppItem from "../index";
+import { voteAppData } from "@/__mocks__/VoteApp";
 
 describe("AppItem Component", () => {
   it("renders with default props correctly", () => {
-    render(<AppItem />);
+    render(<AppItem {...voteAppData} />);
 
     // Check that the image is rendered
     const imageElement = screen.getByTestId("app-item-icon");
     expect(imageElement).toBeInTheDocument();
     expect(imageElement).toHaveAttribute(
       "src",
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/l0yw8rraanl7tzb/avatar_oo3_ozcpwl_e_waZQrn0OXb.jpg"
+      "https://tmrwdao-arcade.s3.amazonaws.com/votigram/test/asset/img/64284af5e2e8c048758b8985f20446181165ba51f229fdf0a3e5e17c6543106d.webp"
     );
 
     // Check that the title and description are rendered
-    expect(screen.getByText("Capybara")).toBeInTheDocument();
-    expect(
-      screen.getByText(/A one\/2 liner sentence about the game\./i)
-    ).toBeInTheDocument();
+    expect(screen.getByText("Tonalytics")).toBeInTheDocument();
+    expect(screen.getByText(/Follow 👉🏻 @tonalytics1/i)).toBeInTheDocument();
 
     // Check that the arrow is not rendered
     const arrowIcon = screen.queryByTestId("arrow-icon");
@@ -27,7 +26,7 @@ describe("AppItem Component", () => {
   });
 
   it("renders the arrow icon when showArrow is true", () => {
-    render(<AppItem showArrow />);
+    render(<AppItem showArrow {...voteAppData} />);
 
     const arrowIcon = screen.getByTestId("arrow-icon");
     expect(arrowIcon).toBeInTheDocument();

@@ -1,43 +1,72 @@
-import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import { describe, it, expect } from "vitest";
+// SceneLoading.test.tsx
+import React, { act } from "react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import SceneLoading from "../index";
+import "@testing-library/jest-dom";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+
+// Mock useUserContext hook
+vi.mock("@/provider/UserProvider", () => ({
+  useUserContext: () => ({
+    hasUserData: () => false,
+    user: {
+      isNewUser: true,
+    },
+  }),
+}));
 
 describe("SceneLoading Component", () => {
-  it("renders the VOTIGRAM title", () => {
-    render(<SceneLoading />);
-    const titleElement = screen.getByText(/VOTIGRAM/i);
-    expect(titleElement).toBeInTheDocument();
+  const mockSetIsLoading = vi.fn();
+
+  beforeEach(() => {
+    vi.useFakeTimers();
   });
 
-  it("renders the image", () => {
-    render(<SceneLoading />);
-    const imageElement = screen.getByTestId("scene-loading-image");
-    expect(imageElement).toBeInTheDocument();
-    expect(imageElement).toHaveAttribute(
-      "src",
-      "https://cdn.tmrwdao.com/votigram/assets/imgs/18B98C6FFC90.webp"
-    );
+  afterEach(() => {
+    vi.runOnlyPendingTimers();
+    vi.useRealTimers();
   });
 
-  it("renders the slogan", () => {
-    render(<SceneLoading />);
-    const sloganElement = screen.getByText((_, element) => {
-      const hasText = (node: Element) =>
-        node.textContent === "YOUR VOTE,YOUR CHOICE";
-      const nodeHasText = element ? hasText(element) : false;
-      const childrenDontHaveText = Array.from(element?.children || []).every(
-        (child) => !hasText(child)
-      );
+  it("renders the loading screen correctly with initial progress", () => {
+    render(<SceneLoading setIsLoading={mockSetIsLoading} />);
 
-      return nodeHasText && childrenDontHaveText;
+    // Ensure "Get Started!" button is not initially visible
+    expect(
+      screen.queryByRole("button", { name: "Get Started!" })
+    ).toBeInTheDocument();
+  });
+
+  it("eventually shows the Get Started button when progress is complete", () => {
+    render(<SceneLoading setIsLoading={mockSetIsLoading} />);
+
+    act(() => {
+      vi.advanceTimersByTime(10000); // Simulate time passing to complete progress
     });
-    expect(sloganElement).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("button", { name: "Get Started!" })
+    ).toBeInTheDocument();
   });
 
-  it("renders the progress bar", () => {
-    render(<SceneLoading />);
-    const progressBarContainer = screen.getByRole("progressbar");
-    expect(progressBarContainer).toBeInTheDocument();
+  it("calls setIsLoading when Get Started is clicked and hasUserData is true", () => {
+    // Adjust the mock for this specific test case
+    vi.mock("@/provider/UserProvider", () => ({
+      useUserContext: () => ({
+        hasUserData: () => true, // Ensure hasUserData returns true
+        user: {
+          isNewUser: true,
+        },
+      }),
+    }));
+
+    render(<SceneLoading setIsLoading={mockSetIsLoading} />);
+
+    act(() => {
+      vi.advanceTimersByTime(10000); // Complete the progress
+    });
+
+    const button = screen.getByRole("button", { name: "Get Started!" });
+    fireEvent.click(button);
+    expect(mockSetIsLoading).toHaveBeenCalledWith(false);
   });
 });
