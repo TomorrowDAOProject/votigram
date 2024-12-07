@@ -12,14 +12,14 @@ const TopVotedApps = ({ items }: ITopVoteApps) => {
         Weekly Top Voted Apps
       </span>
       <div className="top-voted-app-list col-12 overflow-scroll flex flex-nowrap">
-        {items.map((item) => (
+        {items?.map((item) => (
           <div
             key={item.title}
-            className="flex flex-col p-[7px] rounded-[10px] bg-tertiary item min-h-[77px] min-w-[106px]"
+            className="flex flex-col p-[7px] rounded-[10px] bg-tertiary item min-h-[84px] min-w-[106px]"
           >
             <img
-              className="rounded-[6px] w-[30px] aspect-square"
-              src={item.imageUrl}
+              className="rounded-[6px] w-[34px] aspect-square"
+              src={item.icon}
               alt={item.title}
             />
             <div className="flex flex-col bottom-[7px] absolute gap-[2px]">
@@ -29,7 +29,7 @@ const TopVotedApps = ({ items }: ITopVoteApps) => {
                   data-testid={`${item.title}-point`}
                   className="font-outfit text-[14px] leading-[14px] font-bold"
                 >
-                  {(item.points || 0).toLocaleString()}
+                  {(item.pointsAmount || 0).toLocaleString()}
                 </span>
                 <span className="text-[11px] font-normal leading-[9px]">
                   pts

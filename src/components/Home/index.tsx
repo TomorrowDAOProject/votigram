@@ -5,14 +5,29 @@ import DiscoveryHiddenGems from "../DiscoveryHiddenGems";
 import PointsCounter from "../PointsCounter";
 import TelegramHeader from "../TelegramHeader";
 import TopVotedApps from "../TopVotedApps";
+import { useUserContext } from "@/provider/UserProvider";
+import Modal from "../Modal";
+import useData from "@/hooks/useData";
+
+const DAILY_REWARDS = [2000, 2000, 2000, 2000, 2000, 2000, 5000];
 
 const Home = () => {
+  const {
+    user: { userPoints },
+    updateDailyLoginPointsStatus,
+  } = useUserContext();
+  const [showDailyReward, setShowDailyReward] = useState(
+    !userPoints?.dailyLoginPointsStatus || false
+  );
+  const { data: madeForYouResult } = useData(
+    "/api/app/user/homepage/made-for-you?chainId=tDVW"
+  );
+
+  const { data: votedAppResult } = useData(
+    "/api/app/user/homepage?chainId=tDVW"
+  );
   const [isSearching, setIsSearching] = useState(false);
 
-  // useEffect(() => {
-  //   const { initDataRaw } = retrieveLaunchParams();
-  //   console.log(initDataRaw);
-  // }, []);
   return (
     <>
       <TelegramHeader title={isSearching ? "Discover" : ""} />
@@ -28,7 +43,10 @@ const Home = () => {
               />
             ) : (
               <span className="font-bold text-[20px] leading-[20px]">
-                Hi, claudia 🥀
+                Hi,
+                {window?.Telegram?.WebApp?.initDataUnsafe?.user?.first_name ||
+                  " "}
+                🥀
               </span>
             )}
           </div>
@@ -81,7 +99,10 @@ const Home = () => {
                 My Profile
               </span>
               <div className="flex gap-1 absolute bottom-[12px] items-end">
-                <PointsCounter end={11200000} duration={1000} />
+                <PointsCounter
+                  end={userPoints?.userTotalPoints || 0}
+                  duration={1000}
+                />
                 <span className="text-[11px] text-white leading-[13px] font-normal">
                   points
                 </span>
@@ -89,84 +110,48 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <TopVotedApps
-          items={[
-            {
-              title: "title1",
-              imageUrl:
-                "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/l0yw8rraanl7tzb/avatar_oo3_ozcpwl_e_waZQrn0OXb.jpg",
-              points: 100000,
-            },
-            {
-              title: "title2",
-              imageUrl:
-                "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/l0yw8rraanl7tzb/avatar_oo3_ozcpwl_e_waZQrn0OXb.jpg",
-              points: 100001,
-            },
-            {
-              title: "title3",
-              imageUrl:
-                "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/l0yw8rraanl7tzb/avatar_oo3_ozcpwl_e_waZQrn0OXb.jpg",
-              points: 100002,
-            },
-            {
-              title: "title4",
-              imageUrl:
-                "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/l0yw8rraanl7tzb/avatar_oo3_ozcpwl_e_waZQrn0OXb.jpg",
-              points: 100003,
-            },
-            {
-              title: "title5",
-              imageUrl:
-                "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/l0yw8rraanl7tzb/avatar_oo3_ozcpwl_e_waZQrn0OXb.jpg",
-              points: 100003,
-            },
-            {
-              title: "title6",
-              imageUrl:
-                "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/l0yw8rraanl7tzb/avatar_oo3_ozcpwl_e_waZQrn0OXb.jpg",
-              points: 100003,
-            },
-            {
-              title: "title7",
-              imageUrl:
-                "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/l0yw8rraanl7tzb/avatar_oo3_ozcpwl_e_waZQrn0OXb.jpg",
-              points: 100003,
-            },
-          ]}
-        />
-        <DiscoveryHiddenGems />
-        <AppList
-          title="Made For You"
-          items={[
-            {
-              imageUrl:
-                "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/l0yw8rraanl7tzb/avatar_oo3_ozcpwl_e_waZQrn0OXb.jpg",
-              points: 100003,
-            },
-            {
-              imageUrl:
-                "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/l0yw8rraanl7tzb/avatar_oo3_ozcpwl_e_waZQrn0OXb.jpg",
-              points: 100003,
-            },
-            {
-              imageUrl:
-                "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/l0yw8rraanl7tzb/avatar_oo3_ozcpwl_e_waZQrn0OXb.jpg",
-              points: 100003,
-            },
-            {
-              imageUrl:
-                "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/l0yw8rraanl7tzb/avatar_oo3_ozcpwl_e_waZQrn0OXb.jpg",
-              points: 100003,
-            },
-            {
-              imageUrl:
-                "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/l0yw8rraanl7tzb/avatar_oo3_ozcpwl_e_waZQrn0OXb.jpg",
-              points: 100003,
-            },
-          ]}
-        />
+        <TopVotedApps items={votedAppResult?.weeklyTopVotedApps} />
+        <DiscoveryHiddenGems item={votedAppResult?.discoverHiddenGems} />
+        <AppList title="Made For You" items={madeForYouResult?.data} />
       </div>
+      <Modal isVisible={showDailyReward} rootClassName="p-5">
+        <div className="col-12 items-center flex flex-col gap-[8px] mb-7">
+          <span className="font-outfit text-[20px] leading-[20px] font-bold">
+            Daily Rewards
+          </span>
+          <span className="text-[12px] leading-[13px]">
+            Log in everyday to earn extra points!
+          </span>
+        </div>
+        <div className="col-12 gap-[9px] flex flex-wrap justify-center mb-7">
+          {DAILY_REWARDS.map((item, index) => (
+            <div className="flex flex-col bg-tertiary w-[67px] rounded-[8px] gap-[15px] justify-center aspect-square items-center">
+              <span className="text-[9px] leading-[10px]">Day {index + 1}</span>
+              {(userPoints?.consecutiveLoginDays || 1) >= index + 1 ? (
+                <div className="flex w-[20px] h-[20px] items-center justify-center rounded-full bg-primary">
+                  <i className="votigram-icon-tick text-[10px]" />
+                </div>
+              ) : (
+                <span className="text-[14px] leading-[14px] text-secondary font-bold font-outfit">
+                  + {item.toLocaleString()}
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+        <button className="bg-secondary text-black text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mb-2">
+          Watch Ads To Double The Point
+        </button>
+        <button
+          onClick={() => {
+            setShowDailyReward(false);
+            updateDailyLoginPointsStatus(true);
+          }}
+          className="bg-primary text-white text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px]"
+        >
+          Claim Today's Reward
+        </button>
+      </Modal>
     </>
   );
 };

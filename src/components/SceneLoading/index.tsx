@@ -1,6 +1,41 @@
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import TelegramHeader from "../TelegramHeader";
+import { useUserContext } from "@/provider/UserProvider";
+import { motion } from "framer-motion";
 
-const SceneLoading = () => {
+interface ISceneLoadingProps {
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+}
+
+const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
+  const [progress, setProgress] = useState(20);
+
+  const {
+    hasUserData,
+    user: { isNewUser },
+  } = useUserContext();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((prevProgress) => {
+        if (prevProgress >= 100) {
+          clearInterval(interval);
+          return 100; // Stop at 100%
+        }
+        return prevProgress + Math.random() * 10; // Increment progress by 1%
+      });
+    }, 1000);
+
+    return () => clearInterval(interval); // Cleanup the interval on component unmount
+  }, []);
+
+  useEffect(() => {
+    if (hasUserData()) {
+      setProgress(100);
+      setIsLoading(!isNewUser);
+    }
+  }, [hasUserData, isNewUser, progress, setIsLoading]);
+
   return (
     <>
       <TelegramHeader />
@@ -21,15 +56,28 @@ const SceneLoading = () => {
               YOUR <span className="text-secondary">CHOICE</span>
             </span>
           </div>
-          <div
-            role="progressbar"
-            className="h-3 col-10 offset-1 bg-white rounded-full px-0.5 flex items-center"
-          >
-            <div className="h-2 bg-primary w-1/5 rounded-full" />
-          </div>
-          {/* <button className="bg-primary col-10 offset-1 rounded-3xl py-2.5 leading-[14px] text-[14px] font-bold font-outfit">
-            Get Started!
-          </button> */}
+          {progress >= 100 ? (
+            <button
+              onClick={() => {
+                setIsLoading(false);
+              }}
+              className="bg-primary col-10 offset-1 rounded-3xl py-2.5 leading-[14px] text-[14px] font-bold font-outfit"
+            >
+              Get Started!
+            </button>
+          ) : (
+            <div
+              role="progressbar"
+              className="h-3 col-10 offset-1 bg-white rounded-full px-0.5 flex items-center"
+            >
+              <motion.div
+                className="h-2 bg-primary rounded-full"
+                initial={{ width: "0%" }}
+                animate={{ width: `${progress}%` }}
+                transition={{ duration: 0.1 }} // Smooth transition for increase
+              />
+            </div>
+          )}
         </div>
       </div>
     </>

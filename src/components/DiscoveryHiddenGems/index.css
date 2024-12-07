@@ -9,6 +9,7 @@
   background: #000;
   background-clip: padding-box;
   border: solid 1.5px transparent;
+  width: 100%;
 
   &:before {
     content: '';

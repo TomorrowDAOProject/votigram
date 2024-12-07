@@ -57,6 +57,12 @@ interface TelegramWebApp {
     lockOrientation(): void;
     disableVerticalSwipes(): void;
     setHeaderColor(color: string): void;
+    initData: "";
+    initDataUnsafe: {
+      user: {
+        first_name: string;
+      };
+    };
   };
 }
 

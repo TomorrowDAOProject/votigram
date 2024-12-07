@@ -2,19 +2,21 @@ import { useEffect, useState } from "react";
 
 import { isTMA } from "@telegram-apps/bridge";
 
-import "./App.css";
-// import SceneLoading from "./components/SceneLoading";
+import SceneLoading from "./components/SceneLoading";
 import { TAB_LIST } from "./constants/navigation";
 import Navigation from "./components/Navigation";
 import Home from "./components/Home";
 import ForYou from "./components/ForYou";
 
+import "./App.css";
+import { UserProvider } from "./provider/UserProvider";
+
 const isDev = process.env.NODE_ENV === "development";
 
 const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(TAB_LIST.HOME);
 
-  // return <Navigation activeTab={activeTab} onMenuClick={setActiveTab} />;
   useEffect(() => {
     if (window?.Telegram && isTMA("simple")) {
       window.Telegram.WebApp?.requestFullscreen();
@@ -34,14 +36,18 @@ const App = () => {
     }
   }, []);
 
-  // return <SceneLoading />;
-
   return (
-    <>
-      {activeTab === TAB_LIST.HOME && <Home />}
-      {activeTab === TAB_LIST.FOR_YOU && <ForYou />}
-      <Navigation activeTab={activeTab} onMenuClick={setActiveTab} />
-    </>
+    <UserProvider>
+      {isLoading ? (
+        <SceneLoading setIsLoading={setIsLoading} />
+      ) : (
+        <>
+          {activeTab === TAB_LIST.HOME && <Home />}
+          {activeTab === TAB_LIST.FOR_YOU && <ForYou />}
+          <Navigation activeTab={activeTab} onMenuClick={setActiveTab} />
+        </>
+      )}
+    </UserProvider>
   );
 };
 
