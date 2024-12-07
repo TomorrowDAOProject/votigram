@@ -204,7 +204,7 @@ const FileScroll = () => {
         <CheckboxGroup options={DISCOVER_CATEGORY} onChange={console.log} />
 
         <button className="mt-[24px] bg-primary text-white text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mt-[24px] mb-[16px]">
-          Let’s Begin
+          Let's Begin
         </button>
       </Modal>
       <Drawer isVisible={true} direction="bottom">

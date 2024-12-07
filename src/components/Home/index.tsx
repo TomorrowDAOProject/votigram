@@ -1,6 +1,7 @@
 import AppList from "../AppList";
 import CategoryPillList from "../CategoryPillList";
 import DiscoveryHiddenGems from "../DiscoveryHiddenGems";
+import Modal from "../Modal";
 import PointsCounter from "../PointsCounter";
 import TopVotedApps from "../TopVotedApps";
 
@@ -68,6 +69,23 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <Modal
+        isVisible={true}
+        rootClassName="px-[29px] pt-[26px] pb-[22px] bg-primary rounded-[15px]"
+      >
+        <img
+          src="https://cdn.tmrwdao.com/assets/imgs/721513BA0C66.webp"
+          className="mx-auto w-[206px] h-[213px] object-contain mb-[12px]"
+          alt="Vote"
+        />
+        <span className="block text-[20px] font-bold leading-[20px] text-white text-center font-outfit whitespaces-pre-wrap">
+          {"Vote For Your Favourite \nTelegram Mini-Apps!"}
+        </span>
+
+        <button className="mt-[18px] bg-secondary text-black text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px]">
+          Let's Go!
+        </button>
+      </Modal>
       <TopVotedApps
         items={[
           {
