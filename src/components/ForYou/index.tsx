@@ -9,7 +9,6 @@ import { DISCOVER_CATEGORY } from "@/constants/discover";
 import Drawer from "../Drawer";
 import Textarea from "../Textarea";
 import ReviewList from "../ReviewList";
-import qs from "qs";
 // import { timeAgo } from "@/utils/time";
 import TelegramHeader from "../TelegramHeader";
 import { postWithToken, useInfinite } from "@/hooks/useData";
@@ -104,20 +103,20 @@ const ForYou = () => {
   const { data, isLoading, size, setSize } = useInfinite(
     (index) =>
       isShowReviews
-        ? `/api/app/discussion/comment-list?${qs.stringify({
+        ? `/api/app/discussion/comment-list?${new URLSearchParams({
             chainId: "tDVW",
-            skipCount: index * PAGE_SIZE,
+            skipCount: `${index * PAGE_SIZE}`,
             alias: "string",
             parentId: "string",
             comment: "string",
-            maxResultCount: PAGE_SIZE,
+            maxResultCount: `${PAGE_SIZE}`,
             skipId: "string",
-          })}`
+          }).toString()}`
         : null,
     0
   );
 
-  console.log(data)
+  console.log(data);
 
   const isLoadingMore =
     isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
@@ -164,7 +163,7 @@ const ForYou = () => {
             parentId: "string",
             comment,
           },
-          'application/x-www-form-urlencoded'
+          "application/x-www-form-urlencoded"
         );
         if (data.success) {
           allItems = [data?.comment, ...allItems];
