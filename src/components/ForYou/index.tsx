@@ -8,7 +8,7 @@ import CheckboxGroup from "../CheckboxGroup";
 import { DISCOVER_CATEGORY } from "@/constants/discover";
 import Drawer from "../Drawer";
 import Textarea from "../Textarea";
-import List from "../List";
+import ReviewList from "../ReviewList";
 import qs from "qs";
 // import { timeAgo } from "@/utils/time";
 import TelegramHeader from "../TelegramHeader";
@@ -97,14 +97,14 @@ const ForYou = () => {
   const [videoFiles, setVideoFiles] = useState(initialVideoFiles);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isShowReviews, setIsShowReviews] = useState(false);
-  const [loadding, setLoadding] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [likeAmount, setLikeAmount] = useState(0);
   const height = window.innerHeight;
 
   const { data, isLoading, size, setSize } = useInfinite(
     (index) =>
       isShowReviews
-        ? `/api/app/discussion/comment?${qs.stringify({
+        ? `/api/app/discussion/comment-list?${qs.stringify({
             chainId: "tDVW",
             skipCount: index * PAGE_SIZE,
             alias: "string",
@@ -116,6 +116,8 @@ const ForYou = () => {
         : null,
     0
   );
+
+  console.log(data)
 
   const isLoadingMore =
     isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
@@ -153,7 +155,7 @@ const ForYou = () => {
   const { run: handleSubmit } = useThrottleFn(
     async (comment) => {
       try {
-        setLoadding(true);
+        setLoading(true);
         const { data } = await postWithToken(
           "/api/app/discussion/new-comment",
           {
@@ -161,7 +163,8 @@ const ForYou = () => {
             alias: "string",
             parentId: "string",
             comment,
-          }
+          },
+          'application/x-www-form-urlencoded'
         );
         if (data.success) {
           allItems = [data?.comment, ...allItems];
@@ -169,7 +172,7 @@ const ForYou = () => {
       } catch (error) {
         console.error(error);
       } finally {
-        setLoadding(false);
+        setLoading(false);
       }
     },
     { wait: 500 }
@@ -178,7 +181,7 @@ const ForYou = () => {
   const { run: submitLike } = useDebounceFn(
     async (alias) => {
       try {
-        setLoadding(true);
+        setLoading(true);
         await postWithToken("/api/app/ranking/like", {
           chainId: "tDVW",
           proposalId: "string",
@@ -192,7 +195,7 @@ const ForYou = () => {
       } catch (error) {
         console.error(error);
       } finally {
-        setLoadding(false);
+        setLoading(false);
       }
     },
     {
@@ -257,27 +260,6 @@ const ForYou = () => {
             Let's Begin
           </button>
         </Modal>
-        <Modal isVisible={false} rootClassName="px-[29px] pt-[45px] pb-[30px]">
-          <span className="block text-[20px] font-bold leading-[20px] font-outfit">
-            Select Your Areas of Interest
-          </span>
-          <span className="block mt-[8px] mb-[24px] text-[9px] leading-[10px] font-questrial">
-            Your preferences will help us create a journey unique to you.
-          </span>
-        </Modal>
-
-        <Modal isVisible={false} rootClassName="px-[29px] pt-[45px] pb-[30px]">
-          <span className="block text-[20px] font-bold leading-[20px] font-outfit">
-            Select Your Areas of Interest
-          </span>
-          <span className="block mt-[8px] mb-[24px] text-[9px] leading-[10px]">
-            Your preferences will help us create a journey unique to you.
-          </span>
-
-          <button className="mt-[24px] bg-primary text-white text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mt-[24px] mb-[16px]">
-            Let's Begin
-          </button>
-        </Modal>
         <Drawer isVisible={isShowReviews} direction="bottom">
           <div className="relative w-full flex items-center justify-center py-[17px] px-[19px]">
             <span className="font-outfit text-[16px] leading-[1] font-bold text-white">
@@ -288,14 +270,14 @@ const ForYou = () => {
               onClick={() => setIsShowReviews(false)}
             />
           </div>
-          <div className="py-[4px]">
-            <List
+          <div className="py-1">
+            <ReviewList
               hasMore={hasMoreData}
               height="60vh"
               dataSource={allItems}
               loadData={() => setSize(size + 1)}
               emptyText="Write the first review!"
-              rootClassname="px-[20px]"
+              rootClassname="px-5"
               renderLoading={() =>
                 isLoadingMore && (
                   <div className="flex items-center justify-center h-full">
@@ -305,9 +287,9 @@ const ForYou = () => {
               }
             />
           </div>
-          <div className="py-[17px] px-[20px] border-t-[1px] border-tertiary border-solid">
+          <div className="py-[17px] px-5 border-t-[1px] border-tertiary border-solid">
             <Textarea
-              disabled={loadding}
+              disabled={loading}
               placeholder="Add a comment"
               onSubmit={handleSubmit}
             />

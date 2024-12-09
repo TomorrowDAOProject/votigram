@@ -61,7 +61,7 @@ const Textarea = ({
           value={text}
           maxLength={maxLength}
           onChange={handleChange}
-          placeholder={placeholder || "Please enter ..."}
+          placeholder={placeholder || "Please enter..."}
           rows={1}
         />
         <span

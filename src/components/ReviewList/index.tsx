@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef } from "react";
 import Item from "./components/Item";
 import clsx from "clsx";
 
-interface IListProps {
+interface IReviewListProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dataSource: any[];
   height?: number | string;
@@ -16,7 +16,7 @@ interface IListProps {
   renderLoading?: () => React.ReactNode;
 }
 
-const List: React.FC<IListProps> = ({
+const ReviewList: React.FC<IReviewListProps> = ({
   dataSource: items,
   height = 300,
   threshold = 50,
@@ -71,7 +71,7 @@ const List: React.FC<IListProps> = ({
     >
       {items.length === 0 && (
         <div className="flex items-center justify-center h-full">
-          <span className="font-normal text-[13px] text-white font-questrial leading-[1.2]">
+          <span className="font-normal text-[13px] text-white leading-[1.2]">
             {emptyText || "No data"}
           </span>
         </div>
@@ -86,7 +86,7 @@ const List: React.FC<IListProps> = ({
         ))}
         {items.length > 0 && !hasMore && (
           <div className="py-[20px] flex items-center justify-center">
-            <span className="font-normal text-[13px] text-white font-questrial leading-[1.2]">
+            <span className="font-normal text-[13px] text-white leading-[1.2]">
               {noMoreText || "No more data"}
             </span>
           </div>
@@ -97,4 +97,4 @@ const List: React.FC<IListProps> = ({
   );
 };
 
-export default List;
+export default ReviewList;

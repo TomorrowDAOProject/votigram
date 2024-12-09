@@ -1,6 +1,7 @@
 import React from "react";
 import { ListItem } from "../type";
 import { timeAgo } from "@/utils/time";
+import clsx from "clsx";
 
 interface ItemProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -12,24 +13,22 @@ interface ItemProps {
 const Item = ({ data, className, onClick }: ItemProps) => {
   return (
     <div
-      className={`flex flex-row items-start gap-[19px] py-[9px] ${className}`}
-      onClick={() => onClick?.(data)}
+      className={clsx('flex flex-row items-start gap-[19px] py-[9px]', className)}
+      onClick={() => data && onClick?.(data)}
     >
-      {data.commenterPhoto && (
-        <div className="w-[29px] h-[29px] rounded-[47.5px] bg-tertiary shrink-0 overflow-hidden">
-          <img
-            src={data.commenterPhoto}
-            alt="Avatar"
-            className="w-full h-full object-cover"
-          />
-        </div>
+      {data?.commenterPhoto && (
+        <img
+          src={data.commenterPhoto}
+          alt="Avatar"
+          className="w-[29px] h-[29px] rounded-[47.5px] bg-tertiary shrink-0 object-cover"
+        />
       )}
       <div className="flex flex-col flex-1">
         <div className="flex flex-row items-end gap-[5px]">
           <span className="font-normal text-[11px] text-white leading-[13.2px]">
-            {data.commenterName}
+            {data?.commenterName}
           </span>
-          {data.createTime && (
+          {data?.createTime && (
             <span className="font-normal text-[11px] text-input-placeholder leading-[13.2px]">
               {timeAgo(data.createTime)}
             </span>
