@@ -3,10 +3,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 const containerVariants = {
-  hidden: { height: "max-content" },
+  hidden: {
+    paddingTop: 0,
+  },
   visible: {
-    height: "auto",
-    background: "linear-gradient(rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 25.5%)",
+    paddingTop: 120,
+    background: "linear-gradient(rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 40%)",
   },
 };
 
@@ -52,10 +54,10 @@ const AppDetail = ({ item }: IAppDetailProps) => {
         variants={containerVariants}
         transition={{
           type: "spring",
-          stiffness: 300,
-          damping: 20,
+          stiffness: 900,
+          damping: 100,
         }}
-        className="w-full flex flex-col absolute bottom-0 h-max z-[1] pl-5 pr-[30px]"
+        className="w-full pt-0 flex flex-col absolute bottom-telegramHeader h-max z-[100] pl-5 pr-[20px]"
         onClick={() => {
           setIsExpand(!isExpand);
         }}
@@ -70,9 +72,7 @@ const AppDetail = ({ item }: IAppDetailProps) => {
             <span className="font-outfit font-bold text-[16px] leading-[16px]">
               {item.name}
             </span>
-            <span className="font-questrial text-[11px] leading-[12px]">
-              {item.briefDesc}
-            </span>
+            <span className="text-[11px] leading-[13px]">{item.briefDesc}</span>
           </div>
         </div>
         <motion.div
@@ -81,10 +81,10 @@ const AppDetail = ({ item }: IAppDetailProps) => {
           variants={descriptionVariants}
           transition={{
             type: "spring",
-            stiffness: 300,
-            damping: 30,
+            stiffness: 500,
+            damping: 20,
           }}
-          className="flex w-full font-questrial text-[12px] leading-[13px]"
+          className="flex w-full text-[13px] leading-[15px]"
         >
           {item.description}
         </motion.div>

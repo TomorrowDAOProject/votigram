@@ -57,6 +57,14 @@ export default {
         "modal-background": "#191919",
         danger: "#FF2929",
       },
+      inset: {
+        telegramHeader:
+          "calc(var(--tg-content-safe-area-inset-top) + var(--tg-safe-area-inset-top) + 14px)",
+      },
+      padding: {
+        telegramHeader:
+          "calc(var(--tg-content-safe-area-inset-top) + var(--tg-safe-area-inset-top))",
+      },
     },
   },
   plugins: [

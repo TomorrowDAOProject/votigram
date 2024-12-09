@@ -2,6 +2,7 @@ import clsx from "clsx";
 import React, { useRef, useState } from "react";
 
 interface ITextareaProps {
+  disabled?: boolean;
   placeholder?: string;
   maxLength?: number;
   rootClassName?: string;
@@ -9,6 +10,7 @@ interface ITextareaProps {
 }
 
 const Textarea = ({
+  disabled,
   placeholder,
   maxLength = 500,
   rootClassName,
@@ -75,7 +77,7 @@ const Textarea = ({
       <button
         onClick={handleSubmit}
         className="bg-tertiary w-[40px] h-[40px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0"
-        disabled={text.trim().length === 0}
+        disabled={disabled || text.trim().length === 0}
       >
         <i
           className={clsx(

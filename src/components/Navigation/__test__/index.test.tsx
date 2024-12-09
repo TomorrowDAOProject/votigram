@@ -15,21 +15,21 @@ describe("Navigation Component", () => {
     setup();
 
     const homeIcon = screen.getByTestId("votigram-icon-navbar-home");
-    const discoverIcon = screen.getByTestId("votigram-icon-navbar-for-you");
+    const forYouIcon = screen.getByTestId("votigram-icon-navbar-for-you");
     const heartIcon = screen.getByTestId("votigram-icon-navbar-vote");
     const penIcon = screen.getByTestId("votigram-icon-navbar-task-profile");
 
     expect(homeIcon).toBeInTheDocument();
-    expect(discoverIcon).toBeInTheDocument();
+    expect(forYouIcon).toBeInTheDocument();
     expect(heartIcon).toBeInTheDocument();
     expect(penIcon).toBeInTheDocument();
   });
 
   it("positions the active tab indicator correctly", () => {
-    setup(TAB_LIST.DISCOVER); // Assume DISCOVER is active
+    setup(TAB_LIST.FOR_YOU); // Assume FOR YOU is active
     const indicator = screen.getByRole("presentation"); // Use a role that fits design
 
-    expect(indicator).toHaveStyle("transform: translateX(70px)"); // DISCOVER should translate once
+    expect(indicator).toHaveStyle("transform: translateX(70px)"); // FOR YOU should translate once
   });
 
   it("calls onMenuClick with the correct tab when a tab is clicked", () => {
@@ -39,9 +39,9 @@ describe("Navigation Component", () => {
     fireEvent.click(homeTab);
     expect(onMenuClick).toHaveBeenCalledWith(TAB_LIST.HOME);
 
-    const discoverTab = screen.getByTestId("discover-tab");
-    fireEvent.click(discoverTab);
-    expect(onMenuClick).toHaveBeenCalledWith(TAB_LIST.DISCOVER);
+    const forYouTab = screen.getByTestId("for-you-tab");
+    fireEvent.click(forYouTab);
+    expect(onMenuClick).toHaveBeenCalledWith(TAB_LIST.FOR_YOU);
 
     const heartTab = screen.getByTestId("heart-tab");
     fireEvent.click(heartTab);

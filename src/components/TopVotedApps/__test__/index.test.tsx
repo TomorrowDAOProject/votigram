@@ -2,47 +2,30 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { describe, it, expect } from "vitest";
 import TopVotedApps from "../index";
-import { VoteApp } from "@/types/app";
-
-const mockItems: VoteApp[] = [
-  {
-    title: "App One",
-    imageUrl: "app-one.png",
-    points: 1500,
-  },
-  {
-    title: "App Two",
-    imageUrl: "app-two.png",
-    points: 2500,
-  },
-  {
-    title: "App Three",
-    imageUrl: "app-three.png",
-  },
-];
+import { voteAppListData } from "@/__mocks__/VoteApp";
 
 describe("TopVotedApps Component", () => {
   it("renders the title", () => {
-    render(<TopVotedApps items={mockItems} />);
+    render(<TopVotedApps items={voteAppListData} />);
     const titleElement = screen.getByText(/Weekly Top Voted Apps/i);
     expect(titleElement).toBeInTheDocument();
   });
 
   it("renders the correct number of items", () => {
-    render(<TopVotedApps items={mockItems} />);
+    render(<TopVotedApps items={voteAppListData} />);
     const items = screen.getAllByRole("img");
-    expect(items).toHaveLength(mockItems.length);
+    expect(items).toHaveLength(voteAppListData.length);
   });
 
   it("displays the correct image and points for each app", () => {
-    render(<TopVotedApps items={mockItems} />);
-    mockItems.forEach((item) => {
+    render(<TopVotedApps items={voteAppListData} />);
+    voteAppListData.forEach((item) => {
       const image = screen.getByAltText(item.title || "");
       expect(image).toBeInTheDocument();
-      expect(image).toHaveAttribute("src", item.imageUrl);
+      expect(image).toHaveAttribute("src", item.icon);
 
       const points = screen.getByTestId(`${item.title}-point`);
-      expect(points.innerHTML).toBe((item.points || 0).toLocaleString());
+      expect(points.innerHTML).toBe((item.pointsAmount || 0).toLocaleString());
     });
   });
 });

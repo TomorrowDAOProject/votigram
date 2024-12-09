@@ -1,23 +1,23 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import Item from "./components/Item";
 import clsx from "clsx";
-import { ListItem } from "./type";
 
 interface IListProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dataSource: any[];
   height?: number | string;
-  loadData?: (
-    setItems: React.Dispatch<React.SetStateAction<ListItem[]>>,
-    currentItems?: ListItem[]
-  ) => void;
-  hasMore: boolean;
+  loadData?: () => void;
+  hasMore?: boolean;
   emptyText?: string;
   noMoreText?: string;
   threshold?: number;
   rootClassname?: string;
   itemClassname?: string;
+  renderLoading?: () => React.ReactNode;
 }
 
 const List: React.FC<IListProps> = ({
+  dataSource: items,
   height = 300,
   threshold = 50,
   loadData,
@@ -26,24 +26,26 @@ const List: React.FC<IListProps> = ({
   noMoreText,
   rootClassname,
   itemClassname,
+  renderLoading,
 }) => {
-  const [items, setItems] = useState<ListItem[]>([]);
   const listRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    loadData?.(setItems);
-  }, [loadData]);
+    if (hasMore) {
+      loadData?.();
+    }
+  }, [hasMore, loadData]);
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     const list = listRef.current;
     if (
       list &&
       list.scrollHeight - list.scrollTop - list.clientHeight < threshold &&
       hasMore
     ) {
-      loadData?.(setItems, items);
+      loadData?.();
     }
-  };
+  }, [hasMore, loadData, threshold]);
 
   useEffect(() => {
     const list = listRef.current;
@@ -56,8 +58,7 @@ const List: React.FC<IListProps> = ({
         list.removeEventListener("scroll", handleScroll);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items, hasMore]);
+  }, [handleScroll]);
 
   const calculatedHeight = typeof height === "number" ? `${height}px` : height;
 
@@ -79,7 +80,7 @@ const List: React.FC<IListProps> = ({
         {items.map((item, index) => (
           <Item
             data={item}
-            key={`${item.id}-${index}`}
+            key={`${item?.id}-${index}`}
             className={itemClassname}
           />
         ))}
@@ -90,6 +91,7 @@ const List: React.FC<IListProps> = ({
             </span>
           </div>
         )}
+        {renderLoading?.()}
       </div>
     </div>
   );

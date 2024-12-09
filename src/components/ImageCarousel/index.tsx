@@ -21,6 +21,9 @@ const ImageCarousel = ({ items }: IImageCarouselProps) => {
         clickable: true,
       }}
       modules={[Pagination]}
+      onActiveIndexChange={() => {
+        window.Telegram.WebApp.HapticFeedback.impactOccurred("light");
+      }}
     >
       {items.map((item: string) => (
         <SwiperSlide key={item}>
