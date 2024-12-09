@@ -15,4 +15,7 @@ export type VoteApp = {
   updateTime: string; // or Date if you prefer to handle it as a Date object
   url: string;
   pointsAmount?: number;
+  totalLikes?: number;
+  totalComments?: number;
+  totalOpens?: number;
 };

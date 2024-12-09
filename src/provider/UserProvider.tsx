@@ -14,6 +14,7 @@ import {
   CustomJwtPayload,
   User,
 } from "./types/UserProviderType";
+import { toUrlEncoded } from "@/utils/token";
 
 const initialState: UserContextState = {
   user: {
@@ -68,6 +69,22 @@ export const useUserContext = () => {
   return context;
 };
 
+const getUserPoints = async (accessToken: string) => {
+  // Fetch user points data
+  const userPointsResponse = await fetch(
+    `${BASE_URL}/api/app/user/login-points/status?chainId=tDVW`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  if (!userPointsResponse.ok) throw new Error("Failed to fetch user points");
+  const userPointsData = await userPointsResponse.json();
+  return userPointsData;
+};
+
 // UserProvider component
 export const UserProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -77,25 +94,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     const fetchTokenAndData = async () => {
       try {
-        const initData =
-          window?.Telegram?.WebApp?.initData ||
-          "user=%7B%22id%22%3A6964861250%2C%22first_name%22%3A%22Eran%22%2C%22last_name%22%3A%22Khoo%22%2C%22username%22%3A%22kea08111%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2Ff4ZHGhoTj1E_IzAdBfjgNbwtY8gCkjvvsiH_02VVCO2JCz3hGOaPR1xO19VL4J5_.svg%22%7D&chat_instance=2100913806025303360&chat_type=private&auth_date=1733474064&signature=w-CeKKfbee2ZDoJjQxec2_RBhuI0Rp54TGp4lpcCdZk3sq3nRMusa9SzvPz_sTdZyudXZCy8ind4mv17zjSnAg&hash=8d8c0c1ec5eda90fd9054fec199568c495f832fe2567403d07ba8e22846c5a55";
-
-        const toUrlEncoded = (obj: Record<string, string>) => {
-          return Object.entries(obj)
-            .map(([key, value]) => {
-              let encodedValue;
-              if (typeof value === "object" && value !== null) {
-                // If the value is an object, stringify it
-                encodedValue = encodeURIComponent(JSON.stringify(value));
-              } else {
-                // Otherwise, encode normally
-                encodedValue = encodeURIComponent(value);
-              }
-              return `${encodeURIComponent(key)}=${encodedValue}`;
-            })
-            .join("&");
-        };
+        const initData = window?.Telegram?.WebApp?.initData;
 
         // Fetch token
         const tokenResponse = await fetch(`${BASE_URL}/connect/token`, {
@@ -112,35 +111,19 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
           },
         });
         if (!tokenResponse.ok) throw new Error("Failed to fetch token");
-        const tokenData = await tokenResponse.json();
+        const { access_token } = (await tokenResponse.json()) || {};
 
-        dispatch({ type: "SET_TOKEN", payload: tokenData.access_token });
-
-        Cookies.set("access_token", tokenData.access_token);
-
-        const decodedToken = jwtDecode<CustomJwtPayload>(
-          tokenData.access_token
-        );
-        // Fetch user points data
-        const userPointsResponse = await fetch(
-          `${BASE_URL}/api/app/user/login-points/status?chainId=tDVW`,
-          {
-            headers: {
-              Authorization: `Bearer ${tokenData.access_token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (!userPointsResponse.ok)
-          throw new Error("Failed to fetch user points");
-        const userPointsData = await userPointsResponse.json();
+        dispatch({ type: "SET_TOKEN", payload: access_token });
+        Cookies.set("access_token", access_token);
+        const decodedToken = jwtDecode<CustomJwtPayload>(access_token);
+        const userPointsData = await getUserPoints(access_token);
 
         // Combine and set user data
         dispatch({
           type: "SET_USER_DATA",
           payload: {
             isNewUser: !!decodedToken.new_user || false,
-            userPoints: userPointsData.data,
+            userPoints: userPointsData?.data || 0,
           },
         });
       } catch (error) {
