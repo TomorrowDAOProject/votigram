@@ -13,7 +13,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onMenuClick }) => {
   const tabPositions = {
     [TAB_LIST.HOME]: 0,
     [TAB_LIST.FOR_YOU]: 1,
-    [TAB_LIST.HEART]: 2,
+    [TAB_LIST.VOTE]: 2,
     [TAB_LIST.PEN]: 3,
   };
 
@@ -48,7 +48,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onMenuClick }) => {
       <div
         data-testid="heart-tab"
         className="flex flex-col items-center"
-        onClick={() => onMenuClick(TAB_LIST.HEART)}
+        onClick={() => onMenuClick(TAB_LIST.VOTE)}
       >
         <i
           data-testid="votigram-icon-navbar-vote"

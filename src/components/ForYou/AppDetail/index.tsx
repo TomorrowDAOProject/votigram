@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { VoteApp } from "@/types/app";
+import { DISCOVERY_CATEGORY_MAP } from "@/constants/discover";
 
 const containerVariants = {
   hidden: {
@@ -18,10 +20,11 @@ const descriptionVariants = {
 };
 
 interface IAppDetailProps {
-  item: any; //TODO
+  item: VoteApp;
+  updateOpenAppClick: (alias: string, url: string) => void;
 }
 
-const AppDetail = ({ item }: IAppDetailProps) => {
+const AppDetail = ({ item, updateOpenAppClick }: IAppDetailProps) => {
   const [isExpand, setIsExpand] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -41,6 +44,10 @@ const AppDetail = ({ item }: IAppDetailProps) => {
       document.removeEventListener("mousedown", handleClickOutside, true);
     };
   }, []);
+
+  const onOpenAppClick = () => {
+    updateOpenAppClick(item.alias, item.url);
+  };
 
   return (
     <>
@@ -70,9 +77,11 @@ const AppDetail = ({ item }: IAppDetailProps) => {
           />
           <div className="flex flex-col gap-[5px] justify-center">
             <span className="font-outfit font-bold text-[16px] leading-[16px]">
-              {item.name}
+              {item.title}
             </span>
-            <span className="text-[11px] leading-[13px]">{item.briefDesc}</span>
+            <span className="text-[11px] leading-[13px]">
+              {item.description}
+            </span>
           </div>
         </div>
         <motion.div
@@ -86,24 +95,27 @@ const AppDetail = ({ item }: IAppDetailProps) => {
           }}
           className="flex w-full text-[13px] leading-[15px]"
         >
-          {item.description}
+          {item.longDescription}
         </motion.div>
 
-        <div className="flex pb-[90px]">
-          <div className="flex flex-1 gap-[6px] items-center">
-            <div className="flex item h-[22px] border-pill-border border-[1px] rounded-full">
-              <button className="w-max h-[22px] font-questrial px-2 text-[12px] leading-[13px]">
-                💰 New
-              </button>
-            </div>
-            <div className="flex item h-[22px] border-pill-border border-[1px] rounded-full">
-              <button className="w-max h-[22px] font-questrial px-2 text-[12px] leading-[13px]">
-                🎮 Game
-              </button>
-            </div>
+        <div className="flex pb-[90px] z-[10]">
+          <div className="flex flex-[2] flex-=wrap gap-[6px] items-center">
+            {item.categories?.map((category) => (
+              <div
+                key={category}
+                className="flex item h-[22px] border-pill-border border-[1px] rounded-full"
+              >
+                <button className="w-max h-[22px] font-questrial px-2 text-[12px] leading-[13px]">
+                  {DISCOVERY_CATEGORY_MAP?.[category] || ""}
+                </button>
+              </div>
+            ))}
           </div>
           <div className="flex flex-1 justify-end items-center">
-            <button className="flex justify-center items-center w-[98px] bg-primary font-outfit font-bold text-[14px] leading-[14px] py-[10px] rounded-[24px]">
+            <button
+              onClick={onOpenAppClick}
+              className="flex justify-center items-center w-[98px] bg-primary font-outfit font-bold text-[14px] leading-[14px] py-[10px] rounded-[24px]"
+            >
               Open
               <i className="votigram-icon-arrow-ninety-degrees text-[14px] ml-[5px]" />
             </button>

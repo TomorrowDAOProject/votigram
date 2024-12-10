@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, PanInfo } from "framer-motion";
 import ImageCarousel from "../ImageCarousel";
 import AppDetail from "./AppDetail";
@@ -7,87 +7,33 @@ import ActionButton from "./ActionButton";
 import CheckboxGroup from "../CheckboxGroup";
 import { DISCOVER_CATEGORY } from "@/constants/discover";
 import TelegramHeader from "../TelegramHeader";
+import { VoteApp } from "@/types/app";
+import { postWithToken } from "@/hooks/useData";
+import { chainId } from "@/constants/app";
 
-const initialVideoFiles = [
-  {
-    name: "Bine",
-    icon: "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/cywjzr5cxzwk92k/avatar_1H6S8YgTL8.jpg",
-    briefDesc: "Animals are done! It’s PAWS Season 🐾",
-    description:
-      "COLLECT $SYNQUEST points and secure a $SYNAI airdrop, INVITE your friends to score even more points. Play now and let your legend unfold!",
-    tag: ["Finance", "Ecommerce"],
-    screenshot: [
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_1_2024_10_21_19_21_47_MJzMu5TedA.webp?thumb=576x0",
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_2_2024_10_21_19_21_47_ldhIgeWOXq.webp?thumb=576x0",
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_3_2024_10_21_19_21_47_Pv2wQ3MgiW.webp?thumb=576x0",
-    ],
-  },
-  {
-    name: "Bine",
-    icon: "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/cywjzr5cxzwk92k/avatar_1H6S8YgTL8.jpg",
-    briefDesc: "Animals are done! It’s PAWS Season 🐾",
-    description:
-      "COLLECT $SYNQUEST points and secure a $SYNAI airdrop, INVITE your friends to score even more points. Play now and let your legend unfold!",
-    tag: ["Finance", "Ecommerce"],
-    screenshot: [
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_1_2024_10_21_19_21_47_MJzMu5TedA.webp?thumb=576x0",
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_2_2024_10_21_19_21_47_ldhIgeWOXq.webp?thumb=576x0",
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_3_2024_10_21_19_21_47_Pv2wQ3MgiW.webp?thumb=576x0",
-    ],
-  },
-  {
-    name: "Bine",
-    icon: "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/cywjzr5cxzwk92k/avatar_1H6S8YgTL8.jpg",
-    briefDesc: "Animals are done! It’s PAWS Season 🐾",
-    description:
-      "COLLECT $SYNQUEST points and secure a $SYNAI airdrop, INVITE your friends to score even more points. Play now and let your legend unfold!",
-    tag: ["Finance", "Ecommerce"],
-    screenshot: [
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_1_2024_10_21_19_21_47_MJzMu5TedA.webp?thumb=576x0",
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_2_2024_10_21_19_21_47_ldhIgeWOXq.webp?thumb=576x0",
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_3_2024_10_21_19_21_47_Pv2wQ3MgiW.webp?thumb=576x0",
-    ],
-  },
-];
+interface IForYouType {
+  currentForyouPage: number;
+  items: VoteApp[];
+  fetchForYouData: (alias: string[]) => void;
+}
 
-const fetchMoreVideos = () => {
-  // Simulate fetching more videos - in a real app, you'd request data from an API
-  return [
-    {
-      name: "Bine4",
-      icon: "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/cywjzr5cxzwk92k/avatar_1H6S8YgTL8.jpg",
-      briefDesc: "Animals are done! It’s PAWS Season 🐾",
-      description:
-        "COLLECT $SYNQUEST points and secure a $SYNAI airdrop, INVITE your friends to score even more points. Play now and let your legend unfold!",
-      tag: ["Finance", "Ecommerce"],
-      screenshot: [
-        "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_1_2024_10_21_19_21_47_MJzMu5TedA.webp?thumb=576x0",
-        "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_2_2024_10_21_19_21_47_ldhIgeWOXq.webp?thumb=576x0",
-        "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_3_2024_10_21_19_21_47_Pv2wQ3MgiW.webp?thumb=576x0",
-      ],
-    },
-    {
-      name: "Bine5",
-      icon: "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/cywjzr5cxzwk92k/avatar_1H6S8YgTL8.jpg",
-      briefDesc: "Animals are done! It’s PAWS Season 🐾",
-      description:
-        "COLLECT $SYNQUEST points and secure a $SYNAI airdrop, INVITE your friends to score even more points. Play now and let your legend unfold!",
-      tag: ["Finance", "Ecommerce"],
-      screenshot: [
-        "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_1_2024_10_21_19_21_47_MJzMu5TedA.webp?thumb=576x0",
-        "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_2_2024_10_21_19_21_47_ldhIgeWOXq.webp?thumb=576x0",
-        "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_3_2024_10_21_19_21_47_Pv2wQ3MgiW.webp?thumb=576x0",
-      ],
-    },
-  ];
-};
-
-const ForYou = () => {
-  const [videoFiles, setVideoFiles] = useState(initialVideoFiles);
+const ForYou = ({
+  items,
+  fetchForYouData,
+  currentForyouPage = 1,
+}: IForYouType) => {
+  const currentPage = useRef<number>(currentForyouPage);
+  const [forYouItems, setForYouItems] = useState<VoteApp[]>(items);
   const [currentIndex, setCurrentIndex] = useState(0);
   const height = window.innerHeight;
 
-  const handleDragEnd = (
+  useEffect(() => {
+    if (items && currentForyouPage > currentPage.current) {
+      setForYouItems((prev) => [...prev, ...(items || [])]);
+    }
+  }, [items, currentForyouPage]);
+
+  const handleDragEnd = async (
     _: MouseEvent | TouchEvent | PointerEvent,
     info: PanInfo
   ) => {
@@ -101,17 +47,24 @@ const ForYou = () => {
       // Ensure nextIndex is within bounds
       if (nextIndex < 0) {
         nextIndex = 0;
-      } else if (nextIndex >= videoFiles.length) {
-        nextIndex = videoFiles.length - 1;
+      } else if (nextIndex >= forYouItems.length) {
+        nextIndex = forYouItems.length - 1;
       }
 
       setCurrentIndex(nextIndex);
       // Load more videos when reaching the second-to-last item
-      if (nextIndex >= videoFiles.length - 2 && videoFiles.length < 10) {
-        const moreVideos = fetchMoreVideos();
-        setVideoFiles((prev) => [...prev, ...moreVideos]);
+      if (nextIndex >= forYouItems.length - 5) {
+        await fetchForYouData(forYouItems.slice(-10).map((item) => item.alias));
       }
     }
+  };
+
+  const updateOpenAppClick = (alias: string, url: string) => {
+    postWithToken("/api/app/ranking/like", {
+      chainId,
+      alias,
+    });
+    window.open(url);
   };
 
   return (
@@ -123,7 +76,7 @@ const ForYou = () => {
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
           drag="y"
           dragConstraints={{
-            top: -((videoFiles.length - 1) * height),
+            top: -((forYouItems.length - 1) * height),
             bottom: 0,
           }}
           dragDirectionLock
@@ -133,18 +86,24 @@ const ForYou = () => {
             opacity: 0.5,
           }}
         >
-          {videoFiles.map((item, index) => (
+          {forYouItems.map((item, index) => (
             <div
               key={index}
               className="h-screen pt-[25px] flex flex-col relative items-center"
             >
-              <ImageCarousel items={item.screenshot} />
-              <AppDetail item={item} />
-              <ActionButton />
+              <ImageCarousel items={item.screenshots} />
+              <AppDetail item={item} updateOpenAppClick={updateOpenAppClick} />
+              <ActionButton
+                alias={item.alias}
+                url={item.url}
+                totalLikes={item.totalLikes || 0}
+                totalComments={item.totalComments || 0}
+                totalOpens={item.totalOpens || 0}
+                updateOpenAppClick={updateOpenAppClick}
+              />
             </div>
           ))}
         </motion.div>
-
         <Modal isVisible={false} rootClassName="px-[29px] pt-[45px] pb-[30px]">
           <span className="block text-[20px] font-bold leading-[20px] font-outfit">
             Select Your Areas of Interest

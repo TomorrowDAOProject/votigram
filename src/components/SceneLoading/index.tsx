@@ -24,14 +24,14 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
         }
         return prevProgress + Math.random() * 10; // Increment progress by 1%
       });
-    }, 1000);
+    }, 3000);
 
     return () => clearInterval(interval); // Cleanup the interval on component unmount
   }, []);
 
   useEffect(() => {
     if (hasUserData()) {
-      setProgress(100);
+      setProgress(90);
       setIsLoading(!isNewUser);
     }
   }, [hasUserData, isNewUser, progress, setIsLoading]);
@@ -39,7 +39,7 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
   return (
     <>
       <TelegramHeader />
-      <div className="flex bg-gradient-to-t from-black to-[#9381FF] min-h-[533px]">
+      <div className="flex bg-gradient-to-t from-black to-[#9381FF] min-h-[533px] pt-telegramHeader">
         <div className="votigram-grid mt-[42px]">
           <span className="col-12 text-center font-bold text-base font-outfit">
             VOTIGRAM
@@ -56,8 +56,9 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
               YOUR <span className="text-secondary">CHOICE</span>
             </span>
           </div>
-          {progress >= 100 ? (
+          {progress >= 90 ? (
             <button
+              data-testid="cta-button"
               onClick={() => {
                 setIsLoading(false);
               }}

@@ -3,9 +3,10 @@ import "./index.css";
 
 interface ITopVoteApps {
   items: VoteApp[];
+  onAppItemClick: (item: VoteApp) => void;
 }
 
-const TopVotedApps = ({ items }: ITopVoteApps) => {
+const TopVotedApps = ({ items, onAppItemClick }: ITopVoteApps) => {
   return (
     <div className="flex flex-col gap-[12px] mb-[22px]">
       <span className="px-[20px] font-bold font-outfit text-[20px] leading-[20px]">
@@ -15,6 +16,7 @@ const TopVotedApps = ({ items }: ITopVoteApps) => {
         {items?.map((item) => (
           <div
             key={item.title}
+            onClick={() => onAppItemClick(item)}
             className="flex flex-col p-[7px] rounded-[10px] bg-tertiary item min-h-[84px] min-w-[106px]"
           >
             <img

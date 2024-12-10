@@ -11,14 +11,26 @@ vi.mock("../../AppItem", () => ({
   default: () => <div data-testid="app-item-mock" />,
 }));
 
+const mockUpdateOpenAppClick = vi.fn();
+
 describe("DiscoveryHiddenGems Component", () => {
   it("renders the component with the correct text", () => {
-    render(<DiscoveryHiddenGems item={voteAppData} />);
+    render(
+      <DiscoveryHiddenGems
+        onAppItemClick={mockUpdateOpenAppClick}
+        item={voteAppData}
+      />
+    );
     expect(screen.getByText("Discover Hidden Gems!")).toBeInTheDocument();
   });
 
   it("renders the AppItem component", () => {
-    render(<DiscoveryHiddenGems item={voteAppData} />);
+    render(
+      <DiscoveryHiddenGems
+        onAppItemClick={mockUpdateOpenAppClick}
+        item={voteAppData}
+      />
+    );
     expect(screen.getByTestId("app-item-mock")).toBeInTheDocument();
   });
 });

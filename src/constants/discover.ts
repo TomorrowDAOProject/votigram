@@ -1,13 +1,24 @@
 export enum APP_CATEGORY {
-  NEW,
-  EARN,
-  GAME,
-  FINANCE,
-  SOCIAL,
-  UTILITIES,
-  INFORMATION,
-  ECOMMERCE,
+  NEW = "New",
+  EARN = "Earn",
+  GAME = "Game",
+  FINANCE = "Finance",
+  SOCIAL = "Social",
+  UTILITY = "Utility",
+  INFORMATION = "Information",
+  ECOMMERCE = "Ecommerce",
 }
+
+export const DISCOVERY_CATEGORY_MAP = {
+  [APP_CATEGORY.NEW]: "✨ New",
+  [APP_CATEGORY.EARN]: "💰 Earn",
+  [APP_CATEGORY.GAME]: "🎮 Game",
+  [APP_CATEGORY.FINANCE]: "💵 Finance",
+  [APP_CATEGORY.SOCIAL]: "💬 Social",
+  [APP_CATEGORY.UTILITY]: "🔩 Utility",
+  [APP_CATEGORY.INFORMATION]: "💰 Information",
+  [APP_CATEGORY.ECOMMERCE]: "🛒 E-commerce",
+};
 
 export const DISCOVER_CATEGORY: {
   value: APP_CATEGORY;
@@ -34,7 +45,7 @@ export const DISCOVER_CATEGORY: {
     label: "💬 Social",
   },
   {
-    value: APP_CATEGORY.UTILITIES,
+    value: APP_CATEGORY.UTILITY,
     label: "🔩 Utility",
   },
   {

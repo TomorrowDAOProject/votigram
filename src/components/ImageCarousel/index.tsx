@@ -25,7 +25,7 @@ const ImageCarousel = ({ items }: IImageCarouselProps) => {
         window.Telegram.WebApp.HapticFeedback.impactOccurred("light");
       }}
     >
-      {items.map((item: string) => (
+      {items?.map((item: string) => (
         <SwiperSlide key={item}>
           <img src={item} />
         </SwiperSlide>

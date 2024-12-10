@@ -1,37 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Cookies from "js-cookie";
 import useSWR, { mutate } from "swr";
-
-const toUrlEncoded = (data: Record<string, any>, prefix = ""): string => {
-  const segments: string[] = [];
-
-  for (const key in data) {
-    if (Object.prototype.hasOwnProperty.call(data, key)) {
-      const value = data[key];
-      const newPrefix = prefix
-        ? `${prefix}[${encodeURIComponent(key)}]`
-        : encodeURIComponent(key);
-
-      if (typeof value === "object" && value !== null) {
-        // Recursively format nested objects
-        segments.push(toUrlEncoded(value, newPrefix));
-      } else {
-        // Encode key-value pair
-        segments.push(`${newPrefix}=${encodeURIComponent(value)}`);
-      }
-    }
-  }
-
-  return segments.join("&");
-};
-
-const baseURL = "https://test-api.tmrwdao.com";
+import { toUrlEncoded } from "@/utils/token";
 
 // Fetcher function that includes the Authorization token
 const fetchWithToken = (endpoint: string) => {
   const token = Cookies.get("access_token");
 
-  return fetch(`${baseURL}${endpoint}`, {
+  return fetch(`${import.meta.env.VITE_BASE_URL}${endpoint}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -48,7 +24,7 @@ export const postWithToken = async (
   data: Record<string, any>,
   contentType: string = "application/json"
 ): Promise<any> => {
-  const token = Cookies.get("accessToken");
+  const token = Cookies.get("access_token");
 
   // Set up headers, conditionally adding Authorization
   const headers: HeadersInit = {
@@ -62,7 +38,7 @@ export const postWithToken = async (
       ? toUrlEncoded(data)
       : JSON.stringify(data);
 
-  const response = await fetch(`${baseURL}${endpoint}`, {
+  const response = await fetch(`${import.meta.env.VITE_BASE_URL}${endpoint}`, {
     method: "POST",
     headers,
     body,
@@ -87,6 +63,7 @@ export const postWithToken = async (
   return result;
 };
 
-export const useData = (endpoint: string) => useSWR(endpoint, fetchWithToken);
+export const useData = (endpoint: string | null) =>
+  useSWR(endpoint, fetchWithToken);
 
 export default useData;
