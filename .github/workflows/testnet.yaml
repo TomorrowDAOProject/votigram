@@ -12,42 +12,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Set short git commit SHA
         id: vars
         run: |
           calculatedSha=$(git rev-parse --short ${{ github.sha }})
           echo "short_sha=$calculatedSha" >> "$GITHUB_OUTPUT"
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "lts/iron"
-
-      - run: npm i -g pnpm@9
-
-      - name: Install Dependencies
-        run: pnpm i --frozen-lockfile
-
-      - name: Build
-        env:
-          VITE_ADSGRAM_ID: ${{ secrets.VITE_ADSGRAM_ID }}
-          VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
-          VITE_HASH_PRIVATE_KEY: ${{ secrets.VITE_HASH_PRIVATE_KEY }}
-          APP_ENV: testnet
-        run: pnpm run build
-
       - name: Create image tag
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.REPOSITORY_REGION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.REPOSITORY }}/votigram-web
+          images: ${{ secrets.REPOSITORY_REGION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.REPOSITORY }}/votigram-web # change this to your project frontend name
           tags: |
             type=sha
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
@@ -58,12 +36,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          build-args: |
             APP_ENV=testnet
-            VITE_ADSGRAM_ID=${{ secrets.VITE_ADSGRAM_ID }}
-            VITE_BASE_URL=${{ secrets.VITE_BASE_URL }}
-            VITE_HASH_PRIVATE_KEY=${{ secrets.VITE_HASH_PRIVATE_KEY }}
-
   dispatch:
     runs-on: tmrwdao-runner
     needs: build-and-push-image
