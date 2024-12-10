@@ -1,7 +1,7 @@
 name: Build and Push Image
 on:
   push:
-    branches: ["dev"]
+    branches: ["dev", "chore/fix-build-workflow"]
 jobs:
   build-and-push-image:
     runs-on: tmrwdao-runner
@@ -25,12 +25,12 @@ jobs:
       - name: Install Dependencies
         run: pnpm i --frozen-lockfile
       - name: Build
-        run: |
-          VITE_ADSGRAM_ID=${{ secrets.VITE_ADSGRAM_ID }}
+        env: VITE_ADSGRAM_ID=${{ secrets.VITE_ADSGRAM_ID }}
           VITE_BASE_URL=${{ secrets.VITE_BASE_URL }}
           VITE_HASH_PRIVATE_KEY=${{ secrets.VITE_HASH_PRIVATE_KEY }}
-          APP_ENV=testnet \
-            pnpm build
+          APP_ENV=testnet
+
+        run: pnpm run build
 
       - name: Create image tag
         id: meta
