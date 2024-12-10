@@ -1,7 +1,9 @@
+import { APP_CATEGORY } from "@/constants/discover";
+
 export type VoteApp = {
   alias: string;
   appType: string;
-  categories: string[];
+  categories: APP_CATEGORY[];
   createTime: string; // or Date if you prefer to handle it as a Date object
   creator: string;
   description: string;
@@ -15,6 +17,9 @@ export type VoteApp = {
   updateTime: string; // or Date if you prefer to handle it as a Date object
   url: string;
   pointsAmount?: number;
+  totalLikes?: number;
+  totalComments?: number;
+  totalOpens?: number;
 };
 
 export type CommentItem = {

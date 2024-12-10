@@ -1,12 +1,16 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import AppItem from "../index";
 import { voteAppData } from "@/__mocks__/VoteApp";
 
+const mockUpdateOpenAppClick = vi.fn();
+
 describe("AppItem Component", () => {
   it("renders with default props correctly", () => {
-    render(<AppItem {...voteAppData} />);
+    render(
+      <AppItem onAppItemClick={mockUpdateOpenAppClick} item={voteAppData} />
+    );
 
     // Check that the image is rendered
     const imageElement = screen.getByTestId("app-item-icon");
@@ -26,7 +30,13 @@ describe("AppItem Component", () => {
   });
 
   it("renders the arrow icon when showArrow is true", () => {
-    render(<AppItem showArrow {...voteAppData} />);
+    render(
+      <AppItem
+        showArrow
+        onAppItemClick={mockUpdateOpenAppClick}
+        item={voteAppData}
+      />
+    );
 
     const arrowIcon = screen.getByTestId("arrow-icon");
     expect(arrowIcon).toBeInTheDocument();

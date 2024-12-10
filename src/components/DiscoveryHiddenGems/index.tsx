@@ -4,16 +4,20 @@ import "./index.css";
 
 interface IDiscoveryHiddenGemsProps {
   item: VoteApp;
+  onAppItemClick: (item: VoteApp) => void;
 }
 
-const DiscoveryHiddenGems = ({ item }: IDiscoveryHiddenGemsProps) => {
+const DiscoveryHiddenGems = ({
+  item,
+  onAppItemClick,
+}: IDiscoveryHiddenGemsProps) => {
   return (
     <div className="flex font-outfit votigram-grid mb-[22px] w-full">
       <div className="discovery-hidden-container">
         <span className="font-bold text-[20px] leading-[20px]">
           Discover Hidden Gems!
         </span>
-        <AppItem {...item} />
+        <AppItem onAppItemClick={onAppItemClick} item={item} />
       </div>
     </div>
   );

@@ -1,7 +1,9 @@
 import clsx from "clsx";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface ITextareaProps {
+  value: string;
+  onChange: (value: string) => void;
   disabled?: boolean;
   placeholder?: string;
   maxLength?: number;
@@ -10,34 +12,30 @@ interface ITextareaProps {
 }
 
 const Textarea = ({
-  disabled,
+  value,
+  onChange,
   placeholder,
   maxLength = 500,
   rootClassName,
-  onSubmit,
 }: ITextareaProps) => {
-  const [text, setText] = useState("");
+  const [text, setText] = useState(value);
   const [charCount, setCharCount] = useState(0);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    setText(value);
+    setCharCount(value.length);
+  }, [value]);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = event.target.value;
     if (newText.length <= maxLength) {
-      setText(newText);
+      onChange(newText);
       setCharCount(newText.length);
       autoResizeTextarea();
     } else {
-      setText(newText.slice(0, maxLength));
+      onChange(newText.slice(0, maxLength));
       setCharCount(maxLength);
-    }
-  };
-
-  const handleSubmit = () => {
-    if (text.trim().length > 0) {
-      onSubmit?.(text);
-      setText("");
-      setCharCount(0);
-      autoResizeTextarea();
     }
   };
 
@@ -50,42 +48,29 @@ const Textarea = ({
   };
 
   return (
-    <div className="flex flex-row items-end gap-[8px]">
-      <div className="flex flex-col py-[12px] px-[16px] bg-input rounded-[20px] flex-1">
-        <textarea
-          ref={textareaRef}
-          className={clsx(
-            "p-0 text-[14px] leading-[16.8px] outline-none resize-none overflow-hidden appearance-none bg-input",
-            rootClassName
-          )}
-          value={text}
-          maxLength={maxLength}
-          onChange={handleChange}
-          placeholder={placeholder || "Please enter..."}
-          rows={1}
-        />
+    <div className="flex flex-col min-h-[40px] justify-center py-[12px] px-[16px] bg-input rounded-[20px] flex-1 gap-[8px]">
+      <textarea
+        ref={textareaRef}
+        className={clsx(
+          "p-0 placeholder:font-questrial text-[12px] leading-[13px] outline-none resize-none overflow-hidden appearance-none bg-input",
+          rootClassName
+        )}
+        value={text}
+        maxLength={maxLength}
+        onChange={handleChange}
+        placeholder={placeholder || "Please enter..."}
+        rows={1}
+      />
+      {charCount > 0 && (
         <span
           className={clsx(
-            charCount > 0 ? "inline-block" : "hidden",
-            "mt-[10px] text-[11px] leading-[16.8px] text-input-placeholder",
+            "inline-block mt-[10px] text-[11px] leading-[16.8px] text-input-placeholder",
             { "text-danger": charCount === maxLength }
           )}
         >
           {charCount}/{maxLength}
         </span>
-      </div>
-      <button
-        onClick={handleSubmit}
-        className="bg-tertiary w-[40px] h-[40px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0"
-        disabled={disabled || text.trim().length === 0}
-      >
-        <i
-          className={clsx(
-            "votigram-icon-send text-[24px]",
-            charCount === 0 ? "text-input-placeholder" : "text-primary"
-          )}
-        />
-      </button>
+      )}
     </div>
   );
 };

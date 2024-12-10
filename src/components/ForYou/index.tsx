@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, PanInfo } from "framer-motion";
 import ImageCarousel from "../ImageCarousel";
 import AppDetail from "./AppDetail";
@@ -7,125 +7,39 @@ import ActionButton from "./ActionButton";
 import CheckboxGroup from "../CheckboxGroup";
 import { DISCOVER_CATEGORY } from "@/constants/discover";
 import Drawer from "../Drawer";
-import Textarea from "../Textarea";
-import ReviewList from "../ReviewList";
-// import { timeAgo } from "@/utils/time";
 import TelegramHeader from "../TelegramHeader";
-import useData, { postWithToken } from "@/hooks/useData";
-import useThrottleFn from "ahooks/lib/useThrottleFn";
-import { CommentItem } from "@/types/app";
-import useDebounceFn from "ahooks/lib/useDebounceFn";
+import { VoteApp } from "@/types/app";
+import { postWithToken } from "@/hooks/useData";
+import { chainId } from "@/constants/app";
+import ReviewComment from "../ReviewComment";
 
-const initialVideoFiles = [
-  {
-    name: "Bine",
-    icon: "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/cywjzr5cxzwk92k/avatar_1H6S8YgTL8.jpg",
-    briefDesc: "Animals are done! It’s PAWS Season 🐾",
-    description:
-      "COLLECT $SYNQUEST points and secure a $SYNAI airdrop, INVITE your friends to score even more points. Play now and let your legend unfold!",
-    tag: ["Finance", "Ecommerce"],
-    screenshot: [
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_1_2024_10_21_19_21_47_MJzMu5TedA.webp?thumb=576x0",
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_2_2024_10_21_19_21_47_ldhIgeWOXq.webp?thumb=576x0",
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_3_2024_10_21_19_21_47_Pv2wQ3MgiW.webp?thumb=576x0",
-    ],
-  },
-  {
-    name: "Bine",
-    icon: "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/cywjzr5cxzwk92k/avatar_1H6S8YgTL8.jpg",
-    briefDesc: "Animals are done! It’s PAWS Season 🐾",
-    description:
-      "COLLECT $SYNQUEST points and secure a $SYNAI airdrop, INVITE your friends to score even more points. Play now and let your legend unfold!",
-    tag: ["Finance", "Ecommerce"],
-    screenshot: [
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_1_2024_10_21_19_21_47_MJzMu5TedA.webp?thumb=576x0",
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_2_2024_10_21_19_21_47_ldhIgeWOXq.webp?thumb=576x0",
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_3_2024_10_21_19_21_47_Pv2wQ3MgiW.webp?thumb=576x0",
-    ],
-  },
-  {
-    name: "Bine",
-    icon: "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/cywjzr5cxzwk92k/avatar_1H6S8YgTL8.jpg",
-    briefDesc: "Animals are done! It’s PAWS Season 🐾",
-    description:
-      "COLLECT $SYNQUEST points and secure a $SYNAI airdrop, INVITE your friends to score even more points. Play now and let your legend unfold!",
-    tag: ["Finance", "Ecommerce"],
-    screenshot: [
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_1_2024_10_21_19_21_47_MJzMu5TedA.webp?thumb=576x0",
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_2_2024_10_21_19_21_47_ldhIgeWOXq.webp?thumb=576x0",
-      "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_3_2024_10_21_19_21_47_Pv2wQ3MgiW.webp?thumb=576x0",
-    ],
-  },
-];
+interface IForYouType {
+  currentForyouPage: number;
+  items: VoteApp[];
+  fetchForYouData: (alias: string[]) => void;
+}
 
-const fetchMoreVideos = () => {
-  // Simulate fetching more videos - in a real app, you'd request data from an API
-  return [
-    {
-      name: "Bine4",
-      icon: "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/cywjzr5cxzwk92k/avatar_1H6S8YgTL8.jpg",
-      briefDesc: "Animals are done! It’s PAWS Season 🐾",
-      description:
-        "COLLECT $SYNQUEST points and secure a $SYNAI airdrop, INVITE your friends to score even more points. Play now and let your legend unfold!",
-      tag: ["Finance", "Ecommerce"],
-      screenshot: [
-        "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_1_2024_10_21_19_21_47_MJzMu5TedA.webp?thumb=576x0",
-        "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_2_2024_10_21_19_21_47_ldhIgeWOXq.webp?thumb=576x0",
-        "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_3_2024_10_21_19_21_47_Pv2wQ3MgiW.webp?thumb=576x0",
-      ],
-    },
-    {
-      name: "Bine5",
-      icon: "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/cywjzr5cxzwk92k/avatar_1H6S8YgTL8.jpg",
-      briefDesc: "Animals are done! It’s PAWS Season 🐾",
-      description:
-        "COLLECT $SYNQUEST points and secure a $SYNAI airdrop, INVITE your friends to score even more points. Play now and let your legend unfold!",
-      tag: ["Finance", "Ecommerce"],
-      screenshot: [
-        "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_1_2024_10_21_19_21_47_MJzMu5TedA.webp?thumb=576x0",
-        "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_2_2024_10_21_19_21_47_ldhIgeWOXq.webp?thumb=576x0",
-        "https://db.stickerswiki.app/api/files/1nlpavfhdos0lje/1blewwcgq6m1vt9/photo_3_2024_10_21_19_21_47_Pv2wQ3MgiW.webp?thumb=576x0",
-      ],
-    },
-  ];
-};
-
-const PAGE_SIZE = 10;
-
-const ForYou = () => {
-  const [videoFiles, setVideoFiles] = useState(initialVideoFiles);
+const ForYou = ({
+  items,
+  fetchForYouData,
+  currentForyouPage = 1,
+}: IForYouType) => {
+  const currentPage = useRef<number>(currentForyouPage);
+  const [forYouItems, setForYouItems] = useState<VoteApp[]>(items);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isShowReviews, setIsShowReviews] = useState(false);
-  const [reviews, setReviews] = useState<CommentItem[]>([]);
-  const [pageIndex, setPageIndex] = useState(0);
-  const [hasMore, setHasMore] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [likeAmount, setLikeAmount] = useState(0);
+  const [currentActiveApp, setCurrentActiveApp] = useState<
+    VoteApp | undefined
+  >();
   const height = window.innerHeight;
 
-  const { data, isLoading } = useData(
-      isShowReviews
-        ? `/api/app/discussion/comment-list?${new URLSearchParams({
-            chainId: "tDVW",
-            skipCount: `${pageIndex}`,
-            alias: "string",
-            parentId: "string",
-            comment: "string",
-            maxResultCount: `${PAGE_SIZE}`,
-            skipId: "string",
-          }).toString()}`
-        : null
-  );
-
   useEffect(() => {
-    if (data) {
-      setHasMore(data?.hasMore || false);
-      setReviews(prevItems => [...prevItems, ...(data.items || [])]);
+    if (items && currentForyouPage > currentPage.current) {
+      setForYouItems((prev) => [...prev, ...(items || [])]);
     }
-  }, [data]);
+  }, [items, currentForyouPage]);
 
-
-  const handleDragEnd = (
+  const handleDragEnd = async (
     _: MouseEvent | TouchEvent | PointerEvent,
     info: PanInfo
   ) => {
@@ -139,77 +53,33 @@ const ForYou = () => {
       // Ensure nextIndex is within bounds
       if (nextIndex < 0) {
         nextIndex = 0;
-      } else if (nextIndex >= videoFiles.length) {
-        nextIndex = videoFiles.length - 1;
+      } else if (nextIndex >= forYouItems.length) {
+        nextIndex = forYouItems.length - 1;
       }
 
       setCurrentIndex(nextIndex);
       // Load more videos when reaching the second-to-last item
-      if (nextIndex >= videoFiles.length - 2 && videoFiles.length < 10) {
-        const moreVideos = fetchMoreVideos();
-        setVideoFiles((prev) => [...prev, ...moreVideos]);
+      if (nextIndex >= forYouItems.length - 5) {
+        await fetchForYouData(forYouItems.slice(-10).map((item) => item.alias));
       }
     }
   };
 
-  const { run: handleSubmit } = useThrottleFn(
-    async (comment) => {
-      try {
-        setLoading(true);
-        const { data } = await postWithToken(
-          "/api/app/discussion/new-comment",
-          {
-            chainId: "tDVW",
-            alias: "string",
-            parentId: "string",
-            comment,
-          },
-          "application/x-www-form-urlencoded"
-        );
-        if (data.success) {
-          setReviews(prevItems => [data?.comment, ...prevItems]);
-        }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    },
-    { wait: 500 }
-  );
-
-  const { run: submitLike } = useDebounceFn(
-    async (alias) => {
-      try {
-        setLoading(true);
-        await postWithToken("/api/app/ranking/like", {
-          chainId: "tDVW",
-          proposalId: "string",
-          likeList: [
-            {
-              alias,
-              likeAmount,
-            },
-          ],
-        });
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    },
-    {
-      wait: 1000,
-    }
-  );
-
-  const handleLike = (alias: string) => {
-    setLikeAmount((prev) => prev + 1);
-    submitLike(alias);
+  const updateOpenAppClick = (alias: string, url: string) => {
+    postWithToken("/api/app/ranking/like", {
+      chainId,
+      alias,
+    });
+    window.open(url);
   };
 
-  const onReviewsClick = () => {
+  const updateReviewClick = (item: VoteApp) => {
     setIsShowReviews(true);
+    setCurrentActiveApp(item);
+  };
+
+  const onDrawerClose = () => {
+    setIsShowReviews(false);
   };
 
   return (
@@ -221,7 +91,7 @@ const ForYou = () => {
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
           drag="y"
           dragConstraints={{
-            top: -((videoFiles.length - 1) * height),
+            top: -((forYouItems.length - 1) * height),
             bottom: 0,
           }}
           dragDirectionLock
@@ -231,24 +101,24 @@ const ForYou = () => {
             opacity: 0.5,
           }}
         >
-          {videoFiles.map((item, index) => (
+          {forYouItems.map((item, index) => (
             <div
               key={index}
               className="h-screen pt-[25px] flex flex-col relative items-center"
             >
-              <ImageCarousel items={item.screenshot} />
-              <AppDetail item={item} />
+              <ImageCarousel items={item.screenshots} />
+              <AppDetail item={item} updateOpenAppClick={updateOpenAppClick} />
               <ActionButton
-                // totalLikes={item.totalLikes}
-                // totalComments={item.totalComments}
-                // totalOpens={item.totalOpens}
-                onLikeClick={() => handleLike(item.name)}
-                onReviewsClick={onReviewsClick}
+                item={item}
+                totalLikes={item.totalLikes || 0}
+                totalComments={item.totalComments || 0}
+                totalOpens={item.totalOpens || 0}
+                updateOpenAppClick={updateOpenAppClick}
+                updateReviewClick={updateReviewClick}
               />
             </div>
           ))}
         </motion.div>
-
         <Modal isVisible={false} rootClassName="px-[29px] pt-[45px] pb-[30px]">
           <span className="block text-[20px] font-bold leading-[20px] font-outfit">
             Select Your Areas of Interest
@@ -263,40 +133,15 @@ const ForYou = () => {
             Let's Begin
           </button>
         </Modal>
-        <Drawer isVisible={isShowReviews} direction="bottom">
-          <div className="relative w-full flex items-center justify-center py-[17px] px-[19px]">
-            <span className="font-outfit text-[16px] leading-[1] font-bold text-white">
-              Reviews
-            </span>
-            <i
-              className="votigram-icon-cancel text-[14px] text-white absolute top-[15px] right-[18px] cursor-pointer"
-              onClick={() => setIsShowReviews(false)}
-            />
-          </div>
-          <div className="py-1">
-            <ReviewList
-              hasMore={hasMore}
-              height="60vh"
-              dataSource={reviews}
-              loadData={() => setPageIndex(pageIndex => pageIndex + 1)}
-              emptyText="Write the first review!"
-              rootClassname="px-5"
-              renderLoading={() =>
-                isLoading && (
-                  <div className="flex items-center justify-center h-full">
-                    <div className="w-[30px] h-[30px] animate-spin rounded-full bg-white"></div>
-                  </div>
-                )
-              }
-            />
-          </div>
-          <div className="py-[17px] px-5 border-t-[1px] border-tertiary border-solid">
-            <Textarea
-              disabled={loading}
-              placeholder="Add a comment"
-              onSubmit={handleSubmit}
-            />
-          </div>
+        <Drawer
+          isVisible={isShowReviews}
+          onClose={onDrawerClose}
+          direction="bottom"
+        >
+          <ReviewComment
+            onDrawerClose={onDrawerClose}
+            currentActiveApp={currentActiveApp}
+          />
         </Drawer>
       </div>
     </>

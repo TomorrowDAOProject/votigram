@@ -45,7 +45,7 @@ describe("Navigation Component", () => {
 
     const heartTab = screen.getByTestId("heart-tab");
     fireEvent.click(heartTab);
-    expect(onMenuClick).toHaveBeenCalledWith(TAB_LIST.HEART);
+    expect(onMenuClick).toHaveBeenCalledWith(TAB_LIST.VOTE);
 
     const penTab = screen.getByTestId("pen-tab");
     fireEvent.click(penTab);

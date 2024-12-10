@@ -1,6 +1,6 @@
 export enum TAB_LIST {
   HOME,
   FOR_YOU,
-  HEART,
+  VOTE,
   PEN,
 }
