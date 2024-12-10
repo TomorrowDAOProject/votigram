@@ -16,6 +16,11 @@ RUN pnpm install
 # Copy the rest of the application code
 COPY . .
 
+# Pass environment variables during the build process
+ARG VITE_ADSGRAM_ID
+ARG VITE_HASH_PRIVATE_KEY
+ARG VITE_BASE_URL
+
 # Build the application
 RUN pnpm run build
 
