@@ -88,7 +88,7 @@ export const postWithToken = async (
   return result;
 };
 
-export const useData = (endpoint: string) => useSWR(endpoint, fetchWithToken);
+export const useData = (endpoint: string | null) => useSWR(endpoint, fetchWithToken);
 
 export const useInfinite = (
   getKey: SWRInfiniteKeyLoader<any, Arguments>,

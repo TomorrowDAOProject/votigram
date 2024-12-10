@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, PanInfo } from "framer-motion";
 import ImageCarousel from "../ImageCarousel";
 import AppDetail from "./AppDetail";
@@ -11,7 +11,7 @@ import Textarea from "../Textarea";
 import ReviewList from "../ReviewList";
 // import { timeAgo } from "@/utils/time";
 import TelegramHeader from "../TelegramHeader";
-import { postWithToken, useInfinite } from "@/hooks/useData";
+import useData, { postWithToken } from "@/hooks/useData";
 import useThrottleFn from "ahooks/lib/useThrottleFn";
 import { CommentItem } from "@/types/app";
 import useDebounceFn from "ahooks/lib/useDebounceFn";
@@ -96,33 +96,34 @@ const ForYou = () => {
   const [videoFiles, setVideoFiles] = useState(initialVideoFiles);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isShowReviews, setIsShowReviews] = useState(false);
+  const [reviews, setReviews] = useState<CommentItem[]>([]);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
   const [loading, setLoading] = useState(false);
   const [likeAmount, setLikeAmount] = useState(0);
   const height = window.innerHeight;
 
-  const { data, isLoading, size, setSize } = useInfinite(
-    (index) =>
+  const { data, isLoading } = useData(
       isShowReviews
         ? `/api/app/discussion/comment-list?${new URLSearchParams({
             chainId: "tDVW",
-            skipCount: `${index * PAGE_SIZE}`,
+            skipCount: `${pageIndex}`,
             alias: "string",
             parentId: "string",
             comment: "string",
             maxResultCount: `${PAGE_SIZE}`,
             skipId: "string",
           }).toString()}`
-        : null,
-    0
+        : null
   );
 
-  console.log(data);
+  useEffect(() => {
+    if (data) {
+      setHasMore(data?.hasMore || false);
+      setReviews(prevItems => [...prevItems, ...(data.items || [])]);
+    }
+  }, [data]);
 
-  const isLoadingMore =
-    isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
-  const hasMoreData =
-    size === 0 || (data && data[data.length - 1]?.length === PAGE_SIZE);
-  let allItems: CommentItem[] = data ? [].concat(...data) : [];
 
   const handleDragEnd = (
     _: MouseEvent | TouchEvent | PointerEvent,
@@ -166,7 +167,7 @@ const ForYou = () => {
           "application/x-www-form-urlencoded"
         );
         if (data.success) {
-          allItems = [data?.comment, ...allItems];
+          setReviews(prevItems => [data?.comment, ...prevItems]);
         }
       } catch (error) {
         console.error(error);
@@ -238,6 +239,9 @@ const ForYou = () => {
               <ImageCarousel items={item.screenshot} />
               <AppDetail item={item} />
               <ActionButton
+                // totalLikes={item.totalLikes}
+                // totalComments={item.totalComments}
+                // totalOpens={item.totalOpens}
                 onLikeClick={() => handleLike(item.name)}
                 onReviewsClick={onReviewsClick}
               />
@@ -271,14 +275,14 @@ const ForYou = () => {
           </div>
           <div className="py-1">
             <ReviewList
-              hasMore={hasMoreData}
+              hasMore={hasMore}
               height="60vh"
-              dataSource={allItems}
-              loadData={() => setSize(size + 1)}
+              dataSource={reviews}
+              loadData={() => setPageIndex(pageIndex => pageIndex + 1)}
               emptyText="Write the first review!"
               rootClassname="px-5"
               renderLoading={() =>
-                isLoadingMore && (
+                isLoading && (
                   <div className="flex items-center justify-center h-full">
                     <div className="w-[30px] h-[30px] animate-spin rounded-full bg-white"></div>
                   </div>
