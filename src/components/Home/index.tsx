@@ -7,9 +7,10 @@ import TelegramHeader from "../TelegramHeader";
 import TopVotedApps from "../TopVotedApps";
 import { useUserContext } from "@/provider/UserProvider";
 import Modal from "../Modal";
-import useData from "@/hooks/useData";
+import useData, { postWithToken } from "@/hooks/useData";
 import SearchPanel from "../SearchPanel";
 import { VoteApp } from "@/types/app";
+import { chainId } from "@/constants/app";
 
 const DAILY_REWARDS = [2000, 2000, 2000, 2000, 2000, 2000, 5000];
 
@@ -35,6 +36,18 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
   );
   const [isSearching, setIsSearching] = useState(false);
 
+  const onClaimClick = async () => {
+    try {
+      const result = await postWithToken("/api/app/user/login-points/collect", {
+        chainId,
+      });
+      if (result?.data?.userTotalPoints) {
+        updateDailyLoginPointsStatus(result.data.userTotalPoints);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
   return (
     <>
       <TelegramHeader title={isSearching ? "Discover" : ""} />
@@ -174,6 +187,7 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
           onClick={() => {
             setShowDailyReward(false);
             updateDailyLoginPointsStatus(true);
+            onClaimClick();
           }}
           className="bg-primary text-white text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px]"
         >
