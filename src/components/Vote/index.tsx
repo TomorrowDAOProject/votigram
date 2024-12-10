@@ -1,6 +1,9 @@
 import React from "react";
 import ToggleSlider from "../ToggleSlider";
 import { useUserContext } from "@/provider/UserProvider";
+import SimpleTimePicker from "../SimpleTimePicker";
+import SimpleDatePicker from "../SimpleDatePicker";
+import Drawer from "../Drawer";
 
 const Vote = () => {
   const {
@@ -22,6 +25,13 @@ const Vote = () => {
           </span>
         </div>
       </div>
+      <SimpleTimePicker isVisible={false} onChange={console.log} />
+      <SimpleDatePicker isVisible={false} onChange={console.log} />
+      <Drawer isVisible={true} direction="bottom" rootClassName="pt-[34px] pb-[40px] bg-tertiary">
+        <span className="block mb-[29px] text-[18px] font-outfit font-bold leading-[18px] text-center text-white">Creating Poll</span>
+        <img className="mx-auto w-[236px] h-[208px] object-contain" src="https://cdn.tmrwdao.com/assets/imgs/721513BA0C66.webp" alt="Tips" />
+        <span className="block mt-[28px] text-center text-white whitespace-pre-wrap text-[14px] leading-[16.8px]">{`Your poll is currently being \nregistered on the blockchain.`}</span>
+      </Drawer>
     </div>
   );
 };

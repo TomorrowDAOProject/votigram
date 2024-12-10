@@ -1,0 +1,22 @@
+.rdp-root {
+  --rdp-today-color: #8772FF;
+  --rdp-accent-color: #969696;
+  --rdp-selected-border: 1px solid #8772FF;
+  --rdp-accent-background-color: #8772FF;
+  --rdp-day-height: calc((100vw - 35px) / 7);
+  --rdp-day-width: calc((100vw - 35px) / 7);
+  --rdp-day_button-height: 100%;
+  --rdp-day_button-width: 100%;
+}
+
+.simple-date-picker 
+
+.simple-date-picker {
+  .rdp-month_caption {
+    @apply py-[20px];
+  }
+
+  .rdp-selected .rdp-day_button {
+    @apply bg-primary text-white text-[15px];
+  }
+}

@@ -64,6 +64,7 @@ export default {
         "input-placeholder": "#969696",
         "app-icon-border": "#969696",
         "pill-border": "#2E2E2E",
+        "gray-border": "#4E4E4E",
         "modal-background": "#191919",
       },
       inset: {
