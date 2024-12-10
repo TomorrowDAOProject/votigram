@@ -1,0 +1,129 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { VoteApp } from "@/types/app";
+import { DISCOVERY_CATEGORY_MAP } from "@/constants/discover";
+
+const containerVariants = {
+  hidden: {
+    paddingTop: 0,
+  },
+  visible: {
+    paddingTop: 120,
+    background: "linear-gradient(rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 40%)",
+  },
+};
+
+const descriptionVariants = {
+  hidden: { opacity: 0, height: 0 },
+  visible: { opacity: 1, height: "max-content", marginBottom: 14 },
+};
+
+interface IAppDetailProps {
+  item: VoteApp;
+  updateOpenAppClick: (alias: string, url: string) => void;
+}
+
+const AppDetail = ({ item, updateOpenAppClick }: IAppDetailProps) => {
+  const [isExpand, setIsExpand] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      containerRef.current &&
+      !containerRef.current.contains(event.target as Node)
+    ) {
+      setIsExpand(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside, true);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside, true);
+    };
+  }, []);
+
+  const onOpenAppClick = () => {
+    updateOpenAppClick(item.alias, item.url);
+  };
+
+  return (
+    <>
+      {isExpand && (
+        <div className="flex h-screen w-full opacity-0 absolute top-0 left-0 z-[10000]" />
+      )}
+      <motion.div
+        ref={containerRef}
+        initial="visible"
+        animate={isExpand ? "visible" : "hidden"}
+        variants={containerVariants}
+        transition={{
+          type: "spring",
+          stiffness: 900,
+          damping: 100,
+        }}
+        className="w-full pt-0 flex flex-col absolute bottom-telegramHeader h-max z-[100] pl-5 pr-[20px]"
+        onClick={() => {
+          setIsExpand(!isExpand);
+        }}
+      >
+        <div className="flex gap-2 mb-[14px]">
+          <img
+            src={item.icon}
+            className="h-[48px] aspect-square rounded-[8px] border-app-icon-border border-[1px]"
+            alt=""
+          />
+          <div className="flex flex-col gap-[5px] justify-center">
+            <span className="font-outfit font-bold text-[16px] leading-[16px]">
+              {item.title}
+            </span>
+            <span className="text-[11px] leading-[13px]">
+              {item.description}
+            </span>
+          </div>
+        </div>
+        <motion.div
+          initial="hidden"
+          animate={isExpand ? "visible" : "hidden"}
+          variants={descriptionVariants}
+          transition={{
+            type: "spring",
+            stiffness: 500,
+            damping: 20,
+          }}
+          className="flex w-full text-[13px] leading-[15px]"
+        >
+          {item.longDescription}
+        </motion.div>
+
+        <div className="flex pb-[90px] z-[10]">
+          <div className="flex flex-[2] flex-=wrap gap-[6px] items-center">
+            {item.categories?.map((category) => (
+              <div
+                key={category}
+                className="flex item h-[22px] border-pill-border border-[1px] rounded-full"
+              >
+                <button className="w-max h-[22px] font-questrial px-2 text-[12px] leading-[13px]">
+                  {DISCOVERY_CATEGORY_MAP?.[category] || ""}
+                </button>
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-1 justify-end items-center">
+            <button
+              onClick={onOpenAppClick}
+              className="flex justify-center items-center w-[98px] bg-primary font-outfit font-bold text-[14px] leading-[14px] py-[10px] rounded-[24px]"
+            >
+              Open
+              <i className="votigram-icon-arrow-ninety-degrees text-[14px] ml-[5px]" />
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    </>
+  );
+};
+
+export default AppDetail;

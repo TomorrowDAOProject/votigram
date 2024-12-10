@@ -1,0 +1,23 @@
+import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import { describe, it, expect } from "vitest";
+import CategoryPillList from "../index";
+import { DISCOVER_CATEGORY } from "@/constants/discover";
+
+describe("CategoryPillList Component", () => {
+  it("renders the correct number of categories", () => {
+    render(<CategoryPillList />);
+
+    const categoryButtons = screen.getAllByRole("button");
+    expect(categoryButtons).toHaveLength(DISCOVER_CATEGORY.length); // Ensure length matches mocked categories
+  });
+
+  it("renders each category with the correct label", () => {
+    render(<CategoryPillList />);
+
+    const labels = DISCOVER_CATEGORY.map((item) => item.label);
+    labels.forEach((label) => {
+      expect(screen.getByText(label)).toBeInTheDocument();
+    });
+  });
+});
