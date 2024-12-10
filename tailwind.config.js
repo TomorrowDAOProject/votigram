@@ -28,6 +28,16 @@ export default {
           "Arial",
           "sans-serif",
         ],
+        pressStart: [
+          "'Press Start 2P'",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "'Segoe UI'",
+          "Roboto",
+          "'Helvetica Neue'",
+          "Arial",
+          "sans-serif",
+        ],
       },
       animation: {
         slideIn: "slideIn 0.3s forwards",
