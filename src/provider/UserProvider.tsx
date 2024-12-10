@@ -113,7 +113,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
           type: "SET_USER_DATA",
           payload: {
             isNewUser: !!decodedToken.new_user || false,
-            userPoints: userPointsData.data,
+            userPoints: userPointsData?.data || 0,
           },
         });
       } catch (error) {
