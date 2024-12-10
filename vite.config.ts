@@ -7,15 +7,15 @@ const modifyIndexHtmlPaths = () => {
   return {
     name: "modify-index-html-paths",
     transformIndexHtml(html: string) {
-      return html;
-      // .replace(
-      //   /(<script type="module" crossorigin src=")(\/assets\/.+\.js")/g,
-      //   "$1https://test.tmrwdao.com/votigram/v1$2"
-      // )
-      // .replace(
-      //   /(<link rel="stylesheet" crossorigin href=")(\/assets\/.+\.css")/g,
-      //   "$1https://test.tmrwdao.com/votigram/v1$2"
-      // );
+      return html
+        .replace(
+          /(<script type="module" crossorigin src=")(\/assets\/.+\.js")/g,
+          "$1https://test.tmrwdao.com/votigram/v1$2"
+        )
+        .replace(
+          /(<link rel="stylesheet" crossorigin href=")(\/assets\/.+\.css")/g,
+          "$1https://test.tmrwdao.com/votigram/v1$2"
+        );
     },
   };
 };
