@@ -31,7 +31,14 @@ const Confetti = ({ className, height = 1000, onInit }: IConfettiProps) => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} height={height} className={className} />;
+  return (
+    <canvas
+      role="presentation"
+      ref={canvasRef}
+      height={height}
+      className={className}
+    />
+  );
 };
 
 export default Confetti;

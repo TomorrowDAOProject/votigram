@@ -14,7 +14,9 @@ import {
   CustomJwtPayload,
   User,
 } from "./types/UserProviderType";
-import { toUrlEncoded } from "@/utils/token";
+import { fetchToken } from "@/utils/token";
+
+let RETRY_MAX_COUNT = 3;
 
 const initialState: UserContextState = {
   user: {
@@ -32,9 +34,6 @@ const initialState: UserContextState = {
 
 // Create a context
 const UserContext = createContext<UserContextType | undefined>(undefined);
-
-// Base URL
-const BASE_URL = "https://test-api.tmrwdao.com";
 
 type Action =
   | { type: "SET_USER_DATA"; payload: User }
@@ -72,7 +71,9 @@ export const useUserContext = () => {
 const getUserPoints = async (accessToken: string) => {
   // Fetch user points data
   const userPointsResponse = await fetch(
-    `${BASE_URL}/api/app/user/login-points/status?chainId=tDVW`,
+    `${
+      import.meta.env.VITE_BASE_URL
+    }/api/app/user/login-points/status?chainId=tDVW`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -94,24 +95,13 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     const fetchTokenAndData = async () => {
       try {
-        const initData = window?.Telegram?.WebApp?.initData;
+        const access_token = await fetchToken();
 
-        // Fetch token
-        const tokenResponse = await fetch(`${BASE_URL}/connect/token`, {
-          method: "POST",
-          body: toUrlEncoded({
-            grant_type: "signature",
-            client_id: "TomorrowDAOServer_App",
-            scope: "TomorrowDAOServer",
-            login_type: "TG",
-            init_data: initData,
-          }),
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        });
-        if (!tokenResponse.ok) throw new Error("Failed to fetch token");
-        const { access_token } = (await tokenResponse.json()) || {};
+        if (!access_token) {
+          const error = new Error("Failed to fetch token");
+          error.name = "401";
+          throw error;
+        }
 
         dispatch({ type: "SET_TOKEN", payload: access_token });
         Cookies.set("access_token", access_token);
@@ -127,6 +117,16 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
           },
         });
       } catch (error) {
+        if (
+          error instanceof Error &&
+          error.name === "401" &&
+          RETRY_MAX_COUNT > 0
+        ) {
+          RETRY_MAX_COUNT = RETRY_MAX_COUNT - 1;
+          fetchTokenAndData();
+        } else {
+          RETRY_MAX_COUNT = 3;
+        }
         console.error("Error fetching data:", error);
         dispatch({ type: "SET_ERROR", payload: (error as Error).message });
         dispatch({ type: "SET_LOADING", payload: false });

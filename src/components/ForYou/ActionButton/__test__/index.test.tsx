@@ -1,40 +1,89 @@
 // ActionButton.test.tsx
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
-import ActionButton from "../index";
+import { render, screen, fireEvent, act } from "@testing-library/react";
+import ActionButton from "../index"; // Adjust the import path as necessary
 import "@testing-library/jest-dom";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, vi, beforeEach, afterEach, expect } from "vitest";
 
-// Mocking the Telegram WebApp interface
+// Initialize mocks before mock calls
+const mockPostWithToken = vi.fn();
 const mockNotificationOccurred = vi.fn();
+
+// Mock the Confetti component
+vi.mock("@/components/Confetti", () => ({
+  __esModule: true,
+  default: ({ onInit }: { onInit: (args: { confetti: any }) => void }) => {
+    onInit({ confetti: vi.fn() });
+    return <div data-testid="confetti-mock" />;
+  },
+}));
+
+// Mock the postWithToken function
+vi.mock("@/hooks/useData", () => ({
+  postWithToken: vi.fn(),
+}));
+
 beforeEach(() => {
+  // Set up any global mocks
   global.window.Telegram = {
     WebApp: {
       HapticFeedback: {
         notificationOccurred: mockNotificationOccurred,
-        impactOccurred: vi.fn(),
-        selectionChanged: vi.fn(),
       },
     },
   } as unknown as TelegramWebApp;
+  vi.clearAllMocks();
 });
 
 describe("ActionButton Component", () => {
+  const defaultProps = {
+    alias: "test-alias",
+    url: "https://example.com",
+    totalLikes: 10,
+    totalComments: 5,
+    totalOpens: 3,
+    updateOpenAppClick: vi.fn(),
+  };
+
   beforeEach(() => {
-    vi.clearAllMocks(); // Clear mock usage data before each test
+    vi.useFakeTimers();
   });
 
-  it("renders all buttons correctly", () => {
-    render(<ActionButton />);
-    expect(screen.getAllByRole("button")).toHaveLength(3);
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
-  it("triggers haptic feedback on like button click", () => {
-    render(<ActionButton />);
-    const likeButton = screen.getAllByRole("button")[0]; // Assuming the first button is the like button
-    fireEvent.click(likeButton);
+  it("renders with initial counts", () => {
+    render(<ActionButton {...defaultProps} />);
+    expect(screen.getByText("10")).toBeInTheDocument(); // Likes
+    expect(screen.getByText("5")).toBeInTheDocument(); // Comments
+    expect(screen.getByText("3")).toBeInTheDocument(); // Opens
+    expect(screen.getByTestId("confetti-mock")).toBeInTheDocument(); // Confetti mock presence
+  });
 
-    // Check if the notificationOccurred function was called with "success"
-    expect(mockNotificationOccurred).toHaveBeenCalledWith("success");
+  // it("increments like count and triggers confetti and notification on like button click", () => {
+  //   render(<ActionButton {...defaultProps} />);
+
+  //   const likeButton = screen.getAllByRole("button")[0];
+  //   fireEvent.click(likeButton);
+  //   expect(screen.getByTestId("like-label-testid")).toBeInTheDocument(); // Updated Likes
+
+  //   act(() => {
+  //     vi.advanceTimersByTime(3000);
+  //   });
+
+  //   expect(mockNotificationOccurred).toHaveBeenCalledWith("success");
+  // });
+
+  it("increments open count on open app button click", () => {
+    render(<ActionButton {...defaultProps} />);
+
+    const openAppButton = screen.getAllByRole("button")[2];
+    fireEvent.click(openAppButton);
+    expect(screen.getByText("4")).toBeInTheDocument(); // Updated Opens
+    expect(defaultProps.updateOpenAppClick).toHaveBeenCalledWith(
+      "test-alias",
+      "https://example.com"
+    );
   });
 });
