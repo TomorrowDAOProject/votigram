@@ -33,6 +33,7 @@ export default defineConfig({
   },
   define: {
     VITE_BASE_URL: JSON.stringify(`${process.env.VITE_BASE_URL}`),
+    VITE_ADSGRAM_ID: JSON.stringify(`${process.env.VITE_ADSGRAM_ID}`),
   },
   test: {
     globals: true,
