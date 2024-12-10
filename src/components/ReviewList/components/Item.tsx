@@ -1,19 +1,21 @@
 import React from "react";
-import { ListItem } from "../type";
 import { timeAgo } from "@/utils/time";
 import clsx from "clsx";
+import { Comment } from "@/types/comment";
 
 interface ItemProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any;
+  data: Comment;
   className?: string;
-  onClick?: (item: ListItem) => void;
+  onClick?: (item: Comment) => void;
 }
 
 const Item = ({ data, className, onClick }: ItemProps) => {
   return (
     <div
-      className={clsx('flex flex-row items-start gap-[19px] py-[9px]', className)}
+      className={clsx(
+        "flex flex-row items-start gap-[19px] py-[9px]",
+        className
+      )}
       onClick={() => data && onClick?.(data)}
     >
       {data?.commenterPhoto && (

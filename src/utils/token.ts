@@ -29,7 +29,7 @@ export const fetchToken = async () => {
   try {
     const initData =
       window?.Telegram?.WebApp?.initData ||
-      "user=%7B%22id%22%3A6964861250%2C%22first_name%22%3A%22Eran%22%2C%22last_name%22%3A%22Khoo%22%2C%22username%22%3A%22kea08111%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2Ff4ZHGhoTj1E_IzAdBfjgNbwtY8gCkjvvsiH_02VVCO2JCz3hGOaPR1xO19VL4J5_.svg%22%7D&chat_instance=8669436071748428090&chat_type=sender&auth_date=1733812346&signature=HLuRc6ySZ9bN6h4bGGFxbVhTBsbb1iAwP2ndpBtFhPz7pGwXSkmTxptaYGgHt_IkMdwdYe-HguFo1BmLZumHCw&hash=7f5fc5b38ab15e5177fb14aba03cf9c372bee0d55e311e94f119b0a27c91413a";
+      import.meta.env.VITE_TELEGRAM_INIT_DATA;
 
     // Fetch token
     const tokenResponse = await fetch(
