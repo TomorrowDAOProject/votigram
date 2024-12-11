@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Cookies from "js-cookie";
-import useSWR, { mutate } from "swr";
+import useSWR, { Arguments, mutate } from "swr";
 import { toUrlEncoded } from "@/utils/token";
+import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
 
 // Fetcher function that includes the Authorization token
 const fetchWithToken = (endpoint: string) => {
@@ -63,7 +64,16 @@ export const postWithToken = async (
   return result;
 };
 
-export const useData = (endpoint: string | null) =>
-  useSWR(endpoint, fetchWithToken);
+export const useData = (endpoint: string | null) => useSWR(endpoint, fetchWithToken);
+
+export const useInfinite = (
+  getKey: SWRInfiniteKeyLoader<any, Arguments>,
+  initialSize: number
+) =>
+  useSWRInfinite(
+    getKey,
+    fetchWithToken,
+    { initialSize } // Start with no pages loaded
+  );
 
 export default useData;

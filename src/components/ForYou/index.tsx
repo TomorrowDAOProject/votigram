@@ -6,10 +6,12 @@ import Modal from "../Modal";
 import ActionButton from "./ActionButton";
 import CheckboxGroup from "../CheckboxGroup";
 import { DISCOVER_CATEGORY } from "@/constants/discover";
+import Drawer from "../Drawer";
 import TelegramHeader from "../TelegramHeader";
 import { VoteApp } from "@/types/app";
 import { postWithToken } from "@/hooks/useData";
 import { chainId } from "@/constants/app";
+import ReviewComment from "../ReviewComment";
 
 interface IForYouType {
   currentForyouPage: number;
@@ -25,6 +27,10 @@ const ForYou = ({
   const currentPage = useRef<number>(currentForyouPage);
   const [forYouItems, setForYouItems] = useState<VoteApp[]>(items);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isShowReviews, setIsShowReviews] = useState(false);
+  const [currentActiveApp, setCurrentActiveApp] = useState<
+    VoteApp | undefined
+  >();
   const height = window.innerHeight;
 
   useEffect(() => {
@@ -67,6 +73,15 @@ const ForYou = ({
     window.open(url);
   };
 
+  const updateReviewClick = (item: VoteApp) => {
+    setIsShowReviews(true);
+    setCurrentActiveApp(item);
+  };
+
+  const onDrawerClose = () => {
+    setIsShowReviews(false);
+  };
+
   return (
     <>
       <TelegramHeader title="For You" />
@@ -94,12 +109,12 @@ const ForYou = ({
               <ImageCarousel items={item.screenshots} />
               <AppDetail item={item} updateOpenAppClick={updateOpenAppClick} />
               <ActionButton
-                alias={item.alias}
-                url={item.url}
+                item={item}
                 totalLikes={item.totalLikes || 0}
                 totalComments={item.totalComments || 0}
                 totalOpens={item.totalOpens || 0}
                 updateOpenAppClick={updateOpenAppClick}
+                updateReviewClick={updateReviewClick}
               />
             </div>
           ))}
@@ -118,6 +133,16 @@ const ForYou = ({
             Let's Begin
           </button>
         </Modal>
+        <Drawer
+          isVisible={isShowReviews}
+          onClose={onDrawerClose}
+          direction="bottom"
+        >
+          <ReviewComment
+            onDrawerClose={onDrawerClose}
+            currentActiveApp={currentActiveApp}
+          />
+        </Drawer>
       </div>
     </>
   );

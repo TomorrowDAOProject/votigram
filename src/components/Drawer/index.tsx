@@ -1,9 +1,9 @@
-import { ReactNode } from "react";
+import { ReactNode, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import clsx from "clsx";
 
 interface IDrawerProps {
-  isVisible?: boolean;
+  isVisible: boolean;
   direction?: "left" | "right" | "top" | "bottom";
   children: ReactNode | ReactNode[];
   rootClassName?: string;
@@ -17,6 +17,8 @@ const Drawer = ({
   rootClassName,
   onClose,
 }: IDrawerProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const variants = {
     hidden: {
       x: direction === "left" ? "-100%" : direction === "right" ? "100%" : "0",
@@ -38,10 +40,10 @@ const Drawer = ({
           onClick={onClose}
         />
       )}
-
       <AnimatePresence>
         {isVisible && (
           <motion.div
+            ref={containerRef}
             initial="hidden"
             animate="visible"
             exit="hidden"

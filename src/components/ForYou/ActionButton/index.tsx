@@ -6,23 +6,24 @@ import canvasConfetti, { CreateTypes } from "canvas-confetti";
 import { postWithToken } from "@/hooks/useData";
 import Confetti from "@/components/Confetti";
 import { chainId } from "@/constants/app";
+import { VoteApp } from "@/types/app";
 
 interface IActionButton {
-  alias: string;
-  url: string;
+  item: VoteApp;
   totalLikes: number;
   totalComments: number;
   totalOpens: number;
   updateOpenAppClick: (alias: string, url: string) => void;
+  updateReviewClick: (item: VoteApp) => void;
 }
 
 const ActionButton = ({
-  alias,
-  url,
+  item,
   totalLikes = 0,
   totalComments = 0,
   totalOpens = 0,
   updateOpenAppClick,
+  updateReviewClick,
 }: IActionButton) => {
   const confettiInstance = useRef<CreateTypes | null>(null);
   const [totalCurrentLikes, setTotalCurrentLikes] = useState(totalLikes);
@@ -42,7 +43,7 @@ const ActionButton = ({
           proposalId: "",
           likeList: [
             {
-              alias,
+              alias: item.alias,
               likeAmount: likeCount,
             },
           ],
@@ -53,7 +54,7 @@ const ActionButton = ({
 
       return () => clearTimeout(timer); // Cleanup timeout on unmount or update
     }
-  }, [alias, likeCount]);
+  }, [item.alias, likeCount]);
 
   const onInit = ({ confetti }: { confetti: CreateTypes }) => {
     confettiInstance.current = confetti;
@@ -67,7 +68,7 @@ const ActionButton = ({
       angle: 110,
       particleCount: 15,
       spread: 70,
-      origin: { y: 0.28, x: 0.88 },
+      origin: { y: 0.2, x: 0.88 },
       disableForReducedMotion: true,
       shapes: [heartShape],
       zIndex: 10,
@@ -79,7 +80,7 @@ const ActionButton = ({
   };
 
   const onOpenAppClick = () => {
-    updateOpenAppClick(alias, url);
+    updateOpenAppClick(item.alias, item.url);
     setTotalCurrentOpen((prev) => prev + 1);
   };
 
@@ -101,7 +102,13 @@ const ActionButton = ({
             {totalCurrentLikes + likeCount}
           </span>
         </div>
-        <div role="button" className="flex flex-col items-center gap-1">
+        <div
+          role="button"
+          className="flex flex-col items-center gap-1"
+          onClick={() => {
+            updateReviewClick(item);
+          }}
+        >
           <div className="flex w-[42px] h-[42px] rounded-full bg-white/25 justify-center items-center">
             <i className="votigram-icon-chat-bubble text-[32px] text-primary" />
           </div>
