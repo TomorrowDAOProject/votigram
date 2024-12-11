@@ -4,6 +4,56 @@ import { useUserContext } from "@/provider/UserProvider";
 import SimpleTimePicker from "../SimpleTimePicker";
 import SimpleDatePicker from "../SimpleDatePicker";
 import Drawer from "../Drawer";
+import VoteItem from "../VoteItem";
+
+const Votes = [
+  {
+    id: 1,
+    rank: 1,
+    title: "Sample Title 1",
+    amount: 123,
+    avatar: "https://i.pravatar.cc/150?img=1", // Random avatar URL
+    hatIcon: "https://img.icons8.com/color/48/000000/party-hat.png",
+    voted: true,
+    progress: 45,
+  },
+  {
+    id: 2,
+    title: "Sample Title 2",
+    amount: 456,
+    avatar: "https://i.pravatar.cc/150?img=2", // Random avatar URL
+    hatIcon: "https://img.icons8.com/color/48/000000/wizard-hat.png",
+    voted: false,
+    progress: 67,
+  },
+  {
+    id: 3,
+    title: "Sample Title 3",
+    amount: 789,
+    avatar: "https://i.pravatar.cc/150?img=3", // Random avatar URL
+    hatIcon: "https://img.icons8.com/color/48/000000/santa-hat.png",
+    voted: true,
+    progress: 23,
+  },
+  {
+    id: 4,
+    title: "Sample Title 4",
+    amount: 321,
+    avatar: "https://i.pravatar.cc/150?img=4", // Random avatar URL
+    hatIcon: "https://img.icons8.com/color/48/000000/top-hat.png",
+    voted: false,
+    progress: 89,
+  },
+  {
+    id: 5,
+    title: "Sample Title 5",
+    amount: 654,
+    avatar: "https://i.pravatar.cc/150?img=5", // Random avatar URL
+    hatIcon: "https://img.icons8.com/color/48/000000/clown-hat.png",
+    voted: true,
+    progress: 55,
+  },
+];
 
 const Vote = () => {
   const {
@@ -30,6 +80,10 @@ const Vote = () => {
             {userPoints?.userTotalPoints.toLocaleString() || 0}
           </span>
         </div>
+      </div>
+
+      <div className="px-4">
+        {Votes.map((vote) => <VoteItem data={vote} key={vote.id} />)}
       </div>
 
       <div className="flex flex-row items-center gap-4">
