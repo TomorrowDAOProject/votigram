@@ -10,24 +10,16 @@ interface BaseDatePickerProps {
 
 interface ISimpleDatePickerProps extends BaseDatePickerProps {
   mode?: "single" | "multiple" | "range";
-  value?: Date | Date[] | DateRange;
   onChange?: (value: Date | Date[] | DateRange | undefined) => void;
 }
 
-
 const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
-  const {
-    mode = "single",
-    isVisible,
-    value,
-    onChange,
-    ...dayPickerProps
-  } = props;
-  const [selectedDate, setSelectedDate] = useState<Date | Date[] | DateRange>();
+  const { isVisible, onChange, ...dayPickerProps } = props;
+  const [selected, setSelected] = useState<Date>();
 
   const handleConfirm = () => {
-    if (selectedDate) {
-      onChange?.(selectedDate);
+    if (selected) {
+      onChange?.(selected);
     }
   };
 
@@ -39,9 +31,11 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
     >
       <DayPicker
         {...dayPickerProps}
-        mode={mode}
-        selected={value}
-        onSelect={(val: Date | Date[] | DateRange) => setSelectedDate(val)}
+        mode="single"
+        selected={selected}
+        onSelect={setSelected}
+        captionLayout="dropdown"
+        weekStartsOn={1}
         className="simple-date-picker"
       />
       <button

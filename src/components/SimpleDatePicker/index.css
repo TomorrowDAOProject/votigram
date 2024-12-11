@@ -9,11 +9,9 @@
   --rdp-day_button-width: 100%;
 }
 
-.simple-date-picker 
-
 .simple-date-picker {
   .rdp-month_caption {
-    @apply py-[20px];
+    @apply px-[20px];
   }
 
   .rdp-selected .rdp-day_button {
