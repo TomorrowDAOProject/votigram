@@ -66,6 +66,7 @@ export default {
         "pill-border": "#2E2E2E",
         "gray-border": "#4E4E4E",
         "modal-background": "#191919",
+        danger: "#FF2929",
       },
       inset: {
         telegramHeader:

@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // ActionButton.test.tsx
 import React from "react";
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import ActionButton from "../index"; // Adjust the import path as necessary
 import "@testing-library/jest-dom";
 import { describe, it, vi, beforeEach, afterEach, expect } from "vitest";
+import { voteAppData } from "@/__mocks__/VoteApp";
 
 // Initialize mocks before mock calls
-const mockPostWithToken = vi.fn();
 const mockNotificationOccurred = vi.fn();
 
 // Mock the Confetti component
@@ -37,12 +38,12 @@ beforeEach(() => {
 
 describe("ActionButton Component", () => {
   const defaultProps = {
-    alias: "test-alias",
-    url: "https://example.com",
+    item: voteAppData,
     totalLikes: 10,
     totalComments: 5,
     totalOpens: 3,
     updateOpenAppClick: vi.fn(),
+    updateReviewClick: vi.fn(),
   };
 
   beforeEach(() => {

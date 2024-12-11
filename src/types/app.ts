@@ -21,3 +21,22 @@ export type VoteApp = {
   totalComments?: number;
   totalOpens?: number;
 };
+
+export type CommentItem = {
+  id: string;
+  chainId: string;
+  daoId: string;
+  proposalId: string;
+  alias: string;
+  commenter: string;
+  commenterId: string;
+  commenterName: string;
+  commenterFirstName: string;
+  commenterLastName: string;
+  commenterPhoto: string;
+  comment: string;
+  parentId: string;
+  commentStatus: number;
+  createTime: number;
+  modificationTime: number;
+}
