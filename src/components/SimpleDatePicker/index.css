@@ -11,7 +11,23 @@
 
 .simple-date-picker {
   .rdp-month_caption {
-    @apply px-[20px];
+    @apply px-[0.6rem] mb-1;
+  }
+
+  .rdp-caption_label {
+    @apply text-[16px] font-outfit font-bold;
+  }
+
+  .rdp-dropdown {
+    @apply appearance-none outline-none;
+  }
+
+  .rdp-day_button {
+    @apply text-white text-[15px];
+  }
+
+  .rdp-today .rdp-day_button {
+    @apply text-primary;
   }
 
   .rdp-selected .rdp-day_button {

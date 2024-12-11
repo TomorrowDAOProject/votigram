@@ -1,16 +1,13 @@
-import { DateRange, DayPicker } from "react-day-picker";
+import { DayPicker, WeekdayProps } from "react-day-picker";
 import "react-day-picker/style.css";
 import Drawer from "../Drawer";
 import "./index.css";
 import { useState } from "react";
-
-interface BaseDatePickerProps {
+import dayjs from "dayjs";
+interface ISimpleDatePickerProps {
   isVisible?: boolean;
-}
-
-interface ISimpleDatePickerProps extends BaseDatePickerProps {
   mode?: "single" | "multiple" | "range";
-  onChange?: (value: Date | Date[] | DateRange | undefined) => void;
+  onChange?: (value: string) => void;
 }
 
 const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
@@ -18,9 +15,7 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
   const [selected, setSelected] = useState<Date>();
 
   const handleConfirm = () => {
-    if (selected) {
-      onChange?.(selected);
-    }
+    onChange?.(selected ? dayjs(selected).format("YYYY-MM-DD") : "");
   };
 
   return (
@@ -36,6 +31,11 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
         onSelect={setSelected}
         captionLayout="dropdown"
         weekStartsOn={1}
+        components={{
+          Weekday: (props: WeekdayProps) => {
+            return <th>{props['aria-label']?.slice(0, 3)}</th>;
+          }
+        }}
         className="simple-date-picker"
       />
       <button

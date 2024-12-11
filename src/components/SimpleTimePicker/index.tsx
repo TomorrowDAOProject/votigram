@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Picker } from "react-mobile-style-picker";
 import "react-mobile-style-picker/dist/index.css";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { HOUR_RANGE, MINUTE_RANGE, PERIOD_RANGE } from "@/constants/time-picker";
 
 import Drawer from "../Drawer";
 import "./index.css";
@@ -14,29 +15,27 @@ interface ISimpleTimePickerProps {
 
 dayjs.extend(customParseFormat);
 
-const hours = Array.from({ length: 12 }, (_, i) => `${i + 1}`);
-
-const minutes = Array.from(
-  { length: 60 },
-  (_, i) => `${i < 10 ? "0" : ""}${i}`
-);
-
-const periods = ["AM", "PM"];
-
 const SimpleTimePicker = ({ isVisible, onChange }: ISimpleTimePickerProps) => {
-  const [selectedHour, setSelectedHour] = React.useState(hours[0]);
-  const [selectedMinute, setSelectedMinute] = React.useState(minutes[0]);
-  const [selectedPeriod, setSelectedPeriod] = React.useState(periods[0]);
+  const [selectedHour, setSelectedHour] = useState(HOUR_RANGE[0]);
+  const [selectedMinute, setSelectedMinute] = useState(MINUTE_RANGE[0]);
+  const [selectedPeriod, setSelectedPeriod] = useState(PERIOD_RANGE[0]);
 
   const handleConfirm = () => {
-    const selectTime = dayjs(
-      `${selectedHour}:${selectedMinute} ${selectedPeriod}`,
-      "hh:mm A"
-    );
-    onChange?.(selectTime.format("HH:mm"));
-  };
+    let hour = selectedHour;
 
-  console.log(isVisible);
+    if (selectedPeriod === "AM" && selectedHour === "12") {
+      hour = "00";
+    } else if (selectedPeriod === "PM" && selectedHour !== "12") {
+      hour = `${parseInt(selectedHour, 10) + 12}`;
+    }
+
+    const selectTime = dayjs(`${hour}:${selectedMinute}`, "HH:mm");
+    onChange?.(selectTime.format("HH:mm"));
+
+    setSelectedHour(HOUR_RANGE[0])
+    setSelectedMinute(MINUTE_RANGE[0])
+    setSelectedPeriod(PERIOD_RANGE[0])
+  };
 
   return (
     <Drawer
@@ -46,46 +45,55 @@ const SimpleTimePicker = ({ isVisible, onChange }: ISimpleTimePickerProps) => {
     >
       <div className="flex flex-row">
         <Picker
+          size={5}
           itemSize={40}
           itemWeight={80}
           className="left-picker"
           onChange={setSelectedHour}
+          data-testid="hours-picker"
         >
-          {hours.map((item) => (
+          {HOUR_RANGE.map((item) => (
             <Picker.Item
               className="text-[15px]"
               value={item}
               key={`hours${item}`}
+              data-testid={`hour-${item}`}
             >
               {item}
             </Picker.Item>
           ))}
         </Picker>
         <Picker
+          size={5}
           itemSize={40}
           className="middle-picker !w-[100px]"
           onChange={setSelectedMinute}
+          data-testid="minute-picker"
         >
-          {minutes.map((item) => (
+          {MINUTE_RANGE.map((item) => (
             <Picker.Item
               className="text-[15px]"
               value={item}
               key={`minutes${item}`}
+              data-testid={`minute-${item}`}
             >
               {item}
             </Picker.Item>
           ))}
         </Picker>
         <Picker
+          size={5}
           itemSize={40}
           className="right-picker"
           onChange={setSelectedPeriod}
+          data-testid="period-picker"
         >
-          {periods.map((item) => (
+          {PERIOD_RANGE.map((item) => (
             <Picker.Item
               className="text-[15px]"
               value={item}
               key={`periods${item}`}
+              data-testid={`period-${item}`}
             >
               {item}
             </Picker.Item>
