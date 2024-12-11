@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import clsx from "clsx";
 
 interface IDrawerProps {
-  isVisible: boolean;
+  isVisible?: boolean;
   direction?: "left" | "right" | "top" | "bottom";
   children: ReactNode | ReactNode[];
   rootClassName?: string;
