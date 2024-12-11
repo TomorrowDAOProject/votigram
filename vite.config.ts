@@ -31,6 +31,13 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+  define: {
+    VITE_BASE_URL: JSON.stringify(`${process.env.VITE_BASE_URL}`),
+    VITE_ADSGRAM_ID: JSON.stringify(`${process.env.VITE_ADSGRAM_ID}`),
+    VITE_HASH_PRIVATE_KEY: JSON.stringify(
+      `${process.env.VITE_HASH_PRIVATE_KEY}`
+    ),
+  },
   test: {
     globals: true,
     environment: "jsdom",

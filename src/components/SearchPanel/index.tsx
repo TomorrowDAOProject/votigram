@@ -10,7 +10,7 @@ interface ISearchPanel {
 
 const SearchPanel = ({ recommendList, onAppItemClick }: ISearchPanel) => {
   const showAd = useAdsgram({
-    blockId: import.meta.env.VITE_ADSGRAM_ID || "",
+    blockId: import.meta.env.VITE_ADSGRAM_ID.toString() || "",
     onReward: () => {},
     onError: () => {},
     onSkip: () => {},

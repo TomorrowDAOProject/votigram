@@ -16,6 +16,18 @@ RUN pnpm install
 # Copy the rest of the application code
 COPY . .
 
+# Pass environment variables during the build process
+ARG VITE_BASE_URL
+ARG VITE_ADSGRAM_ID
+ARG VITE_HASH_PRIVATE_KEY
+
+ENV VITE_BASE_URL=${VITE_BASE_URL}
+ENV VITE_ADSGRAM_ID=${VITE_ADSGRAM_ID}
+ENV VITE_HASH_PRIVATE_KEY=${VITE_HASH_PRIVATE_KEY}
+
+
+RUN echo
+
 # Build the application
 RUN pnpm run build
 
