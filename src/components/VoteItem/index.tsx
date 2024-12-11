@@ -10,7 +10,12 @@ interface IVoteItemProps {
   mediaClasssName?: string;
 }
 
-const VoteItem = ({ data, className, hatClassName, mediaClasssName }: IVoteItemProps) => {
+const VoteItem = ({
+  data,
+  className,
+  hatClassName,
+  mediaClasssName,
+}: IVoteItemProps) => {
   const elementRef = useRef<HTMLDivElement>(null);
 
   const [elementWidth, setElementWidth] = useState(0);
@@ -21,14 +26,14 @@ const VoteItem = ({ data, className, hatClassName, mediaClasssName }: IVoteItemP
         setElementWidth(elementRef.current.clientWidth);
       }
     };
-    
+
     updateWidth();
 
-    window.addEventListener('resize', updateWidth);
+    window.addEventListener("resize", updateWidth);
 
-    return () => window.removeEventListener('resize', updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
   }, []);
-  
+
   return (
     <div
       className={clsx(
@@ -42,18 +47,27 @@ const VoteItem = ({ data, className, hatClassName, mediaClasssName }: IVoteItemP
             <img
               src={data?.hatIcon}
               alt="Avatar"
-              className={clsx("w-full h-full rounded-[8px] object-cover absolute left-1/2 translate-x-[-50%] top-[-100%] z-10", hatClassName)}
+              className={clsx(
+                "w-full h-full rounded-[8px] object-cover absolute left-1/2 translate-x-[-50%] top-[-100%] z-10",
+                hatClassName
+              )}
             />
           )}
           <img
             src={data?.avatar}
             alt="Avatar"
-            className={clsx("w-full h-full rounded-[8px] object-cover", mediaClasssName)}
+            className={clsx(
+              "w-full h-full rounded-[8px] object-cover",
+              mediaClasssName
+            )}
           />
         </div>
       )}
 
-      <div className="flex flex-col justify-center flex-1 gap-[8px]" ref={elementRef}>
+      <div
+        className="flex flex-col justify-center flex-1 gap-[8px]"
+        ref={elementRef}
+      >
         <div className="flex flex-row items-center justify-between">
           <span className="flex flex-row items-center font-outfit font-bold text-[16px] leading-[16px]">
             {data?.rank && (

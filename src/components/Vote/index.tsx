@@ -22,7 +22,6 @@ const Votes = [
     title: "Sample Title 2",
     amount: 456,
     avatar: "https://i.pravatar.cc/150?img=2", // Random avatar URL
-    hatIcon: "https://img.icons8.com/color/48/000000/wizard-hat.png",
     voted: false,
     progress: 67,
   },
@@ -31,7 +30,6 @@ const Votes = [
     title: "Sample Title 3",
     amount: 789,
     avatar: "https://i.pravatar.cc/150?img=3", // Random avatar URL
-    hatIcon: "https://img.icons8.com/color/48/000000/santa-hat.png",
     voted: true,
     progress: 23,
   },
@@ -40,7 +38,6 @@ const Votes = [
     title: "Sample Title 4",
     amount: 321,
     avatar: "https://i.pravatar.cc/150?img=4", // Random avatar URL
-    hatIcon: "https://img.icons8.com/color/48/000000/top-hat.png",
     voted: false,
     progress: 89,
   },
@@ -49,7 +46,6 @@ const Votes = [
     title: "Sample Title 5",
     amount: 654,
     avatar: "https://i.pravatar.cc/150?img=5", // Random avatar URL
-    hatIcon: "https://img.icons8.com/color/48/000000/clown-hat.png",
     voted: true,
     progress: 55,
   },
