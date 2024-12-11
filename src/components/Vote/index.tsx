@@ -11,24 +11,25 @@ const Votes = [
     id: 1,
     rank: 1,
     title: "Sample Title 1",
-    amount: 123,
+    amount: 1230000,
     avatar: "https://i.pravatar.cc/150?img=1", // Random avatar URL
     hatIcon: "https://img.icons8.com/color/48/000000/party-hat.png",
     voted: true,
     progress: 45,
+    isVoted: true,
   },
   {
     id: 2,
+    rank: 2,
     title: "Sample Title 2",
-    amount: 456,
-    avatar: "https://i.pravatar.cc/150?img=2", // Random avatar URL
+    amount: 4563455,
     voted: false,
     progress: 67,
   },
   {
     id: 3,
     title: "Sample Title 3",
-    amount: 789,
+    amount: 78923480,
     avatar: "https://i.pravatar.cc/150?img=3", // Random avatar URL
     voted: true,
     progress: 23,
@@ -44,7 +45,7 @@ const Votes = [
   {
     id: 5,
     title: "Sample Title 5",
-    amount: 654,
+    amount: 6542345,
     avatar: "https://i.pravatar.cc/150?img=5", // Random avatar URL
     voted: true,
     progress: 55,
@@ -79,7 +80,7 @@ const Vote = () => {
       </div>
 
       <div className="px-4">
-        {Votes.map((vote) => <VoteItem data={vote} key={vote.id} />)}
+        {Votes.map((vote, index) => <VoteItem data={vote} key={vote.id} showBtn={index !== 3} />)}
       </div>
 
       <div className="flex flex-row items-center gap-4">

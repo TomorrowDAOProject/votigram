@@ -1,10 +1,12 @@
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import ProgressBar from "../ProgressBar";
+import { numberToCommas } from "@/utils/number";
 
 interface IVoteItemProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data?: any;
+  showBtn?: boolean;
   className?: string;
   hatClassName?: string;
   mediaClasssName?: string;
@@ -12,6 +14,7 @@ interface IVoteItemProps {
 
 const VoteItem = ({
   data,
+  showBtn = true,
   className,
   hatClassName,
   mediaClasssName,
@@ -78,25 +81,25 @@ const VoteItem = ({
             {data?.title}
           </span>
 
-          <span className="font-pressStart font-normal text-[9px] tracking-[-0.9px] leading-[9px]">
-            {data?.amount}
+          <span className="font-pressStart font-normal text-[9px] tracking-[-0.9px] leading-[9px] text-lime-green">
+            {numberToCommas(data?.amount)}
           </span>
         </div>
 
         <ProgressBar width={elementWidth} progress={data?.progress} />
       </div>
 
-      <button
+      {showBtn && <button
         type="button"
-        className="bg-tertiary w-[40px] h-[40px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0"
+        className="bg-white25 w-[40px] h-[40px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0"
       >
         <i
           className={clsx(
             "votigram-icon-navbar-vote text-[24px]",
-            data?.isVoted ? "text-primary" : "text-input-placeholder"
+            data?.isVoted ? "text-lime-green" : "text-lime-primary"
           )}
         />
-      </button>
+      </button>}
     </div>
   );
 };
