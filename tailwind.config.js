@@ -69,7 +69,6 @@ export default {
         danger: "var(--danger)",
         "lime-primary": "var(--lime-primary)",
         "lime-green": "var(--lime-green)",
-        white25: "rgb(255 255 255 / 25%)"
       },
       inset: {
         telegramHeader:

@@ -2,6 +2,8 @@ import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import ProgressBar from "../ProgressBar";
 import { VoteItem as VoteItemType } from "./type/index";
+import canvasConfetti, { CreateTypes } from "canvas-confetti";
+import Confetti from "@/components/Confetti";
 
 interface IVoteItemProps {
   data: VoteItemType;
@@ -21,8 +23,28 @@ const VoteItem = ({
   imgClassName,
 }: IVoteItemProps) => {
   const elementRef = useRef<HTMLDivElement>(null);
+  const confettiInstance = useRef<CreateTypes | null>(null);
 
   const [elementWidth, setElementWidth] = useState(0);
+
+  const onInit = ({ confetti }: { confetti: CreateTypes }) => {
+    confettiInstance.current = confetti;
+  };
+
+  const onVoteClick = () => {
+    const heartShape = canvasConfetti.shapeFromPath({
+      path: "M4.562 5.66c2.036-2.146 5.312-2.211 7.424-.197V20a3.124 3.124 0 0 1-2.274-.977l-5.15-5.427c-2.083-2.195-2.083-5.74 0-7.936Zm14.847 0c-2.036-2.146-5.311-2.211-7.423-.197V20c.828 0 1.655-.326 2.273-.977l5.15-5.427c2.083-2.195 2.083-5.74 0-7.936Z",
+    });
+    confettiInstance.current?.({
+      angle: 110,
+      particleCount: 15,
+      spread: 70,
+      origin: { y: 0.2, x: 0.88 },
+      disableForReducedMotion: true,
+      shapes: [heartShape],
+      zIndex: 10,
+    });
+  };
 
   useEffect(() => {
     const updateWidth = () => {
@@ -36,7 +58,7 @@ const VoteItem = ({
   return (
     <div
       className={clsx(
-        "flex flex-row items-center gap-[12.5px] py-[12px] px-[7px] rounded-[12px] bg-tertiary",
+        "relative flex flex-row items-center gap-[12.5px] py-[12px] px-[7px] rounded-[12px] bg-tertiary",
         className
       )}
     >
@@ -87,7 +109,8 @@ const VoteItem = ({
 
       {showBtn && <button
         type="button"
-        className="bg-white25 w-[40px] h-[40px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0"
+        className="bg-white/[.25] w-[40px] h-[40px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0 z-[10]"
+        onClick={onVoteClick}
       >
         <i
           className={clsx(
@@ -96,6 +119,7 @@ const VoteItem = ({
           )}
         />
       </button>}
+      <Confetti onInit={onInit} className="absolute w-full top-0" />
     </div>
   );
 };
