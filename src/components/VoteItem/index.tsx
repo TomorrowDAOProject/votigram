@@ -2,8 +2,9 @@ import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import ProgressBar from "../ProgressBar";
 import { VoteItem as VoteItemType } from "./type/index";
-import canvasConfetti, { CreateTypes } from "canvas-confetti";
+import { CreateTypes } from "canvas-confetti";
 import Confetti from "@/components/Confetti";
+import { HEART_SHAPE } from "@/constants/canvas-confetti";
 
 interface IVoteItemProps {
   data: VoteItemType;
@@ -32,16 +33,13 @@ const VoteItem = ({
   };
 
   const onVoteClick = () => {
-    const heartShape = canvasConfetti.shapeFromPath({
-      path: "M4.562 5.66c2.036-2.146 5.312-2.211 7.424-.197V20a3.124 3.124 0 0 1-2.274-.977l-5.15-5.427c-2.083-2.195-2.083-5.74 0-7.936Zm14.847 0c-2.036-2.146-5.311-2.211-7.423-.197V20c.828 0 1.655-.326 2.273-.977l5.15-5.427c2.083-2.195 2.083-5.74 0-7.936Z",
-    });
     confettiInstance.current?.({
       angle: 110,
       particleCount: 15,
       spread: 70,
       origin: { y: 0.2, x: 0.88 },
       disableForReducedMotion: true,
-      shapes: [heartShape],
+      shapes: [HEART_SHAPE],
       zIndex: 10,
     });
   };
