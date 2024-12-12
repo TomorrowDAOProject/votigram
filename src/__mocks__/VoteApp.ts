@@ -1,5 +1,5 @@
 import { APP_CATEGORY } from "@/constants/discover";
-import { VoteApp } from "@/types/app";
+import { VoteApp, VoteSection } from "@/types/app";
 
 export const voteAppData: VoteApp = {
   id: "64284af5e2e8c048758b8985f20446181165ba51f229fdf0a3e5e17c6543106d",
@@ -93,5 +93,33 @@ export const voteAppListData: VoteApp[] = [
     appType: "Telegram",
     creator: "System",
     loadTime: "2024-10-30T04:18:22.6798883Z",
+  },
+];
+
+export const voteSectionData: VoteSection[] = [
+  {
+    creator: "John Doe",
+    avatarUrl: "https://i.pravatar.cc/150?img=2",
+    title: "Annual Conference",
+    startTime: "2023-10-20T09:00:00",
+    endTime: "2023-10-20T17:00:00",
+    totalVotes: 150,
+    bannerUrl: "https://via.placeholder.com/600x200",
+  },
+  {
+    creator: "Jane Smith",
+    avatarUrl: "https://i.pravatar.cc/150?img=3",
+    title: "Weekly Team Meeting Annual Conference Annual Conference Annual ConferenceAnnual Conference",
+    startTime: "2023-10-22T10:00:00",
+    endTime: "2023-10-22T11:00:00",
+    totalVotes: 75,
+    bannerUrl: "https://via.placeholder.com/600x200",
+  },
+  {
+    creator: "Emily Johnson",
+    title: "Project Kick-off",
+    startTime: "2023-10-25T14:00:00",
+    endTime: "2023-10-25T15:30:00",
+    totalVotes: 200,
   },
 ];

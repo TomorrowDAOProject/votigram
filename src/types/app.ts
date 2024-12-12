@@ -40,3 +40,13 @@ export type CommentItem = {
   createTime: number;
   modificationTime: number;
 }
+
+export type VoteSection = {
+  creator: string;
+  avatarUrl?: string;
+  title: string;
+  startTime: string;
+  endTime: string;
+  totalVotes: number;
+  bannerUrl?: string;
+}

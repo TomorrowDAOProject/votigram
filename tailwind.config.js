@@ -67,6 +67,9 @@ export default {
         "gray-border": "var(--gray-border)",
         "modal-background": "var(--modal-background)",
         danger: "var(--danger)",
+        "lime-primary": "var(--lime-primary)",
+        "lime-green": "var(--lime-green)",
+        "dark-gray": "var(--dark-gray)",
       },
       inset: {
         telegramHeader:
