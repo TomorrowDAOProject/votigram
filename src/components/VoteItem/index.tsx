@@ -62,28 +62,42 @@ const VoteItem = ({
         className
       )}
     >
-      {data?.avatar && (
-        <div className={clsx('relative w-[48px] h-[48px] rounded-[8px] shrink-0', { 'border-2 border-lime-primary': data?.isVoted })} >
-          {showHat && (
+      <div
+        className={clsx(
+          "relative flex flex-row items-center justify-center w-[48px] h-[48px] rounded-[8px] shrink-0",
+          {
+            "border-2 border-lime-primary": data?.isVoted,
+            "bg-gradient-to-tr from-lime-green to-lime-primary": !data.avatar,
+          }
+        )}
+      >
+        {data?.avatar ? (
+          <>
+            {showHat && (
+              <img
+                src="https://cdn.tmrwdao.com/votigram/assets/imgs/246CBC3C5F73.webp"
+                alt="Avatar"
+                className={clsx(
+                  "w-[20px] h-[14px] object-contain absolute left-1/2 translate-x-[-50%] top-[-14px] z-10",
+                  hatClassName
+                )}
+              />
+            )}
             <img
-              src="https://cdn.tmrwdao.com/votigram/assets/imgs/246CBC3C5F73.webp"
+              src={data?.avatar}
               alt="Avatar"
               className={clsx(
-                "w-[20px] h-[14px] object-contain absolute left-1/2 translate-x-[-50%] top-[-14px] z-10",
-                hatClassName
+                "w-full h-full rounded-[8px] object-cover",
+                imgClassName
               )}
             />
-          )}
-          <img
-            src={data?.avatar}
-            alt="Avatar"
-            className={clsx(
-              "w-full h-full rounded-[8px] object-cover",
-              imgClassName
-            )}
-          />
-        </div>
-      )}
+          </>
+        ) : (
+          <span className="font-outfit font-bold text-[16px] leading-[16px] text-white">
+            {data.title.slice(0, 1)}
+          </span>
+        )}
+      </div>
 
       <div
         className="flex flex-col justify-center flex-1 gap-[8px]"
@@ -107,18 +121,20 @@ const VoteItem = ({
         <ProgressBar width={elementWidth} progress={data?.progress} />
       </div>
 
-      {showBtn && <button
-        type="button"
-        className="bg-white/[.25] w-[40px] h-[40px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0 z-[10]"
-        onClick={onVoteClick}
-      >
-        <i
-          className={clsx(
-            "votigram-icon-navbar-vote text-[24px]",
-            data?.isVoted ? "text-lime-green" : "text-lime-primary"
-          )}
-        />
-      </button>}
+      {showBtn && (
+        <button
+          type="button"
+          className="bg-white/[.25] w-[40px] h-[40px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0 z-[10]"
+          onClick={onVoteClick}
+        >
+          <i
+            className={clsx(
+              "votigram-icon-navbar-vote text-[24px]",
+              data?.isVoted ? "text-lime-green" : "text-lime-primary"
+            )}
+          />
+        </button>
+      )}
       <Confetti onInit={onInit} className="absolute w-full top-0" />
     </div>
   );

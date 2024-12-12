@@ -114,7 +114,6 @@ export const VoteListItems: VoteItem[] =[
     rank: 2,
     title: "Sample Title 2",
     amount: 4563455,
-    avatar: "https://i.pravatar.cc/150?img=3", // Random avatar URL
     voted: false,
     progress: 67,
   },

@@ -46,7 +46,7 @@ export type VoteItem = {
   rank?: number;
   title: string;
   amount: number;
-  avatar: string;
+  avatar?: string;
   hatIcon?: string;
   voted: boolean;
   progress: number;
