@@ -5,52 +5,8 @@ import SimpleTimePicker from "../SimpleTimePicker";
 import SimpleDatePicker from "../SimpleDatePicker";
 import Drawer from "../Drawer";
 import VoteItem from "../VoteItem";
+import { VoteListItems } from "@/__mocks__/VoteApp";
 
-const Votes = [
-  {
-    id: 1,
-    rank: 1,
-    title: "Sample Title 1",
-    amount: 1230000,
-    avatar: "https://i.pravatar.cc/150?img=1", // Random avatar URL
-    hatIcon: "https://img.icons8.com/color/48/000000/party-hat.png",
-    voted: true,
-    progress: 45,
-    isVoted: true,
-  },
-  {
-    id: 2,
-    rank: 2,
-    title: "Sample Title 2",
-    amount: 4563455,
-    voted: false,
-    progress: 67,
-  },
-  {
-    id: 3,
-    title: "Sample Title 3",
-    amount: 78923480,
-    avatar: "https://i.pravatar.cc/150?img=3", // Random avatar URL
-    voted: true,
-    progress: 23,
-  },
-  {
-    id: 4,
-    title: "Sample Title 4",
-    amount: 321,
-    avatar: "https://i.pravatar.cc/150?img=4", // Random avatar URL
-    voted: false,
-    progress: 89,
-  },
-  {
-    id: 5,
-    title: "Sample Title 5",
-    amount: 6542345,
-    avatar: "https://i.pravatar.cc/150?img=5", // Random avatar URL
-    voted: true,
-    progress: 55,
-  },
-];
 
 const Vote = () => {
   const {
@@ -80,7 +36,7 @@ const Vote = () => {
       </div>
 
       <div className="px-4">
-        {Votes.map((vote, index) => <VoteItem data={vote} key={vote.id} showBtn={index !== 3} />)}
+        {VoteListItems.map((vote, index) => <VoteItem data={vote} key={vote.id} showHat={index === 0} className={index !== 3 ? "bg-transparent" : ''} showBtn />)}
       </div>
 
       <div className="flex flex-row items-center gap-4">

@@ -1,23 +1,24 @@
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import ProgressBar from "../ProgressBar";
-import { numberToCommas } from "@/utils/number";
+import { VoteItem as VoteItemType } from "./type/index";
 
 interface IVoteItemProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data?: any;
+  data: VoteItemType;
+  showHat?: boolean;
   showBtn?: boolean;
   className?: string;
   hatClassName?: string;
-  mediaClasssName?: string;
+  imgClassName?: string;
 }
 
 const VoteItem = ({
   data,
-  showBtn = true,
+  showHat,
+  showBtn,
   className,
   hatClassName,
-  mediaClasssName,
+  imgClassName,
 }: IVoteItemProps) => {
   const elementRef = useRef<HTMLDivElement>(null);
 
@@ -29,12 +30,7 @@ const VoteItem = ({
         setElementWidth(elementRef.current.clientWidth);
       }
     };
-
     updateWidth();
-
-    window.addEventListener("resize", updateWidth);
-
-    return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
   return (
@@ -45,13 +41,13 @@ const VoteItem = ({
       )}
     >
       {data?.avatar && (
-        <div className="relative w-[48px] h-[48px] shrink-0">
-          {data?.hatIcon && (
+        <div className={clsx('relative w-[48px] h-[48px] rounded-[8px] shrink-0', { 'border-2 border-lime-primary': data?.isVoted })} >
+          {showHat && (
             <img
-              src={data?.hatIcon}
+              src="https://cdn.tmrwdao.com/votigram/assets/imgs/246CBC3C5F73.webp"
               alt="Avatar"
               className={clsx(
-                "w-full h-full rounded-[8px] object-cover absolute left-1/2 translate-x-[-50%] top-[-100%] z-10",
+                "w-[20px] h-[14px] object-contain absolute left-1/2 translate-x-[-50%] top-[-14px] z-10",
                 hatClassName
               )}
             />
@@ -61,7 +57,7 @@ const VoteItem = ({
             alt="Avatar"
             className={clsx(
               "w-full h-full rounded-[8px] object-cover",
-              mediaClasssName
+              imgClassName
             )}
           />
         </div>
@@ -82,7 +78,7 @@ const VoteItem = ({
           </span>
 
           <span className="font-pressStart font-normal text-[9px] tracking-[-0.9px] leading-[9px] text-lime-green">
-            {numberToCommas(data?.amount)}
+            {data?.amount.toLocaleString()}
           </span>
         </div>
 

@@ -27,4 +27,8 @@
   .m-style-picker-indicator-vertical {
     @apply border-gray-border;
   }
+
+  .m-style-picker-item-selected {
+    @apply text-white;
+  }
 }
