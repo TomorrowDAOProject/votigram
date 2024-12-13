@@ -4,9 +4,9 @@ import { useUserContext } from "@/provider/UserProvider";
 import SimpleTimePicker from "../SimpleTimePicker";
 import SimpleDatePicker from "../SimpleDatePicker";
 import Drawer from "../Drawer";
+import VoteSection from "../VoteSection";
 import VoteItem from "../VoteItem";
-import { VoteListItems } from "@/__mocks__/VoteApp";
-
+import { voteSectionData, VoteListItems } from "@/__mocks__/VoteApp";
 
 const Vote = () => {
   const {
@@ -33,6 +33,10 @@ const Vote = () => {
             {userPoints?.userTotalPoints.toLocaleString() || 0}
           </span>
         </div>
+      </div>
+
+      <div className="p-4">
+        {voteSectionData?.map((item) => (<VoteSection data={item} key={item.title} className="mb-3" />))}
       </div>
 
       <div className="px-4">
