@@ -1,5 +1,5 @@
 import { APP_CATEGORY } from "@/constants/discover";
-import { VoteApp } from "@/types/app";
+import { VoteApp, VoteItem } from "@/types/app";
 
 export const voteAppData: VoteApp = {
   id: "64284af5e2e8c048758b8985f20446181165ba51f229fdf0a3e5e17c6543106d",
@@ -93,5 +93,52 @@ export const voteAppListData: VoteApp[] = [
     appType: "Telegram",
     creator: "System",
     loadTime: "2024-10-30T04:18:22.6798883Z",
+  },
+];
+
+
+export const VoteListItems: VoteItem[] =[
+  {
+    id: 1,
+    rank: 1,
+    title: "Sample Title 1",
+    amount: 1230000,
+    avatar: "https://i.pravatar.cc/150?img=1", // Random avatar URL
+    hatIcon: "https://img.icons8.com/color/48/000000/party-hat.png",
+    voted: true,
+    progress: 45,
+    isVoted: true,
+  },
+  {
+    id: 2,
+    rank: 2,
+    title: "Sample Title 2",
+    amount: 4563455,
+    voted: false,
+    progress: 67,
+  },
+  {
+    id: 3,
+    title: "Sample Title 3",
+    amount: 78923480,
+    avatar: "https://i.pravatar.cc/150?img=3", // Random avatar URL
+    voted: true,
+    progress: 23,
+  },
+  {
+    id: 4,
+    title: "Sample Title 4",
+    amount: 321,
+    avatar: "https://i.pravatar.cc/150?img=4", // Random avatar URL
+    voted: false,
+    progress: 89,
+  },
+  {
+    id: 5,
+    title: "Sample Title 5",
+    amount: 6542345,
+    avatar: "https://i.pravatar.cc/150?img=5", // Random avatar URL
+    voted: true,
+    progress: 55,
   },
 ];
