@@ -6,10 +6,10 @@ import '@testing-library/jest-dom';
 import { describe, it, expect, vi } from 'vitest';
 import SimpleDatePicker from '../index';
 
-// Mocking Drawer and DayPicker because they have external dependencies that we don't want to trigger in the test environment
+// Mocking Drawer and DayPicker because they have external dependencies
 vi.mock('../Drawer', () => ({
   default: ({ isVisible, children }: { isVisible: boolean; children: React.ReactNode }) => (
-    <div>{isVisible && children}</div>
+    <div>{isVisible ? children : null}</div>
   ),
 }));
 
@@ -25,7 +25,7 @@ describe('SimpleDatePicker Component', () => {
   it('renders the DatePicker when visible', () => {
     render(<SimpleDatePicker isVisible={true} />);
     
-    // Check if the date picker and confirm button gets rendered when visible
+    // Check if the confirm button is rendered when visible
     expect(screen.getByRole('button', { name: /confirm/i })).toBeInTheDocument();
   });
 
@@ -36,7 +36,7 @@ describe('SimpleDatePicker Component', () => {
     expect(screen.queryByRole('button', { name: /confirm/i })).not.toBeInTheDocument();
   });
 
-  it('calls onChange with selected date when confirm is clicked', () => {
+  it('calls onChange with formatted date when confirm is clicked', () => {
     const handleChange = vi.fn();
 
     render(<SimpleDatePicker isVisible={true} onChange={handleChange} />);
@@ -47,6 +47,6 @@ describe('SimpleDatePicker Component', () => {
     // Simulate confirm button click
     fireEvent.click(screen.getByRole('button', { name: /confirm/i }));
 
-    expect(handleChange).toHaveBeenCalledWith(new Date('2023-10-01'));
+    expect(handleChange).toHaveBeenCalledWith('2023-10-01');
   });
 });
