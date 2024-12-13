@@ -15,15 +15,16 @@
   }
 
   .rdp-caption_label {
-    @apply text-[16px] font-outfit font-bold;
+    @apply text-[16px] font-outfit font-bold text-white;
   }
 
   .rdp-dropdown {
     @apply appearance-none outline-none;
   }
 
+  .rdp-weekdays,
   .rdp-day_button {
-    @apply text-white text-[15px];
+    @apply text-[15px] text-input-placeholder;
   }
 
   .rdp-today .rdp-day_button {

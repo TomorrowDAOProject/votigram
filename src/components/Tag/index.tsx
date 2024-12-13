@@ -11,7 +11,7 @@ const Tag = ({ text, className, textClassName }: ITagProps) => {
     <div className={clsx("absolute w-[58px] h-[58px]", className)}>
       <img
         className="w-[58px] h-[58px] object-contain"
-        src="https://cdn.tmrwdao.com/votigram/assets/imgs/63B4AA902517.webp"
+        src="https://cdn.tmrwdao.com/votigram/assets/imgs/01259C70892E.webp"
         alt="Tag"
       />
       <span

@@ -103,7 +103,7 @@ export const voteSectionData: VoteSection[] = [
     title: "Annual Conference",
     startTime: "2023-10-20T09:00:00",
     endTime: "2023-10-20T17:00:00",
-    totalVotes: 150,
+    totalVotes: 150000000,
     bannerUrl: "https://via.placeholder.com/600x200",
   },
   {
@@ -112,7 +112,7 @@ export const voteSectionData: VoteSection[] = [
     title: "Weekly Team Meeting Annual Conference Annual Conference Annual ConferenceAnnual Conference",
     startTime: "2023-10-22T10:00:00",
     endTime: "2023-10-22T11:00:00",
-    totalVotes: 75,
+    totalVotes: 7500,
     bannerUrl: "https://via.placeholder.com/600x200",
   },
   {
@@ -120,7 +120,7 @@ export const voteSectionData: VoteSection[] = [
     title: "Project Kick-off",
     startTime: "2023-10-25T14:00:00",
     endTime: "2023-10-25T15:30:00",
-    totalVotes: 200,
+    totalVotes: 2000000,
   },
 ];
 
