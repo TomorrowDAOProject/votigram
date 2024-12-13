@@ -5,7 +5,8 @@ import SimpleTimePicker from "../SimpleTimePicker";
 import SimpleDatePicker from "../SimpleDatePicker";
 import Drawer from "../Drawer";
 import VoteSection from "../VoteSection";
-import { voteSectionData } from "@/__mocks__/VoteApp";
+import VoteItem from "../VoteItem";
+import { voteSectionData, VoteListItems } from "@/__mocks__/VoteApp";
 
 const Vote = () => {
   const {
@@ -36,6 +37,10 @@ const Vote = () => {
 
       <div className="p-4">
         {voteSectionData?.map((item) => (<VoteSection data={item} key={item.title} className="mb-3" />))}
+      </div>
+
+      <div className="px-4">
+        {VoteListItems.map((vote, index) => <VoteItem data={vote} key={vote.id} showHat={index === 0} className={index !== 3 ? "bg-transparent" : ''} showBtn />)}
       </div>
 
       <div className="flex flex-row items-center gap-4">
