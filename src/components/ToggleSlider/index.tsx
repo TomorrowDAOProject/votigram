@@ -3,9 +3,10 @@ import { AnimatePresence, motion } from "framer-motion";
 
 interface IToggleSlider {
   items: string[];
+  onChange?: (index: number) => void;
 }
 
-const ToggleSlider = ({ items = [] }: IToggleSlider) => {
+const ToggleSlider = ({ items = [], onChange }: IToggleSlider) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
 
@@ -17,6 +18,10 @@ const ToggleSlider = ({ items = [] }: IToggleSlider) => {
   const handleClick = (index: number) => {
     setActiveIndex(index);
   };
+
+  useEffect(() => {
+    onChange?.(activeIndex)
+  }, [activeIndex, onChange])
 
   return (
     <div className="relative h-full w-full max-w-full mx-auto bg-tertiary rounded-full flex items-center overflow-hidden">

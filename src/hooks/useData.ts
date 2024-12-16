@@ -64,6 +64,43 @@ export const postWithToken = async (
   return result;
 };
 
+// POST function with cache update using mutate
+export const uploadWithToken = async (
+  endpoint: string,
+  body: FormData,
+): Promise<any> => {
+  const token = Cookies.get("access_token");
+
+  // Set up headers, conditionally adding Authorization
+  const headers: HeadersInit = {
+    ...(token && { Authorization: `Bearer ${token}` }),
+  };
+
+  const response = await fetch(`${import.meta.env.VITE_BASE_URL}${endpoint}`, {
+    method: "POST",
+    headers,
+    body,
+  });
+
+  if (!response.ok) throw new Error("Failed to post data");
+
+  const result = await response.json();
+
+  // Optimistically update the cache for the endpoint
+  mutate(
+    endpoint,
+    async (currentData: any) => {
+      return [...(currentData || []), result];
+    },
+    false
+  );
+
+  // Revalidate cache to ensure consistency with the server
+  mutate(endpoint);
+
+  return result;
+};
+
 export const useData = (endpoint: string | null) => useSWR(endpoint, fetchWithToken);
 
 export const useInfinite = (

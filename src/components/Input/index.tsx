@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 
 interface IInputProps {
   value?: string;
+  maxLength?: number;
   defaultValue?: string;
   className?: string;
   placeholder?: string;
@@ -15,6 +16,7 @@ const Input = ({
   defaultValue,
   placeholder,
   className,
+  maxLength,
   showClearBtn,
   onChange,
 }: IInputProps) => {
@@ -38,6 +40,7 @@ const Input = ({
       <input
         type="text"
         value={value}
+        maxLength={maxLength}
         onChange={handleChange}
         className={clsx(
           "w-full border border-input rounded-[10px] pl-[14px] pr-[37px] py-[12px] bg-transparent text-white text-[14px] font-normal leading-[19px] placeholder-input-placeholder focus:outline-none focus:border-input-placeholder transition duration-300 ease-in-out",
