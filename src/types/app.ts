@@ -1,4 +1,5 @@
 import { APP_CATEGORY } from "@/constants/discover";
+import { ManipulateType } from "dayjs";
 
 export type VoteApp = {
   alias: string;
@@ -61,4 +62,24 @@ export type VoteItem = {
   voted: boolean;
   progress: number;
   isVoted?: boolean;
+}
+
+export type VoteTimeItem = {
+  value: number;
+  unit: ManipulateType;
+  label: string;
+}
+
+export enum ProposalType {
+  UNSPECIFIED = 0,
+  GOVERNANCE = 1,
+  ADVISORY = 2,
+  VETO = 3,
+  ALL = 'ALL',
+}
+
+export enum SupportedELFChainId {
+  MAIN_NET = 'AELF',
+  TDVV_NET = 'tDVV',
+  TDVW_NET = 'tDVW',
 }

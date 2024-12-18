@@ -11,15 +11,13 @@ interface ISimpleDatePickerProps {
   defaultVulue?: string;
   className?: string;
   onChange?(t: string): void;
-  onChange?: (value: string) => void;
 }
 
 const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
   const { value, defaultVulue, className, onChange, ...dayPickerProps } = props;
+  const baseValue = value && dayjs(value || "").isValid() ? value : defaultVulue && dayjs(defaultVulue || "").isValid() ? defaultVulue : dayjs().format("")
   const [isVisible, setIsVisible] = useState(false);
-  const [selected, setSelected] = useState<string>(
-    defaultVulue && dayjs(defaultVulue || "").isValid() ? defaultVulue : ""
-  );
+  const [selected, setSelected] = useState<string>(baseValue);
 
   const formatDate = (dateInput: string) => {
     const date = dayjs(dateInput);
@@ -82,6 +80,7 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
           className="simple-date-picker"
         />
         <button
+          type="button"
           className="w-full mt-2 mx-[2.5px] bg-primary rounded-[24px] text-[14px] font-bold py-[10px] font-outfit leading-[25px]"
           onClick={handleConfirm}
         >

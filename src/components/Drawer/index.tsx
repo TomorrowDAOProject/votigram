@@ -6,6 +6,7 @@ interface IDrawerProps {
   isVisible?: boolean;
   direction?: "left" | "right" | "top" | "bottom";
   children: ReactNode | ReactNode[];
+  canClose?: boolean;
   rootClassName?: string;
   onClose?: (v: boolean) => void;
 }
@@ -15,6 +16,7 @@ const Drawer = ({
   direction = "left",
   children,
   rootClassName,
+  canClose = true,
   onClose,
 }: IDrawerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -34,8 +36,10 @@ const Drawer = ({
   };
 
   const handleClose = () => {
-    setIsVisibleState(false);
-    onClose?.(false);
+    if (canClose) {
+      setIsVisibleState(false);
+      onClose?.(false);
+    }
   };
 
   useEffect(() => {

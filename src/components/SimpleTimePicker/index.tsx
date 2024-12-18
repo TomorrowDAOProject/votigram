@@ -11,19 +11,18 @@ import clsx from "clsx";
 
 interface ISimpleTimePickerProps {
   className?: string;
-  value?: string;
-  defaultVulue?: string;
-  onChange?(t: string): void;
+  value?: string | number;
+  onChange?(t: number): void;
 }
 
 dayjs.extend(customParseFormat);
 
-const SimpleTimePicker = ({ value, className, defaultVulue, onChange }: ISimpleTimePickerProps) => {
+const SimpleTimePicker = ({ value, className, onChange }: ISimpleTimePickerProps) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedTime, setSelectedTime] = useState(defaultVulue || '');
-  const [selectedHour, setSelectedHour] = useState(HOUR_RANGE[0]);
-  const [selectedMinute, setSelectedMinute] = useState(MINUTE_RANGE[0]);
-  const [selectedPeriod, setSelectedPeriod] = useState(PERIOD_RANGE[0]);
+  const [selectedTime, setSelectedTime] = useState(dayjs().format('HH:mm'));
+  const [selectedHour, setSelectedHour] = useState(dayjs().format("HH"));
+  const [selectedMinute, setSelectedMinute] = useState(dayjs().format("mm"));
+  const [selectedPeriod, setSelectedPeriod] = useState(dayjs().format('A'));
 
   const handleConfirm = () => {
     let hour = selectedHour;
@@ -36,12 +35,12 @@ const SimpleTimePicker = ({ value, className, defaultVulue, onChange }: ISimpleT
 
     const selectTime = dayjs(`${hour}:${selectedMinute}`, "HH:mm");
     setSelectedTime(`${selectedHour}:${selectedMinute} ${selectedPeriod}`);
-    onChange?.(selectTime.format("HH:mm"));
+    onChange?.(selectTime.unix() * 1000);
     setIsVisible(false);
   };
 
   useEffect(() => {
-    if (value) {
+    if (value && dayjs(value).isValid()) {
       setSelectedTime(dayjs(value).format("HH:mm A"));
       setSelectedHour(dayjs(value).format("HH"));
       setSelectedMinute(dayjs(value).format("mm"));
@@ -67,6 +66,7 @@ const SimpleTimePicker = ({ value, className, defaultVulue, onChange }: ISimpleT
             size={5}
             itemSize={40}
             itemWeight={80}
+            value={selectedHour}
             className="left-picker"
             onChange={setSelectedHour}
             data-testid="hours-picker"
@@ -85,6 +85,7 @@ const SimpleTimePicker = ({ value, className, defaultVulue, onChange }: ISimpleT
           <Picker
             size={5}
             itemSize={40}
+            value={selectedMinute}
             className="middle-picker !w-[100px]"
             onChange={setSelectedMinute}
             data-testid="minute-picker"
@@ -103,6 +104,7 @@ const SimpleTimePicker = ({ value, className, defaultVulue, onChange }: ISimpleT
           <Picker
             size={5}
             itemSize={40}
+            value={selectedPeriod}
             className="right-picker"
             onChange={setSelectedPeriod}
             data-testid="period-picker"
@@ -120,6 +122,7 @@ const SimpleTimePicker = ({ value, className, defaultVulue, onChange }: ISimpleT
           </Picker>
         </div>
         <button
+          type="button"
           className="w-full my-4 mx-[2.5px] bg-primary rounded-[24px] text-[14px] font-bold py-[10px] font-outfit leading-[25px]"
           onClick={handleConfirm}
         >

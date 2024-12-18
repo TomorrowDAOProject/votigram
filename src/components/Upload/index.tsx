@@ -1,9 +1,22 @@
-import { useRef, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import Drawer from "../Drawer";
 import Cropper, { Area } from "react-easy-crop";
 import { getCroppedImg } from "@/utils/canvasUtils";
 import { uploadWithToken } from "@/hooks/useData";
 import { chainId } from "@/constants/app";
+import { blobToFile } from "@/utils/file";
+import clsx from "clsx";
+import Loading from "../Loading";
+
+interface IUploadProps {
+  extensions?: string[];
+  fileLimit?: string;
+  className?: string;
+  needCrop?: boolean;
+  children?: ReactNode;
+  aspect?: number;
+  onFinish?(url: string): void;
+}
 
 const readFile = (file: File) => {
   return new Promise((resolve) => {
@@ -13,8 +26,9 @@ const readFile = (file: File) => {
   });
 };
 
-const Upload = () => {
+const Upload = ({ className, needCrop, aspect, children, onFinish }: IUploadProps) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [loading, setLoading] = useState(false);
   const [imageSrc, setImageSrc] = useState<string>();
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
@@ -36,10 +50,14 @@ const Upload = () => {
         rotation
       );
       if (croppedImage) {
+        const file = blobToFile(croppedImage);
         setCropedImageUrl(URL.createObjectURL(croppedImage));
         setCroppedImage(croppedImage);
-        handleUpload(croppedImage);
-        setImageSrc('')
+        handleUpload(file);
+        setImageSrc("");
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
       }
     } catch (e) {
       console.error(e);
@@ -47,7 +65,7 @@ const Upload = () => {
   };
 
   const handleClick = () => {
-    if (fileInputRef.current) {
+    if (!loading && fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
@@ -56,39 +74,51 @@ const Upload = () => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       const imageDataUrl = (await readFile(file)) as string;
-      setImageSrc(imageDataUrl);
+      if (needCrop) {
+        setImageSrc(imageDataUrl);
+      } else {
+        handleUpload(file);
+      }
     }
   };
 
-  const handleUpload = async (imageFile: Blob) => {
+  const handleUpload = async (file: File) => {
     try {
-      if (!imageFile) return;
+      if (!file) return;
       const data = new FormData();
-      data.append("file", imageFile, 'image/png');
+      data.append("file", file);
       data.append("chainId", chainId);
-      const result = await uploadWithToken("/api/app/file/upload", data);
-      console.log(result);
+      setLoading(true);
+      const { code, data: ImgUrl } = await uploadWithToken("/api/app/file/upload", data);
+      if (code === "20000") {
+        onFinish?.(ImgUrl);
+      }
     } catch (e) {
       console.error(e);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
       <div
-        className="w-full h-[111px] bg-tertiary flex flex-col items-center justify-center rounded-[12px] cursor-pointer overflow-hidden"
+        className={clsx(
+          "relative w-full h-[111px] bg-tertiary flex flex-col items-center justify-center rounded-[12px] cursor-pointer overflow-hidden",
+          className
+        )}
         onClick={handleClick}
       >
         {croppedImage ? (
-          <img src={croppedImageUrl} className="w-full h-full object-cover" alt="Banner" />
+          <img
+            src={croppedImageUrl}
+            className="w-full h-full object-cover"
+            alt="Banner"
+          />
+        ) : children ? (
+          children
         ) : (
-          <>
-            <i className="votigram-icon-back text-[24px]" />
-            <span className="block text-[13px] leading-[15.6px] text-white text-center">
-              Upload
-            </span>
-            <span className="mt-1 block text-center text-[11px] text-input-placeholder leading-[13.2px] whitespace-pre-wrap">{`Formats supported: PNG, JPG, JPEG\nRatio: 3:1 , less than 1 MB`}</span>
-          </>
+          <i className="votigram-icon-back text-[24px]" />
         )}
         <input
           type="file"
@@ -97,6 +127,10 @@ const Upload = () => {
           accept=".png, .jpg, .jpeg"
           onChange={handleFileChange}
         />
+
+        {loading && (
+          <Loading className="absolute top-0 left-0 right-0 bottom-0 z-10" />
+        )}
       </div>
       <Drawer
         isVisible={!!imageSrc}
@@ -109,7 +143,7 @@ const Upload = () => {
             image={imageSrc}
             crop={crop}
             zoom={zoom}
-            aspect={3 / 4}
+            aspect={aspect}
             rotation={rotation}
             onCropChange={setCrop}
             onRotationChange={setRotation}

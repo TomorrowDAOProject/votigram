@@ -7,42 +7,49 @@ type IButtonRadioOption = {
 };
 
 interface IButtonRadioProps {
+  value?: IButtonRadioOption;
   className?: string;
   radioClassName?: string;
   options: IButtonRadioOption[];
-  onChange?: (value?: number) => void;
+  onChange?: (value?: IButtonRadioOption) => void;
 }
 
 const ButtonRadio = ({
+  value,
   options,
   className,
   radioClassName,
   onChange,
 }: IButtonRadioProps) => {
-  const [selectedValue, setSelectedValue] = useState<number | undefined>();
+  const [selectedValue, setSelectedValue] = useState<IButtonRadioOption | undefined>();
+
+  const handleSelect = (value: IButtonRadioOption) => {
+    setSelectedValue(value);
+    onChange?.(value);
+  }
 
   useEffect(() => {
-    onChange?.(selectedValue);
-  }, [onChange, selectedValue]);
+    setSelectedValue(value);
+  }, [value])
 
   return (
     <div className={clsx("grid grid-cols-3 gap-[9px]", className)}>
-      {options.map(({ label, value }) => (
+      {options.map((item) => (
         <div
           className={clsx(
             "py-[12px] px-[14px] border border-tertiary rounded-[10px] transition-[border] duration-200 ease-in-out",
             radioClassName,
-            { "border border-white": selectedValue === value }
+            { "border border-white": selectedValue?.value === item.value }
           )}
-          onClick={() => setSelectedValue(value)}
+          onClick={() => handleSelect(item)}
         >
           <span
             className={clsx(
               "block w-full text-center font-normal text-[14px] text-input-placeholder leading-[20px] transition-[color] duration-200 ease-in-out",
-              { "text-white": selectedValue === value }
+              { "text-white": selectedValue?.value === item.value }
             )}
           >
-            {label}
+            {item.label}
           </span>
         </div>
       ))}

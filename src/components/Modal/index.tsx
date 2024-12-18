@@ -5,7 +5,7 @@ import clsx from "clsx";
 interface IModalProps {
   isVisible: boolean;
   children: ReactNode | ReactNode[];
-  rootClassName: string;
+  rootClassName?: string;
 }
 
 const Modal = ({ isVisible, children, rootClassName }: IModalProps) => {
