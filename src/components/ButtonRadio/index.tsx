@@ -41,6 +41,7 @@ const ButtonRadio = ({
             radioClassName,
             { "border border-white": selectedValue?.value === item.value }
           )}
+          key={item.value}
           onClick={() => handleSelect(item)}
         >
           <span

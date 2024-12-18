@@ -15,10 +15,17 @@ import dayjs from "dayjs";
 import { ProposalType, VoteTimeItem } from "@/types/app";
 import { fetchWithToken, postWithToken } from "@/hooks/useData";
 import { chainId } from "@/constants/app";
-import { combineDateAndTime, formmatDescription, getProposalTimeParams } from "./utils";
+import {
+  combineDateAndTime,
+  formmatDescription,
+  getProposalTimeParams,
+} from "./utils";
 import { proposalCreateContractRequest } from "@/contract/proposalCreateContract";
 import { useConfig } from "@/provider/types/ConfigContext";
 import Drawer from "@/components/Drawer";
+import { CREATE_STATUS } from "@/constants/vote";
+import clsx from "clsx";
+import { useNavigate } from "react-router-dom";
 
 const rules = {
   proposalTitle: [
@@ -54,6 +61,10 @@ const defaultEndTime: VoteTimeItem = {
 
 const CreatePoll = () => {
   const [loading, setLoading] = useState(false);
+  const [finished, setFinished] = useState<CREATE_STATUS>(
+    CREATE_STATUS.PENDDING
+  );
+  const navigate = useNavigate();
   const { communityDaoId } = useConfig() ?? {};
 
   const initialFormState: FormStateProps = {
@@ -144,25 +155,23 @@ const CreatePoll = () => {
         proposalBasicInfo: proposalBasicInfo,
       };
       await proposalCreateContractRequest(methodName, contractParams);
+      setLoading(false);
+      setFinished(CREATE_STATUS.SUCCESS);
     } catch (err) {
       console.error(err);
-      // const error = err as IFormValidateError | IContractError;
-      // // form Error
-      // if (typeof error === "object" && "errorFields" in error) {
-      //   formValidateScrollFirstError(form, error);
-      //   return;
-      // }
-      // loadingModalRef.current?.close();
-      // submitModalRef.current?.open();
-      // const msg =
-      //   (error?.errorMessage?.message || error?.message || err?.toString()) ??
-      //   "Unknown error";
-      // // showErrorModal('Error', msg);
-      // setErrorMessage(msg);
-    } finally {
       setLoading(false);
+      setFinished(CREATE_STATUS.FAILED);
     }
   };
+
+  const handleFinish = () => {
+    if (finished === CREATE_STATUS.FAILED) {
+      setFinished(CREATE_STATUS.PENDDING);
+      onSubmit();
+    } else {
+      navigate(-1);
+    }
+  }
 
   return (
     <div className="bg-black min-h-screen pt-[23px] pb-[27px] px-[20px]">
@@ -183,8 +192,8 @@ const CreatePoll = () => {
         </FormItem>
 
         <FormItem label="Banner" className="mb-2">
-          <Upload className="">
-            <i className="votigram-icon-back text-[24px]" />
+          <Upload onFinish={handleChange("banner")} needCrop aspect={3 / 1}>
+            <i className="votigram-icon-back text-[24px] text-white" />
             <span className="block text-[13px] leading-[15.6px] text-white text-center">
               Upload
             </span>
@@ -208,6 +217,8 @@ const CreatePoll = () => {
         <FormItem label="Poll Start Time" className="mb-2" required>
           <ToggleSlider
             items={["Now", "Specific date & time"]}
+            itemClassName="h-[33px]"
+            activeItemClassName="h-[26px]"
             onChange={(index) =>
               handleChange("activeStartTime")(index ? dayjs().unix() * 1000 : 1)
             }
@@ -217,16 +228,20 @@ const CreatePoll = () => {
               <SimpleDatePicker
                 className="flex-1"
                 value={dayjs(formState.activeStartTime).format("YYYY-MM-DD")}
-                onChange={(day) => handleChange("activeStartTime")(
-                  combineDateAndTime(day, formState.activeStartTime)
-                )}
+                onChange={(day) =>
+                  handleChange("activeStartTime")(
+                    combineDateAndTime(day, formState.activeStartTime)
+                  )
+                }
               />
               <SimpleTimePicker
                 className="flex-1"
                 value={formState.activeStartTime}
-                onChange={(time) => handleChange("activeStartTime")(
-                  combineDateAndTime(formState.activeStartTime, time)
-                )}
+                onChange={(time) =>
+                  handleChange("activeStartTime")(
+                    combineDateAndTime(formState.activeStartTime, time)
+                  )
+                }
               />
             </div>
           )}
@@ -235,6 +250,8 @@ const CreatePoll = () => {
         <FormItem label="Poll End Time" required>
           <ToggleSlider
             items={["Duration", "Specific date & time"]}
+            itemClassName="h-[33px]"
+            activeItemClassName="h-[26px]"
             onChange={(index) =>
               handleChange("activeEndTime")(
                 index ? dayjs().unix() * 1000 : defaultEndTime
@@ -246,9 +263,9 @@ const CreatePoll = () => {
               className="mt-[12px]"
               options={DURATION_RANGE}
               value={formState.activeEndTime}
-              onChange={(endTime) => handleChange('activeEndTime')(
-                endTime as VoteTimeItem
-              )}
+              onChange={(endTime) =>
+                handleChange("activeEndTime")(endTime as VoteTimeItem)
+              }
             />
           ) : (
             <div className="flex flex-row items-center flex-wrap gap-[9px] mt-[12px]">
@@ -284,6 +301,46 @@ const CreatePoll = () => {
           alt="Creating"
         />
         <span className="block mt-[28px] text-center text-white whitespace-pre-wrap text-[14px] leading-[16.8px]">{`Your poll is currently being \nregistered on the blockchain.`}</span>
+      </Drawer>
+
+      <Drawer
+        isVisible={
+          finished === CREATE_STATUS.SUCCESS ||
+          finished === CREATE_STATUS.FAILED
+        }
+        direction="bottom"
+        canClose={false}
+        rootClassName="pt-[34px] pb-[23px] px-5 bg-tertiary"
+      >
+        <span className="block mb-[40px] text-[18px] font-outfit font-bold leading-[18px] text-center text-white">
+          {finished === CREATE_STATUS.SUCCESS ? "Success" : "Please Try Again"}
+        </span>
+        <img
+          className="mx-auto w-[140px] h-[87px] object-contain"
+          src={
+            finished === CREATE_STATUS.SUCCESS
+              ? "https://cdn.tmrwdao.com/votigram/assets/imgs/2152F71B721C.webp"
+              : "https://cdn.tmrwdao.com/votigram/assets/imgs/FEBC32940EB3.webp"
+          }
+          alt="Creating"
+        />
+        <span className="block mt-[26px] text-center text-white whitespace-pre-wrap text-[14px] leading-[16.8px]">
+          {finished === CREATE_STATUS.SUCCESS
+            ? `Your poll has been successfully \nregistered on the blockchain.`
+            : `We encountered an error registering \nyour poll on the blockchain. `}
+        </span>
+        <button
+          className={clsx(
+            "mt-[37px] w-full h-[40px] bg-primary text-white font-bold text-[14px] font-outfit rounded-[24px]",
+            {
+              "bg-danger": finished === CREATE_STATUS.FAILED,
+            }
+          )}
+          type="button"
+          onClick={handleFinish}
+        >
+          {finished === CREATE_STATUS.SUCCESS ? "Continue" : "Try Again"}
+        </button>
       </Drawer>
     </div>
   );

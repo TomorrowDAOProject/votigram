@@ -29,6 +29,7 @@ const readFile = (file: File) => {
 const Upload = ({ className, needCrop, aspect, children, onFinish }: IUploadProps) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
+  const [cropping, setCropping] = useState(false);
   const [imageSrc, setImageSrc] = useState<string>();
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
@@ -54,10 +55,8 @@ const Upload = ({ className, needCrop, aspect, children, onFinish }: IUploadProp
         setCropedImageUrl(URL.createObjectURL(croppedImage));
         setCroppedImage(croppedImage);
         handleUpload(file);
+        setCropping(false);
         setImageSrc("");
-        if (fileInputRef.current) {
-          fileInputRef.current.value = "";
-        }
       }
     } catch (e) {
       console.error(e);
@@ -74,8 +73,12 @@ const Upload = ({ className, needCrop, aspect, children, onFinish }: IUploadProp
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       const imageDataUrl = (await readFile(file)) as string;
+      setImageSrc(imageDataUrl);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
       if (needCrop) {
-        setImageSrc(imageDataUrl);
+        setCropping(true);
       } else {
         handleUpload(file);
       }
@@ -85,13 +88,13 @@ const Upload = ({ className, needCrop, aspect, children, onFinish }: IUploadProp
   const handleUpload = async (file: File) => {
     try {
       if (!file) return;
-      const data = new FormData();
-      data.append("file", file);
-      data.append("chainId", chainId);
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("chainId", chainId);
       setLoading(true);
-      const { code, data: ImgUrl } = await uploadWithToken("/api/app/file/upload", data);
+      const { code, data } = await uploadWithToken("/api/app/file/upload", formData);
       if (code === "20000") {
-        onFinish?.(ImgUrl);
+        onFinish?.(data);
       }
     } catch (e) {
       console.error(e);
@@ -109,9 +112,9 @@ const Upload = ({ className, needCrop, aspect, children, onFinish }: IUploadProp
         )}
         onClick={handleClick}
       >
-        {croppedImage ? (
+        {imageSrc || croppedImage ? (
           <img
-            src={croppedImageUrl}
+            src={imageSrc || croppedImageUrl}
             className="w-full h-full object-cover"
             alt="Banner"
           />
@@ -133,9 +136,9 @@ const Upload = ({ className, needCrop, aspect, children, onFinish }: IUploadProp
         )}
       </div>
       <Drawer
-        isVisible={!!imageSrc}
+        isVisible={cropping}
         direction="bottom"
-        onClose={() => setImageSrc("")}
+        onClose={() => setCropping(false)}
         rootClassName="bg-tertiary h-screen rounded-none"
       >
         <div className="relative w-full h-full">

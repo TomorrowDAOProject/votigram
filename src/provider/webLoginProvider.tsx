@@ -68,8 +68,6 @@ export default function LoginSDKProvider({ children }: { children: React.ReactNo
   };
   const server = info.portkeyServer;
 
-  console.log('============================================================');
-
   const nodes = moveKeyToFront({
     tDVW: {
       chainId: 'tDVW',

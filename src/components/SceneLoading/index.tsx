@@ -1,8 +1,14 @@
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import TelegramHeader from "../TelegramHeader";
 import { useUserContext } from "@/provider/UserProvider";
 import { motion } from "framer-motion";
-import { useWalletService } from "@/hooks/useWallet";
+import { useConnectWallet } from '@aelf-web-login/wallet-adapter-react';
 import { chainId } from "@/constants/app";
 import { postWithToken } from "@/hooks/useData";
 import { nftSymbol } from "@/config";
@@ -13,8 +19,17 @@ interface ISceneLoadingProps {
 
 const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
   const [progress, setProgress] = useState(20);
-  const { isConnected, wallet } = useWalletService();
   const [transferStatus, setTransferStatus] = useState<boolean>(false);
+  const {
+    connectWallet,
+    disConnectWallet,
+    walletInfo: wallet,
+    lock,
+    isLocking,
+    walletType,
+    isConnected,
+    loginError,
+  } = useConnectWallet();
 
   const {
     hasUserData,
@@ -37,7 +52,7 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
       symbol: nftSymbol,
     });
 
-    console.log(res)
+    console.log(res);
     setTransferStatus(!!res);
     if (!res) {
       fetchTransfer();
@@ -59,7 +74,12 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
   }, []);
 
   useEffect(() => {
-    console.log("SceneLoading: isConnected", isConnected, "wallet", wallet?.address);
+    console.log(
+      "SceneLoading: isConnected",
+      isConnected,
+      "wallet",
+      wallet?.address
+    );
     if (isConnected && wallet?.address) {
       fetchTransferStatus();
     }
@@ -67,7 +87,44 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
       setProgress(90);
       setIsLoading(!isNewUser);
     }
-  }, [fetchTransferStatus, hasUserData, isConnected, isNewUser, progress, setIsLoading, transferStatus, wallet?.address]);
+  }, [
+    fetchTransferStatus,
+    hasUserData,
+    isConnected,
+    isNewUser,
+    progress,
+    setIsLoading,
+    transferStatus,
+    wallet?.address,
+  ]);
+
+  useEffect(() => {
+    console.log('isConnected-------', isConnected);
+  }, [isConnected]);
+
+  const onConnectBtnClickHandler = async () => {
+    try {
+      const rs = await connectWallet();
+      console.log('onConnectBtnClickHandler', rs);
+    } catch (e) {
+      // message.error(e.message);
+    }
+  };
+
+  useEffect(() => {
+    console.log('walletInfo', wallet);
+  }, [wallet]);
+
+  useEffect(() => {
+    if (!loginError) {
+      return;
+    }
+  }, [loginError]);
+
+  const onDisConnectBtnClickHandler = async () => {
+    const rs = await disConnectWallet();
+    console.log('log after execute disConnectWallet', rs);
+  };
 
   return (
     <>
@@ -113,6 +170,25 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
             </div>
           )}
         </div>
+      </div>
+      <div>
+        <div>isConnected: {isConnected + ""}</div>
+        <div>
+          walletInfo:
+          <pre style={{ overflow: "auto", height: "300px" }}>
+            {JSON.stringify(wallet, undefined, 4)}
+          </pre>
+        </div>
+        <div>walletType:{walletType}</div>
+        <button className="m-4 p-2 bg-primary text-white rounded-lg" type="button" onClick={onConnectBtnClickHandler} disabled={isConnected}>
+          {isLocking ? "unlock" : "connect"}
+        </button>
+        <button className="m-4 p-2 bg-primary text-white rounded-lg" type="button" onClick={lock} disabled={!isConnected}>
+          lock
+        </button>
+        <button className="m-4 p-2 bg-primary text-white rounded-lg" type="button" onClick={onDisConnectBtnClickHandler} disabled={!isConnected}>
+          disconnect
+        </button>
       </div>
     </>
   );
