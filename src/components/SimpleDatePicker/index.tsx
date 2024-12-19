@@ -9,7 +9,7 @@ interface ISimpleDatePickerProps {
   value?: string;
   defaultVulue?: string;
   className?: string;
-  onChange?(t: string): void;
+  onChange?: (value: string) => void;
 }
 
 const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
