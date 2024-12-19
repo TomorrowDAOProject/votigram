@@ -9,7 +9,6 @@ import { WebLoginProvider } from '@aelf-web-login/wallet-adapter-react';
 import {
   connectServer,
   connectUrl,
-  curChain,
   graphqlServer,
   networkType,
   portkeyServer,
@@ -64,16 +63,16 @@ export default function LoginSDKProvider({ children }: { children: React.ReactNo
     graphqlServer: graphqlServer,
     portkeyServer: portkeyServer,
     connectUrl: connectUrl,
-    curChain: curChain,
+    curChain: chainId,
   };
   const server = info.portkeyServer;
 
   const nodes = moveKeyToFront({
     tDVW: {
-      chainId: 'tDVW',
+      chainId,
       rpcUrl: info?.rpcUrlTDVW as unknown as string,
     },
-  }, 'tDVW');
+  }, chainId);
   const referrerCode = getReferrerCode();
 
   const didConfig = {
@@ -96,7 +95,7 @@ export default function LoginSDKProvider({ children }: { children: React.ReactNo
   };
 
   const baseConfig = {
-    sideChainId: curChain as TChainId,
+    sideChainId: chainId as TChainId,
     omitTelegramScript: true,
     showVconsole: false,
     networkType: networkType as NetworkEnum,

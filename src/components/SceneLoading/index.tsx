@@ -8,10 +8,10 @@ import {
 import TelegramHeader from "../TelegramHeader";
 import { useUserContext } from "@/provider/UserProvider";
 import { motion } from "framer-motion";
-import { useConnectWallet } from '@aelf-web-login/wallet-adapter-react';
 import { chainId } from "@/constants/app";
 import { postWithToken } from "@/hooks/useData";
 import { nftSymbol } from "@/config";
+import { useWalletService } from "@/hooks/useWallet";
 
 interface ISceneLoadingProps {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
@@ -20,16 +20,8 @@ interface ISceneLoadingProps {
 const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
   const [progress, setProgress] = useState(20);
   const [transferStatus, setTransferStatus] = useState<boolean>(false);
-  const {
-    connectWallet,
-    disConnectWallet,
-    walletInfo: wallet,
-    lock,
-    isLocking,
-    walletType,
-    isConnected,
-    loginError,
-  } = useConnectWallet();
+  const { isConnected, wallet } = useWalletService();
+
 
   const {
     hasUserData,
@@ -37,24 +29,22 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
   } = useUserContext();
 
   const fetchTransfer = useCallback(async () => {
-    const res = await postWithToken("/api/app/token/transfer", {
+    const { data } = await postWithToken("/api/app/token/transfer", {
       chainId,
       symbol: nftSymbol,
     });
-
-    console.log(res);
+    setTransferStatus(!!data.status);
   }, []);
 
   const fetchTransferStatus = useCallback(async () => {
-    const res = await postWithToken("/api/app/token/transfer/status", {
+    const { data } = await postWithToken("/api/app/token/transfer/status", {
       chainId,
       address: wallet?.address,
       symbol: nftSymbol,
     });
 
-    console.log(res);
-    setTransferStatus(!!res);
-    if (!res) {
+    setTransferStatus(!!data);
+    if (!data) {
       fetchTransfer();
     }
   }, [wallet?.address, fetchTransfer]);
@@ -74,16 +64,10 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
   }, []);
 
   useEffect(() => {
-    console.log(
-      "SceneLoading: isConnected",
-      isConnected,
-      "wallet",
-      wallet?.address
-    );
     if (isConnected && wallet?.address) {
       fetchTransferStatus();
     }
-    if (hasUserData() && transferStatus) {
+    if (hasUserData()) {
       setProgress(90);
       setIsLoading(!isNewUser);
     }
@@ -97,34 +81,6 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
     transferStatus,
     wallet?.address,
   ]);
-
-  useEffect(() => {
-    console.log('isConnected-------', isConnected);
-  }, [isConnected]);
-
-  const onConnectBtnClickHandler = async () => {
-    try {
-      const rs = await connectWallet();
-      console.log('onConnectBtnClickHandler', rs);
-    } catch (e) {
-      // message.error(e.message);
-    }
-  };
-
-  useEffect(() => {
-    console.log('walletInfo', wallet);
-  }, [wallet]);
-
-  useEffect(() => {
-    if (!loginError) {
-      return;
-    }
-  }, [loginError]);
-
-  const onDisConnectBtnClickHandler = async () => {
-    const rs = await disConnectWallet();
-    console.log('log after execute disConnectWallet', rs);
-  };
 
   return (
     <>
@@ -170,25 +126,6 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
             </div>
           )}
         </div>
-      </div>
-      <div>
-        <div>isConnected: {isConnected + ""}</div>
-        <div>
-          walletInfo:
-          <pre style={{ overflow: "auto", height: "300px" }}>
-            {JSON.stringify(wallet, undefined, 4)}
-          </pre>
-        </div>
-        <div>walletType:{walletType}</div>
-        <button className="m-4 p-2 bg-primary text-white rounded-lg" type="button" onClick={onConnectBtnClickHandler} disabled={isConnected}>
-          {isLocking ? "unlock" : "connect"}
-        </button>
-        <button className="m-4 p-2 bg-primary text-white rounded-lg" type="button" onClick={lock} disabled={!isConnected}>
-          lock
-        </button>
-        <button className="m-4 p-2 bg-primary text-white rounded-lg" type="button" onClick={onDisConnectBtnClickHandler} disabled={!isConnected}>
-          disconnect
-        </button>
       </div>
     </>
   );

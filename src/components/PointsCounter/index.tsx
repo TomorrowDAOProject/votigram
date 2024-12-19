@@ -40,7 +40,7 @@ const PointsCounter: React.FC<IPointsCounterProps> = ({
   }, [start, end, duration]);
 
   return (
-    <span className="font-pressStart font-bold text-[16px] leading-[16px] tracking-[-1.6px]">
+    <span className="font-pressStart font-bold text-[16px] leading-[16px] tracking-[-1.6px] text-white">
       {count.toLocaleString()}
     </span>
   );

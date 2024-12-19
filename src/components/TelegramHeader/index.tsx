@@ -8,7 +8,7 @@ const TelegramHeader = ({ title }: ITelegramHeaderProps) => {
   return (
     <div className="telegram-header-container">
       {title && (
-        <span className="font-outfit text-[18px] leading-[18px] font-bold">
+        <span className="font-outfit text-[18px] leading-[18px] font-bold text-white">
           {title}
         </span>
       )}

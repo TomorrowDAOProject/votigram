@@ -58,8 +58,8 @@ const Upload = ({ className, needCrop, aspect, children, onFinish }: IUploadProp
         setCropping(false);
         setImageSrc("");
       }
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error);
     }
   };
 

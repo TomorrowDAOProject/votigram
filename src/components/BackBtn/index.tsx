@@ -11,9 +11,9 @@ const BackBtn: React.FC = () => {
   return (
     <button
       onClick={handleGoBack}
-      className="bg-transparent p-0 m-0 w-[24px] h-[24px] focus:outline-none"
+      className="bg-transparent p-0 m-0 w-[24px] h-[24px] leading-[24px] focus:outline-none z-10"
     >
-      <i className='votigram-icon-back text-[24px]' />
+      <i className='votigram-icon-back text-[24px] text-white' />
     </button>
   );
 };

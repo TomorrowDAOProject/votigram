@@ -120,7 +120,7 @@ const ForYou = ({
           ))}
         </motion.div>
         <Modal isVisible={false} rootClassName="px-[29px] pt-[45px] pb-[30px]">
-          <span className="block text-[20px] font-bold leading-[20px] font-outfit">
+          <span className="block text-[20px] font-bold leading-[20px] font-outfit text-white">
             Select Your Areas of Interest
           </span>
           <span className="block mt-[8px] mb-[24px] text-[9px] leading-[10px]">

@@ -94,7 +94,7 @@ const ActionButton = ({
             <i className="votigram-icon-navbar-vote text-[32px] text-primary" />
           </div>
           <span
-            className="text-[12px] leading-[13px]"
+            className="text-[12px] leading-[13px] text-white"
             data-testid="like-label-testid"
           >
             {totalCurrentLikes + likeCount}
@@ -110,7 +110,7 @@ const ActionButton = ({
           <div className="flex w-[42px] h-[42px] rounded-full bg-white/25 justify-center items-center">
             <i className="votigram-icon-chat-bubble text-[32px] text-primary" />
           </div>
-          <span className="text-[12px] leading-[13px]">{totalComments}</span>
+          <span className="text-[12px] leading-[13px] text-white">{totalComments}</span>
         </div>
         <div
           role="button"
@@ -120,7 +120,7 @@ const ActionButton = ({
           <div className="flex w-[42px] h-[42px] rounded-full bg-white/25 justify-center items-center">
             <i className="votigram-icon-arrow-ninety-degrees text-[26px] text-primary" />
           </div>
-          <span className="text-[12px] leading-[13px]">{totalCurrentOpen}</span>
+          <span className="text-[12px] leading-[13px] text-white">{totalCurrentOpen}</span>
         </div>
       </div>
       <Confetti onInit={onInit} className="absolute w-full top-0" />

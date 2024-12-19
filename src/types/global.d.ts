@@ -62,6 +62,7 @@ interface TelegramWebApp {
       user: {
         first_name: string;
       };
+      start_param: string;
     };
   };
 }
