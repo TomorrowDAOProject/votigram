@@ -8,7 +8,7 @@ interface IDrawerProps {
   children: ReactNode | ReactNode[];
   canClose?: boolean;
   rootClassName?: string;
-  onClose?: (v: boolean) => void;
+  onClose?: (visible: boolean) => void;
 }
 
 const Drawer = ({

@@ -33,12 +33,6 @@ const ToggleSlider = ({
     onChange?.(index);
   };
 
-  useEffect(() => {
-    if (current !== undefined) {
-      setActiveIndex(current);
-    }
-  }, [current]);
-
   // Ensure layout is ready before running animations
   useEffect(() => {
     // Wait until the next frame to allow the DOM to fully render

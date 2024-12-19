@@ -92,3 +92,8 @@ export enum SupportedELFChainId {
   TDVV_NET = 'tDVV',
   TDVW_NET = 'tDVW',
 }
+
+export type Size = {
+  width: number;
+  height: number;
+}

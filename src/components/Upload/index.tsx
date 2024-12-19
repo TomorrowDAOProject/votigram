@@ -18,6 +18,10 @@ interface IUploadProps {
   onFinish?(url: string): void;
 }
 
+interface IUploadProps {
+  onFinish?: (ImgUrl: string) => void;
+}
+
 const readFile = (file: File) => {
   return new Promise((resolve) => {
     const reader = new FileReader();
