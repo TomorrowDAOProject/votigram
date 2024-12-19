@@ -1,8 +1,6 @@
 'use client';
 import { TELEGRAM_BOT_ID } from '@/config/testnet';
 import { NetworkEnum, SignInDesignEnum, TChainId } from '@aelf-web-login/wallet-adapter-base';
-import { PortkeyDiscoverWallet } from '@aelf-web-login/wallet-adapter-portkey-discover';
-import { NightElfWallet } from '@aelf-web-login/wallet-adapter-night-elf';
 import { PortkeyAAWallet } from '@aelf-web-login/wallet-adapter-portkey-aa';
 import { IConfigProps } from '@aelf-web-login/wallet-adapter-bridge';
 import { WebLoginProvider } from '@aelf-web-login/wallet-adapter-react';
@@ -19,13 +17,7 @@ import {
 import { useEffect, useMemo } from 'react';
 import { getReferrerCode } from '@/utils/start-params';
 import { chainId } from '@/constants/app';
-// import './telegram';
 
-type TNodes = {
-  tDVW: { chainId: string; rpcUrl: string };
-};
-
-type TNodeKeys = keyof TNodes;
 const APP_NAME = 'TMRWDAO';
 
 function addBasePath(url: string) {
@@ -34,24 +26,6 @@ function addBasePath(url: string) {
   }
   return `${url}`;
 }
-function moveKeyToFront(nodes: TNodes, key: TNodeKeys) {
-  const reordered = {} as TNodes;
-  if (nodes[key]) {
-    reordered[key] = nodes[key];
-  }
-  Object.keys(nodes).forEach((k) => {
-    const newKey = k as TNodeKeys;
-    if (newKey !== key) {
-      reordered[newKey] = nodes[newKey];
-    }
-  });
-  return reordered;
-}
-// const WebLoginProviderDynamic = (props: WebLoginProviderProps) => {
-//   const info = store.getState().elfInfo.elfInfo;
-
-//   return <WebLoginProvider {...props} />;
-// };
 
 export default function LoginSDKProvider({ children }: { children: React.ReactNode }) {
   const info: Record<string, string> = {
@@ -67,12 +41,6 @@ export default function LoginSDKProvider({ children }: { children: React.ReactNo
   };
   const server = info.portkeyServer;
 
-  const nodes = moveKeyToFront({
-    tDVW: {
-      chainId,
-      rpcUrl: info?.rpcUrlTDVW as unknown as string,
-    },
-  }, chainId);
   const referrerCode = getReferrerCode();
 
   const didConfig = {
@@ -115,30 +83,7 @@ export default function LoginSDKProvider({ children }: { children: React.ReactNo
       enableAcceleration: true,
     });
   }, []);
-  const nightElfWallet = useMemo(() => {
-    return new NightElfWallet({
-      chainId: chainId as TChainId,
-      appName: APP_NAME,
-      connectEagerly: true,
-      defaultRpcUrl:
-        (info?.[`rpcUrl${String(info?.curChain).toUpperCase()}`] as unknown as string) ||
-        info?.rpcUrlTDVW ||
-        '',
-      nodes: nodes,
-    });
-  }, []);
-  const portkeyDiscoverWallet = useMemo(() => {
-    return new PortkeyDiscoverWallet({
-      networkType: networkType,
-      chainId: chainId as TChainId,
-      autoRequestAccount: true, // If set to true, please contact Portkey to add whitelist @Rachel
-      autoLogoutOnDisconnected: true,
-      autoLogoutOnNetworkMismatch: true,
-      autoLogoutOnAccountMismatch: true,
-      autoLogoutOnChainMismatch: true,
-    });
-  }, []);
-  const wallets = [aaWallet, portkeyDiscoverWallet, nightElfWallet];
+  const wallets = [aaWallet];
 
   const config: IConfigProps = {
     didConfig,

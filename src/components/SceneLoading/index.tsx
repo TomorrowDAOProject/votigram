@@ -22,7 +22,6 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
   const [transferStatus, setTransferStatus] = useState<boolean>(false);
   const { isConnected, wallet } = useWalletService();
 
-
   const {
     hasUserData,
     user: { isNewUser },
@@ -67,7 +66,7 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
     if (isConnected && wallet?.address) {
       fetchTransferStatus();
     }
-    if (hasUserData()) {
+    if (hasUserData() && transferStatus) {
       setProgress(90);
       setIsLoading(!isNewUser);
     }
