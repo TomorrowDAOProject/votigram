@@ -20,7 +20,7 @@ const FormItem: React.FC<IFormItemProps> = ({
   required,
 }) => {
   return (
-    <div className={clsx("py-3", className)}>
+    <div className={clsx("py-3", className)} data-testid="form-item-container">
       <div className="mb-[12px] flex flex-row items-center justify-between w-full">
         <span className="inline-block relative pr-[8px] font-outfit font-bold text-[16px] text-white leading-[16px]">
           {label}

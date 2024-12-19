@@ -1,15 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import clsx from "clsx";
-
-interface IToggleSlider {
-  current?: number;
-  items: string[];
-  className?: string;
-  itemClassName?: string;
-  activeItemClassName?: string;
-  onChange?: (index: number) => void;
-}
+import { IToggleSlider } from "./type";
 
 const ToggleSlider = ({
   current,

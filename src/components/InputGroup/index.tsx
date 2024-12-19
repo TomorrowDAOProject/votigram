@@ -36,6 +36,8 @@ const InputGroup: React.FC<IInputGroupProps> = ({ value, defaultValues, onChange
     newOptions[index].icon = icon;
     setOptions(newOptions);
     onChange?.(newOptions);
+    console.log('newOptions ======================')
+    console.log(newOptions)
   };
 
   useEffect(() => {

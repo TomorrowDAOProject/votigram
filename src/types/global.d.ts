@@ -74,3 +74,7 @@ interface Window {
 declare type Chain = 'AELF' | 'tDVV' | 'tDVW';
 
 declare module 'aelf-sdk';
+
+declare namespace vi {
+  type Mock = Mock;
+};

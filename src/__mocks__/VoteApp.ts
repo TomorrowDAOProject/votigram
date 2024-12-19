@@ -1,5 +1,7 @@
+import { VoteItemType } from "@/components/VoteItem/type";
+import { VoteSectionType } from "@/components/VoteSection/type";
 import { APP_CATEGORY } from "@/constants/discover";
-import { VoteApp, VoteSection, VoteItem } from "@/types/app";
+import { VoteApp } from "@/types/app";
 
 export const voteAppData: VoteApp = {
   id: "64284af5e2e8c048758b8985f20446181165ba51f229fdf0a3e5e17c6543106d",
@@ -96,7 +98,7 @@ export const voteAppListData: VoteApp[] = [
   },
 ];
 
-export const voteSectionData: VoteSection[] = [
+export const voteSectionData: VoteSectionType[] = [
   {
     creator: "John Doe",
     avatarUrl: "https://i.pravatar.cc/150?img=2",
@@ -124,7 +126,7 @@ export const voteSectionData: VoteSection[] = [
   },
 ];
 
-export const VoteListItems: VoteItem[] =[
+export const VoteListItems: VoteItemType[] =[
   {
     id: 1,
     rank: 1,

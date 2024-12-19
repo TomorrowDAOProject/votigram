@@ -52,7 +52,7 @@ const Archived = ({ type, scrollTop }: IArchivedProps) => {
   }, [hasMore, isLoading, scrollTop]);
 
   return (
-    <div className="pt-3 pb-[100px]">
+    <div className="pt-3 pb-[100px]" data-testid="archived-component">
       {type === COMMUNITY_TYPE.CURRENT && (
         <button
           className="mb-[12px] w-full h-[40px] bg-primary text-white font-bold text-[14px] font-outfit rounded-[24px]"
