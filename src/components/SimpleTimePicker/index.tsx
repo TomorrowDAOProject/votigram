@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Picker } from "react-mobile-style-picker";
 import "react-mobile-style-picker/dist/index.css";
 import dayjs from "dayjs";
@@ -7,15 +7,20 @@ import { HOUR_RANGE, MINUTE_RANGE, PERIOD_RANGE } from "@/constants/time-picker"
 
 import Drawer from "../Drawer";
 import "./index.css";
+import clsx from "clsx";
 
 interface ISimpleTimePickerProps {
-  isVisible?: boolean;
+  className?: string;
+  value?: string;
+  defaultVulue?: string;
   onChange?(t: string): void;
 }
 
 dayjs.extend(customParseFormat);
 
-const SimpleTimePicker = ({ isVisible, onChange }: ISimpleTimePickerProps) => {
+const SimpleTimePicker = ({ value, className, defaultVulue, onChange }: ISimpleTimePickerProps) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [selectedTime, setSelectedTime] = useState(defaultVulue || '');
   const [selectedHour, setSelectedHour] = useState(HOUR_RANGE[0]);
   const [selectedMinute, setSelectedMinute] = useState(MINUTE_RANGE[0]);
   const [selectedPeriod, setSelectedPeriod] = useState(PERIOD_RANGE[0]);
@@ -30,83 +35,98 @@ const SimpleTimePicker = ({ isVisible, onChange }: ISimpleTimePickerProps) => {
     }
 
     const selectTime = dayjs(`${hour}:${selectedMinute}`, "HH:mm");
+    setSelectedTime(`${selectedHour}:${selectedMinute} ${selectedPeriod}`);
     onChange?.(selectTime.format("HH:mm"));
-
-    setSelectedHour(HOUR_RANGE[0])
-    setSelectedMinute(MINUTE_RANGE[0])
-    setSelectedPeriod(PERIOD_RANGE[0])
+    setIsVisible(false);
   };
 
+  useEffect(() => {
+    if (value) {
+      setSelectedTime(dayjs(value).format("HH:mm A"));
+      setSelectedHour(dayjs(value).format("HH"));
+      setSelectedMinute(dayjs(value).format("mm"));
+      setSelectedPeriod(dayjs(value).format("A"));
+    }
+  }, [value])
+
   return (
-    <Drawer
-      isVisible={isVisible}
-      direction="bottom"
-      rootClassName="px-[16px] pt-5 pb-7 bg-tertiary"
-    >
-      <div className="flex flex-row">
-        <Picker
-          size={5}
-          itemSize={40}
-          itemWeight={80}
-          className="left-picker"
-          onChange={setSelectedHour}
-          data-testid="hours-picker"
-        >
-          {HOUR_RANGE.map((item) => (
-            <Picker.Item
-              className="text-[15px]"
-              value={item}
-              key={`hours${item}`}
-              data-testid={`hour-${item}`}
-            >
-              {item}
-            </Picker.Item>
-          ))}
-        </Picker>
-        <Picker
-          size={5}
-          itemSize={40}
-          className="middle-picker !w-[100px]"
-          onChange={setSelectedMinute}
-          data-testid="minute-picker"
-        >
-          {MINUTE_RANGE.map((item) => (
-            <Picker.Item
-              className="text-[15px]"
-              value={item}
-              key={`minutes${item}`}
-              data-testid={`minute-${item}`}
-            >
-              {item}
-            </Picker.Item>
-          ))}
-        </Picker>
-        <Picker
-          size={5}
-          itemSize={40}
-          className="right-picker"
-          onChange={setSelectedPeriod}
-          data-testid="period-picker"
-        >
-          {PERIOD_RANGE.map((item) => (
-            <Picker.Item
-              className="text-[15px]"
-              value={item}
-              key={`periods${item}`}
-              data-testid={`period-${item}`}
-            >
-              {item}
-            </Picker.Item>
-          ))}
-        </Picker>
+    <>
+      <div className={clsx("relative py-[12px] pl-[14px] pr-[40px] border border-tertiary rounded-[10px]", className)} onClick={() => setIsVisible(true)}>
+        <span className="block min-w-[50px] h-[20px] font-normal text-[14px] text-input-placeholder leading-[20px]">{selectedTime}</span>
+
+        <i className='absolute top-1/2 right-[14px] -translate-y-1/2 votigram-icon-navbar-vote text-input-placeholder text-[18px]' />
       </div>
-      <button
-        className="w-full my-4 mx-[2.5px] bg-primary rounded-[24px] text-[14px] font-bold py-[10px] font-outfit leading-[25px]"
-        onClick={handleConfirm}
+      <Drawer
+        isVisible={isVisible}
+        direction="bottom"
+        onClose={setIsVisible}
+        rootClassName="px-[16px] pt-5 pb-7 bg-tertiary"
       >
-        Confirm
-      </button>
-    </Drawer>
+        <div className="flex flex-row">
+          <Picker
+            size={5}
+            itemSize={40}
+            itemWeight={80}
+            className="left-picker"
+            onChange={setSelectedHour}
+            data-testid="hours-picker"
+          >
+            {HOUR_RANGE.map((item) => (
+              <Picker.Item
+                className="text-[15px]"
+                value={item}
+                key={`hours${item}`}
+                data-testid={`hour-${item}`}
+              >
+                {item}
+              </Picker.Item>
+            ))}
+          </Picker>
+          <Picker
+            size={5}
+            itemSize={40}
+            className="middle-picker !w-[100px]"
+            onChange={setSelectedMinute}
+            data-testid="minute-picker"
+          >
+            {MINUTE_RANGE.map((item) => (
+              <Picker.Item
+                className="text-[15px]"
+                value={item}
+                key={`minutes${item}`}
+                data-testid={`minute-${item}`}
+              >
+                {item}
+              </Picker.Item>
+            ))}
+          </Picker>
+          <Picker
+            size={5}
+            itemSize={40}
+            className="right-picker"
+            onChange={setSelectedPeriod}
+            data-testid="period-picker"
+          >
+            {PERIOD_RANGE.map((item) => (
+              <Picker.Item
+                className="text-[15px]"
+                value={item}
+                key={`periods${item}`}
+                data-testid={`period-${item}`}
+              >
+                {item}
+              </Picker.Item>
+            ))}
+          </Picker>
+        </div>
+        <button
+          className="w-full my-4 mx-[2.5px] bg-primary rounded-[24px] text-[14px] font-bold py-[10px] font-outfit leading-[25px]"
+          onClick={handleConfirm}
+        >
+          Confirm
+        </button>
+      </Drawer>
+    </>
   );
 };
 

@@ -19,7 +19,7 @@
   }
 
   .rdp-dropdown {
-    @apply appearance-none outline-none;
+    @apply appearance-none outline-0;
   }
 
   .rdp-weekdays,
