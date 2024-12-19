@@ -17,11 +17,8 @@ const ToggleSlider = ({ items = [], onChange }: IToggleSlider) => {
 
   const handleClick = (index: number) => {
     setActiveIndex(index);
-  };
-
-  useEffect(() => {
     onChange?.(activeIndex)
-  }, [activeIndex, onChange])
+  };
 
   return (
     <div className="relative h-full w-full max-w-full mx-auto bg-tertiary rounded-full flex items-center overflow-hidden">

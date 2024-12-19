@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 
-type IButtonRadioOption = {
+type ButtonRadioOption = {
   label: string;
   value: number;
 };
@@ -9,7 +9,7 @@ type IButtonRadioOption = {
 interface IButtonRadioProps {
   className?: string;
   radioClassName?: string;
-  options: IButtonRadioOption[];
+  options: ButtonRadioOption[];
   onChange?: (value?: number) => void;
 }
 

@@ -12,6 +12,7 @@ import { postWithToken } from "@/hooks/useData";
 import { chainId } from "@/constants/app";
 import { VoteApp } from "@/types/app";
 import Vote from "@/components/Vote";
+import { RANDOM_APP_CATEGORY } from "@/constants/discover";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -46,7 +47,7 @@ const App = () => {
     const { data } = await postWithToken("/api/app/discover/random-app-list", {
       chainId,
       alias,
-      category: "ForYou",
+      category: RANDOM_APP_CATEGORY.FORYOU,
     });
 
     setForYouList(data?.appList || []);
@@ -59,7 +60,7 @@ const App = () => {
   const fetchRecommendData = async () => {
     const { data } = await postWithToken("/api/app/discover/random-app-list", {
       chainId,
-      category: "Recommend",
+      category: RANDOM_APP_CATEGORY.RECOMMEND,
     });
 
     setRecommendList(data?.appList || []);

@@ -1,3 +1,5 @@
+import { Size } from "@/types/app";
+
 export const createImage = (url: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
     const image = new Image();
@@ -9,11 +11,6 @@ export const createImage = (url: string): Promise<HTMLImageElement> =>
 
 export function getRadianAngle(degreeValue: number): number {
   return (degreeValue * Math.PI) / 180;
-}
-
-interface Size {
-  width: number;
-  height: number;
 }
 
 /**

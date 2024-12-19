@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Input from "../Input";
 
-interface Option {
+type Option = {
   id: number;
   value: string;
 }

@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import clsx from "clsx";
 interface ISimpleDatePickerProps {
-  mode?: "single" | "multiple" | "range";
   value?: string;
   defaultVulue?: string;
   className?: string;
@@ -66,7 +65,6 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
         rootClassName="px-[17.5px] pt-5 pb-7 bg-tertiary"
       >
         <DayPicker
-          {...dayPickerProps}
           mode="single"
           selected={new Date(selected)}
           onSelect={(date) =>
@@ -80,6 +78,7 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
             },
           }}
           className="simple-date-picker"
+          {...dayPickerProps}
         />
         <button
           className="w-full mt-2 mx-[2.5px] bg-primary rounded-[24px] text-[14px] font-bold py-[10px] font-outfit leading-[25px]"

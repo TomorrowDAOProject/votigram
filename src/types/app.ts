@@ -62,3 +62,8 @@ export type VoteItem = {
   progress: number;
   isVoted?: boolean;
 }
+
+export type Size = {
+  width: number;
+  height: number;
+}

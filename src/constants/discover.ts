@@ -57,3 +57,8 @@ export const DISCOVER_CATEGORY: {
     label: "🛒 E-commerce",
   },
 ];
+
+export enum RANDOM_APP_CATEGORY {
+  FORYOU = 'ForYou',
+  RECOMMEND = 'Recommend',
+}

@@ -7,7 +7,7 @@ interface IDrawerProps {
   direction?: "left" | "right" | "top" | "bottom";
   children: ReactNode | ReactNode[];
   rootClassName?: string;
-  onClose?: (v: boolean) => void;
+  onClose?: (visible: boolean) => void;
 }
 
 const Drawer = ({

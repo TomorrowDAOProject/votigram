@@ -5,6 +5,10 @@ import { getCroppedImg } from "@/utils/canvasUtils";
 import { uploadWithToken } from "@/hooks/useData";
 import { chainId } from "@/constants/app";
 
+interface IUploadProps {
+  onFinish?: (ImgUrl: string) => void;
+}
+
 const readFile = (file: File) => {
   return new Promise((resolve) => {
     const reader = new FileReader();
@@ -13,7 +17,7 @@ const readFile = (file: File) => {
   });
 };
 
-const Upload = () => {
+const Upload = ({ onFinish }: IUploadProps) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [imageSrc, setImageSrc] = useState<string>();
   const [zoom, setZoom] = useState(1);
@@ -66,8 +70,10 @@ const Upload = () => {
       const data = new FormData();
       data.append("file", imageFile, 'image/png');
       data.append("chainId", chainId);
-      const result = await uploadWithToken("/api/app/file/upload", data);
-      console.log(result);
+      const { code, data: ImgUrl } = await uploadWithToken("/api/app/file/upload", data);
+      if (code === "20000") {
+        onFinish?.(ImgUrl);
+      }
     } catch (e) {
       console.error(e);
     }
