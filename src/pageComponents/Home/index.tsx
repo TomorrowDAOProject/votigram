@@ -13,6 +13,7 @@ import { chainId } from "@/constants/app";
 import { VoteApp } from "@/types/app";
 import Vote from "@/components/Vote";
 import { RANDOM_APP_CATEGORY } from "@/constants/discover";
+import Profile from "@/components/Profile";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -98,6 +99,7 @@ const App = () => {
             />
           )}
           {activeTab === TAB_LIST.VOTE && <Vote />}
+          {activeTab === TAB_LIST.PEN && <Profile />}
           <Navigation activeTab={activeTab} onMenuClick={setActiveTab} />
         </>
       )}
