@@ -63,23 +63,15 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
   }, []);
 
   useEffect(() => {
+    console.log('isConnected', isConnected, 'wallet', wallet);
     if (isConnected && wallet?.address) {
       fetchTransferStatus();
     }
-    if (hasUserData() && transferStatus) {
+    if (hasUserData()) {
       setProgress(90);
       setIsLoading(!isNewUser);
     }
-  }, [
-    fetchTransferStatus,
-    hasUserData,
-    isConnected,
-    isNewUser,
-    progress,
-    setIsLoading,
-    transferStatus,
-    wallet?.address,
-  ]);
+  }, [fetchTransferStatus, hasUserData, isConnected, isNewUser, progress, setIsLoading, transferStatus, wallet, wallet?.address]);
 
   return (
     <>

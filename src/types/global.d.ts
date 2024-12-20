@@ -55,6 +55,7 @@ interface TelegramWebApp {
     };
     requestFullscreen(): void;
     lockOrientation(): void;
+    openTelegramLink(link: string): void;
     disableVerticalSwipes(): void;
     setHeaderColor(color: string): void;
     initData: "";

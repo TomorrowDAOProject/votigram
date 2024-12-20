@@ -15,3 +15,4 @@ export const host = 'https://test.tmrwdao.com';
 // telegram
 export const TELEGRAM_BOT_ID = '7190916077';
 export const nftSymbol = 'TOMORROWPASSTEST-1';
+export const TgLink = 'https://t.me/monkeyTmrwDevBot/Votigram';

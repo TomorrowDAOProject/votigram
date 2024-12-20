@@ -7,9 +7,10 @@ import useDebounceFn from "ahooks/lib/useDebounceFn";
 
 interface ITMAsProps {
   scrollTop: number;
+  onTabChange?: (index: number) => void;
 }
 
-const TMAs = ({ scrollTop }: ITMAsProps) => {
+const TMAs = ({ scrollTop, onTabChange }: ITMAsProps) => {
   const [currentTab, setCurrentTab] = useState(0);
   const [keyward, setKeyward] = useState("");
   const [category, setCategory] = useState("");
@@ -27,6 +28,11 @@ const TMAs = ({ scrollTop }: ITMAsProps) => {
     setCategory(category || '');
   };
 
+  const handleTabChange = (index: number) => {
+    setCurrentTab(index);
+    onTabChange?.(index);
+  };
+
   return (
     <>
       <ToggleSlider
@@ -35,7 +41,7 @@ const TMAs = ({ scrollTop }: ITMAsProps) => {
         className="pt-[4px] pb-[8px] rounded-none bg-transparent border-b-[2px] border-tertiary"
         activeItemClassName="top-auto bottom-0 h-[2px] rounded-none"
         itemClassName="font-bold text-[16px] leading-[16px] font-outfit"
-        onChange={setCurrentTab}
+        onChange={handleTabChange}
       />
 
       <div className="mt-[14px] col-12 bg-input gap-2 h-[41px] px-4 flex items-center rounded-3xl">
