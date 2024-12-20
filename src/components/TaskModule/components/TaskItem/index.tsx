@@ -1,5 +1,7 @@
+import { TaskInfo } from "@/types/task";
+
 interface ITaskItemProps {
-  data: any;
+  data: TaskInfo;
   onPressGo: () => void;
 }
 

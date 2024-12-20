@@ -1,26 +1,27 @@
 import InviteFriendsStatus from "@/components/InviteFriends";
 import TaskModule from "@/components/TaskModule";
+import {TaskModule as TaskModuleType} from "@/types/task";
 import useData from "@/hooks/useData";
 import { useEffect, useState } from "react";
 
 const Tasks = () => {
-  const [taskList, setTaskList] = useState([]);
+  const [tasks, setTasks] = useState<TaskModuleType[]>([]);
 
-  const { data: tasks } = useData(
+  const { data: { taskList } } = useData(
     "/api/app/user/task-list?chainId=tDVW"
   );
 
   useEffect(() => {
-    if (tasks) {
-      setTaskList(tasks);
+    if (taskList && Array.isArray(taskList)) {
+      setTasks(taskList);
     }
-  }, [tasks])
+  }, [taskList, tasks])
 
   return (
     <>
       <InviteFriendsStatus value={20} />
 
-      {taskList.map((taskSection) => <TaskModule data={taskSection} title="" />)}
+      {taskList.map(({ data, userTask }: TaskModuleType) => <TaskModule data={data} title={userTask} />)}
     </>
   );
 };
