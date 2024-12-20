@@ -12,7 +12,7 @@ const Vote = () => {
   const {
     user: { userPoints },
   } = useUserContext();
-  const [currnetTab, setCurrentTab] = useState("TMAs");
+  const [currnetTab, setCurrentTab] = useState(VOTE_TABS.TMAS);
   const scrollViewRef = useRef<HTMLDivElement | null>(null);
   const [seconds, setSeconds] = useState(0);
   const [scrollTop, setScrollTop] = useState(0);
