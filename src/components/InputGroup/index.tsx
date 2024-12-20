@@ -1,50 +1,65 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../Input";
+import Upload from "../Upload";
+import { VoteOption } from "./type";
 
-type Option = {
-  id: number;
-  value: string;
+interface IInputGroupProps {
+  value?: VoteOption[];
+  defaultValues?: VoteOption[];
+  onChange?: (options: VoteOption[]) => void;
 }
 
-const InputGroup: React.FC = () => {
-  const [options, setOptions] = useState<Option[]>([
-    { id: Date.now(), value: "" },
-  ]);
-
-  const addOptionAfter = (index: number) => {
-    const newOption = { id: Date.now(), value: "" };
-    const newOptions = [...options];
-    newOptions.splice(index + 1, 0, newOption);
-    setOptions(newOptions);
-  };
+const InputGroup: React.FC<IInputGroupProps> = ({ value, defaultValues, onChange }) => {
+  const [options, setOptions] = useState<VoteOption[]>(value || defaultValues || []);
 
   const addOptionToEnd = () => {
-    setOptions([...options, { id: Date.now(), value: "" }]);
+    const opts = [...options, { id: Date.now(), title: "" }]
+    setOptions(opts);
+    onChange?.(opts);
   };
 
   const removeOption = (index: number) => {
     const newOptions = options.filter((_, i) => i !== index);
     setOptions(newOptions);
+    onChange?.(newOptions);
   };
 
   const handleInputChange = (index: number, value: string) => {
     const newOptions = [...options];
-    newOptions[index].value = value;
+    newOptions[index].title = value;
     setOptions(newOptions);
+    onChange?.(newOptions);
   };
+
+  const handleIconChange = (index: number, icon: string) => {
+    const newOptions = [...options];
+    newOptions[index].icon = icon;
+    setOptions(newOptions);
+    onChange?.(newOptions);
+  };
+
+  useEffect(() => {
+    if (value?.length) {
+      setOptions(value);
+    }
+  }, [value])
 
   return (
     <>
       {options.map((option, index) => (
         <div key={option.id} className="mb-[9px] flex items-center">
-          <div
-            onClick={() => addOptionAfter(index)}
-            className="mr-[7px] flex items-center justify-center bg-tertiary w-[45px] h-[45px] rounded-[10px] text-[32px] text-white flex-none"
+          <Upload
+            className="mr-[7px] flex items-center justify-center bg-tertiary !w-[45px] !h-[45px] !rounded-[10px] flex-none"
+            extensions={["png", "jpg", "jpeg"]}
+            fileLimit="10 MB"
+            needCrop
+            aspect={1}
+            onFinish={(value) => handleIconChange(index, value)}
           >
-            +
-          </div>
+            <i className="votigram-icon-plus text-[32px] text-white" />
+          </Upload>
           <Input
-            value={option.value}
+            value={option.title}
             onChange={(value) => handleInputChange(index, value)}
             placeholder={`Option ${index + 1}`}
             showClearBtn

@@ -5,10 +5,10 @@ import { toUrlEncoded } from "@/utils/token";
 import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
 
 // Fetcher function that includes the Authorization token
-const fetchWithToken = (endpoint: string) => {
+export const fetchWithToken = (endpoint: string, fullUrl?: boolean) => {
   const token = Cookies.get("access_token");
 
-  return fetch(`${import.meta.env.VITE_BASE_URL}${endpoint}`, {
+  return fetch(`${!fullUrl ? import.meta.env.VITE_BASE_URL : ''}${endpoint}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

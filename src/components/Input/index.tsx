@@ -23,12 +23,13 @@ const Input = ({
   const [value, setValue] = useState(defaultValue || "");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-    onChange?.(e.target.value);
+    setValue(e.target.value || '');
+    onChange?.(e.target.value || '');
   };
 
   const clearInput = () => {
     setValue("");
+    onChange?.('');
   };
 
   useEffect(() => {

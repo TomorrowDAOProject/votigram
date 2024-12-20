@@ -9,7 +9,7 @@ interface ITopVoteApps {
 const TopVotedApps = ({ items, onAppItemClick }: ITopVoteApps) => {
   return (
     <div className="flex flex-col gap-[12px] mb-[22px]">
-      <span className="px-[20px] font-bold font-outfit text-[20px] leading-[20px]">
+      <span className="px-[20px] font-bold font-outfit text-[20px] leading-[20px] text-white">
         Weekly Top Voted Apps
       </span>
       <div className="top-voted-app-list col-12 overflow-scroll flex flex-nowrap">
@@ -29,11 +29,11 @@ const TopVotedApps = ({ items, onAppItemClick }: ITopVoteApps) => {
               <div className="flex gap-0.5 items-end">
                 <span
                   data-testid={`${item.title}-point`}
-                  className="font-outfit text-[14px] leading-[14px] font-bold"
+                  className="font-outfit text-[14px] leading-[14px] font-bold text-white"
                 >
                   {(item.pointsAmount || 0).toLocaleString()}
                 </span>
-                <span className="text-[11px] font-normal leading-[9px]">
+                <span className="text-[11px] font-normal leading-[9px] text-white">
                   pts
                 </span>
               </div>

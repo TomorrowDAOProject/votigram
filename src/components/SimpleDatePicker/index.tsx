@@ -7,18 +7,21 @@ import dayjs from "dayjs";
 import clsx from "clsx";
 interface ISimpleDatePickerProps {
   value?: string;
-  defaultVulue?: string;
+  defaultValue?: string;
   className?: string;
-  onChange?(t: string): void;
   onChange?: (value: string) => void;
 }
 
 const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
-  const { value, defaultVulue, className, onChange, ...dayPickerProps } = props;
+  const { value, defaultValue, className, onChange, ...dayPickerProps } = props;
+  const baseValue =
+    value && dayjs(value || "").isValid()
+      ? value
+      : defaultValue && dayjs(defaultValue || "").isValid()
+      ? defaultValue
+      : dayjs().format();
   const [isVisible, setIsVisible] = useState(false);
-  const [selected, setSelected] = useState<string>(
-    defaultVulue && dayjs(defaultVulue || "").isValid() ? defaultVulue : ""
-  );
+  const [selected, setSelected] = useState<string>(baseValue);
 
   const formatDate = (dateInput: string) => {
     const date = dayjs(dateInput);
@@ -56,7 +59,7 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
           {selected && formatDate(selected)}
         </span>
 
-        <i className="absolute top-1/2 right-[14px] -translate-y-1/2 votigram-icon-navbar-vote text-input-placeholder text-[18px]" />
+        <i className="absolute top-1/2 right-[14px] -translate-y-1/2 votigram-icon-calendar text-input-placeholder text-[18px]" />
       </div>
       <Drawer
         isVisible={isVisible}
@@ -81,7 +84,8 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
           {...dayPickerProps}
         />
         <button
-          className="w-full mt-2 mx-[2.5px] bg-primary rounded-[24px] text-[14px] font-bold py-[10px] font-outfit leading-[25px]"
+          type="button"
+          className="w-full mt-2 mx-[2.5px] bg-primary rounded-[24px] text-[14px] font-bold py-[10px] font-outfit leading-[25px] text-white"
           onClick={handleConfirm}
         >
           Confirm

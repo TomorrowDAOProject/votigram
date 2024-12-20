@@ -1,13 +1,28 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { isTMA } from "@telegram-apps/bridge";
 import "./App.css";
 import { UserProvider } from "./provider/UserProvider";
 import Routes from "./routes";
+import WebLoginProvider from "./provider/webLoginProvider";
+import ConfigProvider from "./provider/configProvider";
+import { host } from "./config";
+import { IConfigContent } from "./provider/types/ConfigContext";
 
 const isDev = process.env.NODE_ENV === "development";
 
 const App = () => {
+  const [cmsData, setCmsData] = useState<IConfigContent>();
+  
+  const fetchCMSData = async () => {
+    const cmsRes = await fetch(host + '/cms/items/config', {
+      cache: 'no-store',
+    });
+    const cmsData = await cmsRes.json();
+    setCmsData(cmsData);
+  }
+
   useEffect(() => {
+    fetchCMSData();
     if (window?.Telegram && isTMA("simple")) {
       window.Telegram.WebApp?.requestFullscreen();
       window.Telegram.WebApp?.lockOrientation();
@@ -27,9 +42,13 @@ const App = () => {
   }, []);
 
   return (
-    <UserProvider>
-      <Routes />
-    </UserProvider>
+    <WebLoginProvider>
+      <UserProvider>
+        <ConfigProvider config={cmsData?.data?.config}>
+          <Routes />
+        </ConfigProvider>
+      </UserProvider>
+    </WebLoginProvider>
   );
 };
 

@@ -69,7 +69,7 @@ const AppDetail = ({ item, updateOpenAppClick }: IAppDetailProps) => {
           setIsExpand(!isExpand);
         }}
       >
-        <div className="flex gap-2 mb-[14px]">
+        <div className="flex gap-2 mb-[14px] text-white">
           <img
             src={item.icon}
             className="h-[48px] aspect-square rounded-[8px] border-app-icon-border border-[1px]"
@@ -93,7 +93,7 @@ const AppDetail = ({ item, updateOpenAppClick }: IAppDetailProps) => {
             stiffness: 500,
             damping: 20,
           }}
-          className="flex w-full text-[13px] leading-[15px]"
+          className="flex w-full text-[13px] leading-[15px] text-white"
         >
           {item.longDescription}
         </motion.div>
@@ -105,7 +105,7 @@ const AppDetail = ({ item, updateOpenAppClick }: IAppDetailProps) => {
                 key={category}
                 className="flex item h-[22px] border-pill-border border-[1px] rounded-full"
               >
-                <button className="w-max h-[22px] font-questrial px-2 text-[12px] leading-[13px]">
+                <button className="w-max h-[22px] font-questrial px-2 text-[12px] leading-[13px] text-white">
                   {DISCOVERY_CATEGORY_MAP?.[category] || ""}
                 </button>
               </div>
@@ -114,7 +114,7 @@ const AppDetail = ({ item, updateOpenAppClick }: IAppDetailProps) => {
           <div className="flex flex-1 justify-end items-center">
             <button
               onClick={onOpenAppClick}
-              className="flex justify-center items-center w-[98px] bg-primary font-outfit font-bold text-[14px] leading-[14px] py-[10px] rounded-[24px]"
+              className="flex justify-center items-center w-[98px] bg-primary font-outfit font-bold text-[14px] leading-[14px] py-[10px] rounded-[24px] text-white"
             >
               Open
               <i className="votigram-icon-arrow-ninety-degrees text-[14px] ml-[5px]" />

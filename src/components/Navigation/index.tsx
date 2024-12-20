@@ -3,6 +3,7 @@ import React from "react";
 import { TAB_LIST } from "@/constants/navigation";
 
 import "./index.css";
+import clsx from "clsx";
 
 interface NavigationProps {
   activeTab: TAB_LIST;
@@ -32,7 +33,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onMenuClick }) => {
       >
         <i
           data-testid="votigram-icon-navbar-home"
-          className="votigram-icon-navbar-home text-[24px]"
+          className={clsx("votigram-icon-navbar-home text-[24px]", activeTab === TAB_LIST.HOME ? 'text-white' : 'text-input-placeholder')}
         />
       </div>
       <div
@@ -42,7 +43,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onMenuClick }) => {
       >
         <i
           data-testid="votigram-icon-navbar-for-you"
-          className="votigram-icon-navbar-for-you text-[24px]"
+          className={clsx("votigram-icon-navbar-for-you text-[24px]", activeTab === TAB_LIST.FOR_YOU ? 'text-white' : 'text-input-placeholder')}
         />
       </div>
       <div
@@ -52,7 +53,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onMenuClick }) => {
       >
         <i
           data-testid="votigram-icon-navbar-vote"
-          className="votigram-icon-navbar-vote text-[24px]"
+          className={clsx("votigram-icon-navbar-vote text-[24px]", activeTab === TAB_LIST.VOTE ? 'text-white' : 'text-input-placeholder')}
         />
       </div>
       <div
@@ -62,7 +63,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onMenuClick }) => {
       >
         <i
           data-testid="votigram-icon-navbar-task-profile"
-          className="votigram-icon-navbar-task-profile text-[24px]"
+          className={clsx("votigram-icon-navbar-task-profile text-[24px]", activeTab === TAB_LIST.PEN ? 'text-white' : 'text-input-placeholder')}
         />
       </div>
       <div
