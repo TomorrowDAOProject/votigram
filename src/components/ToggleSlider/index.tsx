@@ -21,7 +21,6 @@ const ToggleSlider = ({
 }: IToggleSlider) => {
   const [activeIndex, setActiveIndex] = useState<number>(current || 0);
   const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
-  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     // Initialize refs array with items count
@@ -33,16 +32,6 @@ const ToggleSlider = ({
     onChange?.(index);
   };
 
-  // Ensure layout is ready before running animations
-  useEffect(() => {
-    // Wait until the next frame to allow the DOM to fully render
-    const timeout = setTimeout(() => {
-      setReady(true);
-    }, 0);
-
-    return () => clearTimeout(timeout);
-  }, [items.length]);
-
   return (
     <div
       className={clsx(
@@ -51,21 +40,19 @@ const ToggleSlider = ({
       )}
     >
       <AnimatePresence>
-        {ready && (
-          <motion.div
-            data-testid="selector-bg"
-            className={clsx(
-              "absolute top-[3px] bg-primary px-[3px] rounded-full h-[22px]",
-              activeItemClassName
-            )}
-            initial={false}
-            animate={{
-              x: itemRefs.current[activeIndex]?.offsetLeft || 4,
-              width: itemRefs.current[activeIndex]?.offsetWidth || "50%",
-            }}
-            transition={{ type: "spring", stiffness: 500, damping: 30 }}
-          />
-        )}
+        <motion.div
+          data-testid="selector-bg"
+          className={clsx(
+            "absolute top-[3px] bg-primary px-[3px] rounded-full h-[22px]",
+            activeItemClassName
+          )}
+          initial={false}
+          animate={{
+            x: itemRefs.current[activeIndex]?.offsetLeft || 4,
+            width: itemRefs.current[activeIndex]?.offsetWidth || "50%",
+          }}
+          transition={{ type: "spring", stiffness: 500, damping: 30 }}
+        />
       </AnimatePresence>
       <div className="relative flex w-full px-[4px] z-10">
         {items.map((item, index) => (

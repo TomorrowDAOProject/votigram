@@ -1,11 +1,16 @@
-export type VoteItem = {
-  id: number;
-  rank?: number;
+export type VoteItemType = {
+  pointsPercent: number;
+  alias: string;
   title: string;
-  amount: number;
-  avatar?: string;
-  hatIcon?: string;
-  voted: boolean;
-  progress: number;
-  isVoted?: boolean;
+  icon: string;
+  description: string;
+  editorChoice: boolean;
+  url: string;
+  longDescription: string;
+  screenshots?: string[];
+  totalPoints?: number;
+  categories?: string[];
+  totalLikes?: number;
+  totalVotes?: number;
+  pointsAmount?: number;
 }

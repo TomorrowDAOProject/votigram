@@ -55,6 +55,7 @@ interface TelegramWebApp {
     };
     requestFullscreen(): void;
     lockOrientation(): void;
+    openTelegramLink(link: string): void;
     disableVerticalSwipes(): void;
     setHeaderColor(color: string): void;
     initData: "";
@@ -62,6 +63,7 @@ interface TelegramWebApp {
       user: {
         first_name: string;
       };
+      start_param: string;
     };
   };
 }
@@ -69,3 +71,7 @@ interface TelegramWebApp {
 interface Window {
   Telegram: TelegramWebApp;
 }
+
+declare type Chain = 'AELF' | 'tDVV' | 'tDVW';
+
+declare module 'aelf-sdk';

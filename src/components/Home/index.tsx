@@ -51,18 +51,18 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
   return (
     <>
       <TelegramHeader title={isSearching ? "Discover" : ""} />
-      <div className="h-screen overflow-scroll pt-telegramHeader">
+      <div className="h-screen overflow-scroll pt-telegramHeader bg-black">
         <div className="font-outfit votigram-grid mt-[9px]">
           <div className="col-12 mb-[11px]">
             {isSearching ? (
               <i
-                className="votigram-icon-back text-[19px] leading-[18px]"
+                className="votigram-icon-back text-[19px] leading-[18px] text-white"
                 onClick={() => {
                   setIsSearching(false);
                 }}
               />
             ) : (
-              <span className="font-bold text-[20px] leading-[20px]">
+              <span className="font-bold text-[20px] leading-[20px] text-white">
                 Hi,&nbsp;
                 {window?.Telegram?.WebApp?.initDataUnsafe?.user?.first_name ||
                   " "}
@@ -72,7 +72,7 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
           <div className="col-12 bg-input gap-2 h-[41px] px-4 flex items-center rounded-3xl">
             <i className="votigram-icon-search text-input-placeholder" />
             <input
-              className="w-full bg-transparent placeholder:leading-[19.6px] text-[14px] placeholder:text-input-placeholder placeholder:font-questrial"
+              className="w-full bg-transparent text-white placeholder:leading-[19.6px] text-[14px] placeholder:text-input-placeholder placeholder:font-questrial"
               placeholder="Search..."
               onFocus={() => {
                 setIsSearching(true);

@@ -14,7 +14,7 @@ const DiscoveryHiddenGems = ({
   return (
     <div className="flex font-outfit votigram-grid mb-[22px] w-full">
       <div className="discovery-hidden-container">
-        <span className="font-bold text-[20px] leading-[20px]">
+        <span className="font-bold text-[20px] leading-[20px] text-white">
           Discover Hidden Gems!
         </span>
         <AppItem onAppItemClick={onAppItemClick} item={item} />

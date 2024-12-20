@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const Home: LazyExoticComponent<React.FC> = React.lazy(() => import('@/pageComponents/Home'));
 const CreatePoll: LazyExoticComponent<React.FC> = React.lazy(() => import('@/pageComponents/CreatePoll'));
+const PollDetail: LazyExoticComponent<React.FC> = React.lazy(() => import('@/pageComponents/PollDetail'));
 
 const AppRoutes: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const AppRoutes: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/create-poll" element={<CreatePoll />} />
+          <Route path="/proposal/:proposalId" element={<PollDetail />} />
         </Routes>
       </Suspense>
     </Router>

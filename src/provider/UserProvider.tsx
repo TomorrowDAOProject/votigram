@@ -15,6 +15,9 @@ import {
   User,
 } from "./types/UserProviderType";
 import { fetchToken } from "@/utils/token";
+import { useWalletService } from "@/hooks/useWallet";
+import { webLoginInstance } from "@/contract/webLogin";
+import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
 
 let RETRY_MAX_COUNT = 3;
 
@@ -91,6 +94,16 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [state, dispatch] = useReducer(dataReducer, initialState);
+  const { isConnected, wallet, login } = useWalletService();
+  const webLoginContext = useConnectWallet();
+
+  useEffect(() => {
+    if (!wallet) {
+      return;
+    }
+    console.log('webLoginContext.isConnected', webLoginContext.isConnected, webLoginContext);
+    webLoginInstance.setWebLoginContext(webLoginContext);
+  }, [webLoginContext, wallet]);
 
   useEffect(() => {
     const fetchTokenAndData = async () => {
@@ -107,7 +120,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         Cookies.set("access_token", access_token);
         const decodedToken = jwtDecode<CustomJwtPayload>(access_token);
         const userPointsData = await getUserPoints(access_token);
-
         // Combine and set user data
         dispatch({
           type: "SET_USER_DATA",
@@ -116,6 +128,10 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
             userPoints: userPointsData?.data || 0,
           },
         });
+
+        if (!isConnected) {
+          login();
+        }
       } catch (error) {
         if (
           error instanceof Error &&
@@ -136,7 +152,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     if (state.loading) {
       fetchTokenAndData();
     }
-  }, [state.loading]);
+  }, [isConnected, login, state.loading]);
 
   const hasUserData = () => {
     return state.user.userPoints !== null;
