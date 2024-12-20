@@ -12,14 +12,16 @@ const isDev = process.env.NODE_ENV === "development";
 
 const App = () => {
   const [cmsData, setCmsData] = useState<IConfigContent>();
-  
+
   const fetchCMSData = async () => {
-    const cmsRes = await fetch(host + '/cms/items/config', {
-      cache: 'no-store',
+    const cmsRes = await fetch(host + "/cms/items/config", {
+      cache: "no-store",
     });
-    const cmsData = await cmsRes.json();
-    setCmsData(cmsData);
-  }
+    const {
+      data: { config },
+    } = await cmsRes.json();
+    setCmsData(config);
+  };
 
   useEffect(() => {
     fetchCMSData();
@@ -44,7 +46,7 @@ const App = () => {
   return (
     <WebLoginProvider>
       <UserProvider>
-        <ConfigProvider config={cmsData?.data?.config}>
+        <ConfigProvider config={cmsData}>
           <Routes />
         </ConfigProvider>
       </UserProvider>
