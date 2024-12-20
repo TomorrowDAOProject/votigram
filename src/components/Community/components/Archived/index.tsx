@@ -37,11 +37,12 @@ const Archived = ({ type, scrollTop }: IArchivedProps) => {
   }, [type]);
 
   useEffect(() => {
-    if (data) {
+    const { data: sectionList } = data || {};
+    if (sectionList && Array.isArray(sectionList)) {
       setSections((prev) =>
-        pageIndex === 0 ? data.data : [...prev, ...data.data]
+        pageIndex === 0 ? sectionList : [...prev, ...sectionList]
       );
-      setHasMore(data.data?.length >= PAGE_SIZE);
+      setHasMore(sectionList?.length >= PAGE_SIZE);
     }
   }, [data, pageIndex]);
 
@@ -57,9 +58,9 @@ const Archived = ({ type, scrollTop }: IArchivedProps) => {
         <button
           className="mb-[12px] w-full h-[40px] bg-primary text-white font-bold text-[14px] font-outfit rounded-[24px]"
           type="button"
-          onClick={() => navigate('/create-poll')}
+          onClick={() => navigate("/create-poll")}
         >
-          Create Poll 
+          Create Poll
         </button>
       )}
       {sections?.map((vote, index) => (

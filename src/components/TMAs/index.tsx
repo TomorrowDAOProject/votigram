@@ -4,6 +4,7 @@ import Accumulative from "./components/Accumulative";
 import Current from "./components/Current";
 import CategoryPillList from "../CategoryPillList";
 import useDebounceFn from "ahooks/lib/useDebounceFn";
+import { COMMUNITY_TYPE } from "@/constants/vote";
 
 interface ITMAsProps {
   scrollTop: number;
@@ -37,7 +38,7 @@ const TMAs = ({ scrollTop, onTabChange }: ITMAsProps) => {
     <>
       <ToggleSlider
         current={currentTab}
-        items={["Accumulative", "Current"]}
+        items={[COMMUNITY_TYPE.ACCUMULATIVE, COMMUNITY_TYPE.CURRENT]}
         className="pt-[4px] pb-[8px] rounded-none bg-transparent border-b-[2px] border-tertiary"
         activeItemClassName="top-auto bottom-0 h-[2px] rounded-none"
         itemClassName="font-bold text-[16px] leading-[16px] font-outfit"

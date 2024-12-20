@@ -7,14 +7,19 @@ import dayjs from "dayjs";
 import clsx from "clsx";
 interface ISimpleDatePickerProps {
   value?: string;
-  defaultVulue?: string;
+  defaultValue?: string;
   className?: string;
   onChange?: (value: string) => void;
 }
 
 const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
-  const { value, defaultVulue, className, onChange, ...dayPickerProps } = props;
-  const baseValue = value && dayjs(value || "").isValid() ? value : defaultVulue && dayjs(defaultVulue || "").isValid() ? defaultVulue : dayjs().format("")
+  const { value, defaultValue, className, onChange, ...dayPickerProps } = props;
+  const baseValue =
+    value && dayjs(value || "").isValid()
+      ? value
+      : defaultValue && dayjs(defaultValue || "").isValid()
+      ? defaultValue
+      : dayjs().format();
   const [isVisible, setIsVisible] = useState(false);
   const [selected, setSelected] = useState<string>(baseValue);
 

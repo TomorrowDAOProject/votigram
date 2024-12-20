@@ -12,7 +12,7 @@ import clsx from "clsx";
 interface ISimpleTimePickerProps {
   className?: string;
   value?: string | number;
-  onChange?(t: number): void;
+  onChange?(timestamp: number): void;
 }
 
 dayjs.extend(customParseFormat);

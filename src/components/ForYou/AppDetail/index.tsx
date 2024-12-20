@@ -69,17 +69,17 @@ const AppDetail = ({ item, updateOpenAppClick }: IAppDetailProps) => {
           setIsExpand(!isExpand);
         }}
       >
-        <div className="flex gap-2 mb-[14px]">
+        <div className="flex gap-2 mb-[14px] text-white">
           <img
             src={item.icon}
             className="h-[48px] aspect-square rounded-[8px] border-app-icon-border border-[1px]"
             alt=""
           />
           <div className="flex flex-col gap-[5px] justify-center">
-            <span className="font-outfit font-bold text-[16px] leading-[16px] text-white">
+            <span className="font-outfit font-bold text-[16px] leading-[16px]">
               {item.title}
             </span>
-            <span className="text-[11px] leading-[13px] text-white">
+            <span className="text-[11px] leading-[13px]">
               {item.description}
             </span>
           </div>

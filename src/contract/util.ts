@@ -1,24 +1,25 @@
 import { IContractError } from "@/types/contract";
 
-export const DEFAULT_ERROR = 'Something went wrong. Please try again later.';
+export const DEFAULT_ERROR = "Something went wrong. Please try again later.";
 
-export const UserDeniedMessage = 'Request rejected. TMRW DAO needs your permission to continue';
-export const EventEnded = 'The event has ended';
+export const UserDeniedMessage =
+  "Request rejected. TMRW DAO needs your permission to continue";
+export const EventEnded = "The event has ended";
 export const AIServerError =
-  'The network is currently congested due to the simultaneous generation of numerous images. Please consider trying again later.';
+  "The network is currently congested due to the simultaneous generation of numerous images. Please consider trying again later.";
 export const TransactionFeeNotEnough =
-  'Failed. Please transfer some ELF to this address before you try again.';
+  "Failed. Please transfer some ELF to this address before you try again.";
 
-export const LoginFailed = 'Login failed!';
+export const LoginFailed = "Login failed!";
 
 enum SourceErrorType {
-  Error1 = 'Operation canceled',
-  Error2 = 'You closed the prompt without any action',
-  Error3 = 'User denied',
-  Error4 = 'User close the prompt',
-  Error5 = 'Wallet not login',
-  Error6 = 'Insufficient allowance of ELF',
-  Error7 = 'User Cancel',
+  Error1 = "Operation canceled",
+  Error2 = "You closed the prompt without any action",
+  Error3 = "User denied",
+  Error4 = "User close the prompt",
+  Error5 = "Wallet not login",
+  Error6 = "Insufficient allowance of ELF",
+  Error7 = "User Cancel",
 }
 
 export enum TargetErrorType {
@@ -26,14 +27,13 @@ export enum TargetErrorType {
   Error2 = UserDeniedMessage,
   Error3 = UserDeniedMessage,
   Error4 = UserDeniedMessage,
-  Error5 = 'Wallet not logged in',
-  Error6 = 'The allowance you set is less than required. Please reset it',
+  Error5 = "Wallet not logged in",
+  Error6 = "The allowance you set is less than required. Please reset it",
   Error7 = UserDeniedMessage,
 }
 
 export const matchErrorMsg = <T>(message: T) => {
-  // console.log('errorMsg', message);
-  if (typeof message === 'string') {
+  if (typeof message === "string") {
     const sourceErrors = [
       SourceErrorType.Error1,
       SourceErrorType.Error2,
@@ -61,18 +61,17 @@ export const matchErrorMsg = <T>(message: T) => {
       }
     }
 
-    return resMessage.replace('AElf.Sdk.CSharp.AssertionException: ', '');
+    return resMessage.replace("AElf.Sdk.CSharp.AssertionException: ", "");
   } else {
     return DEFAULT_ERROR;
   }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const stringifyMsg = (message: any) => {
-  if (typeof message === 'object') {
+const stringifyMsg = (message: unknown) => {
+  if (typeof message === "object") {
     return JSON.stringify(message);
   }
-  return message;
+  return message?.toString();
 };
 export const formatErrorMsg = (result: IContractError) => {
   let resError: IContractError = result;
@@ -82,34 +81,42 @@ export const formatErrorMsg = (result: IContractError) => {
       ...result,
       error: result.code,
       errorMessage: {
-        message: stringifyMsg(result.message),
+        message: stringifyMsg(result.message) || "",
       },
     };
   } else if (result.Error) {
     resError = {
       ...result,
-      error: '401',
+      error: "401",
       errorMessage: {
-        message: stringifyMsg(result.Error).replace('AElf.Sdk.CSharp.AssertionException: ', ''),
+        message:
+          stringifyMsg(result.Error)?.replace(
+            "AElf.Sdk.CSharp.AssertionException: ",
+            ""
+          ) || "",
       },
     };
-  } else if (typeof result.error !== 'number' && typeof result.error !== 'string') {
+  } else if (
+    typeof result.error !== "number" &&
+    typeof result.error !== "string"
+  ) {
     if (result.error?.message) {
       resError = {
         ...result,
-        error: '401',
+        error: "401",
         errorMessage: {
-          message: stringifyMsg(result.error.message).replace(
-            'AElf.Sdk.CSharp.AssertionException: ',
-            '',
-          ),
+          message:
+            stringifyMsg(result.error.message)?.replace(
+              "AElf.Sdk.CSharp.AssertionException: ",
+              ""
+            ) || "",
         },
       };
     }
-  } else if (typeof result.error === 'string') {
+  } else if (typeof result.error === "string") {
     resError = {
       ...result,
-      error: '401',
+      error: "401",
       errorMessage: {
         message: result?.errorMessage?.message || result.error,
       },

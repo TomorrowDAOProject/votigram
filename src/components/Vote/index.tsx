@@ -6,6 +6,7 @@ import Community from "../Community";
 import TelegramHeader from "../TelegramHeader";
 import Countdown from "../Countdown";
 import dayjs from "dayjs";
+import { VOTE_TABS } from "@/constants/vote";
 
 const Vote = () => {
   const {
@@ -62,9 +63,11 @@ const Vote = () => {
         <div className="votigram-grid">
           <div className="col-7 h-7">
             <ToggleSlider
-              items={["TMAs", "Community"]}
+              items={[VOTE_TABS.TMAS, VOTE_TABS.COMMUNITY]}
               onChange={(index) =>
-                setCurrentTab(index === 0 ? "TMAs" : "Community")
+                setCurrentTab(
+                  index === 0 ? VOTE_TABS.TMAS : VOTE_TABS.COMMUNITY
+                )
               }
             />
           </div>
@@ -77,7 +80,7 @@ const Vote = () => {
             </span>
           </div>
           <div className="mt-8 col-12">
-            {currnetTab === "TMAs" ? (
+            {currnetTab === VOTE_TABS.TMAS ? (
               <TMAs scrollTop={scrollTop} onTabChange={setTMATab} />
             ) : (
               <Community scrollTop={scrollTop} />

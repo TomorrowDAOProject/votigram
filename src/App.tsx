@@ -18,7 +18,6 @@ const App = () => {
       cache: 'no-store',
     });
     const cmsData = await cmsRes.json();
-    console.log(cmsData)
     setCmsData(cmsData);
   }
 

@@ -21,7 +21,6 @@ interface IVoteItemProps {
   canVote?: boolean;
   showHat?: boolean;
   showBtn?: boolean;
-  isFirst?: boolean;
   className?: string;
   proposalId: string;
   hatClassName?: string;
@@ -41,7 +40,6 @@ const VoteItem = ({
   hatClassName,
   imgClassName,
   category,
-  isFirst,
   onVoted,
 }: IVoteItemProps) => {
   const elementRef = useRef<HTMLDivElement>(null);
@@ -182,7 +180,7 @@ const VoteItem = ({
   }, []);
 
   const handleFinish = () => {
-    setIsFailed(false)
+    setIsFailed(false);
     sedRawTransaction();
   };
 
@@ -262,12 +260,7 @@ const VoteItem = ({
           className="bg-white/[.25] w-[40px] h-[40px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0 z-[10]"
           onClick={onVoteClick}
         >
-          <i
-            className={clsx(
-              "votigram-icon-navbar-vote text-[24px]",
-              isFirst ? "text-lime-green" : "text-lime-primary"
-            )}
-          />
+          <i className="votigram-icon-navbar-vote text-[24px] text-lime-primary first:text-lime-green" />
         </button>
       )}
       <Confetti

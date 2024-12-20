@@ -129,7 +129,6 @@ const PollDetail = () => {
                 className="w-full"
                 canVote={canVote}
                 onVoted={() => setCanVote(false)}
-                isFirst={index === 0}
                 showBtn
               />
             ))}
