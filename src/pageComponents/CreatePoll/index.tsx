@@ -33,11 +33,10 @@ const rules = {
   ],
   options: [
     (ops: VoteOption[]) =>
-      ops.length === 0
-        ? "Please add an option"
-        : ops.length < 2
-        ? "Please add at least two options"
-        : undefined,
+      ops.length === 0 ? "Please add an option" : undefined,
+
+    (ops: VoteOption[]) =>
+      ops.length < 2 ? "Please add at least two options" : undefined,
     (ops: VoteOption[]) =>
       ops.filter((op) => !op.title).length > 0
         ? "Kindly ensure it's not left empty"
@@ -115,11 +114,11 @@ const CreatePoll = () => {
       if (!appAlias.length) {
         throw new Error("Failed to create proposal, save options failed");
       }
-      const formmatDescriptionStr = formmatDescription(
+      const formatDescriptionStr = formmatDescription(
         appAlias,
         formState.banner
       );
-      if (formmatDescriptionStr.length > 256) {
+      if (formatDescriptionStr.length > 256) {
         throw new Error(
           "Too many options have been added, or the option names are too long. Please simplify the options and try again."
         );
@@ -143,7 +142,7 @@ const CreatePoll = () => {
       const proposalBasicInfo = {
         proposalTitle: formState.proposalTitle,
         ...timeParams,
-        proposalDescription: formmatDescriptionStr,
+        proposalDescription: formatDescriptionStr,
         daoId: communityDaoId,
         voteSchemeId,
         schemeAddress,
