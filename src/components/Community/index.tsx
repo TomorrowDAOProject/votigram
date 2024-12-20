@@ -11,7 +11,7 @@ const Community = ({ scrollTop }: ICommunityProps) => {
   const [currentTab, setCurrentTab] = useState(1);
 
   return (
-    <div>
+    <>
       <ToggleSlider
         current={currentTab}
         items={[COMMUNITY_LABEL.ARCHIVED, COMMUNITY_LABEL.CURRENT]}
@@ -29,7 +29,7 @@ const Community = ({ scrollTop }: ICommunityProps) => {
             : COMMUNITY_TYPE.CURRENT
         }
       />
-    </div>
+    </>
   );
 };
 
