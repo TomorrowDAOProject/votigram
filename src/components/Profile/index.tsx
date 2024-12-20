@@ -14,7 +14,7 @@ const Profile = () => {
   return (
     <>
       <TelegramHeader title="Profile" />
-      <div className="min-h-screen overflow-scroll pt-telegramHeader bg-black">
+      <div className="min-h-screen overflow-scroll pt-telegramHeader bg-black pb-28">
         <div className="votigram-grid mt-[9px]">
           <div className="col-7 mt-[13px]">
             <span className="block font-outfit font-bold text-[20px] leading-[20px] text-white">

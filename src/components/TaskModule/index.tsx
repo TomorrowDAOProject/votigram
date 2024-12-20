@@ -9,14 +9,16 @@ interface ITaskModuleProps {
 
 const TaskModule = ({ title, description, data }: ITaskModuleProps) => {
   return (
-    <>
-      <span className="block ">{title}</span>
-      {description && <span className="block ">{description}</span>}
+    <div className="my-[14px]">
+      <div className="mb-[14px]">
+        <span className="block font-bold text-[18px] leading-[18px] text-white font-outfit">{title}</span>
+        {description && <span className="block mt-[6px] text-white font-normal text-[14px] leading-[16px]">{description}</span>}
+      </div>
 
       {data?.map((task: TaskInfo) => (
         <TaskItem data={task} key={task.userTaskDetail} onPressGo={() => {}} />
       ))}
-    </>
+    </div>
   );
 };
 
