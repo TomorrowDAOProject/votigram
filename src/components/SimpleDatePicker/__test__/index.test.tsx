@@ -1,52 +1,68 @@
-// SimpleDatePicker.test.tsx
+import { render, screen, fireEvent } from "@testing-library/react";
+import SimpleDatePicker from "../index";
+import dayjs from "dayjs";
+import { describe, expect, it } from "vitest";
 
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { describe, it, expect, vi } from 'vitest';
-import SimpleDatePicker from '../index';
+describe("SimpleDatePicker", () => {
+  it("renders correctly with default value", () => {
+    const defaultValue = "2024-12-20";
+    render(<SimpleDatePicker defaultValue={defaultValue} />);
 
-// Mocking Drawer and DayPicker because they have external dependencies that we don't want to trigger in the test environment
-vi.mock('../Drawer', () => ({
-  default: ({ isVisible, children }: { isVisible: boolean; children: React.ReactNode }) => (
-    <div>{isVisible && children}</div>
-  ),
-}));
-
-vi.mock('react-day-picker', () => ({
-  DayPicker: ({ onSelect }: { onSelect: (date: Date) => void }) => (
-    <div>
-      <button onClick={() => onSelect(new Date('2023-10-01'))}>Select October 1st, 2023</button>
-    </div>
-  ),
-}));
-
-describe('SimpleDatePicker Component', () => {
-  it('renders the DatePicker when visible', () => {
-    render(<SimpleDatePicker isVisible={true} />);
-    
-    // Check if the date picker and confirm button gets rendered when visible
-    expect(screen.getByRole('button', { name: /confirm/i })).toBeInTheDocument();
+    const dateDisplay = screen.getByText(dayjs(defaultValue).format("DD MMM"));
+    expect(dateDisplay).toBeInTheDocument();
   });
 
-  it('does not render DatePicker when not visible', () => {
-    render(<SimpleDatePicker isVisible={false} />);
-    
-    // Confirm button should not be present because the DatePicker is hidden
-    expect(screen.queryByRole('button', { name: /confirm/i })).not.toBeInTheDocument();
+  it("shows the current date if no value or defaultValue is provided", () => {
+    render(<SimpleDatePicker />);
+
+    const currentDate = dayjs().format("DD MMM");
+    const dateDisplay = screen.getByText(currentDate);
+    expect(dateDisplay).toBeInTheDocument();
   });
 
-  it('calls onChange with selected date when confirm is clicked', () => {
-    const handleChange = vi.fn();
+  it("renders the drawer when clicked and closes on confirm", () => {
+    render(<SimpleDatePicker />);
+  
+    const datePickerTrigger = screen.getByRole("button", {
+      name: /select date/i,
+    });
+    fireEvent.click(datePickerTrigger);
+  
+    const drawer = screen.getByRole("dialog");
+    expect(drawer).toBeVisible();
+  
+    const confirmButton = screen.getByRole("button", { name: /confirm/i });
+    fireEvent.click(confirmButton);
+  
+    // Verify the drawer is visually hidden
+    expect(drawer).toHaveStyle("transform: translateY(100%)");
+  });
+  
 
-    render(<SimpleDatePicker isVisible={true} onChange={handleChange} />);
+  it("renders the drawer when clicked and closes on confirm", () => {
+    render(<SimpleDatePicker />);
 
-    // Simulate date selection
-    fireEvent.click(screen.getByText('Select October 1st, 2023'));
+    const datePickerTrigger = screen.getByRole("button", {
+      name: /select date/i,
+    });
+    fireEvent.click(datePickerTrigger);
 
-    // Simulate confirm button click
-    fireEvent.click(screen.getByRole('button', { name: /confirm/i }));
+    const drawer = screen.getByRole("dialog");
+    expect(drawer).toBeVisible();
+  });
 
-    expect(handleChange).toHaveBeenCalledWith(new Date('2023-10-01'));
+  it("formats the date correctly for the current year and other years", () => {
+    const dateInCurrentYear = dayjs().format("YYYY-MM-DD");
+    const dateInAnotherYear = "2023-12-25";
+
+    const { rerender } = render(
+      <SimpleDatePicker value={dateInCurrentYear} />
+    );
+    const currentYearDisplay = screen.getByText(dayjs(dateInCurrentYear).format("DD MMM"));
+    expect(currentYearDisplay).toBeInTheDocument();
+
+    rerender(<SimpleDatePicker value={dateInAnotherYear} />);
+    const anotherYearDisplay = screen.getByText(dayjs(dateInAnotherYear).format("DD MMM YYYY"));
+    expect(anotherYearDisplay).toBeInTheDocument();
   });
 });

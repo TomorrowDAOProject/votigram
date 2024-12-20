@@ -3,7 +3,11 @@ import { Picker } from "react-mobile-style-picker";
 import "react-mobile-style-picker/dist/index.css";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { HOUR_RANGE, MINUTE_RANGE, PERIOD_RANGE } from "@/constants/time-picker";
+import {
+  HOUR_RANGE,
+  MINUTE_RANGE,
+  PERIOD_RANGE,
+} from "@/constants/time-picker";
 
 import Drawer from "../Drawer";
 import "./index.css";
@@ -17,12 +21,16 @@ interface ISimpleTimePickerProps {
 
 dayjs.extend(customParseFormat);
 
-const SimpleTimePicker = ({ value, className, onChange }: ISimpleTimePickerProps) => {
+const SimpleTimePicker = ({
+  value,
+  className,
+  onChange,
+}: ISimpleTimePickerProps) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedTime, setSelectedTime] = useState(dayjs().format('HH:mm'));
+  const [selectedTime, setSelectedTime] = useState(dayjs().format("HH:mm"));
   const [selectedHour, setSelectedHour] = useState(dayjs().format("HH"));
   const [selectedMinute, setSelectedMinute] = useState(dayjs().format("mm"));
-  const [selectedPeriod, setSelectedPeriod] = useState(dayjs().format('A'));
+  const [selectedPeriod, setSelectedPeriod] = useState(dayjs().format("A"));
 
   const handleConfirm = () => {
     let hour = selectedHour;
@@ -46,14 +54,24 @@ const SimpleTimePicker = ({ value, className, onChange }: ISimpleTimePickerProps
       setSelectedMinute(dayjs(value).format("mm"));
       setSelectedPeriod(dayjs(value).format("A"));
     }
-  }, [value])
+  }, [value]);
 
   return (
     <>
-      <div className={clsx("relative py-[12px] pl-[14px] pr-[40px] border border-tertiary rounded-[10px]", className)} onClick={() => setIsVisible(true)}>
-        <span className="block min-w-[50px] h-[20px] font-normal text-[14px] text-input-placeholder leading-[20px]">{selectedTime}</span>
+      <div
+        role="button"
+        aria-label="select date"
+        className={clsx(
+          "relative py-[12px] pl-[14px] pr-[40px] border border-tertiary rounded-[10px]",
+          className
+        )}
+        onClick={() => setIsVisible(true)}
+      >
+        <span className="block min-w-[50px] h-[20px] font-normal text-[14px] text-input-placeholder leading-[20px]">
+          {selectedTime}
+        </span>
 
-        <i className='absolute top-1/2 right-[14px] -translate-y-1/2 votigram-icon-time text-input-placeholder text-[18px]' />
+        <i className="absolute top-1/2 right-[14px] -translate-y-1/2 votigram-icon-time text-input-placeholder text-[18px]" />
       </div>
       <Drawer
         isVisible={isVisible}
