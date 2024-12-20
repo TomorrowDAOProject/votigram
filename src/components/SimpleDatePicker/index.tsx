@@ -54,7 +54,7 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
           {selected && formatDate(selected)}
         </span>
 
-        <i className="absolute top-1/2 right-[14px] -translate-y-1/2 votigram-icon-navbar-vote text-input-placeholder text-[18px]" />
+        <i className="absolute top-1/2 right-[14px] -translate-y-1/2 votigram-icon-calendar text-input-placeholder text-[18px]" />
       </div>
       <Drawer
         isVisible={isVisible}
@@ -80,7 +80,7 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
         />
         <button
           type="button"
-          className="w-full mt-2 mx-[2.5px] bg-primary rounded-[24px] text-[14px] font-bold py-[10px] font-outfit leading-[25px]"
+          className="w-full mt-2 mx-[2.5px] bg-primary rounded-[24px] text-[14px] font-bold py-[10px] font-outfit leading-[25px] text-white"
           onClick={handleConfirm}
         >
           Confirm

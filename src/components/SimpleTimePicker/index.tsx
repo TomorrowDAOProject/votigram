@@ -53,7 +53,7 @@ const SimpleTimePicker = ({ value, className, onChange }: ISimpleTimePickerProps
       <div className={clsx("relative py-[12px] pl-[14px] pr-[40px] border border-tertiary rounded-[10px]", className)} onClick={() => setIsVisible(true)}>
         <span className="block min-w-[50px] h-[20px] font-normal text-[14px] text-input-placeholder leading-[20px]">{selectedTime}</span>
 
-        <i className='absolute top-1/2 right-[14px] -translate-y-1/2 votigram-icon-navbar-vote text-input-placeholder text-[18px]' />
+        <i className='absolute top-1/2 right-[14px] -translate-y-1/2 votigram-icon-time text-input-placeholder text-[18px]' />
       </div>
       <Drawer
         isVisible={isVisible}
@@ -123,7 +123,7 @@ const SimpleTimePicker = ({ value, className, onChange }: ISimpleTimePickerProps
         </div>
         <button
           type="button"
-          className="w-full my-4 mx-[2.5px] bg-primary rounded-[24px] text-[14px] font-bold py-[10px] font-outfit leading-[25px]"
+          className="w-full my-4 mx-[2.5px] bg-primary rounded-[24px] text-[14px] font-bold py-[10px] font-outfit leading-[25px] text-white"
           onClick={handleConfirm}
         >
           Confirm
