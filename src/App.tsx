@@ -26,7 +26,12 @@ const App = () => {
   useEffect(() => {
     fetchCMSData();
     if (window?.Telegram && isTMA("simple")) {
-      window.Telegram.WebApp?.requestFullscreen?.();
+      if (
+        window.Telegram.WebApp?.platform === "ios" ||
+        window.Telegram.WebApp?.platform === "android"
+      ) {
+        window.Telegram.WebApp?.requestFullscreen?.();
+      }
       window.Telegram.WebApp?.lockOrientation?.();
       window.Telegram.WebApp?.disableVerticalSwipes?.();
       window.Telegram.WebApp?.setHeaderColor?.("#000000");
