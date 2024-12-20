@@ -12,7 +12,7 @@ import SearchPanel from "../SearchPanel";
 import { VoteApp } from "@/types/app";
 import { chainId } from "@/constants/app";
 
-const DAILY_REWARDS = [2000, 2000, 2000, 2000, 2000, 2000, 5000];
+const DAILY_REWARDS = [200, 200, 200, 200, 200, 200, 500];
 
 interface IHomeProps {
   onAppItemClick: (item: VoteApp) => void;
