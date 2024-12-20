@@ -1,0 +1,59 @@
+import TelegramHeader from "@/components/TelegramHeader";
+import ToggleSlider from "@/components/ToggleSlider";
+import { useUserContext } from "@/provider/UserProvider";
+import { useState } from "react";
+import Tasks from "./components/Tasks";
+import Achievements from "./components/Achievements";
+
+const Profile = () => {
+  const {
+    user: { userPoints },
+  } = useUserContext();
+  const [currentTab, setCurrentTab] = useState(0);
+
+  return (
+    <>
+      <TelegramHeader title="Profile" />
+      <div className="min-h-screen overflow-scroll pt-telegramHeader bg-black">
+        <div className="votigram-grid mt-[9px]">
+          <div className="col-7 mt-[13px]">
+            <span className="block font-outfit font-bold text-[20px] leading-[20px] text-white">
+              Hi,&nbsp;
+              {window?.Telegram?.WebApp?.initDataUnsafe?.user?.first_name ||
+                " "}
+            </span>
+          </div>
+          <div className="flex flex-col col-5 items-end gap-[6px]">
+            <span className="text-[10px] leading-[11px]">
+              Total earned points:
+            </span>
+            <span className="font-pressStart text-secondary tracking-[-1.6] text-[16px] leading-[16px]">
+              {userPoints?.userTotalPoints.toLocaleString() || 0}
+            </span>
+          </div>
+
+          <div className="col-12 my-[22px]">
+            <img className="w-full h-auto rounded-[15px]" src="https://via.placeholder.com/600x200" alt="Banner" />
+          </div>
+
+          <div className="col-12 mb-[22px]">
+            <ToggleSlider
+              current={currentTab}
+              items={["Task", "Achievements"]}
+              className="pt-[4px] pb-[8px] rounded-none bg-transparent border-b-[2px] border-tertiary"
+              activeItemClassName="top-auto bottom-0 h-[2px] rounded-none"
+              itemClassName="font-bold text-[16px] leading-[16px] font-outfit"
+              onChange={setCurrentTab}
+            />
+          </div>
+
+          <div className="col-12">
+            {currentTab === 0 ? <Tasks /> : <Achievements />}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Profile;
