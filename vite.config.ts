@@ -1,6 +1,5 @@
 import { defineConfig, UserConfigExport } from "vite";
 import react from "@vitejs/plugin-react";
-import inject from "@rollup/plugin-inject";
 import path from "path";
 
 // Custom plugin to modify HTML paths
@@ -25,9 +24,6 @@ export default defineConfig({
   plugins: [
     react(),
     modifyIndexHtmlPaths(),
-    inject({
-      Buffer: ['buffer', 'Buffer'],
-    }),
   ],
   resolve: {
     alias: {
