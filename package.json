@@ -22,7 +22,6 @@
     "@portkey/contracts": "2.16.0-alpha.0",
     "@portkey/did-ui-react": "2.15.11-alpha.0",
     "@portkey/utils": "2.16.0-alpha.0",
-    "@rollup/plugin-inject": "^5.0.5",
     "@telegram-apps/bridge": "^1.7.0",
     "aelf-sdk": "^3.4.8",
     "ahooks": "^3.8.4",
