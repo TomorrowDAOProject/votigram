@@ -59,7 +59,7 @@ interface TelegramWebApp {
     openTelegramLink(link: string): void;
     disableVerticalSwipes(): void;
     setHeaderColor(color: string): void;
-    platform: "ios" | "android" | "web" | "tdesktop" | "macos";
+    platform: 'ios' | 'android' | 'web' | 'tdesktop' | 'macos';
     initData: "";
     initDataUnsafe: {
       user: {
