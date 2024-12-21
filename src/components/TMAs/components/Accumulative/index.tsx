@@ -12,7 +12,11 @@ interface IAccumulativeProps {
 }
 const PAGE_SIZE = 20;
 
-const Accumulative = ({ scrollTop, keyward, category: categoryValue }: IAccumulativeProps) => {
+const Accumulative = ({
+  scrollTop,
+  keyward,
+  category: categoryValue,
+}: IAccumulativeProps) => {
   const [hasMore, setHasMore] = useState(true);
   const [voteList, setVoteList] = useState<VoteItemType[]>([]);
   const [pageIndex, setPageIndex] = useState(0);
@@ -46,23 +50,23 @@ const Accumulative = ({ scrollTop, keyward, category: categoryValue }: IAccumula
   }, [hasMore, isLoading, scrollTop]);
 
   useEffect(() => {
-    setSearch(keyward || '');
+    setSearch(keyward || "");
     setPageIndex(0);
   }, [keyward]);
 
   useEffect(() => {
-    setCategory(categoryValue || '');
+    setCategory(categoryValue || "");
     setPageIndex(0);
   }, [categoryValue]);
 
   return (
-    <div className="pt-3 pb-[100px]">
+    <div className="pb-[100px]">
       {voteList?.map((vote, index) => (
         <VoteItem
           key={`${vote.alias}_${index}`}
           data={vote}
           rank={index + 1}
-          proposalId={''}
+          proposalId={""}
           showHat={index === 0}
           className="bg-transparent"
           showBtn={false}

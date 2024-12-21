@@ -12,7 +12,7 @@ import { stringifyStartAppParams } from "@/utils/start-params";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useCopyToClipboard } from 'react-use';
+import { useCopyToClipboard } from "react-use";
 import { getShareText } from "./utils";
 
 const PollDetail = () => {
@@ -61,13 +61,15 @@ const PollDetail = () => {
     });
     return `${TgLink}?startapp=${paramsStr}`;
   };
-  
+
   const shareToTelegram = () => {
     if (window?.Telegram?.WebApp?.openTelegramLink) {
       const url = encodeURIComponent(generateShareUrl());
-      const shareText = encodeURIComponent(getShareText(data.proposalTitle ?? ''));
+      const shareText = encodeURIComponent(
+        getShareText(data.proposalTitle ?? "")
+      );
       window?.Telegram?.WebApp?.openTelegramLink(
-        `https://t.me/share/url?url=${url}&text=${shareText}`,
+        `https://t.me/share/url?url=${url}&text=${shareText}`
       );
     }
   };
@@ -97,7 +99,7 @@ const PollDetail = () => {
           </div>
         </div>
         <div className="pt-[17px] pb-[22px]">
-          <span className="block text-[22px] font-bold text-center leading-[22px] text-white mb-[18px]">
+          <span className="block text-[22px] font-bold text-center leading-[22px] text-white mb-[18px] font-outfit">
             {pollDeta?.proposalTitle}
           </span>
 
@@ -152,19 +154,29 @@ const PollDetail = () => {
         </span>
         <div className="flex flex-row items-center justify-center gap-[10px]">
           <div className="flex flex-col items-center justify-center flex-1">
-            <div className="w-[48px] h-[48px] rounded-[12px] bg-primary flex items-center justify-center" onClick={shareToTelegram}>
+            <div
+              className="w-[48px] h-[48px] rounded-[12px] bg-primary flex items-center justify-center"
+              onClick={shareToTelegram}
+            >
               <i className="votigram-icon-telegram-logo text-[32px] text-white" />
             </div>
-            <span className="mt-3 block text-white text-normal text-[12px] leading-[13.2px]">Share to Telegram</span>
+            <span className="mt-3 block text-white text-normal text-[12px] leading-[13.2px]">
+              Share to Telegram
+            </span>
           </div>
           <div className="flex flex-col items-center justify-center flex-1">
-            <div className="w-[48px] h-[48px] rounded-[12px] bg-primary flex items-center justify-center" onClick={() => {
-              copyToClipboard(generateShareUrl());
-              setIsCopied(true);
-            }}>
+            <div
+              className="w-[48px] h-[48px] rounded-[12px] bg-primary flex items-center justify-center"
+              onClick={() => {
+                copyToClipboard(generateShareUrl());
+                setIsCopied(true);
+              }}
+            >
               <i className="votigram-icon-web text-[32px] text-white" />
             </div>
-            <span className="mt-3 block text-white text-normal text-[12px] leading-[13.2px]">{isCopied ? 'Copied' : 'Copy Link'}</span>
+            <span className="mt-3 block text-white text-normal text-[12px] leading-[13.2px]">
+              {isCopied ? "Copied" : "Copy Link"}
+            </span>
           </div>
         </div>
       </Drawer>

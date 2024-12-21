@@ -39,9 +39,9 @@ const App = () => {
       if (isDev) {
         const htmlElement = document.getElementsByTagName("html")[0];
         const styles = `
-          --tg-safe-area-inset-bottom: 34px; 
+          --tg-safe-area-inset-bottom: 34px;
           --tg-content-safe-area-inset-top: 46px;
-          --tg-safe-area-inset-top: 54px; 
+          --tg-safe-area-inset-top: 54px;
         `;
         htmlElement.style.cssText = styles;
       }

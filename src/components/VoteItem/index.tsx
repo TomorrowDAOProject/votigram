@@ -257,10 +257,10 @@ const VoteItem = ({
         <button
           type="button"
           ref={buttonRef}
-          className="bg-white/[.25] w-[40px] h-[40px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0 z-[10]"
+          className="bg-white/[.25] w-[32px] h-[32px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0 z-[10]"
           onClick={onVoteClick}
         >
-          <i className="votigram-icon-navbar-vote text-[24px] text-lime-primary first:text-lime-green" />
+          <i className="votigram-icon-navbar-vote text-[18px] text-lime-primary first:text-lime-green" />
         </button>
       )}
       <Confetti
@@ -304,7 +304,7 @@ const VoteItem = ({
           {`We encountered an error registering \nyour vote on the blockchain.`}
         </span>
         <button
-          className="mt-[37px] w-full h-[40px] bg-primary text-white font-bold text-[14px] font-outfit rounded-[24px] bg-danger"
+          className="mt-[37px] w-full h-[40px] text-white font-bold text-[14px] font-outfit rounded-[24px] bg-danger"
           type="button"
           onClick={handleFinish}
         >
