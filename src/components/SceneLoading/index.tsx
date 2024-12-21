@@ -41,8 +41,9 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
       address: wallet?.address,
       symbol: nftSymbol,
     });
+    const { isClaimedInSystem } = data || {};
 
-    setTransferStatus(!!data);
+    setTransferStatus(!!isClaimedInSystem);
     if (!data) {
       fetchTransfer();
     }
@@ -66,7 +67,7 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
     if (isConnected && wallet?.address) {
       fetchTransferStatus();
     }
-    if (hasUserData()) {
+    if (hasUserData() && transferStatus) {
       setProgress(90);
       setIsLoading(isNewUser);
     }
