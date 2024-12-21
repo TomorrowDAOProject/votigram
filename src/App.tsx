@@ -12,29 +12,36 @@ const isDev = process.env.NODE_ENV === "development";
 
 const App = () => {
   const [cmsData, setCmsData] = useState<IConfigContent>();
-  
+
   const fetchCMSData = async () => {
-    const cmsRes = await fetch(host + '/cms/items/config', {
-      cache: 'no-store',
+    const cmsRes = await fetch(host + "/cms/items/config", {
+      cache: "no-store",
     });
-    const cmsData = await cmsRes.json();
-    setCmsData(cmsData);
-  }
+    const {
+      data: { config },
+    } = await cmsRes.json();
+    setCmsData(config);
+  };
 
   useEffect(() => {
     fetchCMSData();
     if (window?.Telegram && isTMA("simple")) {
-      window.Telegram.WebApp?.requestFullscreen();
-      window.Telegram.WebApp?.lockOrientation();
-      window.Telegram.WebApp?.disableVerticalSwipes();
-      window.Telegram.WebApp?.setHeaderColor("#000000");
+      if (
+        window.Telegram.WebApp?.platform === "ios" ||
+        window.Telegram.WebApp?.platform === "android"
+      ) {
+        window.Telegram.WebApp?.requestFullscreen?.();
+      }
+      window.Telegram.WebApp?.lockOrientation?.();
+      window.Telegram.WebApp?.disableVerticalSwipes?.();
+      window.Telegram.WebApp?.setHeaderColor?.("#000000");
     } else {
       if (isDev) {
         const htmlElement = document.getElementsByTagName("html")[0];
         const styles = `
-          --tg-safe-area-inset-bottom: 34px; 
+          --tg-safe-area-inset-bottom: 34px;
           --tg-content-safe-area-inset-top: 46px;
-          --tg-safe-area-inset-top: 54px; 
+          --tg-safe-area-inset-top: 54px;
         `;
         htmlElement.style.cssText = styles;
       }
@@ -44,7 +51,7 @@ const App = () => {
   return (
     <WebLoginProvider>
       <UserProvider>
-        <ConfigProvider config={cmsData?.data?.config}>
+        <ConfigProvider config={cmsData}>
           <Routes />
         </ConfigProvider>
       </UserProvider>

@@ -54,6 +54,8 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
           className
         )}
         onClick={() => setIsVisible(true)}
+        role="button"
+        aria-label="select date"
       >
         <span className="block min-w-[50px] h-[20px] font-normal text-[14px] text-input-placeholder leading-[20px]">
           {selected && formatDate(selected)}
@@ -66,6 +68,7 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
         direction="bottom"
         onClose={setIsVisible}
         rootClassName="px-[17.5px] pt-5 pb-7 bg-tertiary"
+        role="dialog"
       >
         <DayPicker
           mode="single"

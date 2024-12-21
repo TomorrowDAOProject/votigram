@@ -35,7 +35,7 @@ const ToggleSlider = ({
   return (
     <div
       className={clsx(
-        "relative h-full w-full max-w-full mx-auto bg-tertiary rounded-full flex items-center overflow-hidden",
+        "relative h-full w-full mx-auto bg-tertiary rounded-full flex items-center overflow-hidden",
         className
       )}
     >
@@ -54,21 +54,27 @@ const ToggleSlider = ({
           transition={{ type: "spring", stiffness: 500, damping: 30 }}
         />
       </AnimatePresence>
-      <div className="relative flex w-full px-[4px] z-10">
+      <div className="relative flex w-full h-full px-[4px] z-10">
         {items.map((item, index) => (
           <div
             key={index}
             className={clsx(
-              "flex flex-1 items-center text-white justify-center px-4 cursor-pointer text-[13px] leading-[15px]",
-              itemClassName,
-              {
-                "font-bold": activeIndex === index,
-              }
+              "flex w-1/2 items-center justify-center px-4 cursor-pointer",
+              itemClassName
             )}
             onClick={() => handleClick(index)}
             ref={(el) => (itemRefs.current[index] = el)}
           >
-            {item}
+            <span
+              className={clsx(
+                "text-[13px] text-white flex items-center h-full leading-normal",
+                {
+                  "font-bold": activeIndex === index,
+                }
+              )}
+            >
+              {item}
+            </span>
           </div>
         ))}
       </div>
