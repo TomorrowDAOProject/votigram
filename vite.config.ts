@@ -40,6 +40,21 @@ export default defineConfig({
     VITE_HASH_PRIVATE_KEY: JSON.stringify(
       `${process.env.VITE_HASH_PRIVATE_KEY}`
     ),
+    VITE_NETWORK_TYPE: JSON.stringify(process.env.VITE_NETWORK_TYPE),
+    VITE_RPC_URL_AELF: JSON.stringify(process.env.VITE_RPC_URL_AELF),
+    VITE_RPC_URL_TDVV: JSON.stringify(process.env.VITE_RPC_URL_TDVV),
+    VITE_RPC_URL_TDVW: JSON.stringify(process.env.VITE_RPC_URL_TDVW),
+    VITE_CONNECT_SERVER: JSON.stringify(process.env.VITE_CONNECT_SERVER),
+    VITE_CONNECT_URL: JSON.stringify(process.env.VITE_CONNECT_URL),
+    VITE_GRAPHQL_SERVER: JSON.stringify(process.env.VITE_GRAPHQL_SERVER),
+    VITE_PORTKEY_SERVER: JSON.stringify(process.env.VITE_PORTKEY_SERVER),
+    VITE_SIDE_CHAIN_CA_CONTRACT_ADDRESS: JSON.stringify(process.env.VITE_SIDE_CHAIN_CA_CONTRACT_ADDRESS),
+    VITE_PROPAL_ADDRESS: JSON.stringify(process.env.VITE_PROPAL_ADDRESS),
+    VITE_VOTE_ADDRESS: JSON.stringify(process.env.VITE_VOTE_ADDRESS),
+    VITE_HOST: JSON.stringify(process.env.VITE_HOST),
+    VITE_TELEGRAM_BOT_ID: JSON.stringify(process.env.VITE_TELEGRAM_BOT_ID),
+    VITE_NFT_SYMBOL: JSON.stringify(process.env.VITE_NFT_SYMBOL),
+    VITE_TG_LINK: JSON.stringify(process.env.VITE_TG_LINK),
   },
   test: {
     globals: true,
