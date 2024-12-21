@@ -13,7 +13,7 @@ const TaskItem = ({ data, onPressGo }: ITaskItemProps) => {
           <i className="votigram-icon-profile text-[32px] text-white leading-[32px]" />
         </div>
         <div className="flex flex-col items-start flex-shrink gap-1 overflow-hidden">
-          <span className="font-bold truncate overflow-hidden text-ellipsis w-full font-outfit leading-[14px] text-[14px]">
+          <span className="font-bold truncate overflow-hidden text-ellipsis w-full text-white font-outfit leading-[14px] text-[14px]">
             {data.userTaskDetail}({data.completeCount}/{data.taskCount})
           </span>
           <span className="font-normal text-[13px] text-lime-green leading-[15.6px]">+{data.points}</span>

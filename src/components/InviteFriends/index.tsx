@@ -27,7 +27,7 @@ const InviteFriendsStatus = ({ value }: IInviteFriendsStatusProps) => {
     >
       <div className="px-5 pt-[22px] pb-4 bg-black rounded-[18px]">
         <div className="flex items-start justify-between mb-[14px]">
-          <span className="whitespace-pre-wrap -tracking-[0.5px] font-bold font-outfit text-[28px] leading-[28px]">
+          <span className="whitespace-pre-wrap -tracking-[0.5px] font-bold font-outfit text-[28px] leading-[28px] text-white">
             {"Invite friends\n& get points!"}
           </span>
           <span className="mt-2 text-lg font-normal text-[13px] leading-[15.6px] text-lime-green">
