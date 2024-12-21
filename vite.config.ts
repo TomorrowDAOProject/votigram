@@ -21,7 +21,10 @@ const modifyIndexHtmlPaths = () => {
 };
 
 export default defineConfig({
-  plugins: [react(), modifyIndexHtmlPaths()],
+  plugins: [
+    react(),
+    modifyIndexHtmlPaths(),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
