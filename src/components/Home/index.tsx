@@ -11,8 +11,7 @@ import useData, { postWithToken } from "@/hooks/useData";
 import SearchPanel from "../SearchPanel";
 import { VoteApp } from "@/types/app";
 import { chainId } from "@/constants/app";
-
-const DAILY_REWARDS = [200, 200, 200, 200, 200, 200, 500];
+import DailyRewards from "../DailyRewards";
 
 interface IHomeProps {
   onAppItemClick: (item: VoteApp) => void;
@@ -153,34 +152,8 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
         )}
       </div>
       <Modal isVisible={showDailyReward} rootClassName="p-5">
-        <div className="col-12 items-center flex flex-col gap-[8px] mb-7">
-          <span className="font-outfit text-[20px] leading-[20px] font-bold">
-            Daily Rewards
-          </span>
-          <span className="text-[12px] leading-[13px]">
-            Log in everyday to earn extra points!
-          </span>
-        </div>
-        <div className="col-12 gap-[9px] flex flex-wrap justify-center mb-7">
-          {DAILY_REWARDS.map((item, index) => (
-            <div
-              key={index}
-              className="flex flex-col bg-tertiary w-[67px] rounded-[8px] gap-[15px] justify-center aspect-square items-center"
-            >
-              <span className="text-[9px] leading-[10px]">Day {index + 1}</span>
-              {(userPoints?.consecutiveLoginDays || 1) >= index + 1 ? (
-                <div className="flex w-[20px] h-[20px] items-center justify-center rounded-full bg-primary">
-                  <i className="votigram-icon-tick text-[10px]" />
-                </div>
-              ) : (
-                <span className="text-[14px] leading-[14px] text-secondary font-bold font-outfit">
-                  + {item.toLocaleString()}
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
-        <button className="bg-secondary text-black text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mb-2">
+        <DailyRewards userPoints={userPoints} />
+        <button className="mt-7 bg-secondary text-black text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mb-2">
           Watch Ads To Double The Point
         </button>
         <button

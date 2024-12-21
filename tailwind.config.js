@@ -70,6 +70,7 @@ export default {
         "lime-primary": "var(--lime-primary)",
         "lime-green": "var(--lime-green)",
         "dark-gray": "var(--dark-gray)",
+        "avatar-background": "var(--avatar-background)",
       },
       inset: {
         telegramHeader:

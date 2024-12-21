@@ -1,7 +1,7 @@
 import TelegramHeader from "@/components/TelegramHeader";
 import ToggleSlider from "@/components/ToggleSlider";
 import { useUserContext } from "@/provider/UserProvider";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Tasks from "./components/Tasks";
 import Achievements from "./components/Achievements";
 
@@ -10,11 +10,35 @@ const Profile = () => {
     user: { userPoints },
   } = useUserContext();
   const [currentTab, setCurrentTab] = useState(0);
+  const scrollViewRef = useRef<HTMLDivElement | null>(null);
+  const [scrollTop, setScrollTop] = useState(0);
+
+  const handleScroll = useCallback(() => {
+    const scrollRef = scrollViewRef.current;
+    if (scrollRef) {
+      setScrollTop(
+        scrollRef.scrollHeight - scrollRef.scrollTop - scrollRef.clientHeight
+      );
+    }
+  }, [scrollViewRef]);
+
+  useEffect(() => {
+    const scrollRef = scrollViewRef.current;
+    if (currentTab === 1 && scrollRef) {
+      scrollRef.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (scrollRef) {
+        scrollRef.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [currentTab, handleScroll, scrollViewRef]);
 
   return (
     <>
       <TelegramHeader title="Profile" />
-      <div className="min-h-screen overflow-scroll pt-telegramHeader bg-black pb-28">
+      <div className="h-screen overflow-scroll pt-telegramHeader bg-black pb-28" ref={scrollViewRef}>
         <div className="votigram-grid mt-[9px]">
           <div className="col-7 mt-[13px]">
             <span className="block font-outfit font-bold text-[20px] leading-[20px] text-white">
@@ -48,7 +72,7 @@ const Profile = () => {
           </div>
 
           <div className="col-12">
-            {currentTab === 0 ? <Tasks /> : <Achievements />}
+            {currentTab === 0 ? <Tasks /> : <Achievements scrollTop={scrollTop} />}
           </div>
         </div>
       </div>
