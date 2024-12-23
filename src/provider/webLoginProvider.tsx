@@ -1,5 +1,4 @@
 'use client';
-import { TELEGRAM_BOT_ID } from '@/config/testnet';
 import { NetworkEnum, SignInDesignEnum, TChainId } from '@aelf-web-login/wallet-adapter-base';
 import { PortkeyAAWallet } from '@aelf-web-login/wallet-adapter-portkey-aa';
 import { IConfigProps } from '@aelf-web-login/wallet-adapter-bridge';
@@ -13,7 +12,8 @@ import {
   rpcUrlAELF,
   rpcUrlTDVV,
   rpcUrlTDVW,
-} from '@/config/testnet';
+  TELEGRAM_BOT_ID,
+} from '@/config';
 import { useEffect, useMemo } from 'react';
 import { getReferrerCode } from '@/utils/start-params';
 import { chainId } from '@/constants/app';
