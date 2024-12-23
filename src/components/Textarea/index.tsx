@@ -30,10 +30,12 @@ const Textarea = ({
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = event.target.value;
     if (newText.length <= maxLength) {
+      setText(newText);
       onChange(newText);
       setCharCount(newText.length);
       autoResizeTextarea();
     } else {
+      setText(newText.slice(0, maxLength));
       onChange(newText.slice(0, maxLength));
       setCharCount(maxLength);
     }

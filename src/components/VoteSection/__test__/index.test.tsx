@@ -13,15 +13,16 @@ const sampleData: VoteSectionType = voteSection[0];
 describe('VoteSection Component', () => {
   it('renders the vote title, dates, and total votes', () => {
     render(<VoteSection data={sampleData} />);
-
+    
     expect(screen.getByText('Annual Conference')).toBeInTheDocument();
     
-    // Use a regular expression for date range to allow flexible matching
-    const dateRegEx = /20 Oct 2023 - 20 Oct 2023/;
+    // Use a regular expression to match the date range text
+    const dateRegEx = /20 Oct 2023\s*-\s*20 Oct 2023/;
     expect(screen.getByText(dateRegEx)).toBeInTheDocument();
 
+    // Check if the total votes are formatted correctly
     expect(screen.getByText('Total votes:')).toBeInTheDocument();
-    expect(screen.getByText('150')).toBeInTheDocument();
+    expect(screen.getByText('150,000,000')).toBeInTheDocument();
   });
 
   it('renders banner image when bannerUrl is provided', () => {
@@ -33,9 +34,10 @@ describe('VoteSection Component', () => {
   it('renders default avatar when avatarUrl is not provided', () => {
     const dataWithoutAvatar = { ...sampleData, avatarUrl: undefined };
     render(<VoteSection data={dataWithoutAvatar} />);
-
-    // Confirm default avatar presence, using a class, testID or selector specific to default implementation
-    expect(screen.queryByAltText('Avatar')).not.toBeInTheDocument();
+    
+    // Locate the <i> element inside the default avatar div
+    const defaultAvatarIcon = screen.getByText('Created by John Doe').parentElement?.querySelector('i.votigram-icon-profile');
+    expect(defaultAvatarIcon).toBeInTheDocument();
   });
 
   it('renders avatar image when avatarUrl is provided', () => {

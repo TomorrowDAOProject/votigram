@@ -76,10 +76,10 @@ const AppDetail = ({ item, updateOpenAppClick }: IAppDetailProps) => {
             alt=""
           />
           <div className="flex flex-col gap-[5px] justify-center">
-            <span className="font-outfit font-bold text-[16px] leading-[16px]">
+            <span className="font-outfit font-bold text-[16px] leading-[16px] text-white">
               {item.title}
             </span>
-            <span className="text-[11px] leading-[13px]">
+            <span className="text-[11px] leading-[13px] text-white">
               {item.description}
             </span>
           </div>
