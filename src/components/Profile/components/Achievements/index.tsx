@@ -1,14 +1,9 @@
 import DailyRewards from "@/components/DailyRewards";
-import Drawer from "@/components/Drawer";
 import { chainId } from "@/constants/app";
 import useData from "@/hooks/useData";
 import { useUserContext } from "@/provider/UserProvider";
-import { InviteItem, ReferralTimeConfig } from "@/types/task";
-import dayjs from "dayjs";
+import { InviteItem } from "@/types/task";
 import { useEffect, useState } from "react";
-import { Picker } from "react-mobile-style-picker";
-import "react-mobile-style-picker/dist/index.css";
-import "./index.css";
 import Loading from "@/components/Loading";
 
 interface IAchievementsProps {
@@ -19,10 +14,6 @@ const Achievements = ({ scrollTop }: IAchievementsProps) => {
   const {
     user: { userPoints },
   } = useUserContext();
-  const [refConfig, setRefConfig] = useState<ReferralTimeConfig[]>([]);
-  const [duration, setDuration] = useState<ReferralTimeConfig>();
-  const [tempDuration, setTempDuration] = useState<ReferralTimeConfig | null>();
-  const [isVisible, setIsVisible] = useState(false);
   const [inviteList, setInviteList] = useState<InviteItem[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [pageIndex, setPageIndex] = useState(0);
@@ -30,22 +21,12 @@ const Achievements = ({ scrollTop }: IAchievementsProps) => {
 
   const PAGE_SIZE = 20;
 
-  const { data: referralConfig } = useData(
-    `/api/app/referral/config?${new URLSearchParams({
-      chainId,
-    }).toString()}`
-  );
-
   const { data: inviteDetail, isLoading } = useData(
-    duration
-      ? `/api/app/referral/invite-leader-board?${new URLSearchParams({
-          chainId,
-          startTime: duration?.startTime?.toString(),
-          endTime: duration?.startTime.toString(),
-          skipCount: (pageIndex * PAGE_SIZE).toString(),
-          maxResultCount: PAGE_SIZE.toString(),
-        }).toString()}`
-      : null
+    `/api/app/referral/invite-leader-board?${new URLSearchParams({
+      chainId,
+      skipCount: (pageIndex * PAGE_SIZE).toString(),
+      maxResultCount: PAGE_SIZE.toString(),
+    }).toString()}`
   );
 
   useEffect(() => {
@@ -68,28 +49,6 @@ const Achievements = ({ scrollTop }: IAchievementsProps) => {
     }
   }, [hasMore, isLoading, scrollTop]);
 
-  useEffect(() => {
-    const { config } = referralConfig || {};
-    if (config && Array.isArray(config)) {
-      setRefConfig(config);
-      if (config[0]) {
-        setDuration(config[0]);
-      }
-    }
-  }, [referralConfig]);
-
-  const handleConfirm = () => {
-    if (tempDuration) {
-      setDuration(tempDuration);
-    }
-    setIsVisible(false);
-  };
-
-  const onClose = () => {
-    setIsVisible(false);
-    setTempDuration(null);
-  };
-
   return (
     <>
       <div className="py-6 px-5 bg-modal-background rounded-[15px] mb-[22px]">
@@ -101,18 +60,6 @@ const Achievements = ({ scrollTop }: IAchievementsProps) => {
       <span className="block font-normal text-[14px] text-white leading-[16px] my-3">
         Climb the Referral Leaderboard by inviting friends!
       </span>
-      <div
-        role="button"
-        aria-label="select date"
-        className="relative py-[12px] pl-[14px] pr-[40px] border border-tertiary rounded-[10px]"
-        onClick={() => setIsVisible(true)}
-      >
-        <span className="block min-w-[50px] h-[20px] font-normal text-[14px] text-input-placeholder leading-[20px]">
-          {duration && dayjs(duration?.startTime).format("DD MMM YYYY")} -{" "}
-          {duration && dayjs(duration.endTime).format("DD MMM YYYY")}
-        </span>
-        <i className="absolute top-1/2 right-[14px] -translate-y-1/2 votigram-icon-calendar text-input-placeholder text-[18px]" />
-      </div>
 
       <div className="mt-3 p-4 rounded-[15px] bg-modal-background">
         <div className="flex flex-row items-center justify-between gap-[15px] mb-[3px] font-normal text-[12px] text-white leading-[13.2px]">
@@ -165,44 +112,6 @@ const Achievements = ({ scrollTop }: IAchievementsProps) => {
 
         {isLoading && <Loading />}
       </div>
-      <Drawer
-        isVisible={isVisible}
-        direction="bottom"
-        canClose
-        onClose={onClose}
-        rootClassName="px-[16px] pt-5 pb-7 bg-tertiary"
-      >
-        <div className="flex flex-row">
-          <Picker
-            size={5}
-            itemSize={40}
-            itemWeight={80}
-            value={tempDuration}
-            className="time-picker"
-            onChange={setTempDuration}
-            data-testid="hours-picker"
-          >
-            {refConfig.map((item) => (
-              <Picker.Item
-                className="text-[15px]"
-                value={item}
-                key={item.startTime}
-                data-testid={`hour-${item}`}
-              >
-                {dayjs(item.startTime).format("DD MMM YYYY")} -{" "}
-                {dayjs(item.endTime).format("DD MMM YYYY")}
-              </Picker.Item>
-            ))}
-          </Picker>
-        </div>
-        <button
-          type="button"
-          className="w-full my-4 mx-[2.5px] bg-primary rounded-[24px] text-[14px] font-bold py-[10px] font-outfit leading-[25px] text-white"
-          onClick={handleConfirm}
-        >
-          Confirm
-        </button>
-      </Drawer>
     </>
   );
 };
