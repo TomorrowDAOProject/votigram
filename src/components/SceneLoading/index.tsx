@@ -1,17 +1,12 @@
 import {
   Dispatch,
   SetStateAction,
-  useCallback,
   useEffect,
   useState,
 } from "react";
 import TelegramHeader from "../TelegramHeader";
 import { useUserContext } from "@/provider/UserProvider";
 import { motion } from "framer-motion";
-import { chainId } from "@/constants/app";
-import { postWithToken } from "@/hooks/useData";
-import { nftSymbol } from "@/config";
-import { useWalletService } from "@/hooks/useWallet";
 
 interface ISceneLoadingProps {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
@@ -19,35 +14,11 @@ interface ISceneLoadingProps {
 
 const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
   const [progress, setProgress] = useState(20);
-  const [transferStatus, setTransferStatus] = useState<boolean>(false);
-  const { isConnected, wallet } = useWalletService();
 
   const {
     hasUserData,
     user: { isNewUser },
   } = useUserContext();
-
-  const fetchTransfer = useCallback(async () => {
-    const { data } = await postWithToken("/api/app/token/transfer", {
-      chainId,
-      symbol: nftSymbol,
-    });
-    setTransferStatus(!!data.status);
-  }, []);
-
-  const fetchTransferStatus = useCallback(async () => {
-    const { data } = await postWithToken("/api/app/token/transfer/status", {
-      chainId,
-      address: wallet?.address,
-      symbol: nftSymbol,
-    });
-    const { isClaimedInSystem } = data || {};
-
-    setTransferStatus(!!isClaimedInSystem);
-    if (!data) {
-      fetchTransfer();
-    }
-  }, [wallet?.address, fetchTransfer]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -64,24 +35,11 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
   }, []);
 
   useEffect(() => {
-    if (isConnected && wallet?.address) {
-      fetchTransferStatus();
-    }
-    if (hasUserData() && transferStatus) {
+    if (hasUserData()) {
       setProgress(90);
       setIsLoading(isNewUser);
     }
-  }, [
-    fetchTransferStatus,
-    hasUserData,
-    isConnected,
-    isNewUser,
-    progress,
-    setIsLoading,
-    transferStatus,
-    wallet,
-    wallet?.address,
-  ]);
+  }, [hasUserData, isNewUser, progress, setIsLoading]);
 
   return (
     <>
