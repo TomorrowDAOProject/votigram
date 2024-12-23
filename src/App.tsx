@@ -8,10 +8,8 @@ import ConfigProvider from "./provider/configProvider";
 import { host } from "./config";
 import { IConfigContent } from "./provider/types/ConfigContext";
 
-const isDev = process.env.NODE_ENV === "development";
-
 const App = () => {
-  const [cmsData, setCmsData] = useState<IConfigContent>();
+  const [cmsData, setCmsData] = useState<IConfigContent | null>(null);
 
   const fetchCMSData = async () => {
     const cmsRes = await fetch(host + "/cms/items/config", {
@@ -35,17 +33,15 @@ const App = () => {
       window.Telegram.WebApp?.lockOrientation?.();
       window.Telegram.WebApp?.disableVerticalSwipes?.();
       window.Telegram.WebApp?.setHeaderColor?.("#000000");
-    } else {
-      if (isDev) {
-        const htmlElement = document.getElementsByTagName("html")[0];
-        const styles = `
+    }
+
+    const htmlElement = document.getElementsByTagName("html")[0];
+    const styles = `
           --tg-safe-area-inset-bottom: 34px;
           --tg-content-safe-area-inset-top: 46px;
           --tg-safe-area-inset-top: 54px;
         `;
-        htmlElement.style.cssText = styles;
-      }
-    }
+    htmlElement.style.cssText = htmlElement.style.cssText.concat(styles);
   }, []);
 
   return (
