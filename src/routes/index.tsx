@@ -1,6 +1,6 @@
 import Loading from "@/components/Loading";
 import React, { Suspense, LazyExoticComponent } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 
 const Home: LazyExoticComponent<React.FC> = React.lazy(
   () => import("@/pageComponents/Home")
@@ -20,6 +20,7 @@ const AppRoutes: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/create-poll" element={<CreatePoll />} />
           <Route path="/proposal/:proposalId" element={<PollDetail />} />
+          <Route path="/test" element={<span>Test</span>} />
         </Routes>
       </Suspense>
     </Router>
