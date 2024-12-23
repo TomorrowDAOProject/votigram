@@ -274,7 +274,7 @@ const VoteItem = ({
 
         <ProgressBar
           width={elementWidth}
-          progress={!canVote && !showBtn ? data?.pointsPercent * 100 : 0}
+          progress={!canVote ? data?.pointsPercent * 100 : 0}
         />
       </div>
 
