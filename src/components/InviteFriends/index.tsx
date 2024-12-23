@@ -7,7 +7,7 @@ import { stringifyStartAppParams } from "@/utils/start-params";
 import { connectUrl, portkeyServer, TgLink } from "@/config";
 import { useWalletService } from "@/hooks/useWallet";
 import { getCaHashAndOriginChainIdByWallet } from "@/utils/wallet";
-import { chainId } from "@/constants/app";
+import { chainId, projectCode } from "@/constants/app";
 import { useRequest } from "ahooks";
 import Loading from "../Loading";
 import { useCopyToClipboard } from "react-use";
@@ -36,14 +36,16 @@ const InviteFriendsStatus = ({
 
   const generateCode = async () => {
     const timestamp = Date.now();
-    const didWallet = wallet?.extraInfo?.portkeyInfo;
-    const message = Buffer.from(
-      `${didWallet?.walletInfo.address}-${timestamp}`
-    ).toString("hex");
+    const {
+      portkeyInfo: { walletInfo },
+      publicKey,
+    } = wallet?.extraInfo || {};
+    const message = Buffer.from(`${walletInfo?.address}-${timestamp}`).toString(
+      "hex"
+    );
     const signature = AElf.wallet
-      .sign(message, didWallet?.walletInfo.keyPair)
+      .sign(message, walletInfo?.keyPair)
       .toString("hex");
-    const publicKey = wallet?.extraInfo?.publicKey ?? "";
     const { caHash } = await getCaHashAndOriginChainIdByWallet(
       wallet,
       walletType
@@ -66,12 +68,11 @@ const InviteFriendsStatus = ({
       },
     });
     const portKeyResObj = await portKeyRes.json();
-    if (portKeyRes.ok) {
+    if (portKeyRes?.ok && portKeyResObj?.access_token) {
       const token = portKeyResObj.access_token;
       const res = await fetch(
-        portkeyServer + "/api/app/growth/shortLink?projectCode=13027",
+        portkeyServer + `/api/app/growth/shortLink?projectCode=${projectCode}`,
         {
-          method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -90,9 +91,7 @@ const InviteFriendsStatus = ({
     setIsCopied(true);
   };
 
-  const { data: referralCodeRes, loading } = useRequest(async () => {
-    return generateCode();
-  });
+  const { data: referralCodeRes, loading } = useRequest(generateCode);
 
   const inviteCode = referralCodeRes?.userGrowthInfo?.inviteCode;
   const startAppParams: IStartAppParams = {
@@ -147,9 +146,9 @@ const InviteFriendsStatus = ({
       <Drawer
         isVisible={isShowDrawer}
         direction="bottom"
-        canClose={true}
         rootClassName="pt-6 pb-[30px] px-5 bg-tertiary"
         onClose={onClickInvite}
+        canClose
       >
         <span className="block mb-[33px] text-[18px] font-outfit font-bold leading-[18px] text-center text-white">
           Share

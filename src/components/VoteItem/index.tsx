@@ -313,9 +313,9 @@ const VoteItem = ({
       <Drawer
         isVisible={isFailed}
         direction="bottom"
-        canClose={true}
         rootClassName="pt-[34px] pb-[23px] px-5 bg-tertiary"
         onClose={() => setIsFailed(false)}
+        canClose
       >
         <span className="block mb-[40px] text-[18px] font-outfit font-bold leading-[18px] text-center text-white">
           Please Try Again
