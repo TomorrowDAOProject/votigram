@@ -64,6 +64,7 @@ interface TelegramWebApp {
     setHeaderColor(color: string): void;
     initData: "";
     initDataUnsafe: {
+      start_param: string;
       user: {
         first_name: string;
         last_name: string;
