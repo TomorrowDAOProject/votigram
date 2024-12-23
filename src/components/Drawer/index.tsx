@@ -18,7 +18,7 @@ const Drawer = ({
   direction = "left",
   children,
   rootClassName,
-  canClose = true,
+  canClose,
   onClose,
 }: IDrawerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);

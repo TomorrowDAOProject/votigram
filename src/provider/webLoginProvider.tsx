@@ -16,7 +16,7 @@ import {
 } from '@/config';
 import { useEffect, useMemo } from 'react';
 import { getReferrerCode } from '@/utils/start-params';
-import { chainId } from '@/constants/app';
+import { chainId, projectCode } from '@/constants/app';
 
 const APP_NAME = 'TMRWDAO';
 
@@ -58,7 +58,7 @@ export default function LoginSDKProvider({ children }: { children: React.ReactNo
     },
     referralInfo: {
       referralCode: referrerCode ?? '',
-      projectCode: '13027',
+      projectCode,
     },
   };
 

@@ -11,6 +11,7 @@ import { chainId } from "@/constants/app";
 import { VoteApp } from "@/types/app";
 import Vote from "@/components/Vote";
 import { RANDOM_APP_CATEGORY } from "@/constants/discover";
+import Profile from "@/components/Profile";
 import useRequest from "ahooks/lib/useRequest";
 import { nftSymbol } from "@/config";
 import { useWalletService } from "@/hooks/useWallet";
@@ -117,6 +118,7 @@ const App = () => {
             />
           )}
           {activeTab === TAB_LIST.VOTE && <Vote />}
+          {activeTab === TAB_LIST.PEN && <Profile switchTab={setActiveTab} />}
           <Navigation activeTab={activeTab} onMenuClick={setActiveTab} />
         </>
       )}

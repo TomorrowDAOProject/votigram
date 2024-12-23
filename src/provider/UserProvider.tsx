@@ -101,7 +101,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     if (!wallet) {
       return;
     }
-    console.log('webLoginContext.isConnected', webLoginContext.isConnected, webLoginContext);
     webLoginInstance.setWebLoginContext(webLoginContext);
   }, [webLoginContext, wallet]);
 
