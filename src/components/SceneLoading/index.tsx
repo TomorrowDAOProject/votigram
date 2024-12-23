@@ -1,17 +1,12 @@
 import {
   Dispatch,
   SetStateAction,
-  useCallback,
   useEffect,
   useState,
 } from "react";
 import TelegramHeader from "../TelegramHeader";
 import { useUserContext } from "@/provider/UserProvider";
 import { motion } from "framer-motion";
-import { chainId } from "@/constants/app";
-import { postWithToken } from "@/hooks/useData";
-import { nftSymbol } from "@/config";
-import { useWalletService } from "@/hooks/useWallet";
 
 interface ISceneLoadingProps {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
@@ -19,35 +14,11 @@ interface ISceneLoadingProps {
 
 const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
   const [progress, setProgress] = useState(20);
-  const [transferStatus, setTransferStatus] = useState<boolean>(false);
-  const { isConnected, wallet } = useWalletService();
-
 
   const {
     hasUserData,
     user: { isNewUser },
   } = useUserContext();
-
-  const fetchTransfer = useCallback(async () => {
-    const { data } = await postWithToken("/api/app/token/transfer", {
-      chainId,
-      symbol: nftSymbol,
-    });
-    setTransferStatus(!!data.status);
-  }, []);
-
-  const fetchTransferStatus = useCallback(async () => {
-    const { data } = await postWithToken("/api/app/token/transfer/status", {
-      chainId,
-      address: wallet?.address,
-      symbol: nftSymbol,
-    });
-
-    setTransferStatus(!!data);
-    if (!data) {
-      fetchTransfer();
-    }
-  }, [wallet?.address, fetchTransfer]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -64,29 +35,17 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
   }, []);
 
   useEffect(() => {
-    if (isConnected && wallet?.address) {
-      fetchTransferStatus();
-    }
     if (hasUserData()) {
       setProgress(90);
-      setIsLoading(!isNewUser);
+      setIsLoading(isNewUser);
     }
-  }, [
-    fetchTransferStatus,
-    hasUserData,
-    isConnected,
-    isNewUser,
-    progress,
-    setIsLoading,
-    transferStatus,
-    wallet?.address,
-  ]);
+  }, [hasUserData, isNewUser, progress, setIsLoading]);
 
   return (
     <>
       <TelegramHeader />
       <div className="flex bg-gradient-to-t from-black to-[#9381FF] min-h-[533px] pt-telegramHeader">
-        <div className="votigram-grid mt-[42px]">
+        <div className="votigram-grid mt-[42px] h-full">
           <span className="col-12 text-center font-bold text-base font-outfit">
             VOTIGRAM
           </span>
@@ -108,7 +67,7 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
               onClick={() => {
                 setIsLoading(false);
               }}
-              className="bg-primary col-10 offset-1 rounded-3xl py-2.5 leading-[14px] text-[14px] font-bold font-outfit"
+              className="bg-primary col-10 offset-1 rounded-3xl py-2.5 leading-[14px] text-[14px] font-bold font-outfit mb-[62px]"
             >
               Get Started!
             </button>

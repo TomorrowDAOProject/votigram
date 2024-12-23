@@ -33,11 +33,10 @@ const rules = {
   ],
   options: [
     (ops: VoteOption[]) =>
-      ops.length === 0
-        ? "Please add an option"
-        : ops.length < 2
-        ? "Please add at least two options"
-        : undefined,
+      ops.length === 0 ? "Please add an option" : undefined,
+
+    (ops: VoteOption[]) =>
+      ops.length < 2 ? "Please add at least two options" : undefined,
     (ops: VoteOption[]) =>
       ops.filter((op) => !op.title).length > 0
         ? "Kindly ensure it's not left empty"
@@ -79,7 +78,6 @@ const CreatePoll = () => {
   );
 
   const onSubmit = async () => {
-    console.log("Form submitted successfully", formState);
     try {
       const saveReqApps: VoteOption[] = formState.options.map((item) => ({
         ...item,
@@ -112,16 +110,15 @@ const CreatePoll = () => {
             }).toString()}`
           ),
         ]);
-      console.log(saveRes, voteSchemeListRes, governanceMechanismListRes);
       const appAlias = saveRes?.data ?? [];
       if (!appAlias.length) {
         throw new Error("Failed to create proposal, save options failed");
       }
-      const formmatDescriptionStr = formmatDescription(
+      const formatDescriptionStr = formmatDescription(
         appAlias,
         formState.banner
       );
-      if (formmatDescriptionStr.length > 256) {
+      if (formatDescriptionStr.length > 256) {
         throw new Error(
           "Too many options have been added, or the option names are too long. Please simplify the options and try again."
         );
@@ -145,7 +142,7 @@ const CreatePoll = () => {
       const proposalBasicInfo = {
         proposalTitle: formState.proposalTitle,
         ...timeParams,
-        proposalDescription: formmatDescriptionStr,
+        proposalDescription: formatDescriptionStr,
         daoId: communityDaoId,
         voteSchemeId,
         schemeAddress,
@@ -193,7 +190,7 @@ const CreatePoll = () => {
 
         <FormItem label="Banner" className="mb-2">
           <Upload onFinish={handleChange("banner")} needCrop aspect={3 / 1}>
-            <i className="votigram-icon-back text-[24px] text-white" />
+            <i className="votigram-icon-upload text-[24px] text-white" />
             <span className="block text-[13px] leading-[15.6px] text-white text-center">
               Upload
             </span>
@@ -254,7 +251,7 @@ const CreatePoll = () => {
             activeItemClassName="h-[26px]"
             onChange={(index) =>
               handleChange("activeEndTime")(
-                index ? dayjs().unix() * 1000 : defaultEndTime
+                index ? dayjs().add(1, "day").valueOf() : defaultEndTime
               )
             }
           />
@@ -271,7 +268,7 @@ const CreatePoll = () => {
             <div className="flex flex-row items-center flex-wrap gap-[9px] mt-[12px]">
               <SimpleDatePicker
                 className="flex-1"
-                defaultVulue={dayjs().add(1, "day").format()}
+                value={dayjs(formState.activeEndTime).format()}
                 onChange={handleChange("activeEndTime")}
               />
               <SimpleTimePicker className="flex-1" />

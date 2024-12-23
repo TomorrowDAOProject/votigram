@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 
-import { isTMA } from "@telegram-apps/bridge";
-
 import SceneLoading from "@/components/SceneLoading";
 import { TAB_LIST } from "@/constants/navigation";
 import Navigation from "@/components/Navigation";
@@ -12,8 +10,10 @@ import { postWithToken } from "@/hooks/useData";
 import { chainId } from "@/constants/app";
 import { VoteApp } from "@/types/app";
 import Vote from "@/components/Vote";
-
-const isDev = process.env.NODE_ENV === "development";
+import { RANDOM_APP_CATEGORY } from "@/constants/discover";
+import useRequest from "ahooks/lib/useRequest";
+import { nftSymbol } from "@/config";
+import { useWalletService } from "@/hooks/useWallet";
 
 const App = () => {
   const currentForyouPage = useRef<number>(1);
@@ -22,31 +22,45 @@ const App = () => {
   const [forYouList, setForYouList] = useState<VoteApp[]>([]);
   const [recommendList, setRecommendList] = useState<VoteApp[]>([]);
   const [selectedItem, setSelectItem] = useState<VoteApp>();
+  const { isConnected, wallet } = useWalletService();
 
-  useEffect(() => {
-    if (window?.Telegram && isTMA("simple")) {
-      window.Telegram.WebApp?.requestFullscreen();
-      window.Telegram.WebApp?.lockOrientation();
-      window.Telegram.WebApp?.disableVerticalSwipes();
-      window.Telegram.WebApp?.setHeaderColor("#000000");
-    } else {
-      if (isDev) {
-        const htmlElement = document.getElementsByTagName("html")[0];
-        const styles = `
-          --tg-safe-area-inset-bottom: 34px; 
-          --tg-content-safe-area-inset-top: 46px;
-          --tg-safe-area-inset-top: 54px; 
-        `;
-        htmlElement.style.cssText = styles;
+
+  const fetchTransfer = async () => {
+    await postWithToken("/api/app/token/transfer", {
+      chainId,
+      symbol: nftSymbol,
+    });
+  };
+
+  const { run: fetchTransferStatus, cancel } = useRequest(
+    async () => {
+      try {
+        const { data } = await postWithToken("/api/app/token/transfer/status", {
+          chainId,
+          address: wallet?.address,
+          symbol: nftSymbol,
+        });
+        const { isClaimedInSystem } = data || {};
+        if (!isClaimedInSystem) {
+          fetchTransfer();
+        } else {
+          cancel();
+        }
+      } catch (error) {
+        console.error(error);
       }
-    }
-  }, []);
+    },
+    {
+      manual: true,
+      pollingInterval: 1000,
+    },
+  );
 
   const fetchForYouData = async (alias: string[] = []) => {
     const { data } = await postWithToken("/api/app/discover/random-app-list", {
       chainId,
       alias,
-      category: "ForYou",
+      category: RANDOM_APP_CATEGORY.FORYOU,
     });
 
     setForYouList(data?.appList || []);
@@ -59,11 +73,17 @@ const App = () => {
   const fetchRecommendData = async () => {
     const { data } = await postWithToken("/api/app/discover/random-app-list", {
       chainId,
-      category: "Recommend",
+      category: RANDOM_APP_CATEGORY.RECOMMEND,
     });
 
     setRecommendList(data?.appList || []);
   };
+
+  useEffect(() => {
+    if (isConnected && wallet?.address) {
+      fetchTransferStatus();
+    }
+  }, [fetchTransferStatus, isConnected, wallet?.address]);
 
   useEffect(() => {
     if (!isLoading) {

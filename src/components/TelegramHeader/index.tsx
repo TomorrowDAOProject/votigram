@@ -1,7 +1,8 @@
+import React from "react";
 import "./index.css";
 
 interface ITelegramHeaderProps {
-  title?: string;
+  title?: React.ReactNode;
 }
 
 const TelegramHeader = ({ title }: ITelegramHeaderProps) => {

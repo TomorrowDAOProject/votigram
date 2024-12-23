@@ -21,7 +21,10 @@ const modifyIndexHtmlPaths = () => {
 };
 
 export default defineConfig({
-  plugins: [react(), modifyIndexHtmlPaths()],
+  plugins: [
+    react(),
+    modifyIndexHtmlPaths(),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -37,6 +40,21 @@ export default defineConfig({
     VITE_HASH_PRIVATE_KEY: JSON.stringify(
       `${process.env.VITE_HASH_PRIVATE_KEY}`
     ),
+    VITE_NETWORK_TYPE: process.env.VITE_NETWORK_TYPE?.toString(),
+    VITE_RPC_URL_AELF: process.env.VITE_RPC_URL_AELF?.toString(),
+    VITE_RPC_URL_TDVV: process.env.VITE_RPC_URL_TDVV?.toString(),
+    VITE_RPC_URL_TDVW: process.env.VITE_RPC_URL_TDVW?.toString(),
+    VITE_CONNECT_SERVER: process.env.VITE_CONNECT_SERVER?.toString(),
+    VITE_CONNECT_URL: process.env.VITE_CONNECT_URL?.toString(),
+    VITE_GRAPHQL_SERVER: process.env.VITE_GRAPHQL_SERVER?.toString(),
+    VITE_PORTKEY_SERVER: process.env.VITE_PORTKEY_SERVER?.toString(),
+    VITE_SIDE_CHAIN_CA_CONTRACT_ADDRESS: process.env.VITE_SIDE_CHAIN_CA_CONTRACT_ADDRESS?.toString(),
+    VITE_PROPAL_ADDRESS: process.env.VITE_PROPAL_ADDRESS?.toString(),
+    VITE_VOTE_ADDRESS: process.env.VITE_VOTE_ADDRESS?.toString(),
+    VITE_HOST: process.env.VITE_HOST?.toString(),
+    VITE_TELEGRAM_BOT_ID: process.env.VITE_TELEGRAM_BOT_ID?.toString(),
+    VITE_NFT_SYMBOL: process.env.VITE_NFT_SYMBOL?.toString(),
+    VITE_TG_LINK: process.env.VITE_TG_LINK?.toString(),
   },
   test: {
     globals: true,

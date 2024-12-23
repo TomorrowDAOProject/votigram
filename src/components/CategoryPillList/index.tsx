@@ -18,13 +18,21 @@ const CategoryPillList = ({ className, onChange }: ICategoryPillListProps) => {
   };
 
   return (
-    <div className={clsx("app-category-list mb-[22px] col-12 overflow-scroll flex flex-nowrap z-10", className)}>
+    <div
+      className={clsx(
+        "app-category-list mb-[12px] col-12 overflow-scroll flex flex-nowrap z-10",
+        className
+      )}
+    >
       {DISCOVER_CATEGORY.map((item) => (
         <div
           key={item.label}
-          className={clsx('flex p-2 item border-pill-border border-[1px] rounded-full', {
-            'border-primary': active === item.value
-          })}
+          className={clsx(
+            "flex p-2 item border-pill-border border-[1px] rounded-full",
+            {
+              "border-primary": active === item.value,
+            }
+          )}
           onClick={() => handleClick(item.value)}
         >
           <button className="w-max px-2 py-1 text-[13px] leading-[16px] text-white">

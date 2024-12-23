@@ -6,16 +6,20 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import clsx from "clsx";
 interface ISimpleDatePickerProps {
-  mode?: "single" | "multiple" | "range";
   value?: string;
-  defaultVulue?: string;
+  defaultValue?: string;
   className?: string;
-  onChange?(t: string): void;
+  onChange?: (value: string) => void;
 }
 
 const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
-  const { value, defaultVulue, className, onChange, ...dayPickerProps } = props;
-  const baseValue = value && dayjs(value || "").isValid() ? value : defaultVulue && dayjs(defaultVulue || "").isValid() ? defaultVulue : dayjs().format("")
+  const { value, defaultValue, className, onChange, ...dayPickerProps } = props;
+  const baseValue =
+    value && dayjs(value || "").isValid()
+      ? value
+      : defaultValue && dayjs(defaultValue || "").isValid()
+      ? defaultValue
+      : dayjs().format();
   const [isVisible, setIsVisible] = useState(false);
   const [selected, setSelected] = useState<string>(baseValue);
 
@@ -50,21 +54,23 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
           className
         )}
         onClick={() => setIsVisible(true)}
+        role="button"
+        aria-label="select date"
       >
         <span className="block min-w-[50px] h-[20px] font-normal text-[14px] text-input-placeholder leading-[20px]">
           {selected && formatDate(selected)}
         </span>
 
-        <i className="absolute top-1/2 right-[14px] -translate-y-1/2 votigram-icon-navbar-vote text-input-placeholder text-[18px]" />
+        <i className="absolute top-1/2 right-[14px] -translate-y-1/2 votigram-icon-calendar text-input-placeholder text-[18px]" />
       </div>
       <Drawer
         isVisible={isVisible}
         direction="bottom"
         onClose={setIsVisible}
         rootClassName="px-[17.5px] pt-5 pb-7 bg-tertiary"
+        role="dialog"
       >
         <DayPicker
-          {...dayPickerProps}
           mode="single"
           selected={new Date(selected)}
           onSelect={(date) =>
@@ -78,10 +84,11 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
             },
           }}
           className="simple-date-picker"
+          {...dayPickerProps}
         />
         <button
           type="button"
-          className="w-full mt-2 mx-[2.5px] bg-primary rounded-[24px] text-[14px] font-bold py-[10px] font-outfit leading-[25px]"
+          className="w-full mt-2 mx-[2.5px] bg-primary rounded-[24px] text-[14px] font-bold py-[10px] font-outfit leading-[25px] text-white"
           onClick={handleConfirm}
         >
           Confirm

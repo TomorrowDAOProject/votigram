@@ -18,6 +18,10 @@ interface IUploadProps {
   onFinish?(url: string): void;
 }
 
+interface IUploadProps {
+  onFinish?: (ImgUrl: string) => void;
+}
+
 const readFile = (file: File) => {
   return new Promise((resolve) => {
     const reader = new FileReader();
@@ -124,7 +128,6 @@ const Upload = ({ className, needCrop, aspect, children, onFinish }: IUploadProp
           <i className="votigram-icon-back text-[24px]" />
         )}
         <input
-          data-testid="upload-btn"
           type="file"
           ref={fileInputRef}
           className="hidden"

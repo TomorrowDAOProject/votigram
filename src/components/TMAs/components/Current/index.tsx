@@ -32,13 +32,14 @@ const Current = ({ scrollTop, keyward, category: cate }: IAccumulativeProps) => 
   );
 
   useEffect(() => {
-    if (data) {
+    const { data: voteList } = data || {};
+    if (voteList && Array.isArray(voteList)) {
       setVoteList((prev) =>
-        pageIndex === 0 ? data.data : [...prev, ...data.data]
+        pageIndex === 0 ? voteList : [...prev, ...voteList]
       );
       setCanVote(data.canVote);
       setProposalId(data.proposalId);
-      setHasMore(data.data?.length >= PAGE_SIZE);
+      setHasMore(voteList?.length >= PAGE_SIZE);
     }
   }, [data, pageIndex]);
 
@@ -71,7 +72,6 @@ const Current = ({ scrollTop, keyward, category: cate }: IAccumulativeProps) => 
           canVote={canVote}
           category={category}
           onVoted={() => setCanVote(false)}
-          isFirst={index === 0}
           showBtn
         />
       ))}

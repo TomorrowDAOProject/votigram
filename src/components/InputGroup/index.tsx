@@ -36,8 +36,6 @@ const InputGroup: React.FC<IInputGroupProps> = ({ value, defaultValues, onChange
     newOptions[index].icon = icon;
     setOptions(newOptions);
     onChange?.(newOptions);
-    console.log('newOptions ======================')
-    console.log(newOptions)
   };
 
   useEffect(() => {
@@ -58,7 +56,7 @@ const InputGroup: React.FC<IInputGroupProps> = ({ value, defaultValues, onChange
             aspect={1}
             onFinish={(value) => handleIconChange(index, value)}
           >
-            <span className="text-[32px] text-white">+</span>
+            <i className="votigram-icon-plus text-[32px] text-white" />
           </Upload>
           <Input
             value={option.title}

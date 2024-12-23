@@ -4,9 +4,19 @@ export enum CREATE_STATUS {
   SUCCESS = 1,
 }
 
+export enum COMMUNITY_LABEL {
+  ARCHIVED = 'Archived',
+  CURRENT = 'Current'
+}
+
 export enum COMMUNITY_TYPE {
   ACCUMULATIVE = 'Accumulative',
   CURRENT = 'Current'
+}
+
+export enum VOTE_TABS {
+  TMAS = 'TMAs',
+  COMMUNITY = 'Community'
 }
 
 export enum RANKING_TYPE {

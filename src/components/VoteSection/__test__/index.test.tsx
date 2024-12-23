@@ -5,10 +5,10 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { describe, it, expect } from 'vitest';
 import VoteSection from '../index';
-import { VoteSection as VoteSectionType } from '@/types/app';
-import { voteSectionData } from "@/__mocks__/VoteApp";
+import { voteSection } from "@/__mocks__/VoteApp";
+import { VoteSectionType } from '../type';
 
-const sampleData: VoteSectionType = voteSectionData[0];
+const sampleData: VoteSectionType = voteSection[0];
 
 describe('VoteSection Component', () => {
   it('renders the vote title, dates, and total votes', () => {
@@ -41,7 +41,7 @@ describe('VoteSection Component', () => {
   it('renders avatar image when avatarUrl is provided', () => {
     render(<VoteSection data={sampleData} />);
     const avatarImage = screen.getByAltText('Avatar');
-    expect(avatarImage).toHaveAttribute('src', sampleData.avatarUrl);
+    expect(avatarImage).toHaveAttribute('src', sampleData.bannerUrl);
   });
 
   it('applies custom className to container', () => {

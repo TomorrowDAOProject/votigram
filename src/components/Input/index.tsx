@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 interface IInputProps {
   value?: string;
   maxLength?: number;
+  defaultValue?: string;
   className?: string;
   placeholder?: string;
   showClearBtn?: boolean;
@@ -12,27 +13,28 @@ interface IInputProps {
 
 const Input = ({
   value: parentValue,
+  defaultValue,
   placeholder,
   className,
   maxLength,
   showClearBtn,
   onChange,
 }: IInputProps) => {
-  const [value, setValue] = useState(parentValue?.slice(0, maxLength) || "");
+  const [value, setValue] = useState(defaultValue || "");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value?.slice(0, maxLength) || "");
-    onChange?.(e.target.value?.slice(0, maxLength) || "");
+    setValue(e.target.value || '');
+    onChange?.(e.target.value || '');
   };
 
   const clearInput = () => {
     setValue("");
-    onChange?.("");
+    onChange?.('');
   };
 
   useEffect(() => {
-    setValue(parentValue?.slice(0, maxLength) || "");
-  }, [maxLength, parentValue]);
+    setValue(parentValue || "");
+  }, [parentValue]);
 
   return (
     <div className="relative w-full">

@@ -1,17 +1,17 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 
-type IButtonRadioOption = {
+type ButtonRadioOption = {
   label: string;
   value: number;
 };
 
 interface IButtonRadioProps {
-  value?: IButtonRadioOption;
+  value?: ButtonRadioOption;
   className?: string;
   radioClassName?: string;
-  options: IButtonRadioOption[];
-  onChange?: (value?: IButtonRadioOption) => void;
+  options: ButtonRadioOption[];
+  onChange?: (value?: ButtonRadioOption) => void;
 }
 
 const ButtonRadio = ({
@@ -21,9 +21,9 @@ const ButtonRadio = ({
   radioClassName,
   onChange,
 }: IButtonRadioProps) => {
-  const [selectedValue, setSelectedValue] = useState<IButtonRadioOption | undefined>();
+  const [selectedValue, setSelectedValue] = useState<ButtonRadioOption | undefined>();
 
-  const handleSelect = (value: IButtonRadioOption) => {
+  const handleSelect = (value: ButtonRadioOption) => {
     setSelectedValue(value);
     onChange?.(value);
   }

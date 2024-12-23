@@ -3,15 +3,17 @@ import { AnimatePresence, motion } from "framer-motion";
 import clsx from "clsx";
 
 interface IDrawerProps {
+  role?: string;
   isVisible?: boolean;
   direction?: "left" | "right" | "top" | "bottom";
   children: ReactNode | ReactNode[];
   canClose?: boolean;
   rootClassName?: string;
-  onClose?: (v: boolean) => void;
+  onClose?: (visible: boolean) => void;
 }
 
 const Drawer = ({
+  role = "dialog",
   isVisible,
   direction = "left",
   children,
@@ -44,7 +46,7 @@ const Drawer = ({
 
   useEffect(() => {
     setIsVisibleState(isVisible);
-  }, [isVisible])
+  }, [isVisible]);
 
   return (
     <>
@@ -57,6 +59,7 @@ const Drawer = ({
       <AnimatePresence>
         {isVisibleState && (
           <motion.div
+            role={role}
             ref={containerRef}
             initial="hidden"
             animate="visible"

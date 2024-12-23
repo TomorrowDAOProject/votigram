@@ -46,6 +46,7 @@ interface TelegramWebApp {
   onEvent(eventType: string, handler: () => void): void;
   offEvent(eventType: string, handler: () => void): void;
   WebApp: {
+    isVersionAtLeast(arg0: number): unknown;
     HapticFeedback: {
       impactOccurred(
         style: "light" | "medium" | "heavy" | "rigid" | "soft"
@@ -55,8 +56,10 @@ interface TelegramWebApp {
     };
     requestFullscreen(): void;
     lockOrientation(): void;
+    openTelegramLink(link: string): void;
     disableVerticalSwipes(): void;
     setHeaderColor(color: string): void;
+    platform: 'ios' | 'android' | 'web' | 'tdesktop' | 'macos';
     initData: "";
     initDataUnsafe: {
       user: {
@@ -71,10 +74,6 @@ interface Window {
   Telegram: TelegramWebApp;
 }
 
-declare type Chain = 'AELF' | 'tDVV' | 'tDVW';
+declare type Chain = "AELF" | "tDVV" | "tDVW";
 
-declare module 'aelf-sdk';
-
-declare namespace vi {
-  type Mock = Mock;
-};
+declare module "aelf-sdk";

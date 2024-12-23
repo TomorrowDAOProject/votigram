@@ -1,4 +1,3 @@
-import { VoteItemType } from "@/components/VoteItem/type";
 import { VoteSectionType } from "@/components/VoteSection/type";
 import { APP_CATEGORY } from "@/constants/discover";
 import { VoteApp } from "@/types/app";
@@ -98,76 +97,21 @@ export const voteAppListData: VoteApp[] = [
   },
 ];
 
-export const voteSectionData: VoteSectionType[] = [
-  {
-    creator: "John Doe",
-    avatarUrl: "https://i.pravatar.cc/150?img=2",
-    title: "Annual Conference",
-    startTime: "2023-10-20T09:00:00",
-    endTime: "2023-10-20T17:00:00",
-    totalVotes: 150000000,
-    bannerUrl: "https://via.placeholder.com/600x200",
-  },
-  {
-    creator: "Jane Smith",
-    avatarUrl: "https://i.pravatar.cc/150?img=3",
-    title: "Weekly Team Meeting Annual Conference Annual Conference Annual ConferenceAnnual Conference",
-    startTime: "2023-10-22T10:00:00",
-    endTime: "2023-10-22T11:00:00",
-    totalVotes: 7500,
-    bannerUrl: "https://via.placeholder.com/600x200",
-  },
-  {
-    creator: "Emily Johnson",
-    title: "Project Kick-off",
-    startTime: "2023-10-25T14:00:00",
-    endTime: "2023-10-25T15:30:00",
-    totalVotes: 2000000,
-  },
-];
-
-export const VoteListItems: VoteItemType[] =[
-  {
-    id: 1,
-    rank: 1,
-    title: "Sample Title 1",
-    amount: 1230000,
-    avatar: "https://i.pravatar.cc/150?img=1", // Random avatar URL
-    hatIcon: "https://img.icons8.com/color/48/000000/party-hat.png",
-    voted: true,
-    progress: 45,
-    isVoted: true,
-  },
-  {
-    id: 2,
-    rank: 2,
-    title: "Sample Title 2",
-    amount: 4563455,
-    voted: false,
-    progress: 67,
-  },
-  {
-    id: 3,
-    title: "Sample Title 3",
-    amount: 78923480,
-    avatar: "https://i.pravatar.cc/150?img=3", // Random avatar URL
-    voted: true,
-    progress: 23,
-  },
-  {
-    id: 4,
-    title: "Sample Title 4",
-    amount: 321,
-    avatar: "https://i.pravatar.cc/150?img=4", // Random avatar URL
-    voted: false,
-    progress: 89,
-  },
-  {
-    id: 5,
-    title: "Sample Title 5",
-    amount: 6542345,
-    avatar: "https://i.pravatar.cc/150?img=5", // Random avatar URL
-    voted: true,
-    progress: 55,
-  },
-];
+export const voteSection: VoteSectionType[] = [{
+  chainId: "1",
+  proposalId: "proposal123",
+  daoId: "dao456",
+  proposalTitle: "Increase Community Fund",
+  proposalIcon: "https://example.com/icon.png",
+  proposalDescription: "This proposal suggests increasing the community fund by 20% to support new initiatives.",
+  totalVoteAmount: 1250,
+  activeStartTime: "2024-12-20T10:00:00Z",
+  activeEndTime: "2024-12-30T10:00:00Z",
+  activeStartEpochTime: 1703066400,
+  activeEndEpochTime: 1703966400,
+  active: true,
+  tag: "Trending",
+  bannerUrl: "https://example.com/banner.png",
+  proposalType: "AD",
+  ProposerFirstName: "Alice"
+}];
