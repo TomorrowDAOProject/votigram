@@ -50,7 +50,7 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
   return (
     <>
       <TelegramHeader title={isSearching ? "Discover" : ""} />
-      <div className="h-screen overflow-scroll pt-telegramHeader">
+      <div className="h-screen overflow-scroll pt-telegramHeader bg-black">
         <div className="font-outfit votigram-grid mt-[9px]">
           <div className="col-12 mb-[11px]">
             {isSearching ? (

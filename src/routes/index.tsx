@@ -1,22 +1,47 @@
-import Loading from '@/components/Loading';
-import React, { Suspense, LazyExoticComponent } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import React from "react";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AppRoot } from "@telegram-apps/telegram-ui";
+import { useLaunchParams } from "@telegram-apps/sdk-react";
+import Home from "@/pageComponents/Home";
+import CreatePoll from "@/pageComponents/CreatePoll";
+import PollDetail from "@/pageComponents/PollDetail";
 
-const Home: LazyExoticComponent<React.FC> = React.lazy(() => import('@/pageComponents/Home'));
-const CreatePoll: LazyExoticComponent<React.FC> = React.lazy(() => import('@/pageComponents/CreatePoll'));
-const PollDetail: LazyExoticComponent<React.FC> = React.lazy(() => import('@/pageComponents/PollDetail'));
+const routes = [
+  {
+    path: "/",
+    Component: Home,
+    title: "Home",
+  },
+
+  {
+    path: "/create-poll",
+    Component: CreatePoll,
+    title: "Create Poll",
+  },
+
+  {
+    path: "/proposal/:proposalId",
+    Component: PollDetail,
+    title: "Poll Detail",
+  },
+];
 
 const AppRoutes: React.FC = () => {
+  const lp = useLaunchParams();
   return (
-    <Router>
-      <Suspense fallback={<Loading className="h-screen w-screen" />}>
+    <AppRoot
+      appearance="dark"
+      platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
+    >
+      <HashRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/create-poll" element={<CreatePoll />} />
-          <Route path="/proposal/:proposalId" element={<PollDetail />} />
+          {routes.map((route) => (
+            <Route key={route.path} {...route} />
+          ))}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </Suspense>
-    </Router>
+      </HashRouter>
+    </AppRoot>
   );
 };
 

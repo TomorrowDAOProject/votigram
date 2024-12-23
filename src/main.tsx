@@ -4,13 +4,29 @@ import "./styles/theme.css";
 import "./index.css";
 import "./assets/fonts/votigram-icon.css";
 import { Buffer } from 'buffer';
+import { retrieveLaunchParams } from '@telegram-apps/sdk-react';
 
 import App from "./App";
+import { init } from "./init";
+import { EnvUnsupported } from "./components/EnvUnsupported";
+
+const root = createRoot(document.getElementById('root')!);
 
 window.Buffer = Buffer;
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-);
+// Mock the environment in case, we are outside Telegram.
+import './mockEnv.ts';
+
+try {
+  // Configure all application dependencies.
+  init(retrieveLaunchParams().startParam === 'debug' || import.meta.env.DEV);
+
+  root.render(
+    <StrictMode>
+      <App/>
+    </StrictMode>,
+  );
+} catch (e) {
+  root.render(<EnvUnsupported/>);
+  console.error(e);
+}
