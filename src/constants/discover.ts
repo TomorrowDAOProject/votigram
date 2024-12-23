@@ -62,3 +62,5 @@ export enum RANDOM_APP_CATEGORY {
   FORYOU = 'ForYou',
   RECOMMEND = 'Recommend',
 }
+
+export const DAILY_REWARDS = [200, 200, 200, 200, 200, 200, 500];
