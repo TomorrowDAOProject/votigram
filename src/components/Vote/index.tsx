@@ -57,7 +57,7 @@ const Vote = () => {
         />
       )}
       <div
-        className="h-screen overflow-scroll pt-telegramHeader bg-black"
+        className="h-screen overflow-scroll pt-telegramHeader"
         ref={scrollViewRef}
       >
         <div className="votigram-grid">

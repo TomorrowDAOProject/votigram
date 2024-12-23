@@ -46,8 +46,11 @@ interface TelegramWebApp {
   onEvent(eventType: string, handler: () => void): void;
   offEvent(eventType: string, handler: () => void): void;
   WebApp: {
+    openTelegramLink(url: string): unknown;
+    openLink(url: string): unknown;
     openLink(url: string): void;
     isVersionAtLeast(arg0: number): unknown;
+    platform: string;
     HapticFeedback: {
       impactOccurred(
         style: "light" | "medium" | "heavy" | "rigid" | "soft"
@@ -57,16 +60,15 @@ interface TelegramWebApp {
     };
     requestFullscreen(): void;
     lockOrientation(): void;
-    openTelegramLink(link: string): void;
     disableVerticalSwipes(): void;
     setHeaderColor(color: string): void;
-    platform: 'ios' | 'android' | 'web' | 'tdesktop' | 'macos';
     initData: "";
     initDataUnsafe: {
       user: {
         first_name: string;
+        last_name: string;
+        photo_url: string;
       };
-      start_param: string;
     };
   };
 }

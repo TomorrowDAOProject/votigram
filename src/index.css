@@ -17,9 +17,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+/** 
+ background-color should not be overwritten by portkey
+**/
+html,
 body {
   margin: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
+  background-color: unset !important;
 }

@@ -90,7 +90,7 @@ const Profile = ({ switchTab }: IProfileProps) => {
             />
           </div>
 
-          <div className="col-12">
+          <div className="col-12 min-w-[335px]">
             {currentTab === 0 ? (
               <Tasks switchTab={switchTab} />
             ) : (
