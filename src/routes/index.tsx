@@ -1,10 +1,16 @@
-import Loading from '@/components/Loading';
-import React, { Suspense, LazyExoticComponent } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import Loading from "@/components/Loading";
+import React, { Suspense, LazyExoticComponent } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-const Home: LazyExoticComponent<React.FC> = React.lazy(() => import('@/pageComponents/Home'));
-const CreatePoll: LazyExoticComponent<React.FC> = React.lazy(() => import('@/pageComponents/CreatePoll'));
-const PollDetail: LazyExoticComponent<React.FC> = React.lazy(() => import('@/pageComponents/PollDetail'));
+const Home: LazyExoticComponent<React.FC> = React.lazy(
+  () => import("@/pageComponents/Home")
+);
+const CreatePoll: LazyExoticComponent<React.FC> = React.lazy(
+  () => import("@/pageComponents/CreatePoll")
+);
+const PollDetail: LazyExoticComponent<React.FC> = React.lazy(
+  () => import("@/pageComponents/PollDetail")
+);
 
 const AppRoutes: React.FC = () => {
   return (
