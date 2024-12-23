@@ -22,10 +22,10 @@ const AppItem = ({ showArrow = false, onAppItemClick, item }: IAppItem) => {
         data-testid="app-item-icon"
       />
       <div className="flex flex-col gap-[5px] flex-1">
-        <span className="font-bold text-[16px] leading-[16px] font-outfit">
+        <span className="font-bold text-[16px] leading-[16px] font-outfit text-white">
           {item?.title}
         </span>
-        <span className="font-normal text-[12px] leading-[13px]">
+        <span className="font-normal text-[12px] leading-[13px] text-white">
           {item?.description}
         </span>
       </div>

@@ -1,4 +1,9 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import TelegramHeader from "../TelegramHeader";
 import { useUserContext } from "@/provider/UserProvider";
 import { motion } from "framer-motion";
@@ -32,7 +37,7 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
   useEffect(() => {
     if (hasUserData()) {
       setProgress(90);
-      setIsLoading(!isNewUser);
+      setIsLoading(isNewUser);
     }
   }, [hasUserData, isNewUser, progress, setIsLoading]);
 
@@ -40,7 +45,7 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
     <>
       <TelegramHeader />
       <div className="flex bg-gradient-to-t from-black to-[#9381FF] min-h-[533px] pt-telegramHeader">
-        <div className="votigram-grid mt-[42px]">
+        <div className="votigram-grid mt-[42px] h-full">
           <span className="col-12 text-center font-bold text-base font-outfit">
             VOTIGRAM
           </span>
@@ -62,7 +67,7 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
               onClick={() => {
                 setIsLoading(false);
               }}
-              className="bg-primary col-10 offset-1 rounded-3xl py-2.5 leading-[14px] text-[14px] font-bold font-outfit"
+              className="bg-primary col-10 offset-1 rounded-3xl py-2.5 leading-[14px] text-[14px] font-bold font-outfit mb-[62px]"
             >
               Get Started!
             </button>

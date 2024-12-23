@@ -1,108 +1,94 @@
-import React, { useState } from "react";
 import ToggleSlider from "../ToggleSlider";
 import { useUserContext } from "@/provider/UserProvider";
-import SimpleTimePicker from "../SimpleTimePicker";
-import SimpleDatePicker from "../SimpleDatePicker";
-import Drawer from "../Drawer";
-import VoteSection from "../VoteSection";
-import VoteItem from "../VoteItem";
-import { voteSectionData, VoteListItems } from "@/__mocks__/VoteApp";
+import TMAs from "../TMAs";
+import { useCallback, useEffect, useRef, useState } from "react";
+import Community from "../Community";
+import TelegramHeader from "../TelegramHeader";
+import Countdown from "../Countdown";
+import dayjs from "dayjs";
+import { VOTE_TABS } from "@/constants/vote";
 
 const Vote = () => {
   const {
     user: { userPoints },
   } = useUserContext();
+  const [currnetTab, setCurrentTab] = useState(VOTE_TABS.TMAS);
+  const scrollViewRef = useRef<HTMLDivElement | null>(null);
+  const [seconds, setSeconds] = useState(0);
+  const [scrollTop, setScrollTop] = useState(0);
+  const [tmaTab, setTMATab] = useState(0);
 
-  const [selectedDay, setSelectedDay] = useState("");
-  const [selectedTime, setSelectedTime] = useState("");
-  const [showTimePicker, setShowTimePicker] = useState(false);
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const handleScroll = useCallback(() => {
+    const scrollRef = scrollViewRef.current;
+    if (scrollRef) {
+      setScrollTop(
+        scrollRef.scrollHeight - scrollRef.scrollTop - scrollRef.clientHeight
+      );
+    }
+  }, [scrollViewRef]);
+
+  useEffect(() => {
+    const scrollRef = scrollViewRef.current;
+    if (scrollRef) {
+      scrollRef.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (scrollRef) {
+        scrollRef.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [handleScroll, scrollViewRef]);
+
+  const getRemainingSeconds = () => {
+    const now = dayjs();
+    const endOfWeek = dayjs().day(7).startOf("day");
+    const secondsRemainingInWeek = endOfWeek.diff(now, "seconds");
+    setSeconds(secondsRemainingInWeek);
+  };
 
   return (
-    <div className="h-screen overflow-scroll pt-telegramHeader">
-      <div className="votigram-grid">
-        <div className="col-7 h-7">
-          <ToggleSlider items={["TMAs", "Community"]} />
-        </div>
-        <div className="flex flex-col col-5 items-end gap-[6px]">
-          <span className="text-[10px] leading-[11px]">
-            Total earned points:
-          </span>
-          <span className="font-pressStart text-secondary tracking-[-1.6] text-[16px] leading-[16px]">
-            {userPoints?.userTotalPoints.toLocaleString() || 0}
-          </span>
-        </div>
-      </div>
-
-      <div className="p-4">
-        {voteSectionData?.map((item) => (<VoteSection data={item} key={item.title} className="mb-3" />))}
-      </div>
-
-      <div className="px-4">
-        {VoteListItems.map((vote, index) => <VoteItem data={vote} key={vote.id} showHat={index === 0} className={index !== 3 ? "bg-transparent" : ''} showBtn />)}
-      </div>
-
-      <div className="flex flex-row items-center gap-4">
-        <button
-          className="bg-tertiary text-white rounded-2 py-2 px-4"
-          onClick={() => setShowDatePicker(true)}
-        >
-          Select Day
-        </button>
-        <span>Selected Day: {selectedDay}</span>
-      </div>
-
-      <div className="flex flex-row items-center gap-4 my-4">
-        <button
-          className="bg-tertiary text-white rounded-2 py-2 px-4"
-          onClick={() => setShowTimePicker(true)}
-        >
-          Select Time
-        </button>
-        <span>Selected Time: {selectedTime}</span>
-      </div>
-
-      <div className="flex flex-row">
-        <button
-          className="bg-tertiary text-white rounded-2 py-2 px-4"
-          onClick={() => setShowModal(true)}
-        >
-          Show Modal
-        </button>
-      </div>
-
-      <SimpleTimePicker
-        isVisible={showTimePicker}
-        onChange={(value) => {
-          setSelectedTime(value);
-          setShowTimePicker(false);
-        }}
-      />
-      <SimpleDatePicker
-        isVisible={showDatePicker}
-        onChange={(value) => {
-          setSelectedDay(value);
-          setShowDatePicker(false);
-        }}
-      />
-      <Drawer
-        isVisible={showModal}
-        direction="bottom"
-        rootClassName="pt-[34px] pb-[40px] bg-tertiary"
-        onClose={() => setShowModal(false)}
-      >
-        <span className="block mb-[29px] text-[18px] font-outfit font-bold leading-[18px] text-center text-white">
-          Creating Poll
-        </span>
-        <img
-          className="mx-auto w-[236px] h-[208px] object-contain"
-          src="https://cdn.tmrwdao.com/votigram/assets/imgs/AAF09912A14F.webp"
-          alt="Tips"
+    <>
+      {tmaTab === 1 && (
+        <TelegramHeader
+          title={
+            <Countdown initialTime={seconds} onFinish={getRemainingSeconds} />
+          }
         />
-        <span className="block mt-[28px] text-center text-white whitespace-pre-wrap text-[14px] leading-[16.8px]">{`Your poll is currently being \nregistered on the blockchain.`}</span>
-      </Drawer>
-    </div>
+      )}
+      <div
+        className="h-screen overflow-scroll pt-telegramHeader bg-black"
+        ref={scrollViewRef}
+      >
+        <div className="votigram-grid">
+          <div className="col-7 h-7">
+            <ToggleSlider
+              items={[VOTE_TABS.TMAS, VOTE_TABS.COMMUNITY]}
+              onChange={(index) =>
+                setCurrentTab(
+                  index === 0 ? VOTE_TABS.TMAS : VOTE_TABS.COMMUNITY
+                )
+              }
+            />
+          </div>
+          <div className="flex flex-col col-5 items-end gap-[6px]">
+            <span className="text-[10px] leading-[11px] text-white">
+              Total earned points:
+            </span>
+            <span className="font-pressStart text-secondary tracking-[-1.6] text-[16px] leading-[16px]">
+              {userPoints?.userTotalPoints.toLocaleString() || 0}
+            </span>
+          </div>
+          <div className="mt-8 col-12">
+            {currnetTab === VOTE_TABS.TMAS ? (
+              <TMAs scrollTop={scrollTop} onTabChange={setTMATab} />
+            ) : (
+              <Community scrollTop={scrollTop} />
+            )}
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

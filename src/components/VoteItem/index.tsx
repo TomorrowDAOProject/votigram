@@ -1,46 +1,172 @@
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import ProgressBar from "../ProgressBar";
-import { VoteItem as VoteItemType } from "./type/index";
+import { VoteItemType } from "./type/index";
 import { CreateTypes } from "canvas-confetti";
 import Confetti from "@/components/Confetti";
 import { HEART_SHAPE } from "@/constants/canvas-confetti";
+import { chainId } from "@/constants/app";
+import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
+import { rpcUrlTDVW, sideChainCAContractAddress, voteAddress } from "@/config";
+import { EVoteOption } from "@/types/contract";
+import { getRawTransactionPortkey } from "@/utils/getRawTransactionPortkey";
+import { getTrackId } from "./utils";
+import { postWithToken } from "@/hooks/useData";
+import Drawer from "../Drawer";
+import { VOTE_STATUS } from "@/constants/vote";
 
 interface IVoteItemProps {
   data: VoteItemType;
+  rank?: number;
+  canVote?: boolean;
   showHat?: boolean;
   showBtn?: boolean;
   className?: string;
+  proposalId: string;
   hatClassName?: string;
   imgClassName?: string;
+  category?: string;
+  onVoted?(): void;
 }
 
 const VoteItem = ({
   data,
+  rank,
   showHat,
   showBtn,
+  canVote,
   className,
+  proposalId,
   hatClassName,
   imgClassName,
+  category,
+  onVoted,
 }: IVoteItemProps) => {
   const elementRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
   const confettiInstance = useRef<CreateTypes | null>(null);
+  const [totalCurrentPoints, setTotalCurrentPoints] = useState(
+    data.totalPoints || data.pointsAmount || 0
+  );
+  const { walletInfo, callSendMethod } = useConnectWallet();
 
   const [elementWidth, setElementWidth] = useState(0);
+  const [likeCount, setLikeCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [isFailed, setIsFailed] = useState<boolean>(false);
 
   const onInit = ({ confetti }: { confetti: CreateTypes }) => {
     confettiInstance.current = confetti;
   };
 
   const onVoteClick = () => {
+    let normalizedTop = 0.5;
+    let normalizedLeft = 0.88;
+
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const windowWidth = window.innerWidth;
+      normalizedTop = rect.top / windowHeight;
+      normalizedLeft = rect.left / windowWidth;
+    }
+
     confettiInstance.current?.({
       angle: 110,
       particleCount: 15,
       spread: 70,
-      origin: { y: 0.2, x: 0.88 },
+      origin: { y: normalizedTop, x: normalizedLeft },
       disableForReducedMotion: true,
       shapes: [HEART_SHAPE],
       zIndex: 10,
+    });
+
+    if (canVote) {
+      sedRawTransaction();
+    } else {
+      setLikeCount((prevCount) => prevCount + 1);
+    }
+  };
+
+  useEffect(() => {
+    if (likeCount > 0) {
+      const timer = setTimeout(() => {
+        postWithToken("/api/app/ranking/like", {
+          chainId,
+          proposalId,
+          likeList: [
+            {
+              alias: data.alias,
+              likeAmount: likeCount,
+            },
+          ],
+        });
+        setTotalCurrentPoints((prev) => prev + likeCount);
+        setLikeCount(0);
+      }, 2000);
+
+      return () => clearTimeout(timer); // Cleanup timeout on unmount or update
+    }
+  }, [data.alias, likeCount, proposalId]);
+
+  const sedRawTransaction = async () => {
+    try {
+      setLoading(true);
+      const result: {
+        transactionId: string;
+      } = await callSendMethod({
+        contractAddress: voteAddress,
+        methodName: "Vote",
+        args: {
+          votingItemId: proposalId,
+          voteOption: EVoteOption.APPROVED,
+          voteAmount: 1,
+          memo: `##GameRanking:{${data?.alias}}`,
+        },
+        chainId,
+      });
+
+      const rawTransaction = await getRawTransactionPortkey({
+        caHash: walletInfo?.extraInfo?.portkeyInfo.caInfo.caHash,
+        privateKey: walletInfo?.extraInfo?.portkeyInfo.walletInfo.privateKey,
+        contractAddress: voteAddress,
+        caContractAddress: sideChainCAContractAddress,
+        rpcUrl: rpcUrlTDVW,
+        params: {
+          votingItemId: proposalId,
+          voteOption: EVoteOption.APPROVED,
+          voteAmount: 1,
+          memo: `##GameRanking:{${data?.alias}}`,
+        },
+        methodName: "Vote",
+      });
+      if (rawTransaction && result) {
+        const { data } = await voteRequest(rawTransaction, result);
+        if (data.status === VOTE_STATUS.VOTED) {
+          onVoted?.();
+        } else if (data.status === VOTE_STATUS.FAILED) {
+          setIsFailed(true);
+        }
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+      setIsFailed(true);
+    }
+  };
+
+  const voteRequest = (
+    rawTransaction: string,
+    result: { transactionId: string }
+  ) => {
+    const trackId = getTrackId();
+    return postWithToken("/api/app/ranking/vote", {
+      chainId,
+      rawTransaction: rawTransaction,
+      transactionId: result.transactionId,
+      trackId,
+      category,
     });
   };
 
@@ -53,6 +179,11 @@ const VoteItem = ({
     updateWidth();
   }, []);
 
+  const handleFinish = () => {
+    setIsFailed(false);
+    sedRawTransaction();
+  };
+
   return (
     <div
       className={clsx(
@@ -62,14 +193,14 @@ const VoteItem = ({
     >
       <div
         className={clsx(
-          "relative flex flex-row items-center justify-center w-[48px] h-[48px] rounded-[8px] shrink-0",
+          "relative flex flex-row items-center justify-center w-[48px] h-[48px] rounded-[8px] text-white shrink-0",
           {
-            "border-2 border-lime-primary": data?.isVoted,
-            "bg-gradient-to-tr from-lime-green to-lime-primary": !data.avatar,
+            "border-2 border-lime-primary": data?.editorChoice,
+            "bg-gradient-to-tr from-lime-green to-lime-primary": !data.icon,
           }
         )}
       >
-        {data?.avatar ? (
+        {data?.icon ? (
           <>
             {showHat && (
               <img
@@ -82,7 +213,7 @@ const VoteItem = ({
               />
             )}
             <img
-              src={data?.avatar}
+              src={data?.icon}
               alt="Avatar"
               className={clsx(
                 "w-full h-full rounded-[8px] object-cover",
@@ -102,38 +233,84 @@ const VoteItem = ({
         ref={elementRef}
       >
         <div className="flex flex-row items-center justify-between">
-          <span className="flex flex-row items-center font-outfit font-bold text-[16px] leading-[16px]">
-            {data?.rank && (
+          <span className="flex flex-row items-center font-outfit font-bold text-[16px] leading-[16px] text-white">
+            {rank && (
               <span className="mr-[4px] font-outfit font-bold text-[12px] leading-[16px]">
-                {data?.rank}
+                {rank}
               </span>
             )}
             {data?.title}
           </span>
 
           <span className="font-pressStart font-normal text-[9px] tracking-[-0.9px] leading-[9px] text-lime-green">
-            {data?.amount.toLocaleString()}
+            {(totalCurrentPoints + likeCount)?.toLocaleString()}
           </span>
         </div>
 
-        <ProgressBar width={elementWidth} progress={data?.progress} />
+        <ProgressBar
+          width={elementWidth}
+          progress={!canVote && !showBtn ? data?.pointsPercent * 100 : 0}
+        />
       </div>
 
       {showBtn && (
         <button
           type="button"
-          className="bg-white/[.25] w-[40px] h-[40px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0 z-[10]"
+          ref={buttonRef}
+          className="bg-white/[.25] w-[32px] h-[32px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0 z-[10]"
           onClick={onVoteClick}
         >
-          <i
-            className={clsx(
-              "votigram-icon-navbar-vote text-[24px]",
-              data?.isVoted ? "text-lime-green" : "text-lime-primary"
-            )}
-          />
+          <i className="votigram-icon-navbar-vote text-[18px] text-lime-primary first:text-lime-green" />
         </button>
       )}
-      <Confetti onInit={onInit} className="absolute w-full top-0" />
+      <Confetti
+        onInit={onInit}
+        className="fixed w-screen h-screen left-0 top-0"
+      />
+
+      <Drawer
+        isVisible={loading}
+        direction="bottom"
+        canClose={false}
+        rootClassName="pt-[34px] pb-[40px] bg-tertiary"
+      >
+        <span className="block mb-[29px] text-[18px] font-outfit font-bold leading-[18px] text-center text-white">
+          Apologise for the delay...
+        </span>
+        <img
+          className="mx-auto w-[236px] h-[208px] object-contain"
+          src="https://cdn.tmrwdao.com/votigram/assets/imgs/AAF09912A14F.webp"
+          alt="Creating"
+        />
+        <span className="block mt-[28px] text-center text-white whitespace-pre-wrap text-[14px] leading-[16.8px]">{`Your vote is being securely registered \non the blockchain.`}</span>
+      </Drawer>
+
+      <Drawer
+        isVisible={isFailed}
+        direction="bottom"
+        canClose={true}
+        rootClassName="pt-[34px] pb-[23px] px-5 bg-tertiary"
+        onClose={() => setIsFailed(false)}
+      >
+        <span className="block mb-[40px] text-[18px] font-outfit font-bold leading-[18px] text-center text-white">
+          Please Try Again
+        </span>
+        <img
+          className="mx-auto w-[140px] h-[87px] object-contain"
+          src="https://cdn.tmrwdao.com/votigram/assets/imgs/FEBC32940EB3.webp"
+          alt="Creating"
+        />
+        <span className="block mt-[26px] text-center text-white whitespace-pre-wrap text-[14px] leading-[16.8px]">
+          {`We encountered an error registering \nyour vote on the blockchain.`}
+        </span>
+        <button
+          className="mt-[37px] w-full h-[40px] text-white font-bold text-[14px] font-outfit rounded-[24px] bg-danger"
+          type="button"
+          onClick={handleFinish}
+        >
+          Try Again
+        </button>
+      </Drawer>
     </div>
   );
 };

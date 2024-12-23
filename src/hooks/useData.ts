@@ -5,10 +5,10 @@ import { toUrlEncoded } from "@/utils/token";
 import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
 
 // Fetcher function that includes the Authorization token
-const fetchWithToken = (endpoint: string) => {
+export const fetchWithToken = (endpoint: string, fullUrl?: boolean) => {
   const token = Cookies.get("access_token");
 
-  return fetch(`${import.meta.env.VITE_BASE_URL}${endpoint}`, {
+  return fetch(`${!fullUrl ? import.meta.env.VITE_BASE_URL : ''}${endpoint}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -38,6 +38,43 @@ export const postWithToken = async (
     contentType === "application/x-www-form-urlencoded"
       ? toUrlEncoded(data)
       : JSON.stringify(data);
+
+  const response = await fetch(`${import.meta.env.VITE_BASE_URL}${endpoint}`, {
+    method: "POST",
+    headers,
+    body,
+  });
+
+  if (!response.ok) throw new Error("Failed to post data");
+
+  const result = await response.json();
+
+  // Optimistically update the cache for the endpoint
+  mutate(
+    endpoint,
+    async (currentData: any) => {
+      return [...(currentData || []), result];
+    },
+    false
+  );
+
+  // Revalidate cache to ensure consistency with the server
+  mutate(endpoint);
+
+  return result;
+};
+
+// POST function with cache update using mutate
+export const uploadWithToken = async (
+  endpoint: string,
+  body: FormData,
+): Promise<any> => {
+  const token = Cookies.get("access_token");
+
+  // Set up headers, conditionally adding Authorization
+  const headers: HeadersInit = {
+    ...(token && { Authorization: `Bearer ${token}` }),
+  };
 
   const response = await fetch(`${import.meta.env.VITE_BASE_URL}${endpoint}`, {
     method: "POST",
