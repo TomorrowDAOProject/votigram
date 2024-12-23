@@ -13,6 +13,6 @@ export const voteAddress = '2LpoLYNPAnjiBUozyYwcfaeekxRFehjt6hDR78VKgk47UwkvAv';
 export const host = 'https://test.tmrwdao.com';
 
 // telegram
-export const TELEGRAM_BOT_ID = '7617691394';
+export const TELEGRAM_BOT_ID = '7572484261';
 export const nftSymbol = 'TOMORROWPASSTEST-1';
 export const TgLink = 'https://t.me/monkeyTmrwDevBot/Votigram';
