@@ -285,7 +285,7 @@ const VoteItem = ({
           className="bg-white/[.25] w-[32px] h-[32px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0 z-[10]"
           onClick={onVoteClick}
         >
-          <i className="votigram-icon-navbar-vote text-[18px] text-lime-primary first:text-lime-green" />
+          <i className="votigram-icon-navbar-vote text-[18px] text-lime-primary" />
         </button>
       )}
       <Confetti
