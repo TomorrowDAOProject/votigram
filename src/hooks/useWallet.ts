@@ -23,7 +23,6 @@ export const useWalletInit = () => {
     if (!walletInfo) {
       return;
     }
-    console.log('webLoginContext.isConnected', webLoginContext.isConnected, webLoginContext);
     webLoginInstance.setWebLoginContext(webLoginContext);
   }, [webLoginContext, walletInfo]);
 };

@@ -145,9 +145,9 @@ const PollDetail = () => {
       <Drawer
         isVisible={showShare}
         direction="bottom"
-        canClose={true}
         rootClassName="pt-[34px] pb-[44px] px-10 bg-tertiary"
         onClose={() => setShowShare(false)}
+        canClose
       >
         <span className="block mb-[31px] text-[18px] font-outfit font-bold leading-[18px] text-center text-white">
           Share

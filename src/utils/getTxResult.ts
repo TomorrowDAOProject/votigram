@@ -92,7 +92,7 @@ export async function getTxResultRetry({
     }
     throw Error(`can not get transaction status, transaction id: ${TransactionId}`);
   } catch (error) {
-    console.log('=====getTxResult error', error);
+    console.error('=====getTxResult error', error);
     if (reGetCount > 1) {
       await sleep(1000);
       reGetCount--;
