@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "types": ["node"],
+    "types": ["node", "vitest/globals"],
     "lib": ["dom", "esnext"],
     "jsx": "react-jsx",
     "moduleResolution": "node",

@@ -27,7 +27,7 @@ describe('Tag Component', () => {
     const imageElement = screen.getByAltText('Tag');
     expect(imageElement).toHaveAttribute(
       'src',
-      'https://cdn.tmrwdao.com/votigram/assets/imgs/63B4AA902517.webp'
+      'https://cdn.tmrwdao.com/votigram/assets/imgs/01259C70892E.webp'
     );
   });
 });
