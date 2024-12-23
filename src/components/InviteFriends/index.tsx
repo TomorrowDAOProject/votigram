@@ -182,7 +182,9 @@ const InviteFriendsStatus = ({
                   </span>
 
                   {isCopied ? (
-                    "Copied"
+                    <span className="font-normal text-[14px] leading-[20px]">
+                      Copied
+                    </span>
                   ) : (
                     <button
                       type="button"
