@@ -36,6 +36,17 @@ const Tasks = ({ switchTab }: ITasksProps) => {
   const refresh = () => {
     mutate("/api/app/user/task-list?chainId=tDVW");
   }
+  const handleReportComplete = (task: string, taskDetail: string) => {
+    const taskGroupListCopy = tasks.slice(0);
+    const targetGroup = taskGroupListCopy.find((group) => group.userTask === task);
+    if (targetGroup) {
+      const targetItem = targetGroup.data.find((item) => item.userTaskDetail === taskDetail);
+      if (targetItem) {
+        targetItem.complete = true;
+      }
+    }
+    setTasks(taskGroupListCopy);
+  };
 
   return (
     <>
@@ -54,6 +65,7 @@ const Tasks = ({ switchTab }: ITasksProps) => {
           refresh={refresh}
           description={index === 0 ? "Complete quests to earn rewards!" : ""}
           key={`${userTask}_${index}`}
+          onReportComplete={handleReportComplete}
         />
       ))}
     </>

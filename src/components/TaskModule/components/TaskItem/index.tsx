@@ -8,6 +8,7 @@ import { useState } from "react";
 import Loading from "@/components/Loading";
 import { TAB_LIST } from "@/constants/navigation";
 import { useAdsgram } from "@/hooks/useAdsgram";
+import useRequest from "ahooks/lib/useRequest";
 
 interface ITaskItemProps {
   userTask: string;
@@ -16,6 +17,7 @@ interface ITaskItemProps {
   toInvite(): void;
   watchAds?(): void;
   refresh?(): void;
+  onReportComplete: (task: string, taskDetail: string) => void;
 }
 
 const taskItemMap: Record<string, { title: string; icon: React.ReactNode }> = {
@@ -73,7 +75,7 @@ const taskItemMap: Record<string, { title: string; icon: React.ReactNode }> = {
   },
 };
 
-const TaskItem = ({ data, userTask, switchTab, toInvite, refresh }: ITaskItemProps) => {
+const TaskItem = ({ data, userTask, switchTab, toInvite, refresh, onReportComplete }: ITaskItemProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const {
     retweetVotigramPostURL,
@@ -118,6 +120,29 @@ const TaskItem = ({ data, userTask, switchTab, toInvite, refresh }: ITaskItemPro
     onError: () => {},
     onSkip: () => {},
   });
+  const { run: sendCompleteReq, cancel } = useRequest(
+    async (taskId) => {
+      try {
+        const { data } = await postWithToken("/api/app/user/complete-task", {
+          chainId,
+          userTask: userTask,
+          userTaskDetail: taskId,
+        })
+        if (data) {
+          onReportComplete(userTask, taskId);
+        }
+        if (data || taskId !== UserTaskDetail.ExploreSchrodinger) {
+          cancel();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    {
+      manual: true,
+      pollingInterval: 3000,
+    },
+  );
 
   const jumpAndRefresh = async (taskId: UserTaskDetail) => {
     try {
@@ -125,7 +150,6 @@ const TaskItem = ({ data, userTask, switchTab, toInvite, refresh }: ITaskItemPro
         (item) => item.taskId === data.userTaskDetail
       );
       if (jumpItem) {
-        setIsLoading(true);
         const isComplete = await openNewPageWaitPageVisible(
           jumpItem.url,
           taskId,
@@ -137,7 +161,8 @@ const TaskItem = ({ data, userTask, switchTab, toInvite, refresh }: ITaskItemPro
             })
         );
         if (isComplete) return;
-        setIsLoading(false);
+        setIsLoading(true);
+        sendCompleteReq(taskId);
       }
     } catch (error) {
       console.error(error);
