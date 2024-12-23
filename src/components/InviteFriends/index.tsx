@@ -15,9 +15,15 @@ import { QRCode } from "react-qrcode-logo";
 
 interface IInviteFriendsStatusProps {
   data?: InviteDetail;
+  isShowDrawer?: boolean;
+  onClickInvite?(): void;
 }
 
-const InviteFriendsStatus = ({ data }: IInviteFriendsStatusProps) => {
+const InviteFriendsStatus = ({
+  data,
+  isShowDrawer,
+  onClickInvite,
+}: IInviteFriendsStatusProps) => {
   const [, setCopied] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);
   const { wallet, walletType } = useWalletService();
@@ -81,6 +87,7 @@ const InviteFriendsStatus = ({ data }: IInviteFriendsStatusProps) => {
 
   const handleCopy = () => {
     setCopied(tgLinkWithCode);
+    setIsCopied(true);
   };
 
   const { data: referralCodeRes, loading } = useRequest(async () => {
@@ -94,7 +101,6 @@ const InviteFriendsStatus = ({ data }: IInviteFriendsStatusProps) => {
   const tgLinkWithCode =
     TgLink +
     (inviteCode ? `?startapp=${stringifyStartAppParams(startAppParams)}` : "");
-  const [showShare, setShowShare] = useState(false);
 
   useEffect(() => {
     if (isCopied) {
@@ -131,7 +137,7 @@ const InviteFriendsStatus = ({ data }: IInviteFriendsStatusProps) => {
           </div>
           <button
             type="button"
-            onClick={() => setShowShare(true)}
+            onClick={onClickInvite}
             className="w-full  bg-primary rounded-[24px] text-[14px] font-bold py-[10px] font-outfit leading-[14px] text-white"
           >
             Invite friends
@@ -139,11 +145,11 @@ const InviteFriendsStatus = ({ data }: IInviteFriendsStatusProps) => {
         </div>
       </div>
       <Drawer
-        isVisible={showShare}
+        isVisible={isShowDrawer}
         direction="bottom"
         canClose={true}
         rootClassName="pt-6 pb-[30px] px-5 bg-tertiary"
-        onClose={() => setShowShare(false)}
+        onClose={onClickInvite}
       >
         <span className="block mb-[33px] text-[18px] font-outfit font-bold leading-[18px] text-center text-white">
           Share
@@ -175,17 +181,18 @@ const InviteFriendsStatus = ({ data }: IInviteFriendsStatusProps) => {
                   <span className="font-normal text-[14px] leading-[16.8px] max-w-[92%] break-words flex-shrink flex-wrap">
                     {tgLinkWithCode}
                   </span>
-                  <button
-                    type="button"
-                    className="w-[20px] h-[20px] leading-[20px]"
-                    onClick={handleCopy}
-                  >
-                    {isCopied ? (
-                      "Copied"
-                    ) : (
+
+                  {isCopied ? (
+                    "Copied"
+                  ) : (
+                    <button
+                      type="button"
+                      className="w-[20px] h-[20px] leading-[20px]"
+                      onClick={handleCopy}
+                    >
                       <i className="votigram-icon-duplicate text-[20px]" />
-                    )}
-                  </button>
+                    </button>
+                  )}
                 </div>
               </div>
 

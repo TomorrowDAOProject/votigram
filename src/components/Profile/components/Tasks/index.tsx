@@ -3,10 +3,16 @@ import TaskModule from "@/components/TaskModule";
 import { InviteDetail, TaskModule as TaskModuleType } from "@/types/task";
 import useData from "@/hooks/useData";
 import { useEffect, useState } from "react";
+import { TAB_LIST } from "@/constants/navigation";
+import { mutate } from "swr";
+interface ITasksProps {
+  switchTab: (tab: TAB_LIST) => void;
+}
 
-const Tasks = () => {
+const Tasks = ({ switchTab }: ITasksProps) => {
   const [tasks, setTasks] = useState<TaskModuleType[]>([]);
   const [inviteInfo, setInviteInfo] = useState<InviteDetail>();
+  const [showShare, setShowShare] = useState(false);
 
   const { data } = useData("/api/app/user/task-list?chainId=tDVW");
 
@@ -27,16 +33,25 @@ const Tasks = () => {
     }
   }, [data, tasks]);
 
+  const refresh = () => {
+    mutate("/api/app/user/task-list?chainId=tDVW");
+  }
+
   return (
     <>
       <InviteFriendsStatus
         data={inviteInfo}
+        isShowDrawer={showShare}
+        onClickInvite={() => setShowShare(!showShare)}
       />
 
       {tasks.map(({ data, userTask }: TaskModuleType, index: number) => (
         <TaskModule
           data={data}
           title={userTask}
+          switchTab={switchTab}
+          toInvite={() => setShowShare(true)}
+          refresh={refresh}
           description={index === 0 ? "Complete quests to earn rewards!" : ""}
           key={`${userTask}_${index}`}
         />

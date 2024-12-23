@@ -76,7 +76,7 @@ const App = () => {
             />
           )}
           {activeTab === TAB_LIST.VOTE && <Vote />}
-          {activeTab === TAB_LIST.PEN && <Profile />}
+          {activeTab === TAB_LIST.PEN && <Profile switchTab={setActiveTab} />}
           <Navigation activeTab={activeTab} onMenuClick={setActiveTab} />
         </>
       )}

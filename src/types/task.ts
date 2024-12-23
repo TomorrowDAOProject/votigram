@@ -1,6 +1,8 @@
+import { UserTaskDetail } from "@/constants/task";
+
 export type TaskInfo = {
   points: number;
-  userTaskDetail: string;
+  userTaskDetail: UserTaskDetail;
   complete: boolean;
   completeCount: number;
   taskCount: number;

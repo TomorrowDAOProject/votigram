@@ -14,6 +14,7 @@ import { getTrackId } from "./utils";
 import { postWithToken } from "@/hooks/useData";
 import Drawer from "../Drawer";
 import { VOTE_STATUS } from "@/constants/vote";
+import useRequest from "ahooks/lib/useRequest";
 
 interface IVoteItemProps {
   data: VoteItemType;
@@ -59,7 +60,34 @@ const VoteItem = ({
     confettiInstance.current = confetti;
   };
 
-  const onVoteClick = () => {
+  const { run: fetchVoteStatus, cancel } = useRequest(
+    async (rawTransaction, result) => {
+      try {
+        setLoading(true);
+        const { data } = await voteRequest(rawTransaction, result);
+        if (data.status === VOTE_STATUS.VOTED) {
+          onVoted?.();
+          showConfetti();
+          cancel();
+          setLoading(false);
+        } else if (data.status === VOTE_STATUS.FAILED) {
+          setLoading(false);
+          setIsFailed(true);
+          cancel();
+        }
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+        setIsFailed(true);
+      }
+    },
+    {
+      manual: true,
+      pollingInterval: 1000,
+    },
+  );
+
+  const showConfetti = () => {
     let normalizedTop = 0.5;
     let normalizedLeft = 0.88;
 
@@ -80,10 +108,13 @@ const VoteItem = ({
       shapes: [HEART_SHAPE],
       zIndex: 10,
     });
+  }
 
+  const onVoteClick = () => {
     if (canVote) {
       sedRawTransaction();
     } else {
+      showConfetti();
       setLikeCount((prevCount) => prevCount + 1);
     }
   };
@@ -141,14 +172,8 @@ const VoteItem = ({
         methodName: "Vote",
       });
       if (rawTransaction && result) {
-        const { data } = await voteRequest(rawTransaction, result);
-        if (data.status === VOTE_STATUS.VOTED) {
-          onVoted?.();
-        } else if (data.status === VOTE_STATUS.FAILED) {
-          setIsFailed(true);
-        }
+        fetchVoteStatus(rawTransaction, result);
       }
-      setLoading(false);
     } catch (error) {
       console.error(error);
       setLoading(false);

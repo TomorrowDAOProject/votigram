@@ -4,14 +4,27 @@ import { useUserContext } from "@/provider/UserProvider";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Tasks from "./components/Tasks";
 import Achievements from "./components/Achievements";
+import { TAB_LIST } from "@/constants/navigation";
+import { useAdsgram } from "@/hooks/useAdsgram";
 
-const Profile = () => {
+interface IProfileProps {
+  switchTab: (tab: TAB_LIST) => void;
+}
+
+const Profile = ({ switchTab }: IProfileProps) => {
   const {
     user: { userPoints },
   } = useUserContext();
   const [currentTab, setCurrentTab] = useState(0);
   const scrollViewRef = useRef<HTMLDivElement | null>(null);
   const [scrollTop, setScrollTop] = useState(0);
+
+  const showAd = useAdsgram({
+    blockId: import.meta.env.VITE_ADSGRAM_ID.toString() || "",
+    onReward: () => {},
+    onError: () => {},
+    onSkip: () => {},
+  });
 
   const handleScroll = useCallback(() => {
     const scrollRef = scrollViewRef.current;
@@ -38,7 +51,10 @@ const Profile = () => {
   return (
     <>
       <TelegramHeader title="Profile" />
-      <div className="h-screen overflow-scroll pt-telegramHeader bg-black pb-28" ref={scrollViewRef}>
+      <div
+        className="h-screen overflow-scroll pt-telegramHeader bg-black pb-28"
+        ref={scrollViewRef}
+      >
         <div className="votigram-grid mt-[9px]">
           <div className="col-7 mt-[13px]">
             <span className="block font-outfit font-bold text-[20px] leading-[20px] text-white">
@@ -56,9 +72,12 @@ const Profile = () => {
             </span>
           </div>
 
-          <div className="col-12 my-[22px]">
-            <img className="w-full h-auto rounded-[15px]" src="https://via.placeholder.com/600x200" alt="Banner" />
-          </div>
+          <img
+            className="col-12 rounded-[15px] my-[22px]"
+            src="https://cdn.tmrwdao.com/votigram/assets/imgs/30E58CBD0603.webp"
+            alt="Watch Ads"
+            onClick={showAd}
+          />
 
           <div className="col-12 mb-[22px]">
             <ToggleSlider
@@ -72,7 +91,11 @@ const Profile = () => {
           </div>
 
           <div className="col-12">
-            {currentTab === 0 ? <Tasks /> : <Achievements scrollTop={scrollTop} />}
+            {currentTab === 0 ? (
+              <Tasks switchTab={switchTab} />
+            ) : (
+              <Achievements scrollTop={scrollTop} />
+            )}
           </div>
         </div>
       </div>
