@@ -5,7 +5,6 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import Cookies from "js-cookie";
 
 import { jwtDecode } from "jwt-decode";
 import {
@@ -116,7 +115,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         }
 
         dispatch({ type: "SET_TOKEN", payload: access_token });
-        Cookies.set("access_token", access_token);
+        localStorage.set("access_token", access_token);
         const decodedToken = jwtDecode<CustomJwtPayload>(access_token);
         const userPointsData = await getUserPoints(access_token);
         // Combine and set user data

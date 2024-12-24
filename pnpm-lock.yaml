@@ -44,9 +44,6 @@ importers:
       '@telegram-apps/bridge':
         specifier: ^1.7.0
         version: 1.9.0
-      '@telegram-apps/react-router-integration':
-        specifier: ^1.0.1
-        version: 1.0.1(@telegram-apps/sdk@2.11.0)(@types/react@18.3.18)(react-router-dom@7.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       '@telegram-apps/sdk':
         specifier: ^2.11.0
         version: 2.11.0
@@ -86,9 +83,6 @@ importers:
       framer-motion:
         specifier: ^11.13.1
         version: 11.15.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      js-cookie:
-        specifier: ^3.0.5
-        version: 3.0.5
       jwt-decode:
         specifier: ^4.0.0
         version: 4.0.0
@@ -1349,17 +1343,6 @@ packages:
 
   '@telegram-apps/navigation@1.0.11':
     resolution: {integrity: sha512-KJx7/RPJ0RGVCs/F7ayn7VCawFuoNEBWse7rugRjAdhohAJiPz3Q3XPY8Up4iqVEuSCaO6T+7S6+a3M+FhJpqQ==}
-
-  '@telegram-apps/react-router-integration@1.0.1':
-    resolution: {integrity: sha512-q5fC0ihXyUDqrSdLQ3u3gypmjI/rMU2mTHeAz9IU1F1bl5X+J17LxWmgLp+OlD0Y97bq2XYmc+UbKrYh+eN3Wg==}
-    peerDependencies:
-      '@telegram-apps/sdk': ^1
-      '@types/react': ^17.0.0 || ^18.0.0
-      react: ^17.0.0 || ^18.0.0
-      react-router-dom: ^6.22.3
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
 
   '@telegram-apps/sdk-react@2.0.22':
     resolution: {integrity: sha512-6GCAebJPHWx69ep5DTmCLCvc1dhoRnyqcSkhS84DFt1sCXK99p0trPTApEpBxvy315CDDlqoF8TOOXeTw9xsOA==}
@@ -5733,14 +5716,6 @@ snapshots:
       '@telegram-apps/bridge': 1.9.0
       '@telegram-apps/signals': 1.1.0
       '@telegram-apps/toolkit': 1.1.0
-
-  '@telegram-apps/react-router-integration@1.0.1(@telegram-apps/sdk@2.11.0)(@types/react@18.3.18)(react-router-dom@7.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@telegram-apps/sdk': 2.11.0
-      react: 18.3.1
-      react-router-dom: 7.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-    optionalDependencies:
-      '@types/react': 18.3.18
 
   '@telegram-apps/sdk-react@2.0.22(@types/react@18.3.18)(react@18.3.1)':
     dependencies:
