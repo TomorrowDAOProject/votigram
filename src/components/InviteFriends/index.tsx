@@ -111,7 +111,7 @@ const InviteFriendsStatus = ({
 
   return (
     <>
-      <div className="p-[1px] rounded-[18px] w-full !content-[''] bg-gradient-to-r from-lime-primary to-lime-green">
+      <div className="p-[1px] rounded-[18px] w-full bg-gradient-to-r from-lime-primary to-lime-green">
         <div className="px-5 pt-[22px] pb-4 bg-black rounded-[18px]">
           <div className="flex items-start justify-between mb-[14px]">
             <span className="whitespace-pre-wrap -tracking-[0.5px] font-bold font-outfit text-[28px] leading-[28px] text-white">

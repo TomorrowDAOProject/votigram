@@ -85,7 +85,7 @@ const ForYou = ({
   return (
     <>
       <TelegramHeader title="For You" />
-      <div className="h-screen overflow-hidden bg-discover-background pt-telegramHeader">
+      <div className="h-screen overflow-hidden bg-discover-background pt-telegramHeader bg-black">
         <motion.div
           animate={{ y: -currentIndex * height }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
