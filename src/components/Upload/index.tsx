@@ -145,7 +145,7 @@ const Upload = ({ className, needCrop, aspect, children, onFinish }: IUploadProp
         onClose={() => setCropping(false)}
         rootClassName="bg-tertiary h-screen rounded-none"
       >
-        <div className="relative w-full h-full">
+        <div className="relative w-full h-full pt-telegramHeader">
           <Cropper
             image={imageSrc}
             crop={crop}

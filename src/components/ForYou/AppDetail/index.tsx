@@ -64,7 +64,7 @@ const AppDetail = ({ item, updateOpenAppClick }: IAppDetailProps) => {
           stiffness: 900,
           damping: 100,
         }}
-        className="w-full pt-0 flex flex-col absolute bottom-[14px] h-max z-[100] pl-5 pr-[20px]"
+        className="w-full pt-0 flex flex-col absolute bottom-telegramHeader h-max z-[100] pl-5 pr-[20px]"
         onClick={() => {
           setIsExpand(!isExpand);
         }}
