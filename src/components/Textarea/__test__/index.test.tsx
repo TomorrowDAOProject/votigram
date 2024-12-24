@@ -1,69 +1,53 @@
 // Textarea.test.tsx
-import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import { describe, it, expect, vi } from "vitest";
-import Textarea from "../index";
 
-const mockOnchange = vi.fn();
-describe("Textarea Component", () => {
-  it("renders correctly with placeholder text", () => {
-    render(
-      <Textarea value="" onChange={mockOnchange} placeholder="Type here..." />
-    );
-    const textarea = screen.getByPlaceholderText("Type here...");
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { describe, it, expect, vi } from 'vitest';
+import Textarea from '../index';
+
+describe('Textarea Component', () => {
+  it('renders with placeholder text', () => {
+    render(<Textarea value="" onChange={() => {}} placeholder="Type here..." />);
+    const textarea = screen.getByPlaceholderText('Type here...');
     expect(textarea).toBeInTheDocument();
   });
 
-  it("updates text and character count on input", () => {
-    render(<Textarea value="" onChange={mockOnchange} />);
-    const textarea = screen.getByRole("textbox");
+  it('updates character count and calls onChange on input', () => {
+    const handleChange = vi.fn();
+    render(<Textarea value="" onChange={handleChange} />);
+    const textarea = screen.getByRole('textbox');
 
-    fireEvent.change(textarea, { target: { value: "Hello" } });
-
-    expect(textarea).toHaveValue("Hello");
-    expect(screen.getByText("5/500")).toBeInTheDocument();
+    fireEvent.change(textarea, { target: { value: 'Hello' } });
+    
+    expect(handleChange).toHaveBeenCalledWith('Hello');
+    expect(screen.getByText('5/500')).toBeInTheDocument();
   });
 
-  it("does not allow input beyond maxLength", () => {
-    render(<Textarea value="" onChange={mockOnchange} maxLength={10} />);
-    const textarea = screen.getByRole("textbox");
+  it('respects maxLength, applies truncation properly, and displays warning when maxed out', () => {
+    const maxLength = 10;
+    const handleChange = vi.fn();
+    render(<Textarea value="" onChange={handleChange} maxLength={maxLength} />);
+    const textarea = screen.getByRole('textbox');
 
-    fireEvent.change(textarea, { target: { value: "This is a long text" } });
-
-    // Even though we input a long text, it should be trimmed to the maxLength
-    expect(textarea).toHaveValue("This is a ");
-    expect(screen.getByText("10/10")).toBeInTheDocument();
+    fireEvent.change(textarea, { target: { value: 'This is a long text' } });
+    
+    // Expect truncated value
+    expect(handleChange).toHaveBeenCalledWith('This is a ');
+    expect(textarea).toHaveValue('This is a ');
+    
+    const charCountElement = screen.getByText(`${maxLength}/${maxLength}`);
+    expect(charCountElement).toBeInTheDocument();
+    expect(charCountElement).toHaveClass('text-danger');
   });
 
-  it("calls onSubmit with text when submit button is clicked", () => {
-    const handleSubmit = vi.fn();
-    render(
-      <Textarea value="" onChange={mockOnchange} onSubmit={handleSubmit} />
-    );
-    const textarea = screen.getByRole("textbox");
-    const button = screen.getByRole("button");
+  it('auto-resizes when input changes', () => {
+    render(<Textarea value="Short" onChange={() => {}} />);
+    const textarea = screen.getByRole('textbox');
 
-    fireEvent.change(textarea, { target: { value: "Submit me" } });
-    fireEvent.click(button);
+    const initialHeight = textarea.style.height;
+    fireEvent.change(textarea, { target: { value: 'This is a text with more content that should expand the textarea.' } });
 
-    expect(handleSubmit).toHaveBeenCalledWith("Submit me");
-  });
-
-  it("disables submit button when text is empty", () => {
-    render(<Textarea value="" onChange={mockOnchange} />);
-    const button = screen.getByRole("button");
-
-    expect(button).toBeDisabled();
-  });
-
-  it("enables submit button when there is text", () => {
-    render(<Textarea value="" onChange={mockOnchange} />);
-    const textarea = screen.getByRole("textbox");
-    const button = screen.getByRole("button");
-
-    fireEvent.change(textarea, { target: { value: "Text" } });
-
-    expect(button).not.toBeDisabled();
+    expect(textarea.style.height).not.toBe(initialHeight);
   });
 });

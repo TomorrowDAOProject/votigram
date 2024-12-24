@@ -1,4 +1,4 @@
-import { UserTaskDetail } from "@/constants/task";
+import { USER_TASK_DETAIL } from "@/constants/task";
 import { useConfig } from "@/provider/types/ConfigContext";
 import { TaskInfo } from "@/types/task";
 import { openNewPageWaitPageVisible } from "../../utils";
@@ -21,61 +21,68 @@ interface ITaskItemProps {
 }
 
 const taskItemMap: Record<string, { title: string; icon: React.ReactNode }> = {
-  [UserTaskDetail.DailyViewAds]: {
+  [USER_TASK_DETAIL.DAILY_VIEW_ADS]: {
     icon: <i className="votigram-icon-watch-ads" />,
     title: "Watch Ads",
   },
-  [UserTaskDetail.DailyVote]: {
+  [USER_TASK_DETAIL.DAILY_VOTE]: {
     icon: <i className="votigram-icon-navbar-vote" />,
     title: "Cast A Vote",
   },
-  [UserTaskDetail.DailyFirstInvite]: {
+  [USER_TASK_DETAIL.DAILY_FIRST_INVITE]: {
     icon: <i className="votigram-icon-invite-friends" />,
     title: "Invite A Friend",
   },
-  [UserTaskDetail.ExploreJoinVotigram]: {
+  [USER_TASK_DETAIL.EXPLORE_JOIN_VOTIGRAM]: {
     icon: <i className="votigram-icon-telegram-logo" />,
     title: "Join Votigram TG Channel",
   },
-  [UserTaskDetail.ExploreFollowVotigramX]: {
+  [USER_TASK_DETAIL.EXPLORE_FOLLOW_VOTIGRAM_X]: {
     icon: <i className="votigram-icon-twitter-x" />,
     title: "Follow Votigram on X",
   },
-  [UserTaskDetail.ExploreForwardVotigramX]: {
+  [USER_TASK_DETAIL.EXPLORE_FORWARD_VOTIGRAM_X]: {
     icon: <i className="votigram-icon-twitter-x" />,
     title: "RT Votigram Post on X",
   },
-  [UserTaskDetail.ExploreSchrodinger]: {
+  [USER_TASK_DETAIL.EXPLORE_SCHRODINGER]: {
     icon: <i className="votigram-icon-schrondinger-logo" />,
     title: "Join Schrondinger's Cat",
   },
-  [UserTaskDetail.ExploreJoinTgChannel]: {
+  [USER_TASK_DETAIL.EXPLORE_JOIN_TG_CHANNEL]: {
     icon: <i className="votigram-icon-telegram-logo" />,
     title: "Join TMRWDAO TG Channel",
   },
-  [UserTaskDetail.ExploreFollowX]: {
+  [USER_TASK_DETAIL.EXPLORE_FOLLOW_X]: {
     icon: <i className="votigram-icon-twitter-x" />,
     title: "Follow TMRWDAO on X",
   },
-  [UserTaskDetail.ExploreForwardX]: {
+  [USER_TASK_DETAIL.EXPLORE_FORWARD_X]: {
     icon: <i className="votigram-icon-twitter-x" />,
     title: "RT TMRWDAO Post on X",
   },
-  [UserTaskDetail.ExploreCumulateFiveInvite]: {
+  [USER_TASK_DETAIL.EXPLORE_CUMULATE_FIVE_INVITE]: {
     icon: <i className="votigram-icon-invite-friends" />,
     title: "Invite 5 Friends",
   },
-  [UserTaskDetail.ExploreCumulateTenInvite]: {
+  [USER_TASK_DETAIL.EXPLORE_CUMULATE_TEN_INVITE]: {
     icon: <i className="votigram-icon-invite-friends" />,
     title: "Invite 10 Friends",
   },
-  [UserTaskDetail.ExploreCumulateTwentyInvite]: {
+  [USER_TASK_DETAIL.EXPLORE_CUMULATE_TWENTY_INVITE]: {
     icon: <i className="votigram-icon-invite-friends" />,
     title: "Invite 20 Friends",
   },
 };
 
-const TaskItem = ({ data, userTask, switchTab, toInvite, refresh, onReportComplete }: ITaskItemProps) => {
+const TaskItem = ({
+  data,
+  userTask,
+  switchTab,
+  toInvite,
+  refresh,
+  onReportComplete,
+}: ITaskItemProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const {
     retweetVotigramPostURL,
@@ -85,31 +92,31 @@ const TaskItem = ({ data, userTask, switchTab, toInvite, refresh, onReportComple
 
   const jumpExternalList = [
     {
-      taskId: UserTaskDetail.ExploreJoinVotigram,
+      taskId: USER_TASK_DETAIL.EXPLORE_JOIN_VOTIGRAM,
       url: "https://t.me/votigram",
     },
     {
-      taskId: UserTaskDetail.ExploreFollowVotigramX,
+      taskId: USER_TASK_DETAIL.EXPLORE_FOLLOW_VOTIGRAM_X,
       url: "https://x.com/votigram",
     },
     {
-      taskId: UserTaskDetail.ExploreForwardVotigramX,
+      taskId: USER_TASK_DETAIL.EXPLORE_FORWARD_VOTIGRAM_X,
       url: retweetVotigramPostURL || "",
     },
     {
-      taskId: UserTaskDetail.ExploreJoinTgChannel,
+      taskId: USER_TASK_DETAIL.EXPLORE_JOIN_TG_CHANNEL,
       url: "https://t.me/tmrwdao",
     },
     {
-      taskId: UserTaskDetail.ExploreFollowX,
+      taskId: USER_TASK_DETAIL.EXPLORE_FOLLOW_X,
       url: "https://x.com/tmrwdao",
     },
     {
-      taskId: UserTaskDetail.ExploreForwardX,
+      taskId: USER_TASK_DETAIL.EXPLORE_FORWARD_X,
       url: retweetTmrwdaoPostURL || "",
     },
     {
-      taskId: UserTaskDetail.ExploreSchrodinger,
+      taskId: USER_TASK_DETAIL.EXPLORE_SCHRODINGER,
       url: discoverTopBannerRedirectURL || "",
     },
   ];
@@ -126,12 +133,12 @@ const TaskItem = ({ data, userTask, switchTab, toInvite, refresh, onReportComple
         const { data } = await postWithToken("/api/app/user/complete-task", {
           chainId,
           userTask: userTask,
-          userTaskDetail: taskId,
-        })
+          USER_TASK_DETAIL: taskId,
+        });
         if (data) {
           onReportComplete(userTask, taskId);
         }
-        if (data || taskId !== UserTaskDetail.ExploreSchrodinger) {
+        if (data || taskId !== USER_TASK_DETAIL.EXPLORE_SCHRODINGER) {
           cancel();
         }
       } catch (error) {
@@ -141,10 +148,10 @@ const TaskItem = ({ data, userTask, switchTab, toInvite, refresh, onReportComple
     {
       manual: true,
       pollingInterval: 3000,
-    },
+    }
   );
 
-  const jumpAndRefresh = async (taskId: UserTaskDetail) => {
+  const jumpAndRefresh = async (taskId: USER_TASK_DETAIL) => {
     try {
       const jumpItem = jumpExternalList.find(
         (item) => item.taskId === data.userTaskDetail
@@ -157,7 +164,7 @@ const TaskItem = ({ data, userTask, switchTab, toInvite, refresh, onReportComple
             postWithToken("/api/app/user/complete-task", {
               chainId,
               userTask: userTask,
-              userTaskDetail: taskId,
+              USER_TASK_DETAIL: taskId,
             })
         );
         if (isComplete) return;
@@ -174,25 +181,25 @@ const TaskItem = ({ data, userTask, switchTab, toInvite, refresh, onReportComple
   const handleClick = async () => {
     if (isLoading || data.complete) return;
     switch (data.userTaskDetail) {
-      case UserTaskDetail.DailyViewAds:
+      case USER_TASK_DETAIL.DAILY_VIEW_ADS:
         showAd();
         break;
-      case UserTaskDetail.DailyVote:
+      case USER_TASK_DETAIL.DAILY_VOTE:
         switchTab(TAB_LIST.VOTE);
         break;
-      case UserTaskDetail.ExploreJoinVotigram:
-      case UserTaskDetail.ExploreFollowVotigramX:
-      case UserTaskDetail.ExploreForwardVotigramX:
-      case UserTaskDetail.ExploreJoinTgChannel:
-      case UserTaskDetail.ExploreFollowX:
-      case UserTaskDetail.ExploreForwardX:
-      case UserTaskDetail.ExploreSchrodinger:
+      case USER_TASK_DETAIL.EXPLORE_JOIN_VOTIGRAM:
+      case USER_TASK_DETAIL.EXPLORE_FOLLOW_VOTIGRAM_X:
+      case USER_TASK_DETAIL.EXPLORE_FORWARD_VOTIGRAM_X:
+      case USER_TASK_DETAIL.EXPLORE_JOIN_TG_CHANNEL:
+      case USER_TASK_DETAIL.EXPLORE_FOLLOW_X:
+      case USER_TASK_DETAIL.EXPLORE_FORWARD_X:
+      case USER_TASK_DETAIL.EXPLORE_SCHRODINGER:
         await jumpAndRefresh(data.userTaskDetail);
         break;
-      case UserTaskDetail.DailyFirstInvite:
-      case UserTaskDetail.ExploreCumulateFiveInvite:
-      case UserTaskDetail.ExploreCumulateTenInvite:
-      case UserTaskDetail.ExploreCumulateTwentyInvite:
+      case USER_TASK_DETAIL.DAILY_FIRST_INVITE:
+      case USER_TASK_DETAIL.EXPLORE_CUMULATE_FIVE_INVITE:
+      case USER_TASK_DETAIL.EXPLORE_CUMULATE_TEN_INVITE:
+      case USER_TASK_DETAIL.EXPLORE_CUMULATE_TWENTY_INVITE:
         toInvite();
         break;
       default:

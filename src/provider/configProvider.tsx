@@ -4,7 +4,7 @@ import { ConfigContext, IConfigContent } from "./types/ConfigContext";
 
 interface Props {
   children: React.ReactNode;
-  config?: IConfigContent;
+  config?: IConfigContent | null;
 }
 export default function ConfigProvider(props: Readonly<Props>) {
   const { children, config } = props;

@@ -163,7 +163,7 @@ const InviteFriendsStatus = ({
                   value={tgLinkWithCode}
                   size={136}
                   quietZone={12}
-                  logoImage="https://cdn.tmrwdao.com/votigram/assets/imgs/5F0B6F152703.webp"
+                  logoImage="https://cdn.tmrwdao.com/votigram/assets/imgs/8489A36AA76C.webp"
                   logoWidth={28}
                   logoHeight={28}
                   ecLevel="H"
@@ -182,9 +182,7 @@ const InviteFriendsStatus = ({
                   </span>
 
                   {isCopied ? (
-                    <span className="font-normal text-[14px] leading-[20px]">
-                      Copied
-                    </span>
+                    "Copied"
                   ) : (
                     <button
                       type="button"

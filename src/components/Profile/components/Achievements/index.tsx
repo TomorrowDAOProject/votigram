@@ -10,6 +10,12 @@ interface IAchievementsProps {
   scrollTop: number;
 }
 
+type MyInfoType = {
+  first_name: string;
+  last_name: string;
+  photo_url: string;
+};
+
 const Achievements = ({ scrollTop }: IAchievementsProps) => {
   const {
     user: { userPoints },
@@ -18,6 +24,7 @@ const Achievements = ({ scrollTop }: IAchievementsProps) => {
   const [hasMore, setHasMore] = useState(true);
   const [pageIndex, setPageIndex] = useState(0);
   const [myInvited, setMyInvited] = useState<InviteItem>();
+  const [myInfo, setMyInfo] = useState<MyInfoType>();
 
   const PAGE_SIZE = 20;
 
@@ -28,6 +35,18 @@ const Achievements = ({ scrollTop }: IAchievementsProps) => {
       maxResultCount: PAGE_SIZE.toString(),
     }).toString()}`
   );
+
+  useEffect(() => {
+    if (window?.Telegram) {
+      const { first_name, last_name, photo_url } =
+        window?.Telegram?.WebApp?.initDataUnsafe.user || {};
+      setMyInfo({
+        first_name,
+        last_name,
+        photo_url,
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const { data: inviteList, me } = inviteDetail || {};
@@ -76,11 +95,17 @@ const Achievements = ({ scrollTop }: IAchievementsProps) => {
             {myInvited?.rank || "--"}
           </span>
           <div className="flex items-center gap-[13px] flex-grow min-w-0">
-            <div className="w-[32px] h-[32px] rounded-[16px] bg-avatar-background shrink-0" />
+            <img
+              className="w-[32px] h-[32px] rounded-[16px]"
+              src={
+                myInfo?.photo_url
+                  ? myInfo?.photo_url
+                  : "https://cdn.tmrwdao.com/votigram/assets/imgs/5F24D57F51CA.webp"
+              }
+            />
+
             <span className="overflow-hidden text-ellipsis whitespace-nowrap flex-grow min-w-0 text-[14px] font-normal leading-[16.8px]">
-              {myInvited?.inviter ||
-                window?.Telegram?.WebApp?.initDataUnsafe?.user?.first_name ||
-                " "}
+              {myInvited?.inviter || myInfo?.first_name || " "}
               <span className="inline-block h-[12px] px-1 leading-[12px] text-[11px] font-normal leading-[14.4px] text-tertiary bg-lime-green rounded-[5px] ml-[4px]">
                 ME
               </span>
@@ -99,9 +124,18 @@ const Achievements = ({ scrollTop }: IAchievementsProps) => {
               {item?.rank || "--"}
             </span>
             <div className="flex items-center gap-[13px] flex-grow min-w-0">
-              <div className="w-[32px] h-[32px] rounded-[16px] bg-avatar-background shrink-0" />
+              <img
+                className="w-[32px] h-[32px] rounded-[16px]"
+                src={
+                  item.icon
+                    ? item.icon
+                    : "https://cdn.tmrwdao.com/votigram/assets/imgs/5F24D57F51CA.webp"
+                }
+              />
               <span className="overflow-hidden text-ellipsis whitespace-nowrap flex-grow min-w-0 text-[14px] font-normal leading-[16.8px]">
-                {item?.inviter || ""}
+                {item?.firstName
+                  ? `${item?.firstName} ${item?.lastName}`
+                  : `ELF_${item.inviter}_tDVW`}
               </span>
             </div>
             <span className="block w-[36px] h-[32px] leading-[32px] text-right shrink-0 font-pressStart text-[10px] -tracking-[1px]">

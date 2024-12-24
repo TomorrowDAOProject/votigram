@@ -1,17 +1,17 @@
-import { UserTaskDetail } from "@/constants/task";
+import { USER_TASK_DETAIL } from "@/constants/task";
 
 export const openNewPageWaitPageVisible = async (
   url: string,
-  taskId: UserTaskDetail,
+  taskId: USER_TASK_DETAIL,
   req: () => Promise<{
     code: string;
     data: boolean;
   }>
 ) => {
   if (
-    taskId === UserTaskDetail.ExploreJoinTgChannel ||
-    taskId === UserTaskDetail.ExploreSchrodinger ||
-    taskId === UserTaskDetail.ExploreJoinVotigram
+    taskId === USER_TASK_DETAIL.EXPLORE_JOIN_TG_CHANNEL ||
+    taskId === USER_TASK_DETAIL.EXPLORE_SCHRODINGER ||
+    taskId === USER_TASK_DETAIL.EXPLORE_JOIN_VOTIGRAM
   ) {
     // web.telegram.org will destroy the page when openTelegramLink
     // so send complete request before open link

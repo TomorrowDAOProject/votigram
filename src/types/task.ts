@@ -1,8 +1,8 @@
-import { UserTaskDetail } from "@/constants/task";
+import { USER_TASK_DETAIL } from "@/constants/task";
 
 export type TaskInfo = {
   points: number;
-  userTaskDetail: UserTaskDetail;
+  userTaskDetail: USER_TASK_DETAIL;
   complete: boolean;
   completeCount: number;
   taskCount: number;
@@ -54,8 +54,12 @@ export type ReferralTimeConfig = {
 };
 
 export type InviteItem = {
-  rank: number;
+  firstName: string;
+  icon: string;
+  inviteAndVoteCount: number;
   inviter: string;
   inviterCaHash: string;
-  inviteAndVoteCount: number;
+  lastName: string;
+  rank: number;
+  userName: string;
 };
