@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import clsx from "clsx";
 import { TabItem } from "./type";
@@ -21,6 +21,7 @@ const Tabs = ({
   const [activeIndex, setActiveIndex] = useState<number>(defaultValue || 0);
   const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const [defaultX, setDefaultX] = useState(0);
 
   useEffect(() => {
     // Initialize refs array with items count
@@ -32,15 +33,17 @@ const Tabs = ({
     onChange?.(value);
   };
 
-  const defaultX = useMemo(() => {
-    const currentIndex = options.findIndex((item) => item.value === defaultValue);
-    if (currentIndex === -1 || !containerRef.current) return 0;
-    return containerRef.current.clientWidth / options.length * currentIndex;
-  }, [defaultValue, options])
+  useEffect(() => {
+    if (containerRef.current && defaultValue !== undefined) {
+      const currentIndex = options.findIndex((item) => item.value === defaultValue);
+      setActiveIndex(currentIndex === -1 ? 0 : currentIndex)
+      setDefaultX(containerRef.current.clientWidth / options.length * currentIndex);
+    }
+  }, [defaultValue, options]);
 
   return (
     <div
-      ref={containerRef}
+      ref={ref => (containerRef.current = ref)}
       className={clsx(
         "relative h-full w-full mx-auto flex items-center overflow-hidden pt-[4px] pb-[8px] rounded-none bg-transparent border-b-[2px] border-tertiary",
         className
@@ -52,13 +55,13 @@ const Tabs = ({
           className="absolute bg-primary top-auto bottom-0 h-[2px] rounded-none"
           initial={false}
           animate={{
-            x: itemRefs.current[activeIndex]?.offsetLeft || defaultX,
+            x: itemRefs.current[activeIndex]?.offsetLeft ?? defaultX,
             width: itemRefs.current[activeIndex]?.offsetWidth || `${(100 / options.length).toFixed(2)}%`,
           }}
           transition={{ type: "spring", stiffness: 500, damping: 30 }}
         />
       </AnimatePresence>
-      <div className="relative flex w-full h-full px-[4px] z-10">
+      <div className="relative flex w-full h-full z-10">
         {options.map((item, index) => (
           <div
             key={index}

@@ -8,7 +8,7 @@ const communityTabs = [{
   value: 0,
 }, {
   label: COMMUNITY_LABEL.CURRENT,
-  value: 0,
+  value: 1,
 }]
 interface ICommunityProps {
   scrollTop: number;
