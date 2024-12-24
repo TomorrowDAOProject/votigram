@@ -145,7 +145,7 @@ const Upload = ({ className, needCrop, aspect, children, onFinish }: IUploadProp
         onClose={() => setCropping(false)}
         rootClassName="bg-tertiary h-screen rounded-none"
       >
-        <div className="relative w-full h-full pt-telegramHeader">
+        <div className="relative w-full h-full">
           <Cropper
             image={imageSrc}
             crop={crop}
@@ -157,7 +157,7 @@ const Upload = ({ className, needCrop, aspect, children, onFinish }: IUploadProp
             onCropComplete={onCropComplete}
             onZoomChange={setZoom}
           />
-          <div className="p-4 absolute top-0 right-0 z-10">
+          <div className="p-4 absolute top-0 right-0 z-10 pt-telegramHeader">
             <button
               className="py-2 px-4 bg-primary text-white rounded-[8px] hover:bg-primary-hover"
               onClick={showCroppedImage}
