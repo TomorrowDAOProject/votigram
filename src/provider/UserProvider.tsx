@@ -116,7 +116,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         }
 
         dispatch({ type: "SET_TOKEN", payload: access_token });
-        localStorage.setItem("access_token", access_token);
+        await localStorage.setItem("access_token", access_token);
         const decodedToken = jwtDecode<CustomJwtPayload>(access_token);
         const userPointsData = await getUserPoints(access_token);
         // Combine and set user data
