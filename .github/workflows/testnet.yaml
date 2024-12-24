@@ -1,7 +1,7 @@
 name: Build and Push Image
 on:
   push:
-    branches: ["dev"]
+    branches: ["dev", "fix/tg-router-bug"]
 jobs:
   build-and-push-image:
     runs-on: tmrwdao-runner
