@@ -1,11 +1,20 @@
 import TelegramHeader from "@/components/TelegramHeader";
-import ToggleSlider from "@/components/ToggleSlider";
 import { useUserContext } from "@/provider/UserProvider";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Tasks from "./components/Tasks";
 import Achievements from "./components/Achievements";
 import { TAB_LIST } from "@/constants/navigation";
 import { useAdsgram } from "@/hooks/useAdsgram";
+import Tabs from "../Tabs";
+import { PROFILE_TABS } from "@/constants/vote";
+
+const tabs = [{
+  label: PROFILE_TABS.TASK,
+  value: 0,
+}, {
+  label: PROFILE_TABS.ACHIEVEMENTS,
+  value: 1,
+}]
 
 interface IProfileProps {
   switchTab: (tab: TAB_LIST) => void;
@@ -80,15 +89,8 @@ const Profile = ({ switchTab }: IProfileProps) => {
           />
 
           <div className="col-12 mb-[22px]">
-            <ToggleSlider
-              current={currentTab}
-              items={["Task", "Achievements"]}
-              className="pt-[4px] pb-[8px] rounded-none bg-transparent border-b-[2px] border-tertiary"
-              activeItemClassName="top-auto bottom-0 h-[2px] rounded-none"
-              itemClassName="font-bold text-[16px] leading-[16px] font-outfit"
-              onChange={setCurrentTab}
-            />
-          </div>
+            <Tabs options={tabs} onChange={setCurrentTab} />
+        </div>
 
           <div className="col-12 min-w-[335px]">
             {currentTab === 0 ? (
