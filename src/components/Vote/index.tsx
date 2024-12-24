@@ -61,7 +61,7 @@ const Vote = () => {
         ref={scrollViewRef}
       >
         <div className="votigram-grid">
-          <div className="col-7 h-7">
+          <div className="col-7 h-7 mt-3">
             <ToggleSlider
               items={[VOTE_TABS.TMAS, VOTE_TABS.COMMUNITY]}
               onChange={(index) =>

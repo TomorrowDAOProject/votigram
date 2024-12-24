@@ -71,7 +71,7 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
           <div className="col-12 bg-input gap-2 h-[41px] px-4 flex items-center rounded-3xl">
             <i className="votigram-icon-search text-input-placeholder" />
             <input
-              className="w-full bg-transparent text-white placeholder:leading-[19.6px] text-[14px] placeholder:text-input-placeholder placeholder:font-questrial"
+              className="w-full bg-transparent text-white outline-none appearence-none placeholder:leading-[19.6px] text-[14px] placeholder:text-input-placeholder placeholder:font-questrial"
               placeholder="Search..."
               onFocus={() => {
                 setIsSearching(true);
