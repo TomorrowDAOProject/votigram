@@ -117,6 +117,7 @@ const VoteItem = ({
       showConfetti();
       setLikeCount((prevCount) => prevCount + 1);
     }
+    window.Telegram.WebApp.HapticFeedback.notificationOccurred("success");
   };
 
   useEffect(() => {
