@@ -35,8 +35,12 @@ const initialState: UserContextState = {
   error: null,
 };
 
+interface ContextType extends UserContextType {
+  dispatch: React.Dispatch<Action>;
+}
+
 // Create a context
-const UserContext = createContext<UserContextType | undefined>(undefined);
+const UserContext = createContext<ContextType | undefined>(undefined);
 
 type Action =
   | { type: "SET_USER_DATA"; payload: User }
@@ -172,7 +176,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
 
   return (
     <UserContext.Provider
-      value={{ ...state, hasUserData, updateDailyLoginPointsStatus }}
+      value={{ ...state, hasUserData, updateDailyLoginPointsStatus, dispatch }}
     >
       {children}
     </UserContext.Provider>

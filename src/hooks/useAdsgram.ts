@@ -51,7 +51,7 @@ export function useAdsgram({
               `${import.meta.env.VITE_HASH_PRIVATE_KEY}-${timestamp}`
             );
 
-            const result = await postWithToken("/user/view-ad", {
+            const result = await postWithToken("/api/app/user/view-ad", {
               chainId,
               timestamp,
               signature: hash.toString(),

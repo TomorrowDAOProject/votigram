@@ -15,7 +15,7 @@ interface ITaskItemProps {
   switchTab: (tab: TAB_LIST) => void;
   toInvite(): void;
   watchAds?(): void;
-  refresh?(): void;
+  refresh?(points?: number): void;
   onReportComplete: (task: string, taskDetail: string) => void;
 }
 
@@ -122,7 +122,7 @@ const TaskItem = ({
 
   const showAd = useAdsgram({
     blockId: import.meta.env.VITE_ADSGRAM_ID.toString() || "",
-    onReward: () => refresh?.(),
+    onReward: (points) => refresh?.(points),
     onError: () => {},
     onSkip: () => {},
   });

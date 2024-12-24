@@ -7,9 +7,10 @@ import { TAB_LIST } from "@/constants/navigation";
 import { mutate } from "swr";
 interface ITasksProps {
   switchTab: (tab: TAB_LIST) => void;
+  onReward(points?: number): void;
 }
 
-const Tasks = ({ switchTab }: ITasksProps) => {
+const Tasks = ({ switchTab, onReward }: ITasksProps) => {
   const [tasks, setTasks] = useState<TaskModuleType[]>([]);
   const [inviteInfo, setInviteInfo] = useState<InviteDetail>();
   const [showShare, setShowShare] = useState(false);
@@ -33,8 +34,11 @@ const Tasks = ({ switchTab }: ITasksProps) => {
     }
   }, [data, tasks]);
 
-  const refresh = () => {
+  const refresh = (points?: number) => {
     mutate("/api/app/user/task-list?chainId=tDVW");
+    if (points) {
+      onReward(points);
+    }
   }
   const handleReportComplete = (task: string, taskDetail: string) => {
     const taskGroupListCopy = tasks.slice(0);

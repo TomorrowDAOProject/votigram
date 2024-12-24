@@ -8,7 +8,7 @@ interface ITaskModuleProps {
   data: TaskInfo[];
   switchTab: (tab: TAB_LIST) => void;
   toInvite(): void;
-  refresh?(): void;
+  refresh?(points?: number): void;
   onReportComplete: (task: string, taskDetail: string) => void;
 }
 

@@ -7,6 +7,7 @@ import { TAB_LIST } from "@/constants/navigation";
 import { useAdsgram } from "@/hooks/useAdsgram";
 import Tabs from "../Tabs";
 import { PROFILE_TABS } from "@/constants/vote";
+import { UserPoints } from "@/provider/types/UserProviderType";
 
 const tabs = [{
   label: PROFILE_TABS.TASK,
@@ -22,15 +23,29 @@ interface IProfileProps {
 
 const Profile = ({ switchTab }: IProfileProps) => {
   const {
-    user: { userPoints },
+    user,
+    dispatch
   } = useUserContext();
+  const { userPoints } = user;
   const [currentTab, setCurrentTab] = useState(0);
   const scrollViewRef = useRef<HTMLDivElement | null>(null);
   const [scrollTop, setScrollTop] = useState(0);
 
+  const onReward = (points: number = 0) => {
+    const newUserPoints = { ...userPoints };
+    newUserPoints.userTotalPoints = (userPoints?.userTotalPoints || 0) + points;
+    dispatch({
+      type: "SET_USER_DATA",
+      payload: {
+        ...user,
+        userPoints: newUserPoints as UserPoints
+      },
+    });
+  }
+
   const showAd = useAdsgram({
     blockId: import.meta.env.VITE_ADSGRAM_ID.toString() || "",
-    onReward: () => {},
+    onReward,
     onError: () => {},
     onSkip: () => {},
   });
@@ -94,7 +109,7 @@ const Profile = ({ switchTab }: IProfileProps) => {
 
           <div className="col-12 min-w-[335px]">
             {currentTab === 0 ? (
-              <Tasks switchTab={switchTab} />
+              <Tasks switchTab={switchTab} onReward={onReward} />
             ) : (
               <Achievements scrollTop={scrollTop} />
             )}
