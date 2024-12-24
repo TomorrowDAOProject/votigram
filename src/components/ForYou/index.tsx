@@ -34,6 +34,13 @@ const ForYou = ({
   const height = window.innerHeight;
 
   useEffect(() => {
+    if (items && items.length === 0) {
+      fetchForYouData([]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items]);
+
+  useEffect(() => {
     if (items && currentForyouPage > currentPage.current) {
       setForYouItems((prev) => [...prev, ...(items || [])]);
     }
