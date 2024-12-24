@@ -1,10 +1,21 @@
 import { useState } from "react";
-import ToggleSlider from "../ToggleSlider";
 import Accumulative from "./components/Accumulative";
 import Current from "./components/Current";
 import CategoryPillList from "../CategoryPillList";
 import useDebounceFn from "ahooks/lib/useDebounceFn";
 import { COMMUNITY_TYPE } from "@/constants/vote";
+import Tabs from "../Tabs";
+
+const emaTabs = [
+  {
+    label: COMMUNITY_TYPE.ACCUMULATIVE,
+    value: 0,
+  },
+  {
+    label: COMMUNITY_TYPE.CURRENT,
+    value: 1,
+  },
+];
 
 interface ITMAsProps {
   scrollTop: number;
@@ -26,7 +37,7 @@ const TMAs = ({ scrollTop, onTabChange }: ITMAsProps) => {
   );
 
   const onCategoryChange = (category: string) => {
-    setCategory(category || '');
+    setCategory(category || "");
   };
 
   const handleTabChange = (index: number) => {
@@ -36,14 +47,7 @@ const TMAs = ({ scrollTop, onTabChange }: ITMAsProps) => {
 
   return (
     <>
-      <ToggleSlider
-        current={currentTab}
-        items={[COMMUNITY_TYPE.ACCUMULATIVE, COMMUNITY_TYPE.CURRENT]}
-        className="pt-[4px] pb-[8px] rounded-none bg-transparent border-b-[2px] border-tertiary"
-        activeItemClassName="top-auto bottom-0 h-[2px] rounded-none"
-        itemClassName="font-bold text-[16px] leading-[16px] font-outfit"
-        onChange={handleTabChange}
-      />
+      <Tabs options={emaTabs} onChange={handleTabChange} />
 
       <div className="mt-[14px] col-12 bg-input gap-2 h-[41px] px-4 flex items-center rounded-3xl">
         <i className="votigram-icon-search text-input-placeholder" />
