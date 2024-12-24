@@ -32,7 +32,9 @@ const VoteSection = ({ data, className }: IVoteSctionProps) => {
         </span>
         <span className="inline-flex items-center font-normal text-white text-[11px] leading-[13.2px]">
           Total votes:&nbsp;
-          <span className="text-lime-green">{data.totalVoteAmount.toLocaleString() || 0}</span>
+          <span className="text-lime-green">
+            {data.totalVoteAmount.toLocaleString() || 0}
+          </span>
         </span>
       </div>
       {data.bannerUrl && (
@@ -43,27 +45,32 @@ const VoteSection = ({ data, className }: IVoteSctionProps) => {
         />
       )}
       <div className="flex flex-row items-center justify-between mt-[13px] pt-[7px] pb-[8px] border-t-[1px] border-solid border-tertiary">
-        <div className="flex flex-row items-center justify-center gap-[6px]">
+        <div className="flex flex-row items-center justify-center gap-[6px] w-4/5">
           {data.proposalIcon ? (
             <img
-              className="w-[16px] h-[16px] object-cover rounded-[8px]"
+              className="w-[16px] h-[16px] object-cover rounded-[8px] shrink-0"
               src={data.proposalIcon}
               alt="Avatar"
             />
           ) : (
-            <div className="flex items-center justify-center bg-white/[.25] w-[16px] h-[16px] rounded-[8px]">
+            <div className="flex items-center justify-center bg-white/[.25] w-[16px] h-[16px] rounded-[8px] shrink-0">
               <i className="votigram-icon-profile text-[10px] leading-[10px] text-white/[.4]" />
             </div>
           )}
-          <span className="font-normal text-white text-[11px] leading-[13.2px]">
-            Created by {data.ProposerFirstName}
+          <span className="overflow-hidden text-ellipsis whitespace-nowrap flex-grow min-w-0 font-normal text-white text-[11px] leading-[13.2px]">
+            Created by{" "}
+            {data?.proposerFirstName
+              ? data?.proposerFirstName
+              : `ELF_${data.proposer}_tDVW`}
           </span>
         </div>
 
         <i className="votigram-icon-arrow-go text-[14px] leading-[14px] text-lime-primary" />
       </div>
 
-      {data?.tag && <Tag text={data.tag} className="absolute top-[-3px] right-[-3px]" />}
+      {data?.tag && (
+        <Tag text={data.tag} className="absolute top-[-3px] right-[-3px]" />
+      )}
     </div>
   );
 };

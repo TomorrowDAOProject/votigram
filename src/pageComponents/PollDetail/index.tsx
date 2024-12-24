@@ -75,7 +75,7 @@ const PollDetail = () => {
   };
 
   if (!pollDeta && isLoading) {
-    return <Loading className="h-screen w-screen" />;
+    return <Loading className="h-screen w-screen !bg-black" />;
   }
 
   return (
