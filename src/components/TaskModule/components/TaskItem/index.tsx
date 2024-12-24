@@ -3,7 +3,6 @@ import { useConfig } from "@/provider/types/ConfigContext";
 import { TaskInfo } from "@/types/task";
 import { openNewPageWaitPageVisible } from "../../utils";
 import { chainId } from "@/constants/app";
-import { postWithToken } from "@/hooks/useData";
 import { useState } from "react";
 import Loading from "@/components/Loading";
 import { TAB_LIST } from "@/constants/navigation";
@@ -130,11 +129,14 @@ const TaskItem = ({
   const { run: sendCompleteReq, cancel } = useRequest(
     async (taskId) => {
       try {
-        const { data } = await postWithToken("/api/app/user/complete-task", {
-          chainId,
-          userTask: userTask,
-          USER_TASK_DETAIL: taskId,
-        });
+        const res = await fetch(
+          `/api/app/user/complete-task?${new URLSearchParams({
+            chainId,
+            userTask: userTask,
+            USER_TASK_DETAIL: taskId,
+          })}`
+        );
+        const { data } = await res.json();
         if (data) {
           onReportComplete(userTask, taskId);
         }
@@ -161,10 +163,16 @@ const TaskItem = ({
           jumpItem.url,
           taskId,
           () =>
-            postWithToken("/api/app/user/complete-task", {
-              chainId,
-              userTask: userTask,
-              USER_TASK_DETAIL: taskId,
+            fetch(
+              `/api/app/user/complete-task?${new URLSearchParams({
+                chainId,
+                userTask: userTask,
+                USER_TASK_DETAIL: taskId,
+              })}`
+            ).then(async (res) => {
+              if (!res.ok) throw new Error("Error fetching data");
+              const result = await res.json();
+              return result.data;
             })
         );
         if (isComplete) return;

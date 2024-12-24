@@ -279,19 +279,21 @@ const VoteItem = ({
       </div>
 
       {showBtn && (
-        <button
-          type="button"
-          ref={buttonRef}
-          className="bg-white/[.25] w-[32px] h-[32px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0 z-[10]"
-          onClick={onVoteClick}
-        >
-          <i className="votigram-icon-navbar-vote text-[18px] text-lime-primary" />
-        </button>
+        <>
+          <button
+            type="button"
+            ref={buttonRef}
+            className="bg-white/[.25] w-[32px] h-[32px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0 z-[10]"
+            onClick={onVoteClick}
+          >
+            <i className="votigram-icon-navbar-vote text-[18px] text-lime-primary" />
+          </button>
+          <Confetti
+            onInit={onInit}
+            className="absolute w-[50%] h-[320px] right-0 bottom-0"
+          />
+        </>
       )}
-      <Confetti
-        onInit={onInit}
-        className="fixed w-screen h-screen left-0 top-0"
-      />
 
       <Drawer
         isVisible={loading}

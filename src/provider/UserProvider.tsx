@@ -17,6 +17,7 @@ import { fetchToken } from "@/utils/token";
 import { useWalletService } from "@/hooks/useWallet";
 import { webLoginInstance } from "@/contract/webLogin";
 import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
+import { isInTelegram } from "@/utils/isInTelegram";
 
 let RETRY_MAX_COUNT = 3;
 
@@ -127,7 +128,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
           },
         });
 
-        if (!isConnected) {
+        if (!isInTelegram() && !isConnected) {
           login();
         }
       } catch (error) {
