@@ -38,7 +38,7 @@ const TaskModule = ({
         <TaskItem
           data={task}
           key={task.userTaskDetail}
-          userTask={task.userTaskDetail}
+          userTask={title}
           switchTab={switchTab}
           toInvite={toInvite}
           refresh={refresh}

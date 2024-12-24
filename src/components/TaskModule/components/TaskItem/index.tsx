@@ -8,6 +8,7 @@ import Loading from "@/components/Loading";
 import { TAB_LIST } from "@/constants/navigation";
 import { useAdsgram } from "@/hooks/useAdsgram";
 import useRequest from "ahooks/lib/useRequest";
+import { fetchWithToken } from "@/hooks/useData";
 
 interface ITaskItemProps {
   userTask: string;
@@ -129,14 +130,13 @@ const TaskItem = ({
   const { run: sendCompleteReq, cancel } = useRequest(
     async (taskId) => {
       try {
-        const res = await fetch(
+        const { data } = await fetchWithToken(
           `/api/app/user/complete-task?${new URLSearchParams({
             chainId,
             userTask: userTask,
-            USER_TASK_DETAIL: taskId,
+            userTaskDetail: taskId,
           })}`
         );
-        const { data } = await res.json();
         if (data) {
           onReportComplete(userTask, taskId);
         }
@@ -163,17 +163,13 @@ const TaskItem = ({
           jumpItem.url,
           taskId,
           () =>
-            fetch(
+            fetchWithToken(
               `/api/app/user/complete-task?${new URLSearchParams({
                 chainId,
                 userTask: userTask,
-                USER_TASK_DETAIL: taskId,
+                userTaskDetail: taskId,
               })}`
-            ).then(async (res) => {
-              if (!res.ok) throw new Error("Error fetching data");
-              const result = await res.json();
-              return result.data;
-            })
+            )
         );
         if (isComplete) return;
         setIsLoading(true);
