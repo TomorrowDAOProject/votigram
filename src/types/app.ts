@@ -79,6 +79,11 @@ export type IPollDetail = {
   activeEndEpochTime: number;
 }
 
+export type DiscoverType = {
+  value: APP_CATEGORY;
+  label: string;
+}
+
 export enum ProposalType {
   UNSPECIFIED = 0,
   GOVERNANCE = 1,

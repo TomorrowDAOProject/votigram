@@ -1,4 +1,7 @@
+import { DiscoverType } from "@/types/app";
+
 export enum APP_CATEGORY {
+  ALL = "",
   NEW = "New",
   EARN = "Earn",
   GAME = "Game",
@@ -10,6 +13,7 @@ export enum APP_CATEGORY {
 }
 
 export const DISCOVERY_CATEGORY_MAP = {
+  [APP_CATEGORY.ALL]: "✅ All",
   [APP_CATEGORY.NEW]: "✨ New",
   [APP_CATEGORY.EARN]: "💰 Earn",
   [APP_CATEGORY.GAME]: "🎮 Game",
@@ -20,10 +24,7 @@ export const DISCOVERY_CATEGORY_MAP = {
   [APP_CATEGORY.ECOMMERCE]: "🛒 E-commerce",
 };
 
-export const DISCOVER_CATEGORY: {
-  value: APP_CATEGORY;
-  label: string;
-}[] = [
+export const DISCOVER_CATEGORY: DiscoverType[] = [
   {
     value: APP_CATEGORY.NEW,
     label: "✨ New",
@@ -59,8 +60,8 @@ export const DISCOVER_CATEGORY: {
 ];
 
 export enum RANDOM_APP_CATEGORY {
-  FORYOU = 'ForYou',
-  RECOMMEND = 'Recommend',
+  FORYOU = "ForYou",
+  RECOMMEND = "Recommend",
 }
 
 export const DAILY_REWARDS = [200, 200, 200, 200, 200, 200, 500];

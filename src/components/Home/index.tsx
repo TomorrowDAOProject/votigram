@@ -12,6 +12,7 @@ import SearchPanel from "../SearchPanel";
 import { VoteApp } from "@/types/app";
 import { chainId } from "@/constants/app";
 import DailyRewards from "../DailyRewards";
+import { DISCOVER_CATEGORY } from "@/constants/discover";
 
 interface IHomeProps {
   onAppItemClick: (item: VoteApp) => void;
@@ -84,7 +85,7 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
             />
           </div>
         </div>
-        <CategoryPillList />
+        <CategoryPillList items={DISCOVER_CATEGORY} />
         {isSearching ? (
           <SearchPanel
             recommendList={recommendList}

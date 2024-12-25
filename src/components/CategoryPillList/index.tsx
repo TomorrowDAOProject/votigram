@@ -1,16 +1,18 @@
-import { APP_CATEGORY, DISCOVER_CATEGORY } from "@/constants/discover";
+import { APP_CATEGORY } from "@/constants/discover";
 
 import "./index.css";
 import clsx from "clsx";
 import { useState } from "react";
+import { DiscoverType } from "@/types/app";
 
 interface ICategoryPillListProps {
+  items: DiscoverType[];
   className?: string;
   onChange?: (category: APP_CATEGORY) => void;
 }
 
-const CategoryPillList = ({ className, onChange }: ICategoryPillListProps) => {
-  const [active, setActive] = useState<APP_CATEGORY | null>(null);
+const CategoryPillList = ({ items, className, onChange }: ICategoryPillListProps) => {
+  const [active, setActive] = useState<APP_CATEGORY>(APP_CATEGORY.ALL);
 
   const handleClick = (category: APP_CATEGORY) => {
     setActive(category);
@@ -24,7 +26,7 @@ const CategoryPillList = ({ className, onChange }: ICategoryPillListProps) => {
         className
       )}
     >
-      {DISCOVER_CATEGORY.map((item) => (
+      {items.map((item) => (
         <div
           key={item.label}
           className={clsx(
