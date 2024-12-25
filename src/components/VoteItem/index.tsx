@@ -83,7 +83,7 @@ const VoteItem = ({
     },
     {
       manual: true,
-      pollingInterval: 1000,
+      pollingInterval: 2000,
     },
   );
 

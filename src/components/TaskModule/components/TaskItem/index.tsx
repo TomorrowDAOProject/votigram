@@ -17,7 +17,6 @@ interface ITaskItemProps {
   toInvite(): void;
   watchAds?(): void;
   refresh?(points?: number): void;
-  onReportComplete: (task: string, taskDetail: string) => void;
 }
 
 const taskItemMap: Record<string, { title: string; icon: React.ReactNode }> = {
@@ -81,7 +80,6 @@ const TaskItem = ({
   switchTab,
   toInvite,
   refresh,
-  onReportComplete,
 }: ITaskItemProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -130,6 +128,7 @@ const TaskItem = ({
   const { run: sendCompleteReq, cancel } = useRequest(
     async (taskId) => {
       try {
+        setIsLoading(true);
         const { data } = await fetchWithToken(
           `/api/app/user/complete-task?${new URLSearchParams({
             chainId,
@@ -138,13 +137,16 @@ const TaskItem = ({
           })}`
         );
         if (data) {
-          onReportComplete(userTask, taskId);
+          refresh?.(data.points);
+          setIsLoading(false);
         }
         if (data || taskId !== USER_TASK_DETAIL.EXPLORE_SCHRODINGER) {
           cancel();
+          setIsLoading(false);
         }
       } catch (error) {
         console.error(error);
+        setIsLoading(false);
       }
     },
     {
@@ -154,31 +156,15 @@ const TaskItem = ({
   );
 
   const jumpAndRefresh = async (taskId: USER_TASK_DETAIL) => {
-    try {
-      const jumpItem = jumpExternalList.find(
-        (item) => item.taskId === data.userTaskDetail
+    const jumpItem = jumpExternalList.find(
+      (item) => item.taskId === data.userTaskDetail
+    );
+    if (jumpItem) {
+      openNewPageWaitPageVisible(
+        jumpItem.url,
+        taskId,
+        () => sendCompleteReq(taskId)
       );
-      if (jumpItem) {
-        const isComplete = await openNewPageWaitPageVisible(
-          jumpItem.url,
-          taskId,
-          () =>
-            fetchWithToken(
-              `/api/app/user/complete-task?${new URLSearchParams({
-                chainId,
-                userTask: userTask,
-                userTaskDetail: taskId,
-              })}`
-            )
-        );
-        if (isComplete) return;
-        setIsLoading(true);
-        sendCompleteReq(taskId);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
     }
   };
 

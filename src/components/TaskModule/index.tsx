@@ -9,7 +9,6 @@ interface ITaskModuleProps {
   switchTab: (tab: TAB_LIST) => void;
   toInvite(): void;
   refresh?(points?: number): void;
-  onReportComplete: (task: string, taskDetail: string) => void;
 }
 
 const TaskModule = ({
@@ -19,7 +18,6 @@ const TaskModule = ({
   switchTab,
   toInvite,
   refresh,
-  onReportComplete,
 }: ITaskModuleProps) => {
   return (
     <div className="my-[14px]">
@@ -42,7 +40,6 @@ const TaskModule = ({
           switchTab={switchTab}
           toInvite={toInvite}
           refresh={refresh}
-          onReportComplete={onReportComplete}
         />
       ))}
     </div>

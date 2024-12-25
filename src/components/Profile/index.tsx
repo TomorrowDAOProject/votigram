@@ -31,9 +31,9 @@ const Profile = ({ switchTab }: IProfileProps) => {
   const scrollViewRef = useRef<HTMLDivElement | null>(null);
   const [scrollTop, setScrollTop] = useState(0);
 
-  const onReward = (points: number = 0) => {
+  const onReward = (totalPoints: number = 0) => {
     const newUserPoints = { ...userPoints };
-    newUserPoints.userTotalPoints = (userPoints?.userTotalPoints || 0) + points;
+    newUserPoints.userTotalPoints = totalPoints;
     dispatch({
       type: "SET_USER_DATA",
       payload: {
