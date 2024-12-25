@@ -25,7 +25,7 @@ const initialState: UserContextState = {
   user: {
     userPoints: {
       consecutiveLoginDays: 1,
-      dailyLoginPointsStatus: false,
+      dailyLoginPointsStatus: true,
       userTotalPoints: 0,
     },
     isNewUser: false,

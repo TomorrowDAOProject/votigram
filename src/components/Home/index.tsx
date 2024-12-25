@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppList from "../AppList";
 import CategoryPillList from "../CategoryPillList";
 import DiscoveryHiddenGems from "../DiscoveryHiddenGems";
@@ -47,6 +47,11 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
       console.error(e);
     }
   };
+
+  useEffect(() => {
+    setShowDailyReward(!userPoints?.dailyLoginPointsStatus)
+  }, [userPoints?.dailyLoginPointsStatus])
+
   return (
     <>
       <TelegramHeader title={isSearching ? "Discover" : ""} />
