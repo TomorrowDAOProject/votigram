@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useCopyToClipboard } from "react-use";
 import { getShareText } from "./utils";
+import { mutate } from "swr";
 
 const PollDetail = () => {
   const { proposalId } = useParams();
@@ -74,6 +75,17 @@ const PollDetail = () => {
     }
   };
 
+  const onVoted = () => {
+    if (proposalId) {
+      mutate(
+        `/api/app/ranking/detail?${new URLSearchParams({
+          chainId,
+          proposalId,
+        }).toString()}`
+      );
+    }
+  };
+
   if (!pollDeta && isLoading) {
     return <Loading className="h-screen w-screen !bg-black" />;
   }
@@ -130,7 +142,7 @@ const PollDetail = () => {
                 proposalId={proposalId || ""}
                 className="w-full"
                 canVote={canVote}
-                onVoted={() => setCanVote(false)}
+                onVoted={onVoted}
                 showBtn
               />
             ))}

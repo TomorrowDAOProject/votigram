@@ -135,11 +135,12 @@ const VoteItem = ({
         });
         setTotalCurrentPoints((prev) => prev + likeCount);
         setLikeCount(0);
+        onVoted?.();
       }, 2000);
 
       return () => clearTimeout(timer); // Cleanup timeout on unmount or update
     }
-  }, [data.alias, likeCount, proposalId]);
+  }, [data.alias, likeCount, onVoted, proposalId]);
 
   const sedRawTransaction = async () => {
     try {
