@@ -109,7 +109,7 @@ const Profile = ({ switchTab }: IProfileProps) => {
 
           <div className="col-12 min-w-[335px]">
             {currentTab === 0 ? (
-              <Tasks switchTab={switchTab} onReward={onReward} />
+              <Tasks totalPoints={userPoints?.userTotalPoints || 0} switchTab={switchTab} onReward={onReward} />
             ) : (
               <Achievements scrollTop={scrollTop} />
             )}

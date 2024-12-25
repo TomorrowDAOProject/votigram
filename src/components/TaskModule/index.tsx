@@ -6,6 +6,7 @@ interface ITaskModuleProps {
   title: string;
   description?: string;
   data: TaskInfo[];
+  totalPoints: number;
   switchTab: (tab: TAB_LIST) => void;
   toInvite(): void;
   refresh?(points?: number): void;
@@ -15,6 +16,7 @@ const TaskModule = ({
   title,
   description,
   data,
+  totalPoints,
   switchTab,
   toInvite,
   refresh,
@@ -37,6 +39,7 @@ const TaskModule = ({
           data={task}
           key={task.userTaskDetail}
           userTask={title}
+          totalPoints={totalPoints}
           switchTab={switchTab}
           toInvite={toInvite}
           refresh={refresh}

@@ -6,11 +6,12 @@ import { useEffect, useState } from "react";
 import { TAB_LIST } from "@/constants/navigation";
 import { mutate } from "swr";
 interface ITasksProps {
+  totalPoints: number;
   switchTab: (tab: TAB_LIST) => void;
   onReward(points?: number): void;
 }
 
-const Tasks = ({ switchTab, onReward }: ITasksProps) => {
+const Tasks = ({ totalPoints, switchTab, onReward }: ITasksProps) => {
   const [tasks, setTasks] = useState<TaskModuleType[]>([]);
   const [inviteInfo, setInviteInfo] = useState<InviteDetail>();
   const [showShare, setShowShare] = useState(false);
@@ -53,6 +54,7 @@ const Tasks = ({ switchTab, onReward }: ITasksProps) => {
         <TaskModule
           data={data}
           title={userTask}
+          totalPoints={totalPoints}
           switchTab={switchTab}
           toInvite={() => setShowShare(true)}
           refresh={refresh}

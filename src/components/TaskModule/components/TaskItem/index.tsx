@@ -13,11 +13,14 @@ import { fetchWithToken } from "@/hooks/useData";
 interface ITaskItemProps {
   userTask: string;
   data: TaskInfo;
+  totalPoints: number;
   switchTab: (tab: TAB_LIST) => void;
   toInvite(): void;
   watchAds?(): void;
   refresh?(points?: number): void;
 }
+
+let RETRY_MAX_COUNT = 10;
 
 const taskItemMap: Record<string, { title: string; icon: React.ReactNode }> = {
   [USER_TASK_DETAIL.DAILY_VIEW_ADS]: {
@@ -77,6 +80,7 @@ const taskItemMap: Record<string, { title: string; icon: React.ReactNode }> = {
 const TaskItem = ({
   data,
   userTask,
+  totalPoints,
   switchTab,
   toInvite,
   refresh,
@@ -129,21 +133,22 @@ const TaskItem = ({
     async (taskId) => {
       try {
         setIsLoading(true);
-        const { data } = await fetchWithToken(
+        const { data: result } = await fetchWithToken(
           `/api/app/user/complete-task?${new URLSearchParams({
             chainId,
             userTask: userTask,
             userTaskDetail: taskId,
           })}`
         );
-        if (data) {
-          refresh?.(data.points);
+        if (result) {
+          refresh?.(totalPoints + data.points);
           setIsLoading(false);
         }
-        if (data || taskId !== USER_TASK_DETAIL.EXPLORE_SCHRODINGER) {
+        if (result || RETRY_MAX_COUNT <= 0) {
           cancel();
           setIsLoading(false);
         }
+        RETRY_MAX_COUNT--;
       } catch (error) {
         console.error(error);
         setIsLoading(false);
