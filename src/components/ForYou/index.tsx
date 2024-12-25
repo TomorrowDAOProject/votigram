@@ -41,8 +41,12 @@ const ForYou = ({
   }, [items]);
 
   useEffect(() => {
-    if (items && currentForyouPage > currentPage.current) {
-      setForYouItems((prev) => [...prev, ...(items || [])]);
+    if (items) {
+      setForYouItems((prev) =>
+        currentForyouPage > currentPage.current
+          ? [...prev, ...(items || [])]
+          : items
+      );
     }
   }, [items, currentForyouPage]);
 
@@ -93,39 +97,44 @@ const ForYou = ({
     <>
       <TelegramHeader title="For You" />
       <div className="h-screen overflow-hidden bg-discover-background pt-telegramHeader bg-black">
-        <motion.div
-          animate={{ y: -currentIndex * height }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          drag="y"
-          dragConstraints={{
-            top: -((forYouItems.length - 1) * height),
-            bottom: 0,
-          }}
-          dragDirectionLock
-          onDragEnd={handleDragEnd}
-          className="relative"
-          whileDrag={{
-            opacity: 0.5,
-          }}
-        >
-          {forYouItems.map((item, index) => (
-            <div
-              key={index}
-              className="h-screen pt-[25px] flex flex-col relative items-center"
-            >
-              <ImageCarousel items={item.screenshots} />
-              <AppDetail item={item} updateOpenAppClick={updateOpenAppClick} />
-              <ActionButton
-                item={item}
-                totalLikes={item.totalLikes || 0}
-                totalComments={item.totalComments || 0}
-                totalOpens={item.totalOpens || 0}
-                updateOpenAppClick={updateOpenAppClick}
-                updateReviewClick={updateReviewClick}
-              />
-            </div>
-          ))}
-        </motion.div>
+        {forYouItems?.length > 0 && (
+          <motion.div
+            animate={{ y: -currentIndex * height }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            drag="y"
+            dragConstraints={{
+              top: -((forYouItems.length - 1) * height),
+              bottom: 0,
+            }}
+            dragDirectionLock
+            onDragEnd={handleDragEnd}
+            className="relative"
+            whileDrag={{
+              opacity: 0.5,
+            }}
+          >
+            {forYouItems.map((item, index) => (
+              <div
+                key={index}
+                className="h-screen pt-[25px] flex flex-col relative items-center"
+              >
+                <ImageCarousel items={item.screenshots} />
+                <AppDetail
+                  item={item}
+                  updateOpenAppClick={updateOpenAppClick}
+                />
+                <ActionButton
+                  item={item}
+                  totalLikes={item.totalLikes || 0}
+                  totalComments={item.totalComments || 0}
+                  totalOpens={item.totalOpens || 0}
+                  updateOpenAppClick={updateOpenAppClick}
+                  updateReviewClick={updateReviewClick}
+                />
+              </div>
+            ))}
+          </motion.div>
+        )}
         <Modal isVisible={false} rootClassName="px-[29px] pt-[45px] pb-[30px]">
           <span className="block text-[20px] font-bold leading-[20px] font-outfit text-white">
             Select Your Areas of Interest
