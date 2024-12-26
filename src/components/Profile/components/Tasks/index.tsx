@@ -6,10 +6,12 @@ import { useEffect, useState } from "react";
 import { TAB_LIST } from "@/constants/navigation";
 import { mutate } from "swr";
 interface ITasksProps {
+  totalPoints: number;
   switchTab: (tab: TAB_LIST) => void;
+  onReward(points?: number): void;
 }
 
-const Tasks = ({ switchTab }: ITasksProps) => {
+const Tasks = ({ totalPoints, switchTab, onReward }: ITasksProps) => {
   const [tasks, setTasks] = useState<TaskModuleType[]>([]);
   const [inviteInfo, setInviteInfo] = useState<InviteDetail>();
   const [showShare, setShowShare] = useState(false);
@@ -33,20 +35,12 @@ const Tasks = ({ switchTab }: ITasksProps) => {
     }
   }, [data, tasks]);
 
-  const refresh = () => {
+  const refresh = (points?: number) => {
     mutate("/api/app/user/task-list?chainId=tDVW");
-  }
-  const handleReportComplete = (task: string, taskDetail: string) => {
-    const taskGroupListCopy = tasks.slice(0);
-    const targetGroup = taskGroupListCopy.find((group) => group.userTask === task);
-    if (targetGroup) {
-      const targetItem = targetGroup.data.find((item) => item.userTaskDetail === taskDetail);
-      if (targetItem) {
-        targetItem.complete = true;
-      }
+    if (points) {
+      onReward(points);
     }
-    setTasks(taskGroupListCopy);
-  };
+  }
 
   return (
     <>
@@ -60,12 +54,12 @@ const Tasks = ({ switchTab }: ITasksProps) => {
         <TaskModule
           data={data}
           title={userTask}
+          totalPoints={totalPoints}
           switchTab={switchTab}
           toInvite={() => setShowShare(true)}
           refresh={refresh}
           description={index === 0 ? "Complete quests to earn rewards!" : ""}
           key={`${userTask}_${index}`}
-          onReportComplete={handleReportComplete}
         />
       ))}
     </>

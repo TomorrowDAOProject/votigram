@@ -83,7 +83,7 @@ const VoteItem = ({
     },
     {
       manual: true,
-      pollingInterval: 1000,
+      pollingInterval: 2000,
     },
   );
 
@@ -117,6 +117,7 @@ const VoteItem = ({
       showConfetti();
       setLikeCount((prevCount) => prevCount + 1);
     }
+    window.Telegram.WebApp.HapticFeedback.notificationOccurred("success");
   };
 
   useEffect(() => {
@@ -134,11 +135,12 @@ const VoteItem = ({
         });
         setTotalCurrentPoints((prev) => prev + likeCount);
         setLikeCount(0);
+        onVoted?.();
       }, 2000);
 
       return () => clearTimeout(timer); // Cleanup timeout on unmount or update
     }
-  }, [data.alias, likeCount, proposalId]);
+  }, [data.alias, likeCount, onVoted, proposalId]);
 
   const sedRawTransaction = async () => {
     try {
@@ -279,19 +281,21 @@ const VoteItem = ({
       </div>
 
       {showBtn && (
-        <button
-          type="button"
-          ref={buttonRef}
-          className="bg-white/[.25] w-[32px] h-[32px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0 z-[10]"
-          onClick={onVoteClick}
-        >
-          <i className="votigram-icon-navbar-vote text-[18px] text-lime-primary" />
-        </button>
+        <>
+          <button
+            type="button"
+            ref={buttonRef}
+            className="bg-white/[.25] w-[32px] h-[32px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0 z-[10]"
+            onClick={onVoteClick}
+          >
+            <i className="votigram-icon-navbar-vote text-[18px] text-lime-primary" />
+          </button>
+          <Confetti
+            onInit={onInit}
+            className="absolute w-[50%] h-[320px] right-0 bottom-0"
+          />
+        </>
       )}
-      <Confetti
-        onInit={onInit}
-        className="fixed w-screen h-screen left-0 top-0"
-      />
 
       <Drawer
         isVisible={loading}

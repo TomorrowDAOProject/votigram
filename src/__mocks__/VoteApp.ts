@@ -113,5 +113,6 @@ export const voteSection: VoteSectionType[] = [{
   tag: "Trending",
   bannerUrl: "https://example.com/banner.png",
   proposalType: "AD",
-  ProposerFirstName: "Alice"
+  proposerFirstName: "Alice",
+  proposer: "Alice"
 }];

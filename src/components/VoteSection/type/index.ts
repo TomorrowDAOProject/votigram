@@ -14,5 +14,6 @@ export type VoteSectionType = {
   tag: '' | 'Trending';
   bannerUrl: string;
   proposalType: 'AD' | '';
-  ProposerFirstName: string;
+  proposer: string;
+  proposerFirstName: string;
 }

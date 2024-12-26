@@ -5,7 +5,6 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import Cookies from "js-cookie";
 
 import { jwtDecode } from "jwt-decode";
 import {
@@ -18,6 +17,7 @@ import { fetchToken } from "@/utils/token";
 import { useWalletService } from "@/hooks/useWallet";
 import { webLoginInstance } from "@/contract/webLogin";
 import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
+import { isInTelegram } from "@/utils/isInTelegram";
 
 let RETRY_MAX_COUNT = 3;
 
@@ -25,7 +25,7 @@ const initialState: UserContextState = {
   user: {
     userPoints: {
       consecutiveLoginDays: 1,
-      dailyLoginPointsStatus: false,
+      dailyLoginPointsStatus: true,
       userTotalPoints: 0,
     },
     isNewUser: false,
@@ -35,8 +35,12 @@ const initialState: UserContextState = {
   error: null,
 };
 
+interface ContextType extends UserContextType {
+  dispatch: React.Dispatch<Action>;
+}
+
 // Create a context
-const UserContext = createContext<UserContextType | undefined>(undefined);
+const UserContext = createContext<ContextType | undefined>(undefined);
 
 type Action =
   | { type: "SET_USER_DATA"; payload: User }
@@ -116,7 +120,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         }
 
         dispatch({ type: "SET_TOKEN", payload: access_token });
-        Cookies.set("access_token", access_token);
+        await localStorage.setItem("access_token", access_token);
         const decodedToken = jwtDecode<CustomJwtPayload>(access_token);
         const userPointsData = await getUserPoints(access_token);
         // Combine and set user data
@@ -128,7 +132,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
           },
         });
 
-        if (!isConnected) {
+        if (!isInTelegram() && !isConnected) {
           login();
         }
       } catch (error) {
@@ -172,7 +176,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
 
   return (
     <UserContext.Provider
-      value={{ ...state, hasUserData, updateDailyLoginPointsStatus }}
+      value={{ ...state, hasUserData, updateDailyLoginPointsStatus, dispatch }}
     >
       {children}
     </UserContext.Provider>

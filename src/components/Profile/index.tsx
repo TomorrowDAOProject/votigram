@@ -1,11 +1,21 @@
 import TelegramHeader from "@/components/TelegramHeader";
-import ToggleSlider from "@/components/ToggleSlider";
 import { useUserContext } from "@/provider/UserProvider";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Tasks from "./components/Tasks";
 import Achievements from "./components/Achievements";
 import { TAB_LIST } from "@/constants/navigation";
 import { useAdsgram } from "@/hooks/useAdsgram";
+import Tabs from "../Tabs";
+import { PROFILE_TABS } from "@/constants/vote";
+import { UserPoints } from "@/provider/types/UserProviderType";
+
+const tabs = [{
+  label: PROFILE_TABS.TASK,
+  value: 0,
+}, {
+  label: PROFILE_TABS.ACHIEVEMENTS,
+  value: 1,
+}]
 
 interface IProfileProps {
   switchTab: (tab: TAB_LIST) => void;
@@ -13,15 +23,29 @@ interface IProfileProps {
 
 const Profile = ({ switchTab }: IProfileProps) => {
   const {
-    user: { userPoints },
+    user,
+    dispatch
   } = useUserContext();
+  const { userPoints } = user;
   const [currentTab, setCurrentTab] = useState(0);
   const scrollViewRef = useRef<HTMLDivElement | null>(null);
   const [scrollTop, setScrollTop] = useState(0);
 
+  const onReward = (totalPoints: number = 0) => {
+    const newUserPoints = { ...userPoints };
+    newUserPoints.userTotalPoints = totalPoints;
+    dispatch({
+      type: "SET_USER_DATA",
+      payload: {
+        ...user,
+        userPoints: newUserPoints as UserPoints
+      },
+    });
+  }
+
   const showAd = useAdsgram({
     blockId: import.meta.env.VITE_ADSGRAM_ID.toString() || "",
-    onReward: () => {},
+    onReward,
     onError: () => {},
     onSkip: () => {},
   });
@@ -80,19 +104,12 @@ const Profile = ({ switchTab }: IProfileProps) => {
           />
 
           <div className="col-12 mb-[22px]">
-            <ToggleSlider
-              current={currentTab}
-              items={["Task", "Achievements"]}
-              className="pt-[4px] pb-[8px] rounded-none bg-transparent border-b-[2px] border-tertiary"
-              activeItemClassName="top-auto bottom-0 h-[2px] rounded-none"
-              itemClassName="font-bold text-[16px] leading-[16px] font-outfit"
-              onChange={setCurrentTab}
-            />
-          </div>
+            <Tabs options={tabs} onChange={setCurrentTab} />
+        </div>
 
           <div className="col-12 min-w-[335px]">
             {currentTab === 0 ? (
-              <Tasks switchTab={switchTab} />
+              <Tasks totalPoints={userPoints?.userTotalPoints || 0} switchTab={switchTab} onReward={onReward} />
             ) : (
               <Achievements scrollTop={scrollTop} />
             )}

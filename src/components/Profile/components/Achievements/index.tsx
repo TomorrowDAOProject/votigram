@@ -117,7 +117,7 @@ const Achievements = ({ scrollTop }: IAchievementsProps) => {
         </div>
         {inviteList.map((item) => (
           <div
-            className="flex flex-row items-center justify-between gap-[15px] py-2 border-b border-tertiary font-normal text-[12px] text-white leading-[13.2px]"
+            className="flex flex-row items-center justify-between gap-[15px] py-2 font-normal text-[12px] text-white leading-[13.2px]"
             key={item.inviter}
           >
             <span className="w-[40px] shrink-0 flex-none">

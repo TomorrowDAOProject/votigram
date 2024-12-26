@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Cookies from "js-cookie";
 import useSWR, { Arguments, mutate } from "swr";
 import { toUrlEncoded } from "@/utils/token";
 import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
 
 // Fetcher function that includes the Authorization token
 export const fetchWithToken = (endpoint: string, fullUrl?: boolean) => {
-  const token = Cookies.get("access_token");
+  const token = localStorage.getItem("access_token");
 
   return fetch(`${!fullUrl ? import.meta.env.VITE_BASE_URL : ''}${endpoint}`, {
     headers: {
@@ -25,7 +24,7 @@ export const postWithToken = async (
   data: Record<string, any>,
   contentType: string = "application/json"
 ): Promise<any> => {
-  const token = Cookies.get("access_token");
+  const token = localStorage.getItem("access_token");
 
   // Set up headers, conditionally adding Authorization
   const headers: HeadersInit = {
@@ -69,7 +68,7 @@ export const uploadWithToken = async (
   endpoint: string,
   body: FormData,
 ): Promise<any> => {
-  const token = Cookies.get("access_token");
+  const token = localStorage.getItem("access_token");
 
   // Set up headers, conditionally adding Authorization
   const headers: HeadersInit = {

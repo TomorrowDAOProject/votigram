@@ -19,6 +19,11 @@ export enum VOTE_TABS {
   COMMUNITY = 'Community'
 }
 
+export enum PROFILE_TABS {
+  TASK = 'Task',
+  ACHIEVEMENTS = 'Achievements'
+}
+
 export enum RANKING_TYPE {
   All = 0,
   Verified = 1,

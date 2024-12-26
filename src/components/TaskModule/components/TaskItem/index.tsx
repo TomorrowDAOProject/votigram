@@ -3,22 +3,24 @@ import { useConfig } from "@/provider/types/ConfigContext";
 import { TaskInfo } from "@/types/task";
 import { openNewPageWaitPageVisible } from "../../utils";
 import { chainId } from "@/constants/app";
-import { postWithToken } from "@/hooks/useData";
 import { useState } from "react";
 import Loading from "@/components/Loading";
 import { TAB_LIST } from "@/constants/navigation";
 import { useAdsgram } from "@/hooks/useAdsgram";
 import useRequest from "ahooks/lib/useRequest";
+import { fetchWithToken } from "@/hooks/useData";
 
 interface ITaskItemProps {
   userTask: string;
   data: TaskInfo;
+  totalPoints: number;
   switchTab: (tab: TAB_LIST) => void;
   toInvite(): void;
   watchAds?(): void;
-  refresh?(): void;
-  onReportComplete: (task: string, taskDetail: string) => void;
+  refresh?(points?: number): void;
 }
+
+let RETRY_MAX_COUNT = 10;
 
 const taskItemMap: Record<string, { title: string; icon: React.ReactNode }> = {
   [USER_TASK_DETAIL.DAILY_VIEW_ADS]: {
@@ -78,10 +80,10 @@ const taskItemMap: Record<string, { title: string; icon: React.ReactNode }> = {
 const TaskItem = ({
   data,
   userTask,
+  totalPoints,
   switchTab,
   toInvite,
   refresh,
-  onReportComplete,
 }: ITaskItemProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -123,26 +125,33 @@ const TaskItem = ({
 
   const showAd = useAdsgram({
     blockId: import.meta.env.VITE_ADSGRAM_ID.toString() || "",
-    onReward: () => refresh?.(),
+    onReward: (points) => refresh?.(points),
     onError: () => {},
     onSkip: () => {},
   });
   const { run: sendCompleteReq, cancel } = useRequest(
     async (taskId) => {
       try {
-        const { data } = await postWithToken("/api/app/user/complete-task", {
-          chainId,
-          userTask: userTask,
-          USER_TASK_DETAIL: taskId,
-        });
-        if (data) {
-          onReportComplete(userTask, taskId);
+        setIsLoading(true);
+        const { data: result } = await fetchWithToken(
+          `/api/app/user/complete-task?${new URLSearchParams({
+            chainId,
+            userTask: userTask,
+            userTaskDetail: taskId,
+          })}`
+        );
+        if (result) {
+          refresh?.(totalPoints + data.points);
+          setIsLoading(false);
         }
-        if (data || taskId !== USER_TASK_DETAIL.EXPLORE_SCHRODINGER) {
+        if (result || RETRY_MAX_COUNT <= 0) {
           cancel();
+          setIsLoading(false);
         }
+        RETRY_MAX_COUNT--;
       } catch (error) {
         console.error(error);
+        setIsLoading(false);
       }
     },
     {
@@ -152,29 +161,15 @@ const TaskItem = ({
   );
 
   const jumpAndRefresh = async (taskId: USER_TASK_DETAIL) => {
-    try {
-      const jumpItem = jumpExternalList.find(
-        (item) => item.taskId === data.userTaskDetail
+    const jumpItem = jumpExternalList.find(
+      (item) => item.taskId === data.userTaskDetail
+    );
+    if (jumpItem) {
+      openNewPageWaitPageVisible(
+        jumpItem.url,
+        taskId,
+        () => sendCompleteReq(taskId)
       );
-      if (jumpItem) {
-        const isComplete = await openNewPageWaitPageVisible(
-          jumpItem.url,
-          taskId,
-          () =>
-            postWithToken("/api/app/user/complete-task", {
-              chainId,
-              userTask: userTask,
-              USER_TASK_DETAIL: taskId,
-            })
-        );
-        if (isComplete) return;
-        setIsLoading(true);
-        sendCompleteReq(taskId);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
     }
   };
 

@@ -306,8 +306,8 @@ const CreatePoll = () => {
           finished === CREATE_STATUS.FAILED
         }
         direction="bottom"
-        canClose={false}
         rootClassName="pt-[34px] pb-[23px] px-5 bg-tertiary"
+        canClose
       >
         <span className="block mb-[40px] text-[18px] font-outfit font-bold leading-[18px] text-center text-white">
           {finished === CREATE_STATUS.SUCCESS ? "Success" : "Please Try Again"}

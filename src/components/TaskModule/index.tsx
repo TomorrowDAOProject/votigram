@@ -6,20 +6,20 @@ interface ITaskModuleProps {
   title: string;
   description?: string;
   data: TaskInfo[];
+  totalPoints: number;
   switchTab: (tab: TAB_LIST) => void;
   toInvite(): void;
-  refresh?(): void;
-  onReportComplete: (task: string, taskDetail: string) => void;
+  refresh?(points?: number): void;
 }
 
 const TaskModule = ({
   title,
   description,
   data,
+  totalPoints,
   switchTab,
   toInvite,
   refresh,
-  onReportComplete,
 }: ITaskModuleProps) => {
   return (
     <div className="my-[14px]">
@@ -38,11 +38,11 @@ const TaskModule = ({
         <TaskItem
           data={task}
           key={task.userTaskDetail}
-          userTask={task.userTaskDetail}
+          userTask={title}
+          totalPoints={totalPoints}
           switchTab={switchTab}
           toInvite={toInvite}
           refresh={refresh}
-          onReportComplete={onReportComplete}
         />
       ))}
     </div>

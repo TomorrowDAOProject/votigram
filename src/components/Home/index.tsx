@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppList from "../AppList";
 import CategoryPillList from "../CategoryPillList";
 import DiscoveryHiddenGems from "../DiscoveryHiddenGems";
@@ -12,6 +12,7 @@ import SearchPanel from "../SearchPanel";
 import { VoteApp } from "@/types/app";
 import { chainId } from "@/constants/app";
 import DailyRewards from "../DailyRewards";
+import { DISCOVER_CATEGORY } from "@/constants/discover";
 
 interface IHomeProps {
   onAppItemClick: (item: VoteApp) => void;
@@ -47,10 +48,15 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
       console.error(e);
     }
   };
+
+  useEffect(() => {
+    setShowDailyReward(!userPoints?.dailyLoginPointsStatus)
+  }, [userPoints?.dailyLoginPointsStatus])
+
   return (
     <>
       <TelegramHeader title={isSearching ? "Discover" : ""} />
-      <div className="h-screen overflow-scroll pt-telegramHeader">
+      <div className="h-screen overflow-scroll pt-telegramHeader bg-black">
         <div className="font-outfit votigram-grid mt-[9px]">
           <div className="col-12 mb-[11px]">
             {isSearching ? (
@@ -71,7 +77,7 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
           <div className="col-12 bg-input gap-2 h-[41px] px-4 flex items-center rounded-3xl">
             <i className="votigram-icon-search text-input-placeholder" />
             <input
-              className="w-full bg-transparent text-white placeholder:leading-[19.6px] text-[14px] placeholder:text-input-placeholder placeholder:font-questrial"
+              className="w-full bg-transparent text-white outline-none appearence-none placeholder:leading-[19.6px] text-[14px] placeholder:text-input-placeholder placeholder:font-questrial"
               placeholder="Search..."
               onFocus={() => {
                 setIsSearching(true);
@@ -79,7 +85,7 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
             />
           </div>
         </div>
-        <CategoryPillList />
+        <CategoryPillList items={DISCOVER_CATEGORY} />
         {isSearching ? (
           <SearchPanel
             recommendList={recommendList}

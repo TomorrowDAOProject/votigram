@@ -23,25 +23,31 @@ const App = () => {
 
   useEffect(() => {
     fetchCMSData();
+    const htmlElement = document.getElementsByTagName("html")[0];
     if (window?.Telegram && isTMA("simple")) {
       if (
         window.Telegram.WebApp?.platform === "ios" ||
         window.Telegram.WebApp?.platform === "android"
       ) {
         window.Telegram.WebApp?.requestFullscreen?.();
+
+        const tgTopStyles = `
+              --tg-content-safe-area-inset-top: 46px;
+              --tg-safe-area-inset-top: 54px;
+            `;
+        htmlElement.style.cssText =
+          htmlElement.style.cssText.concat(tgTopStyles);
       }
       window.Telegram.WebApp?.lockOrientation?.();
       window.Telegram.WebApp?.disableVerticalSwipes?.();
       window.Telegram.WebApp?.setHeaderColor?.("#000000");
     }
 
-    const htmlElement = document.getElementsByTagName("html")[0];
-    const styles = `
-          --tg-safe-area-inset-bottom: 34px;
-          --tg-content-safe-area-inset-top: 46px;
-          --tg-safe-area-inset-top: 54px;
-        `;
-    htmlElement.style.cssText = htmlElement.style.cssText.concat(styles);
+    const tgBottomStyles = `
+        --tg-safe-area-inset-bottom: 34px;
+      `;
+    htmlElement.style.cssText =
+      htmlElement.style.cssText.concat(tgBottomStyles);
   }, []);
 
   return (
