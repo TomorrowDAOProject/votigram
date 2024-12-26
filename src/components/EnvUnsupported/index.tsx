@@ -8,8 +8,8 @@ export function EnvUnsupported() {
     try {
       const lp = retrieveLaunchParams();
       platform = lp.platform;
-    } catch {
-      /* empty */
+    } catch (e) {
+      console.error(e);
     }
 
     return [platform];
