@@ -132,8 +132,7 @@ const TaskItem = ({
   const { run: sendCompleteReq, cancel } = useRequest(
     async (taskId) => {
       try {
-        setIsLoading(true);
-        const { data: result } = await fetchWithToken(
+        const result = await fetchWithToken(
           `/api/app/user/complete-task?${new URLSearchParams({
             chainId,
             userTask: userTask,
@@ -143,6 +142,7 @@ const TaskItem = ({
         if (result) {
           refresh?.(totalPoints + data.points);
           setIsLoading(false);
+          cancel();
         }
         if (result || RETRY_MAX_COUNT <= 0) {
           cancel();
@@ -161,15 +161,31 @@ const TaskItem = ({
   );
 
   const jumpAndRefresh = async (taskId: USER_TASK_DETAIL) => {
-    const jumpItem = jumpExternalList.find(
-      (item) => item.taskId === data.userTaskDetail
-    );
-    if (jumpItem) {
-      openNewPageWaitPageVisible(
-        jumpItem.url,
-        taskId,
-        () => sendCompleteReq(taskId)
+    try {
+      const jumpItem = jumpExternalList.find(
+        (item) => item.taskId === data.userTaskDetail
       );
+      if (jumpItem) {
+        const isComplete = await openNewPageWaitPageVisible(
+          jumpItem.url,
+          taskId,
+          () =>
+            fetchWithToken(
+              `/api/app/user/complete-task?${new URLSearchParams({
+                chainId,
+                userTask: userTask,
+                userTaskDetail: taskId,
+              })}`
+            )
+        );
+        if (isComplete) return;
+        setIsLoading(true);
+        sendCompleteReq(taskId);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 

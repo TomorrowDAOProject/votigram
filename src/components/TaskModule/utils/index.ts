@@ -1,9 +1,12 @@
 import { USER_TASK_DETAIL } from "@/constants/task";
 
-export const openNewPageWaitPageVisible = (
+export const openNewPageWaitPageVisible = async (
   url: string,
   taskId: USER_TASK_DETAIL,
-  onFinish?: () => void
+  req: () => Promise<{
+    code: string;
+    data: boolean;
+  }>
 ) => {
   if (
     taskId === USER_TASK_DETAIL.EXPLORE_JOIN_TG_CHANNEL ||
@@ -13,24 +16,34 @@ export const openNewPageWaitPageVisible = (
     // web.telegram.org will destroy the page when openTelegramLink
     // so send complete request before open link
     if (window?.Telegram?.WebApp?.platform?.includes("web")) {
-      onFinish?.();
+      return req()
+        .then(() => {
+          window?.Telegram?.WebApp?.openTelegramLink?.(url);
+          return true;
+        })
+        .catch(() => {
+          window?.Telegram?.WebApp?.openTelegramLink?.(url);
+          return false;
+        });
     }
     window?.Telegram?.WebApp?.openTelegramLink?.(url);
   } else {
     window?.Telegram?.WebApp?.openLink?.(url);
   }
-  setTimeout(() => {
-    if (document.visibilityState === "visible") {
-      setTimeout(() => {
-        onFinish?.();
-      }, 2000);
-    } else {
-      const handleVisibilityChange = () => {
-        if (document.visibilityState === "visible") {
-          onFinish?.();
-        }
-      };
-      document.addEventListener("visibilitychange", handleVisibilityChange);
-    }
-  }, 200);
+  return new Promise<boolean>((resolve) => {
+    setTimeout(() => {
+      if (document.visibilityState === "visible") {
+        setTimeout(() => {
+          resolve(false);
+        }, 2000);
+      } else {
+        const handleVisibilityChange = () => {
+          if (document.visibilityState === "visible") {
+            resolve(false);
+          }
+        };
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+      }
+    }, 200);
+  });
 };

@@ -16,7 +16,7 @@ import { APP_CATEGORY, DISCOVER_CATEGORY } from "@/constants/discover";
 import { useAdsgram } from "@/hooks/useAdsgram";
 
 interface IHomeProps {
-  onAppItemClick: (item: VoteApp) => void;
+  onAppItemClick: (item?: VoteApp) => void;
   recommendList: VoteApp[];
 }
 
@@ -193,7 +193,7 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
                 </span>
               </div>
               <div className="col-6 h-[230px] flex flex-col gap-[10px]">
-                <div className="col-12 p-[13px] flex-1 bg-tertiary rounded-[18px]">
+                <div className="col-12 p-[13px] flex-1 bg-tertiary rounded-[18px]" onClick={() => onAppItemClick()}>
                   <div className="flex bg-[#00000038] rounded-full w-[32px] aspect-square justify-center items-center">
                     <i className="votigram-icon-navbar-for-you text-[20px] text-white opacity-40" />
                   </div>

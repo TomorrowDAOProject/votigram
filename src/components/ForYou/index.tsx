@@ -5,7 +5,7 @@ import AppDetail from "./AppDetail";
 import Modal from "../Modal";
 import ActionButton from "./ActionButton";
 import CheckboxGroup from "../CheckboxGroup";
-import { DISCOVER_CATEGORY } from "@/constants/discover";
+import { APP_CATEGORY, DISCOVER_CATEGORY } from "@/constants/discover";
 import Drawer from "../Drawer";
 import TelegramHeader from "../TelegramHeader";
 import { VoteApp } from "@/types/app";
@@ -13,6 +13,8 @@ import { postWithToken } from "@/hooks/useData";
 import { chainId } from "@/constants/app";
 import ReviewComment from "../ReviewComment";
 import AdVideo from "../AdVideo";
+import { useUserContext } from "@/provider/UserProvider";
+import { useThrottleFn } from "ahooks";
 
 interface IForYouType {
   currentForyouPage: number;
@@ -25,10 +27,16 @@ const ForYou = ({
   fetchForYouData,
   currentForyouPage = 1,
 }: IForYouType) => {
+  const {
+    user: { isNewUser },
+    updateUserStatus,
+  } = useUserContext();
   const currentPage = useRef<number>(currentForyouPage);
   const [forYouItems, setForYouItems] = useState<VoteApp[]>(items);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isShowReviews, setIsShowReviews] = useState(false);
+  const [showChoosen, setShowChoosen] = useState(isNewUser);
+  const [intrests, setIntrests] = useState<APP_CATEGORY[]>([]);
   const [currentActiveApp, setCurrentActiveApp] = useState<
     VoteApp | undefined
   >();
@@ -103,6 +111,22 @@ const ForYou = ({
     setForYouItems(list);
   };
 
+  const { run: chooseIntrest } = useThrottleFn(
+    async () => {
+      setShowChoosen(false);
+      updateUserStatus(false);
+      try {
+        await postWithToken("/api/app/discover/choose", {
+          chainId,
+          choices: intrests,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    { wait: 700 }
+  );
+
   return (
     <>
       <TelegramHeader title="For You" />
@@ -154,7 +178,10 @@ const ForYou = ({
             ))}
           </motion.div>
         )}
-        <Modal isVisible={false} rootClassName="px-[29px] pt-[45px] pb-[30px]">
+        <Modal
+          isVisible={showChoosen}
+          rootClassName="px-[29px] pt-[45px] pb-[30px]"
+        >
           <span className="block text-[20px] font-bold leading-[20px] font-outfit text-white">
             Select Your Areas of Interest
           </span>
@@ -162,9 +189,15 @@ const ForYou = ({
             Your preferences will help us create a journey unique to you.
           </span>
 
-          <CheckboxGroup options={DISCOVER_CATEGORY} onChange={console.log} />
+          <CheckboxGroup
+            options={DISCOVER_CATEGORY.slice(1)}
+            onChange={setIntrests}
+          />
 
-          <button className="mt-[24px] bg-primary text-white text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mt-[24px] mb-[16px]">
+          <button
+            className="mt-[24px] bg-primary text-white text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mt-[24px] mb-[16px]"
+            onClick={chooseIntrest}
+          >
             Let's Begin
           </button>
         </Modal>

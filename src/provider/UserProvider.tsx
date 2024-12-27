@@ -182,9 +182,26 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     });
   };
 
+  const updateUserStatus = (isNewUser: boolean) => {
+    const user = { ...state.user };
+    user.isNewUser = isNewUser;
+    dispatch({
+      type: "SET_USER_DATA",
+      payload: {
+        ...user,
+      } as User,
+    });
+  };
+
   return (
     <UserContext.Provider
-      value={{ ...state, hasUserData, updateDailyLoginPointsStatus, updateUserPoints }}
+      value={{
+        ...state,
+        hasUserData,
+        updateDailyLoginPointsStatus,
+        updateUserStatus,
+        updateUserPoints,
+      }}
     >
       {children}
     </UserContext.Provider>

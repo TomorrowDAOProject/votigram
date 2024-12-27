@@ -92,8 +92,10 @@ const App = () => {
     fetchRecommendData();
   }, []);
 
-  const onAppItemClick = (item: VoteApp) => {
-    setSelectItem(item);
+  const onAppItemClick = (item?: VoteApp) => {
+    if (item) {
+      setSelectItem(item);
+    }
     setActiveTab(TAB_LIST.FOR_YOU);
   };
 
