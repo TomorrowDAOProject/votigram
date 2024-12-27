@@ -76,7 +76,6 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
         chainId,
       });
       if (result?.data?.userTotalPoints) {
-        updateDailyLoginPointsStatus(result.data.dailyLoginPointsStatus);
         updateUserPoints(result?.data?.userTotalPoints);
       }
     } catch (e) {
