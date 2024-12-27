@@ -129,7 +129,7 @@ const ForYou = ({
                 className="h-screen flex flex-col relative items-center"
               >
                 {item.appType === "AD" && index === currentIndex ? (
-                  <AdVideo src="https://cdn.tmrwdao.com/votigram/assets/videos/07EB1DE0DD8B.mp4" />
+                  <AdVideo src={item.url} />
                 ) : (
                   <>
                     <ImageCarousel

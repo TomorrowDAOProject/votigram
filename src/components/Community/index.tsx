@@ -21,7 +21,7 @@ interface ICommunityProps {
 const Community = ({ scrollTop }: ICommunityProps) => {
   const { querys, updateQueryParam } = useSetSearchParams();
   const activeTab = querys.get('community');
-  const [currentTab, setCurrentTab] = useState(activeTab !== undefined ? Number(activeTab) : 1);
+  const [currentTab, setCurrentTab] = useState(activeTab === '0' ? Number(activeTab) : 1);
 
   const onTabChange = (index: number) => {
     setCurrentTab(index);
@@ -30,7 +30,7 @@ const Community = ({ scrollTop }: ICommunityProps) => {
 
   return (
     <>
-      <Tabs defaultValue={currentTab} options={communityTabs} onChange={onTabChange} />
+      <Tabs defaultValue={1} options={communityTabs} onChange={onTabChange} />
 
       <Archived
         scrollTop={scrollTop}
