@@ -114,7 +114,6 @@ const VoteItem = ({
   };
 
   const onVoteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(event);
     event.preventDefault();
     event.stopPropagation();
     if (canVote) {
