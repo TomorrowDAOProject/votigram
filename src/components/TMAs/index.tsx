@@ -22,7 +22,7 @@ const emaTabs = [
 interface ITMAsProps {
   scrollTop: number;
   onTabChange?: (index: number) => void;
-  onAppItemClick: (item: VoteApp) => void;
+  onAppItemClick?: (item: VoteApp) => void;
 }
 
 const TMAs = ({ scrollTop, onTabChange, onAppItemClick }: ITMAsProps) => {

@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { Comment } from "@/types/comment";
 
 interface IReviewListProps {
-  isLoading: boolean;
+  isLoading?: boolean;
   dataSource: Comment[];
   height?: number | string;
   loadData?: () => void;

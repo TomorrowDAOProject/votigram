@@ -26,11 +26,6 @@ export enum PROFILE_TABS {
   ACHIEVEMENTS = "Achievements",
 }
 
-export enum PROFILE_TABS {
-  TASK = 'Task',
-  ACHIEVEMENTS = 'Achievements'
-}
-
 export enum RANKING_TYPE {
   All = 0,
   Verified = 1,

@@ -76,7 +76,7 @@ export type IPollDetail = {
   rankingType: RANKING_TYPE;
   labelType: LABEL_TYPE;
   proposalTitle: string;
-  rankingList: IRankingListItem[];
+  rankingList: VoteApp[];
   activeStartEpochTime: number;
   activeEndEpochTime: number;
 }
