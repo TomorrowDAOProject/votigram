@@ -28,6 +28,7 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
     updateUserPoints,
     updateDailyLoginPointsStatus,
   } = useUserContext();
+
   const [isSearching, setIsSearching] = useState(false);
   const scrollViewRef = useRef<HTMLDivElement | null>(null);
   const [searchList, setSearchList] = useState<VoteApp[]>([]);
@@ -89,10 +90,6 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
     onError: () => {},
     onSkip: () => {},
   });
-
-  useEffect(() => {
-    setShowDailyReward(!userPoints?.dailyLoginPointsStatus);
-  }, [userPoints?.dailyLoginPointsStatus]);
 
   useEffect(() => {
     const scrollRef = scrollViewRef.current;
