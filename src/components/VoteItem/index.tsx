@@ -224,77 +224,77 @@ const VoteItem = ({
   };
 
   return (
-    <div
-      className={clsx(
-        "relative flex flex-row items-center gap-[12.5px] py-[12px] px-[7px] rounded-[12px] bg-tertiary",
-        className
-      )}
-      onClick={() => onClick?.(data as VoteApp)}
-    >
+    <div className="relative">
       <div
         className={clsx(
-          "relative flex flex-row items-center justify-center w-[48px] h-[48px] rounded-[8px] text-white shrink-0",
-          {
-            "border-2 border-lime-primary": data?.editorChoice,
-            "bg-gradient-to-tr from-lime-green to-lime-primary": !data.icon,
-          }
+          "flex flex-row items-center gap-[12.5px] py-[12px] px-[7px] rounded-[12px] bg-tertiary z-[10]",
+          className
         )}
+        onClick={() => onClick?.(data as VoteApp)}
       >
-        {data?.icon ? (
-          <>
-            {showHat && (
+        <div
+          className={clsx(
+            "relative flex flex-row items-center justify-center w-[48px] h-[48px] rounded-[8px] text-white shrink-0",
+            {
+              "border-2 border-lime-primary": data?.editorChoice,
+              "bg-gradient-to-tr from-lime-green to-lime-primary": !data.icon,
+            }
+          )}
+        >
+          {data?.icon ? (
+            <>
+              {showHat && (
+                <img
+                  src="https://cdn.tmrwdao.com/votigram/assets/imgs/246CBC3C5F73.webp"
+                  alt="Avatar"
+                  className={clsx(
+                    "w-[20px] h-[14px] object-contain absolute left-1/2 translate-x-[-50%] top-[-14px] z-10",
+                    hatClassName
+                  )}
+                />
+              )}
               <img
-                src="https://cdn.tmrwdao.com/votigram/assets/imgs/246CBC3C5F73.webp"
+                src={data?.icon}
                 alt="Avatar"
                 className={clsx(
-                  "w-[20px] h-[14px] object-contain absolute left-1/2 translate-x-[-50%] top-[-14px] z-10",
-                  hatClassName
+                  "w-full h-full rounded-[8px] object-cover",
+                  imgClassName
                 )}
               />
-            )}
-            <img
-              src={data?.icon}
-              alt="Avatar"
-              className={clsx(
-                "w-full h-full rounded-[8px] object-cover",
-                imgClassName
-              )}
-            />
-          </>
-        ) : (
-          <span className="font-outfit font-bold text-[16px] leading-[16px] text-white">
-            {data.title.slice(0, 1)}
-          </span>
-        )}
-      </div>
-
-      <div
-        className="flex flex-col justify-center flex-1 gap-[8px]"
-        ref={elementRef}
-      >
-        <div className="flex flex-row items-center justify-between">
-          <span className="flex flex-row items-center font-outfit font-bold text-[16px] leading-[16px] text-white">
-            {rank && (
-              <span className="mr-[4px] font-outfit font-bold text-[12px] leading-[16px]">
-                {rank}
-              </span>
-            )}
-            {data?.title}
-          </span>
-
-          <span className="font-pressStart font-normal text-[9px] tracking-[-0.9px] leading-[9px] text-lime-green">
-            {(totalCurrentPoints + likeCount)?.toLocaleString()}
-          </span>
+            </>
+          ) : (
+            <span className="font-outfit font-bold text-[16px] leading-[16px] text-white">
+              {data.title.slice(0, 1)}
+            </span>
+          )}
         </div>
 
-        <ProgressBar
-          width={elementWidth}
-          progress={!canVote ? (data?.pointsPercent || 0) * 100 : 0}
-        />
-      </div>
+        <div
+          className="flex flex-col justify-center flex-1 gap-[8px]"
+          ref={elementRef}
+        >
+          <div className="flex flex-row items-center justify-between">
+            <span className="flex flex-row items-center font-outfit font-bold text-[16px] leading-[16px] text-white">
+              {rank && (
+                <span className="mr-[4px] font-outfit font-bold text-[12px] leading-[16px]">
+                  {rank}
+                </span>
+              )}
+              {data?.title}
+            </span>
 
-      {showBtn && (
-        <>
+            <span className="font-pressStart font-normal text-[9px] tracking-[-0.9px] leading-[9px] text-lime-green">
+              {(totalCurrentPoints + likeCount)?.toLocaleString()}
+            </span>
+          </div>
+
+          <ProgressBar
+            width={elementWidth}
+            progress={!canVote ? (data?.pointsPercent || 0) * 100 : 0}
+          />
+        </div>
+
+        {showBtn && (
           <button
             type="button"
             ref={buttonRef}
@@ -303,13 +303,14 @@ const VoteItem = ({
           >
             <i className="votigram-icon-navbar-vote text-[18px] text-lime-primary" />
           </button>
-          <Confetti
-            onInit={onInit}
-            className="absolute w-[50%] h-[320px] right-0 bottom-0"
-          />
-        </>
+        )}
+      </div>
+      {showBtn && (
+        <Confetti
+          onInit={onInit}
+          className="absolute w-[50%] h-[320px] right-0 bottom-0 z-0"
+        />
       )}
-
       <Drawer
         isVisible={loading}
         direction="bottom"
