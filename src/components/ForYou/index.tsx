@@ -12,7 +12,7 @@ import { VoteApp } from "@/types/app";
 import { postWithToken } from "@/hooks/useData";
 import { chainId } from "@/constants/app";
 import ReviewComment from "../ReviewComment";
-import { cloneDeep } from 'lodash-es';
+import AdVideo from "../AdVideo";
 
 interface IForYouType {
   currentForyouPage: number;
@@ -83,6 +83,9 @@ const ForYou = ({
       alias,
     });
     window.open(url);
+    const list = [...forYouItems];
+    list[currentIndex].totalOpens = (list[currentIndex].totalOpens || 0) + 1;
+    setForYouItems(list);
   };
 
   const updateReviewClick = (item: VoteApp) => {
@@ -95,10 +98,10 @@ const ForYou = ({
   };
 
   const onComment = (totalComments: number) => {
-    const list = cloneDeep(forYouItems)
-    list[currentIndex].totalComments = totalComments
+    const list = [...forYouItems];
+    list[currentIndex].totalComments = totalComments;
     setForYouItems(list);
-  }
+  };
 
   return (
     <>
@@ -123,20 +126,29 @@ const ForYou = ({
             {forYouItems.map((item, index) => (
               <div
                 key={index}
-                className="h-screen pt-[25px] flex flex-col relative items-center"
+                className="h-screen flex flex-col relative items-center"
               >
-                <ImageCarousel items={item.screenshots} />
+                {item.appType === "AD" && index === currentIndex ? (
+                  <AdVideo src="https://cdn.tmrwdao.com/votigram/assets/videos/07EB1DE0DD8B.mp4" />
+                ) : (
+                  <>
+                    <ImageCarousel
+                      className="mt-[25px]"
+                      items={item.screenshots}
+                    />
+                    <ActionButton
+                      item={item}
+                      totalLikes={item.totalLikes || 0}
+                      totalComments={item.totalComments || 0}
+                      totalOpens={item.totalOpens || 0}
+                      updateOpenAppClick={updateOpenAppClick}
+                      updateReviewClick={updateReviewClick}
+                    />
+                  </>
+                )}
                 <AppDetail
                   item={item}
                   updateOpenAppClick={updateOpenAppClick}
-                />
-                <ActionButton
-                  item={item}
-                  totalLikes={item.totalLikes || 0}
-                  totalComments={item.totalComments || 0}
-                  totalOpens={item.totalOpens || 0}
-                  updateOpenAppClick={updateOpenAppClick}
-                  updateReviewClick={updateReviewClick}
                 />
               </div>
             ))}

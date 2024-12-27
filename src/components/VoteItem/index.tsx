@@ -113,7 +113,8 @@ const VoteItem = ({
     });
   };
 
-  const onVoteClick = () => {
+  const onVoteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     if (canVote) {
       sedRawTransaction();
     } else {

@@ -8,10 +8,11 @@ import "swiper/css/pagination";
 import "./index.css";
 
 interface IImageCarouselProps {
+  className?: string;
   items: string[];
 }
 
-const ImageCarousel = ({ items }: IImageCarouselProps) => {
+const ImageCarousel = ({ className, items }: IImageCarouselProps) => {
   return (
     <Swiper
       slidesPerView={"auto"}
@@ -20,6 +21,7 @@ const ImageCarousel = ({ items }: IImageCarouselProps) => {
       pagination={{
         clickable: true,
       }}
+      className={className}
       modules={[Pagination]}
       onActiveIndexChange={() => {
         window.Telegram.WebApp.HapticFeedback.impactOccurred("light");

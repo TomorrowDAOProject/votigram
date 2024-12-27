@@ -7,7 +7,6 @@ import { TAB_LIST } from "@/constants/navigation";
 import { useAdsgram } from "@/hooks/useAdsgram";
 import Tabs from "../Tabs";
 import { PROFILE_TABS } from "@/constants/vote";
-import { UserPoints } from "@/provider/types/UserProviderType";
 
 const tabs = [{
   label: PROFILE_TABS.TASK,
@@ -24,7 +23,7 @@ interface IProfileProps {
 const Profile = ({ switchTab }: IProfileProps) => {
   const {
     user,
-    dispatch
+    updateUserPoints
   } = useUserContext();
   const { userPoints } = user;
   const [currentTab, setCurrentTab] = useState(0);
@@ -32,15 +31,7 @@ const Profile = ({ switchTab }: IProfileProps) => {
   const [scrollTop, setScrollTop] = useState(0);
 
   const onReward = (totalPoints: number = 0) => {
-    const newUserPoints = { ...userPoints };
-    newUserPoints.userTotalPoints = totalPoints;
-    dispatch({
-      type: "SET_USER_DATA",
-      payload: {
-        ...user,
-        userPoints: newUserPoints as UserPoints
-      },
-    });
+    updateUserPoints(totalPoints);
   }
 
   const showAd = useAdsgram({

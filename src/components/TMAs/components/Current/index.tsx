@@ -61,6 +61,13 @@ const Current = ({ scrollTop, keyward, category: cate, onAppItemClick }: IAccumu
     setPageIndex(0);
   }, [cate]);
 
+  const onVoted = (index: number) => {
+    setCanVote(false);
+    const list = [...voteList]
+    list[index].totalPoints = (list[index].totalPoints || 0) + 200;
+    setVoteList(list);
+  }
+
   return (
     <div className="pt-3 pb-[100px]">
       {voteList?.map((vote, index) => (
@@ -73,7 +80,7 @@ const Current = ({ scrollTop, keyward, category: cate, onAppItemClick }: IAccumu
           className="bg-transparent"
           canVote={canVote}
           category={category}
-          onVoted={() => setCanVote(false)}
+          onVoted={() => onVoted(index)}
           onClick={onAppItemClick}
           showBtn
         />

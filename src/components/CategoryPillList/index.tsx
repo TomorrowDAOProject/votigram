@@ -15,8 +15,8 @@ const CategoryPillList = ({ items, className, onChange }: ICategoryPillListProps
   const [active, setActive] = useState<APP_CATEGORY | number>(APP_CATEGORY.ALL);
 
   const handleClick = (category: APP_CATEGORY | number) => {
-    setActive(category);
-    onChange?.(category);
+    setActive(active !== APP_CATEGORY.ALL ? APP_CATEGORY.ALL : category);
+    onChange?.(active !== APP_CATEGORY.ALL ? APP_CATEGORY.ALL : category);
   };
 
   return (

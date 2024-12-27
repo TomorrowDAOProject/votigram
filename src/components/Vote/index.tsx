@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import { VOTE_TABS } from "@/constants/vote";
 import { VoteApp } from "@/types/app";
 import useSetSearchParams from "@/hooks/useSetSearchParams";
+import Modal from "../Modal";
 
 interface IVoteProps {
   onAppItemClick: (item: VoteApp) => void;
@@ -27,6 +28,7 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
   const [seconds, setSeconds] = useState(0);
   const [scrollTop, setScrollTop] = useState(0);
   const [tmaTab, setTMATab] = useState(0);
+  const [showWelcome, setShowWelCome] = useState(false);
 
   const handleScroll = useCallback(() => {
     const scrollRef = scrollViewRef.current;
@@ -64,6 +66,15 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
       index === 0 ? VOTE_TABS.TMAS : VOTE_TABS.COMMUNITY
     );
   };
+
+  useEffect(() => {
+    const isShowed = localStorage.getItem("showWelcome");
+
+    if (!isShowed) {
+      setShowWelCome(!isShowed);
+      localStorage.setItem("showWelcome", "1");
+    }
+  }, []);
 
   return (
     <>
@@ -107,6 +118,24 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
           </div>
         </div>
       </div>
+      <Modal
+        isVisible={showWelcome}
+        rootClassName="pt-[26px] px-[29px] pb-[22px] bg-primary"
+      >
+        <img
+          className="mx-auto w-[236px] h-[208px] object-contain"
+          src="https://cdn.tmrwdao.com/votigram/assets/imgs/AAF09912A14F.webp"
+          alt="Tips"
+        />
+        <span className="block mt-[12px] text-center text-white whitespace-pre-wrap font-outfit font-bold text-[20px] leading-[20px]">{`Vote For Your Favourite \nTelegram Mini-Apps!`}</span>
+
+        <button
+          className="mt-[18px] w-full py-[10px] text-[14px] font-outfit font-bold text-black leading-[14px] bg-lime-green rounded-[24px]"
+          onClick={() => setShowWelCome(false)}
+        >
+          Let's Go!
+        </button>
+      </Modal>
     </>
   );
 };

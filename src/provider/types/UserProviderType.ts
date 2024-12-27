@@ -24,5 +24,6 @@ export interface CustomJwtPayload extends JwtPayload {
 
 export interface UserContextType extends UserContextState {
   hasUserData: () => boolean;
+  updateUserPoints: (points: number) => void;
   updateDailyLoginPointsStatus: (value: boolean) => void;
 }

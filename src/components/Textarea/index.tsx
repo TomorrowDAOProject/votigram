@@ -25,6 +25,10 @@ const Textarea = ({
   useEffect(() => {
     setText(value);
     setCharCount(value.length);
+    const textarea = textareaRef.current;
+    if (!value && textarea) {
+      textarea.style.height = "auto";
+    }
   }, [value]);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {

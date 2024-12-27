@@ -28,7 +28,6 @@ const ActionButton = ({
 }: IActionButton) => {
   const confettiInstance = useRef<CreateTypes | null>(null);
   const [totalCurrentLikes, setTotalCurrentLikes] = useState(totalLikes);
-  const [totalCurrentOpen, setTotalCurrentOpen] = useState(totalOpens);
   const [likeCount, setLikeCount] = useState(0);
 
   const handleClick = () => {
@@ -79,7 +78,6 @@ const ActionButton = ({
 
   const onOpenAppClick = () => {
     updateOpenAppClick(item.alias, item.url);
-    setTotalCurrentOpen((prev) => prev + 1);
   };
 
   return (
@@ -120,7 +118,7 @@ const ActionButton = ({
           <div className="flex w-[42px] h-[42px] rounded-full bg-white/25 justify-center items-center">
             <i className="votigram-icon-arrow-ninety-degrees text-[26px] text-primary" />
           </div>
-          <span className="text-[12px] leading-[13px] text-white">{totalCurrentOpen}</span>
+          <span className="text-[12px] leading-[13px] text-white">{totalOpens}</span>
         </div>
       </div>
       <Confetti onInit={onInit} className="absolute w-full top-0" />
