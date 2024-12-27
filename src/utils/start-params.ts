@@ -1,3 +1,4 @@
+import { TelegramPlatform } from '@portkey/did-ui-react';
 import { getParamFromQuery } from './url';
 
 export interface IStartAppParams {
@@ -32,10 +33,7 @@ export const parseStartAppParams = (params: string): IStartAppParams => {
 };
 
 export const getReferrerCode = () => {
-  let startParam  = ''
-  if (window?.Telegram) {
-    startParam = window.Telegram.WebApp.initDataUnsafe.start_param ?? '';
-  }
+  const startParam = TelegramPlatform.getInitData()?.start_param ?? '';
   let referrerCode = '';
   if (startParam.includes(AND_CHAR)) {
     const params = parseStartAppParams(startParam);
