@@ -114,6 +114,8 @@ const VoteItem = ({
   };
 
   const onVoteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log(event);
+    event.preventDefault();
     event.stopPropagation();
     if (canVote) {
       sedRawTransaction();
@@ -125,8 +127,9 @@ const VoteItem = ({
   };
 
   useEffect(() => {
-    setTotalCurrentPoints((data.totalPoints || data.pointsAmount || 0) + likeCount)
-  }, [data.totalPoints, data.pointsAmount, likeCount])
+    setLikeCount(0);
+    setTotalCurrentPoints(data.totalPoints || data.pointsAmount || 0);
+  }, [data.totalPoints, data.pointsAmount]);
 
   useEffect(() => {
     if (likeCount > 0) {
