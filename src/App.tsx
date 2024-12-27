@@ -7,9 +7,11 @@ import WebLoginProvider from "./provider/webLoginProvider";
 import ConfigProvider from "./provider/configProvider";
 import { host } from "./config";
 import { IConfigContent } from "./provider/types/ConfigContext";
+import SceneLoading from "./components/SceneLoading";
 
 const App = () => {
   const [cmsData, setCmsData] = useState<IConfigContent | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchCMSData = async () => {
     const cmsRes = await fetch(host + "/cms/items/config", {
@@ -54,7 +56,11 @@ const App = () => {
     <WebLoginProvider>
       <UserProvider>
         <ConfigProvider config={cmsData}>
-          <Routes />
+          {isLoading ? (
+            <SceneLoading setIsLoading={setIsLoading} />
+          ) : (
+            <Routes />
+          )}
         </ConfigProvider>
       </UserProvider>
     </WebLoginProvider>

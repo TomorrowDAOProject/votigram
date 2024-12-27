@@ -1,5 +1,5 @@
 import { APP_CATEGORY } from "@/constants/discover";
-import { LABEL_TYPE, RANKING_TYPE } from "@/constants/vote";
+import { LABEL_TYPE, RANKING_TYPE, VOTE_CATEGORY } from "@/constants/vote";
 import { ManipulateType } from "dayjs";
 
 export type VoteApp = {
@@ -22,6 +22,8 @@ export type VoteApp = {
   totalLikes?: number;
   totalComments?: number;
   totalOpens?: number;
+  totalPoints?: number;
+  pointsPercent?: number;
 };
 
 export type CommentItem = {
@@ -81,6 +83,11 @@ export type IPollDetail = {
 
 export type DiscoverType = {
   value: APP_CATEGORY;
+  label: string;
+}
+
+export type VoteType = {
+  value: VOTE_CATEGORY;
   label: string;
 }
 

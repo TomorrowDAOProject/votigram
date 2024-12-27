@@ -7,12 +7,22 @@ import TelegramHeader from "../TelegramHeader";
 import Countdown from "../Countdown";
 import dayjs from "dayjs";
 import { VOTE_TABS } from "@/constants/vote";
+import { VoteApp } from "@/types/app";
+import useSetSearchParams from "@/hooks/useSetSearchParams";
 
-const Vote = () => {
+interface IVoteProps {
+  onAppItemClick: (item: VoteApp) => void;
+}
+
+const TABS = [VOTE_TABS.TMAS, VOTE_TABS.COMMUNITY];
+
+const Vote = ({ onAppItemClick }: IVoteProps) => {
   const {
     user: { userPoints },
   } = useUserContext();
-  const [currnetTab, setCurrentTab] = useState(VOTE_TABS.TMAS);
+  const { querys, updateQueryParam } = useSetSearchParams();
+  const activeTab = querys.get("vote_tab");
+  const [currnetTab, setCurrentTab] = useState(activeTab || VOTE_TABS.TMAS);
   const scrollViewRef = useRef<HTMLDivElement | null>(null);
   const [seconds, setSeconds] = useState(0);
   const [scrollTop, setScrollTop] = useState(0);
@@ -47,6 +57,14 @@ const Vote = () => {
     setSeconds(secondsRemainingInWeek);
   };
 
+  const onTabChange = (index: number) => {
+    setCurrentTab(index === 0 ? VOTE_TABS.TMAS : VOTE_TABS.COMMUNITY);
+    updateQueryParam(
+      "vote_tab",
+      index === 0 ? VOTE_TABS.TMAS : VOTE_TABS.COMMUNITY
+    );
+  };
+
   return (
     <>
       {tmaTab === 1 && (
@@ -63,12 +81,9 @@ const Vote = () => {
         <div className="votigram-grid">
           <div className="col-7 h-7 mt-3">
             <ToggleSlider
-              items={[VOTE_TABS.TMAS, VOTE_TABS.COMMUNITY]}
-              onChange={(index) =>
-                setCurrentTab(
-                  index === 0 ? VOTE_TABS.TMAS : VOTE_TABS.COMMUNITY
-                )
-              }
+              current={TABS.findIndex((tab) => tab === currnetTab)}
+              items={TABS}
+              onChange={onTabChange}
             />
           </div>
           <div className="flex flex-col col-5 items-end gap-[6px]">
@@ -81,7 +96,11 @@ const Vote = () => {
           </div>
           <div className="mt-8 col-12">
             {currnetTab === VOTE_TABS.TMAS ? (
-              <TMAs scrollTop={scrollTop} onTabChange={setTMATab} />
+              <TMAs
+                scrollTop={scrollTop}
+                onTabChange={setTMATab}
+                onAppItemClick={onAppItemClick}
+              />
             ) : (
               <Community scrollTop={scrollTop} />
             )}

@@ -6,7 +6,6 @@ import { InviteDetail, IStartAppParams, ShortLinkRes } from "@/types/task";
 import { stringifyStartAppParams } from "@/utils/start-params";
 import { connectUrl, portkeyServer, TgLink } from "@/config";
 import { useWalletService } from "@/hooks/useWallet";
-import { getCaHashAndOriginChainIdByWallet } from "@/utils/wallet";
 import { chainId, projectCode } from "@/constants/app";
 import { useRequest } from "ahooks";
 import Loading from "../Loading";
@@ -26,7 +25,7 @@ const InviteFriendsStatus = ({
 }: IInviteFriendsStatusProps) => {
   const [, setCopied] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);
-  const { wallet, walletType } = useWalletService();
+  const { wallet } = useWalletService();
   const progress = useMemo(() => {
     if (!data?.totalInvitesNeeded) return 0;
     const percentage =
@@ -46,10 +45,6 @@ const InviteFriendsStatus = ({
     const signature = AElf.wallet
       .sign(message, walletInfo?.keyPair)
       .toString("hex");
-    const { caHash } = await getCaHashAndOriginChainIdByWallet(
-      wallet,
-      walletType
-    );
     const requestObject = {
       grant_type: "signature",
       client_id: "CAServer_App",
@@ -57,7 +52,7 @@ const InviteFriendsStatus = ({
       signature: signature,
       pubkey: publicKey,
       timestamp: timestamp.toString(),
-      ca_hash: caHash,
+      ca_hash: wallet?.extraInfo?.portkeyInfo?.caInfo?.caHash,
       chain_id: chainId,
     };
     const portKeyRes = await fetch(connectUrl + "/connect/token", {

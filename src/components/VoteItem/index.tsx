@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import ProgressBar from "../ProgressBar";
-import { VoteItemType } from "./type/index";
 import { CreateTypes } from "canvas-confetti";
 import Confetti from "@/components/Confetti";
 import { HEART_SHAPE } from "@/constants/canvas-confetti";
@@ -15,9 +14,11 @@ import { postWithToken } from "@/hooks/useData";
 import Drawer from "../Drawer";
 import { VOTE_STATUS } from "@/constants/vote";
 import useRequest from "ahooks/lib/useRequest";
+import { APP_CATEGORY } from "@/constants/discover";
+import { VoteApp } from "@/types/app";
 
 interface IVoteItemProps {
-  data: VoteItemType;
+  data: VoteApp;
   rank?: number;
   canVote?: boolean;
   showHat?: boolean;
@@ -26,8 +27,9 @@ interface IVoteItemProps {
   proposalId: string;
   hatClassName?: string;
   imgClassName?: string;
-  category?: string;
+  category?: number | APP_CATEGORY;
   onVoted?(): void;
+  onClick?: (item: VoteApp) => void;
 }
 
 const VoteItem = ({
@@ -42,6 +44,7 @@ const VoteItem = ({
   imgClassName,
   category,
   onVoted,
+  onClick,
 }: IVoteItemProps) => {
   const elementRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -84,7 +87,7 @@ const VoteItem = ({
     {
       manual: true,
       pollingInterval: 2000,
-    },
+    }
   );
 
   const showConfetti = () => {
@@ -108,7 +111,7 @@ const VoteItem = ({
       shapes: [HEART_SHAPE],
       zIndex: 10,
     });
-  }
+  };
 
   const onVoteClick = () => {
     if (canVote) {
@@ -119,6 +122,10 @@ const VoteItem = ({
     }
     window.Telegram.WebApp.HapticFeedback.notificationOccurred("success");
   };
+
+  useEffect(() => {
+    setTotalCurrentPoints((data.totalPoints || data.pointsAmount || 0) + likeCount)
+  }, [data.totalPoints, data.pointsAmount, likeCount])
 
   useEffect(() => {
     if (likeCount > 0) {
@@ -217,6 +224,7 @@ const VoteItem = ({
         "relative flex flex-row items-center gap-[12.5px] py-[12px] px-[7px] rounded-[12px] bg-tertiary",
         className
       )}
+      onClick={() => onClick?.(data as VoteApp)}
     >
       <div
         className={clsx(
@@ -276,7 +284,7 @@ const VoteItem = ({
 
         <ProgressBar
           width={elementWidth}
-          progress={!canVote ? data?.pointsPercent * 100 : 0}
+          progress={!canVote ? (data?.pointsPercent || 0) * 100 : 0}
         />
       </div>
 

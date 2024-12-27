@@ -2,24 +2,35 @@ import { useState } from "react";
 import Archived from "./components/Archived";
 import { COMMUNITY_LABEL, COMMUNITY_TYPE } from "@/constants/vote";
 import Tabs from "../Tabs";
+import useSetSearchParams from "@/hooks/useSetSearchParams";
 
-const communityTabs = [{
-  label: COMMUNITY_LABEL.ARCHIVED,
-  value: 0,
-}, {
-  label: COMMUNITY_LABEL.CURRENT,
-  value: 1,
-}]
+const communityTabs = [
+  {
+    label: COMMUNITY_LABEL.ARCHIVED,
+    value: 0,
+  },
+  {
+    label: COMMUNITY_LABEL.CURRENT,
+    value: 1,
+  },
+];
 interface ICommunityProps {
   scrollTop: number;
 }
 
 const Community = ({ scrollTop }: ICommunityProps) => {
-  const [currentTab, setCurrentTab] = useState(1);
+  const { querys, updateQueryParam } = useSetSearchParams();
+  const activeTab = querys.get('community');
+  const [currentTab, setCurrentTab] = useState(activeTab !== undefined ? Number(activeTab) : 1);
+
+  const onTabChange = (index: number) => {
+    setCurrentTab(index);
+    updateQueryParam("community", index.toString());
+  };
 
   return (
     <>
-      <Tabs defaultValue={1} options={communityTabs} onChange={setCurrentTab} />
+      <Tabs defaultValue={currentTab} options={communityTabs} onChange={onTabChange} />
 
       <Archived
         scrollTop={scrollTop}

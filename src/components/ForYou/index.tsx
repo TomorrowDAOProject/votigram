@@ -12,6 +12,7 @@ import { VoteApp } from "@/types/app";
 import { postWithToken } from "@/hooks/useData";
 import { chainId } from "@/constants/app";
 import ReviewComment from "../ReviewComment";
+import { cloneDeep } from 'lodash-es';
 
 interface IForYouType {
   currentForyouPage: number;
@@ -93,6 +94,12 @@ const ForYou = ({
     setIsShowReviews(false);
   };
 
+  const onComment = (totalComments: number) => {
+    const list = cloneDeep(forYouItems)
+    list[currentIndex].totalComments = totalComments
+    setForYouItems(list);
+  }
+
   return (
     <>
       <TelegramHeader title="For You" />
@@ -155,6 +162,7 @@ const ForYou = ({
           direction="bottom"
         >
           <ReviewComment
+            onComment={onComment}
             onDrawerClose={onDrawerClose}
             currentActiveApp={currentActiveApp}
           />

@@ -1,14 +1,16 @@
 import Loading from "@/components/Loading";
 import VoteItem from "@/components/VoteItem";
-import { VoteItemType } from "@/components/VoteItem/type";
 import { chainId } from "@/constants/app";
+import { APP_CATEGORY } from "@/constants/discover";
 import useData from "@/hooks/useData";
+import { VoteApp } from "@/types/app";
 import { useEffect, useState } from "react";
 
 interface IAccumulativeProps {
   scrollTop: number;
   keyward: string;
-  category: string;
+  category: number | APP_CATEGORY;
+  onAppItemClick?: (item: VoteApp) => void;
 }
 const PAGE_SIZE = 20;
 
@@ -16,17 +18,18 @@ const Accumulative = ({
   scrollTop,
   keyward,
   category: categoryValue,
+  onAppItemClick,
 }: IAccumulativeProps) => {
   const [hasMore, setHasMore] = useState(true);
-  const [voteList, setVoteList] = useState<VoteItemType[]>([]);
+  const [voteList, setVoteList] = useState<VoteApp[]>([]);
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState<number | APP_CATEGORY>(9);
 
   const { data, isLoading } = useData(
     `/api/app/discover/accumulative-app-list?${new URLSearchParams({
       chainId,
-      category,
+      category: category.toString(),
       skipCount: (pageIndex * PAGE_SIZE).toString(),
       maxResultCount: PAGE_SIZE.toString(),
       search,
@@ -50,12 +53,12 @@ const Accumulative = ({
   }, [hasMore, isLoading, scrollTop]);
 
   useEffect(() => {
-    setSearch(keyward || "");
+    setSearch(keyward);
     setPageIndex(0);
   }, [keyward]);
 
   useEffect(() => {
-    setCategory(categoryValue || "");
+    setCategory(categoryValue);
     setPageIndex(0);
   }, [categoryValue]);
 
@@ -70,6 +73,7 @@ const Accumulative = ({
           showHat={index === 0}
           className="bg-transparent"
           showBtn={false}
+          onClick={onAppItemClick}
         />
       ))}
       {isLoading && (

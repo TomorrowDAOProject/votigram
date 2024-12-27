@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 
-import SceneLoading from "@/components/SceneLoading";
 import { TAB_LIST } from "@/constants/navigation";
 import Navigation from "@/components/Navigation";
 import Home from "@/components/Home";
@@ -15,16 +14,18 @@ import Profile from "@/components/Profile";
 import useRequest from "ahooks/lib/useRequest";
 import { nftSymbol } from "@/config";
 import { useWalletService } from "@/hooks/useWallet";
+import useSetSearchParams from "@/hooks/useSetSearchParams";
 
 const App = () => {
   const currentForyouPage = useRef<number>(1);
-  const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(TAB_LIST.HOME);
   const [forYouList, setForYouList] = useState<VoteApp[]>([]);
   const [recommendList, setRecommendList] = useState<VoteApp[]>([]);
   const [selectedItem, setSelectItem] = useState<VoteApp>();
   const { isConnected, wallet } = useWalletService();
 
+  const { querys, updateQueryParam } = useSetSearchParams();
+  const tab = querys.get("tab");
 
   const fetchTransfer = async () => {
     await postWithToken("/api/app/token/transfer", {
@@ -54,7 +55,7 @@ const App = () => {
     {
       manual: true,
       pollingInterval: 1000,
-    },
+    }
   );
 
   const fetchForYouData = async (alias: string[] = []) => {
@@ -87,41 +88,41 @@ const App = () => {
   }, [fetchTransferStatus, isConnected, wallet?.address]);
 
   useEffect(() => {
-    if (!isLoading) {
-      fetchForYouData();
-      fetchRecommendData();
-    }
-  }, [isLoading]);
+    fetchForYouData();
+    fetchRecommendData();
+  }, []);
 
   const onAppItemClick = (item: VoteApp) => {
     setSelectItem(item);
     setActiveTab(TAB_LIST.FOR_YOU);
   };
 
+  useEffect(() => {
+    if (tab && !isNaN(Number(tab))) {
+      setActiveTab(Number(tab));
+    }
+  }, [tab]);
+
+  const handleTabChange = (tab: TAB_LIST) => {
+    updateQueryParam('tab', tab.toString());
+    setActiveTab(tab);
+  }
+
   return (
     <>
-      {isLoading ? (
-        <SceneLoading setIsLoading={setIsLoading} />
-      ) : (
-        <>
-          {activeTab === TAB_LIST.HOME && (
-            <Home
-              onAppItemClick={onAppItemClick}
-              recommendList={recommendList}
-            />
-          )}
-          {activeTab === TAB_LIST.FOR_YOU && (
-            <ForYou
-              currentForyouPage={currentForyouPage.current}
-              items={selectedItem ? [selectedItem, ...forYouList] : forYouList}
-              fetchForYouData={fetchForYouData}
-            />
-          )}
-          {activeTab === TAB_LIST.VOTE && <Vote />}
-          {activeTab === TAB_LIST.PEN && <Profile switchTab={setActiveTab} />}
-          <Navigation activeTab={activeTab} onMenuClick={setActiveTab} />
-        </>
+      {activeTab === TAB_LIST.HOME && (
+        <Home onAppItemClick={onAppItemClick} recommendList={recommendList} />
       )}
+      {activeTab === TAB_LIST.FOR_YOU && (
+        <ForYou
+          currentForyouPage={currentForyouPage.current}
+          items={selectedItem ? [selectedItem, ...forYouList] : forYouList}
+          fetchForYouData={fetchForYouData}
+        />
+      )}
+      {activeTab === TAB_LIST.VOTE && <Vote onAppItemClick={onAppItemClick} />}
+      {activeTab === TAB_LIST.PEN && <Profile switchTab={setActiveTab} />}
+      <Navigation activeTab={activeTab} onMenuClick={handleTabChange} />
     </>
   );
 };
