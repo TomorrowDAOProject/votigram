@@ -216,7 +216,9 @@ const VoteItem = ({
     updateWidth();
   }, []);
 
-  const handleFinish = () => {
+  const handleFinish = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
     setIsFailed(false);
     sedRawTransaction();
   };
