@@ -116,8 +116,6 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
     };
   }, [isLoading, noMore, scrollViewRef]);
 
-  console.log('userPoints?.dailyLoginPointsStatus', userPoints?.dailyLoginPointsStatus);
-
   return (
     <>
       <TelegramHeader title={isSearching ? "Discover" : ""} />
