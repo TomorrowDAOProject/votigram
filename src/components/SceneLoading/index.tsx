@@ -22,7 +22,7 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
           clearInterval(interval);
           return 100; // Stop at 100%
         }
-        return prevProgress + Math.random() * 10; // Increment progress by 1%
+        return prevProgress + Math.random() * 20; // Increment progress by 1%
       });
     }, 3000);
 
@@ -31,10 +31,15 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
 
   useEffect(() => {
     if (hasUserData()) {
-      setProgress(90);
+      setProgress(89);
+    }
+  }, [hasUserData]);
+
+  useEffect(() => {
+    if (progress >= 90) {
       setIsLoading(isNewUser);
     }
-  }, [hasUserData, isNewUser, progress, setIsLoading]);
+  }, [isNewUser, progress, setIsLoading]);
 
   return (
     <>
