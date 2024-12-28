@@ -37,7 +37,6 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
   const [noMore, setNoMore] = useState(false);
   const [keyward, setKeyward] = useState("");
   const [category, setCategory] = useState<APP_CATEGORY>(APP_CATEGORY.ALL);
-
   const [showDailyReward, setShowDailyReward] = useState(
     !userPoints?.dailyLoginPointsStatus || false
   );
@@ -61,6 +60,10 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
   const { data: votedAppResult } = useData(
     "/api/app/user/homepage?chainId=tDVW"
   );
+
+  useEffect(() => {
+    setShowDailyReward(!userPoints?.dailyLoginPointsStatus);
+  }, [userPoints?.dailyLoginPointsStatus])
 
   useEffect(() => {
     const { data, totalCount } = searchData || {};
