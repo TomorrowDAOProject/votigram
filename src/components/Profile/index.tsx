@@ -89,7 +89,7 @@ const Profile = ({ switchTab }: IProfileProps) => {
 
           <img
             className="col-12 rounded-[15px] my-[22px]"
-            src="https://cdn.tmrwdao.com/votigram/assets/imgs/30E58CBD0603.webp"
+            src="https://cdn.tmrwdao.com/votigram/assets/imgs/CB2BE5C102D8.webp"
             alt="Watch Ads"
             onClick={showAd}
           />

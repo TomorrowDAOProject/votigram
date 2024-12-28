@@ -89,7 +89,7 @@ const ReviewList: React.FC<IReviewListProps> = ({
         {items.length > 0 && !hasMore && (
           <div className="py-[20px] flex items-center justify-center">
             <span className="font-normal text-[13px] text-white leading-[1.2]">
-              {noMoreText || "No more data"}
+              {noMoreText || ""}
             </span>
           </div>
         )}
