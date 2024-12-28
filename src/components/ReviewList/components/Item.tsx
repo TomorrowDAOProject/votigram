@@ -13,7 +13,7 @@ const Item = ({ data, className, onClick }: ItemProps) => {
   return (
     <div
       className={clsx(
-        "flex flex-row items-start gap-[19px] py-[9px]",
+        "flex flex-row items-start gap-[19px] py-[9px] max-w-full",
         className
       )}
       onClick={() => data && onClick?.(data)}
@@ -31,7 +31,7 @@ const Item = ({ data, className, onClick }: ItemProps) => {
           </span>
         </div>
       )}
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 shrink-0 max-w-[calc(100%-48px)]">
         <div className="flex flex-row items-end gap-[5px]">
           <span className="font-normal text-[11px] text-white leading-[13.2px]">
             {data?.commenterName}
@@ -42,7 +42,7 @@ const Item = ({ data, className, onClick }: ItemProps) => {
             </span>
           )}
         </div>
-        <div className="mt-[5px] font-normal text-[14px] text-white leading-[16.8px]">
+        <div className="mt-[5px] font-normal text-[14px] text-white leading-[16.8px] break-words whitespace-normal">
           {data?.comment}
         </div>
       </div>
