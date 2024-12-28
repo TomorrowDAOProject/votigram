@@ -3,9 +3,13 @@ import Accumulative from "./components/Accumulative";
 import Current from "./components/Current";
 import CategoryPillList from "../CategoryPillList";
 import useDebounceFn from "ahooks/lib/useDebounceFn";
-import { COMMUNITY_TYPE, DISCOVER_CATEGORY_LIST } from "@/constants/vote";
+import { COMMUNITY_TYPE } from "@/constants/vote";
 import Tabs from "../Tabs";
-import { APP_CATEGORY } from "@/constants/discover";
+import {
+  APP_CATEGORY,
+  DISCOVER_CATEGORY,
+  DISCOVERY_CATEGORY_MAP,
+} from "@/constants/discover";
 import { VoteApp } from "@/types/app";
 
 const emaTabs = [
@@ -61,7 +65,13 @@ const TMAs = ({ scrollTop, onTabChange, onAppItemClick }: ITMAsProps) => {
         />
       </div>
       <CategoryPillList
-        items={DISCOVER_CATEGORY_LIST}
+        items={[
+          {
+            value: APP_CATEGORY.ALL,
+            label: DISCOVERY_CATEGORY_MAP[APP_CATEGORY.ALL],
+          },
+          ...DISCOVER_CATEGORY.slice(1),
+        ]}
         className="-mx-5"
         onChange={onCategoryChange}
       />

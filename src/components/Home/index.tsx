@@ -35,7 +35,7 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
   const [pageIndex, setPageIndex] = useState(0);
   const [noMore, setNoMore] = useState(false);
   const [keyward, setKeyward] = useState("");
-  const [category, setCategory] = useState<APP_CATEGORY | number>(
+  const [category, setCategory] = useState<APP_CATEGORY>(
     APP_CATEGORY.ALL
   );
 

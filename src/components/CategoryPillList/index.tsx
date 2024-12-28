@@ -3,20 +3,20 @@ import { APP_CATEGORY } from "@/constants/discover";
 import "./index.css";
 import clsx from "clsx";
 import { useState } from "react";
-import { DiscoverType, VoteType } from "@/types/app";
+import { DiscoverType } from "@/types/app";
 
 interface ICategoryPillListProps {
-  items: (DiscoverType | VoteType)[];
+  items: DiscoverType[];
   className?: string;
-  onChange?: (category: APP_CATEGORY | number) => void;
+  onChange?: (category: APP_CATEGORY) => void;
 }
 
 const CategoryPillList = ({ items, className, onChange }: ICategoryPillListProps) => {
-  const [active, setActive] = useState<APP_CATEGORY | number>(APP_CATEGORY.ALL);
+  const [active, setActive] = useState<APP_CATEGORY>(APP_CATEGORY.ALL);
 
-  const handleClick = (category: APP_CATEGORY | number) => {
-    setActive(active !== APP_CATEGORY.ALL ? APP_CATEGORY.ALL : category);
-    onChange?.(active !== APP_CATEGORY.ALL ? APP_CATEGORY.ALL : category);
+  const handleClick = (category: APP_CATEGORY) => {
+    setActive(active === category ? APP_CATEGORY.ALL : category);
+    onChange?.(active === category ? APP_CATEGORY.ALL : category);
   };
 
   return (
