@@ -25,7 +25,7 @@ import { useConfig } from "@/provider/types/ConfigContext";
 import Drawer from "@/components/Drawer";
 import { CREATE_STATUS } from "@/constants/vote";
 import clsx from "clsx";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const rules = {
   proposalTitle: [
@@ -64,6 +64,7 @@ const CreatePoll = () => {
     CREATE_STATUS.PENDDING
   );
   const navigate = useNavigate();
+  const location = useLocation();
   const { communityDaoId } = useConfig() ?? {};
 
   const initialFormState: FormStateProps = {
@@ -160,13 +161,21 @@ const CreatePoll = () => {
       setFinished(CREATE_STATUS.FAILED);
     }
   };
+  
+  const handleGoBack = () => {
+    if (location.state?.from) {
+      navigate(location.state?.from, { replace: true });
+    } else {
+      navigate(-1);
+    }
+  };
 
   const handleFinish = () => {
     if (finished === CREATE_STATUS.FAILED) {
       setFinished(CREATE_STATUS.PENDDING);
       onSubmit();
     } else {
-      navigate(-1);
+      handleGoBack();
     }
   };
 
