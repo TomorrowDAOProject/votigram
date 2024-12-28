@@ -54,7 +54,7 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
 
   const getRemainingSeconds = () => {
     const now = dayjs();
-    const endOfWeek = dayjs().day(7).startOf("day");
+    const endOfWeek = dayjs().day(8).startOf("day");
     const secondsRemainingInWeek = endOfWeek.diff(now, "seconds");
     setSeconds(secondsRemainingInWeek);
   };
