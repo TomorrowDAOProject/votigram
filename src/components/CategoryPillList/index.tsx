@@ -2,10 +2,11 @@ import { APP_CATEGORY } from "@/constants/discover";
 
 import "./index.css";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DiscoverType } from "@/types/app";
 
 interface ICategoryPillListProps {
+  value?: APP_CATEGORY;
   amount?: number;
   items: DiscoverType[];
   className?: string;
@@ -13,6 +14,7 @@ interface ICategoryPillListProps {
 }
 
 const CategoryPillList = ({
+  value,
   items,
   className,
   amount,
@@ -24,6 +26,10 @@ const CategoryPillList = ({
     setActive(active === category ? APP_CATEGORY.ALL : category);
     onChange?.(active === category ? APP_CATEGORY.ALL : category);
   };
+
+  useEffect(() => {
+    setActive(value || APP_CATEGORY.ALL)
+  }, [value])
 
   return (
     <div

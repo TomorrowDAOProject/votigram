@@ -136,6 +136,7 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
               <i
                 className="votigram-icon-back text-[19px] leading-[18px] text-white"
                 onClick={() => {
+                  setCategory(APP_CATEGORY.ALL);
                   setIsSearching(false);
                 }}
               />
@@ -163,6 +164,7 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
           </div>
         </div>
         <CategoryPillList
+          value={category}
           amount={
             isSearching && category === APP_CATEGORY.NEW ? newAmount : undefined
           }
