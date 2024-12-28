@@ -26,7 +26,9 @@ const Item = ({ data, className, onClick }: ItemProps) => {
         />
       ) : (
         <div className="flex items-center justify-center w-[29px] h-[29px] rounded-[47.5px] bg-gradient-to-r from-lime-green to-lime-primary">
-          <span className="font-bold font-outfit text-[14px] text-normal text-white">N</span>
+          <span className="font-bold font-outfit text-[14px] text-normal text-white">
+            {data?.commenterName?.slice(0, 1)}
+          </span>
         </div>
       )}
       <div className="flex flex-col flex-1">
