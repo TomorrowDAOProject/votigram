@@ -124,7 +124,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
           type: "SET_USER_DATA",
           payload: {
             isNewUser: !!decodedToken.new_user || false,
-            userPoints: userPointsData?.data || 0,
+            userPoints: userPointsData?.data,
           },
         });
 
@@ -171,13 +171,15 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const updateUserPoints = (points: number) => {
-    const userPoints = { ...state.user.userPoints };
-    userPoints.userTotalPoints = points;
     dispatch({
       type: "SET_USER_DATA",
       payload: {
         ...state.user,
-        userPoints,
+        userPoints: {
+          ...state.user.userPoints,
+          dailyLoginPointsStatus: true,
+          userTotalPoints: points,
+        },
       } as User,
     });
   };
