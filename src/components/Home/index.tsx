@@ -37,9 +37,6 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
   const [noMore, setNoMore] = useState(false);
   const [keyward, setKeyward] = useState("");
   const [category, setCategory] = useState<APP_CATEGORY>(APP_CATEGORY.ALL);
-  const [showDailyReward, setShowDailyReward] = useState(
-    !userPoints?.dailyLoginPointsStatus || false
-  );
 
   const { data: searchData, isLoading } = useData(
     isSearching && (category || keyward)
@@ -60,10 +57,6 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
   const { data: votedAppResult } = useData(
     "/api/app/user/homepage?chainId=tDVW"
   );
-
-  useEffect(() => {
-    setShowDailyReward(!userPoints?.dailyLoginPointsStatus);
-  }, [userPoints?.dailyLoginPointsStatus])
 
   useEffect(() => {
     const { data, totalCount } = searchData || {};
@@ -122,6 +115,8 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
       }
     };
   }, [isLoading, noMore, scrollViewRef]);
+
+  console.log('userPoints?.dailyLoginPointsStatus', userPoints?.dailyLoginPointsStatus);
 
   return (
     <>
@@ -249,7 +244,7 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
           </>
         )}
       </div>
-      <Modal isVisible={showDailyReward} rootClassName="p-5">
+      <Modal isVisible={!userPoints?.dailyLoginPointsStatus} rootClassName="p-5">
         <DailyRewards userPoints={userPoints} />
         <button
           className="mt-7 bg-secondary text-black text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mb-2"
@@ -259,7 +254,6 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
         </button>
         <button
           onClick={() => {
-            setShowDailyReward(false);
             updateDailyLoginPointsStatus(true);
             onClaimClick();
           }}
