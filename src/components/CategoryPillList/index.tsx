@@ -6,12 +6,18 @@ import { useState } from "react";
 import { DiscoverType } from "@/types/app";
 
 interface ICategoryPillListProps {
+  amount?: number;
   items: DiscoverType[];
   className?: string;
   onChange?: (category: APP_CATEGORY) => void;
 }
 
-const CategoryPillList = ({ items, className, onChange }: ICategoryPillListProps) => {
+const CategoryPillList = ({
+  items,
+  className,
+  amount,
+  onChange,
+}: ICategoryPillListProps) => {
   const [active, setActive] = useState<APP_CATEGORY>(APP_CATEGORY.ALL);
 
   const handleClick = (category: APP_CATEGORY) => {
@@ -37,8 +43,13 @@ const CategoryPillList = ({ items, className, onChange }: ICategoryPillListProps
           )}
           onClick={() => handleClick(item.value)}
         >
-          <button className="w-max px-2 py-1 text-[13px] leading-[16px] text-white">
+          <button className="w-max px-2 py-1 text-[13px] leading-[16px] text-white flex items-center">
             {item.label}
+            {!!amount && item.value === APP_CATEGORY.NEW && (
+              <span className="ml-1 text-white text-[9px] leading-[10px] bg-primary rounded-[7px] py-[2px] px-[5px]">
+                {amount}
+              </span>
+            )}
           </button>
         </div>
       ))}

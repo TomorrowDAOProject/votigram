@@ -9,24 +9,29 @@ import { useEffect, useState } from "react";
 interface IAccumulativeProps {
   scrollTop: number;
   keyward: string;
-  category: number | APP_CATEGORY;
+  category: APP_CATEGORY;
   onAppItemClick?: (item: VoteApp) => void;
 }
 const PAGE_SIZE = 20;
 
-const Current = ({ scrollTop, keyward, category: cate, onAppItemClick }: IAccumulativeProps) => {
+const Current = ({
+  scrollTop,
+  keyward,
+  category: cate,
+  onAppItemClick,
+}: IAccumulativeProps) => {
   const [hasMore, setHasMore] = useState(true);
   const [voteList, setVoteList] = useState<VoteApp[]>([]);
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState<number | APP_CATEGORY>(9);
+  const [category, setCategory] = useState<APP_CATEGORY>(APP_CATEGORY.ALL);
   const [proposalId, setProposalId] = useState("");
   const [canVote, setCanVote] = useState(false);
 
   const { data, isLoading } = useData(
     `/api/app/discover/current-app-list?${new URLSearchParams({
       chainId,
-      category: category === 9 ? '' : category.toString(),
+      category,
       skipCount: (pageIndex * PAGE_SIZE).toString(),
       maxResultCount: PAGE_SIZE.toString(),
       search,
@@ -52,7 +57,7 @@ const Current = ({ scrollTop, keyward, category: cate, onAppItemClick }: IAccumu
   }, [hasMore, isLoading, scrollTop]);
 
   useEffect(() => {
-    setSearch(keyward || '');
+    setSearch(keyward || "");
     setPageIndex(0);
   }, [keyward]);
 
@@ -61,12 +66,12 @@ const Current = ({ scrollTop, keyward, category: cate, onAppItemClick }: IAccumu
     setPageIndex(0);
   }, [cate]);
 
-  const onVoted = (index: number) => {
+  const onVoted = (addPoints: number, index: number) => {
     setCanVote(false);
-    const list = [...voteList]
-    list[index].totalPoints = (list[index].totalPoints || 0) + 200;
+    const list = [...voteList];
+    list[index].totalPoints = (list[index].totalPoints || 0) + addPoints;
     setVoteList(list);
-  }
+  };
 
   return (
     <div className="pt-3 pb-[100px]">
@@ -80,7 +85,7 @@ const Current = ({ scrollTop, keyward, category: cate, onAppItemClick }: IAccumu
           className="bg-transparent"
           canVote={canVote}
           category={category}
-          onVoted={() => onVoted(index)}
+          onVoted={(addPoints: number) => onVoted(addPoints, index)}
           onClick={onAppItemClick}
           showBtn
         />

@@ -40,6 +40,13 @@ const App = () => {
         htmlElement.style.cssText =
           htmlElement.style.cssText.concat(tgTopStyles);
       }
+      if (window.Telegram.WebApp?.platform?.includes("weba")) {
+        const tgTopStyles = `
+              --tg-safe-area-custom-top: 17px;
+            `;
+        htmlElement.style.cssText =
+          htmlElement.style.cssText.concat(tgTopStyles);
+      }
       window.Telegram.WebApp?.lockOrientation?.();
       window.Telegram.WebApp?.disableVerticalSwipes?.();
       window.Telegram.WebApp?.setHeaderColor?.("#000000");

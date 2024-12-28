@@ -32,7 +32,7 @@ interface ITMAsProps {
 const TMAs = ({ scrollTop, onTabChange, onAppItemClick }: ITMAsProps) => {
   const [currentTab, setCurrentTab] = useState(0);
   const [keyward, setKeyward] = useState("");
-  const [category, setCategory] = useState<number | APP_CATEGORY>(9);
+  const [category, setCategory] = useState<APP_CATEGORY>(APP_CATEGORY.ALL);
 
   const { run: onKeywardChange } = useDebounceFn(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +43,7 @@ const TMAs = ({ scrollTop, onTabChange, onAppItemClick }: ITMAsProps) => {
     }
   );
 
-  const onCategoryChange = (category: number | APP_CATEGORY) => {
+  const onCategoryChange = (category: APP_CATEGORY) => {
     setCategory(category);
   };
 

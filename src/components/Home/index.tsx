@@ -33,11 +33,10 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
   const scrollViewRef = useRef<HTMLDivElement | null>(null);
   const [searchList, setSearchList] = useState<VoteApp[]>([]);
   const [pageIndex, setPageIndex] = useState(0);
+  const [newAmount, setNewAmount] = useState(0);
   const [noMore, setNoMore] = useState(false);
   const [keyward, setKeyward] = useState("");
-  const [category, setCategory] = useState<APP_CATEGORY>(
-    APP_CATEGORY.ALL
-  );
+  const [category, setCategory] = useState<APP_CATEGORY>(APP_CATEGORY.ALL);
 
   const [showDailyReward, setShowDailyReward] = useState(
     !userPoints?.dailyLoginPointsStatus || false
@@ -64,12 +63,15 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
   );
 
   useEffect(() => {
-    const { data } = searchData || {};
+    const { data, totalCount } = searchData || {};
     if (data && Array.isArray(data)) {
-      setSearchList((prev) => (pageIndex === 1 ? data : [...prev, ...data]));
+      setSearchList((prev) => (pageIndex === 0 ? data : [...prev, ...data]));
       setNoMore(data.length < PAGE_SIZE);
+      if (category === APP_CATEGORY.NEW) {
+        setNewAmount(totalCount || 0);
+      }
     }
-  }, [pageIndex, searchData]);
+  }, [category, pageIndex, searchData]);
 
   const onClaimClick = async () => {
     try {
@@ -158,6 +160,9 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
           </div>
         </div>
         <CategoryPillList
+          amount={
+            isSearching && category === APP_CATEGORY.NEW ? newAmount : undefined
+          }
           items={DISCOVER_CATEGORY}
           onChange={(value) => {
             setPageIndex(0);
@@ -189,7 +194,10 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
                 </span>
               </div>
               <div className="col-6 h-[230px] flex flex-col gap-[10px]">
-                <div className="col-12 p-[13px] flex-1 bg-tertiary rounded-[18px]" onClick={() => onAppItemClick()}>
+                <div
+                  className="col-12 p-[13px] flex-1 bg-tertiary rounded-[18px]"
+                  onClick={() => onAppItemClick()}
+                >
                   <div className="flex bg-[#00000038] rounded-full w-[32px] aspect-square justify-center items-center">
                     <i className="votigram-icon-navbar-for-you text-[20px] text-white opacity-40" />
                   </div>

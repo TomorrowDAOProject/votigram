@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import AElf from "aelf-sdk";
 import clsx from "clsx";
 import Drawer from "../Drawer";
-import { InviteDetail, IStartAppParams, ShortLinkRes } from "@/types/task";
+import { InviteDetail, IStartAppParams } from "@/types/task";
 import { stringifyStartAppParams } from "@/utils/start-params";
 import { connectUrl, portkeyServer, TgLink } from "@/config";
 import { useWalletService } from "@/hooks/useWallet";
@@ -25,7 +25,8 @@ const InviteFriendsStatus = ({
 }: IInviteFriendsStatusProps) => {
   const [, setCopied] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);
-  const { wallet } = useWalletService();
+  const [inviteCode, setInviteCode] = useState("");
+  const { wallet, isConnected } = useWalletService();
   const progress = useMemo(() => {
     if (!data?.totalInvitesNeeded) return 0;
     const percentage =
@@ -33,68 +34,83 @@ const InviteFriendsStatus = ({
     return percentage < 100 ? percentage : 100;
   }, [data]);
 
-  const generateCode = async () => {
-    const timestamp = Date.now();
-    const {
-      portkeyInfo: { walletInfo },
-      publicKey,
-    } = wallet?.extraInfo || {};
-    const message = Buffer.from(`${walletInfo?.address}-${timestamp}`).toString(
-      "hex"
-    );
-    const signature = AElf.wallet
-      .sign(message, walletInfo?.keyPair)
-      .toString("hex");
-    const requestObject = {
-      grant_type: "signature",
-      client_id: "CAServer_App",
-      scope: "CAServer",
-      signature: signature,
-      pubkey: publicKey,
-      timestamp: timestamp.toString(),
-      ca_hash: wallet?.extraInfo?.portkeyInfo?.caInfo?.caHash,
-      chain_id: chainId,
-    };
-    const portKeyRes = await fetch(connectUrl + "/connect/token", {
-      method: "POST",
-      body: new URLSearchParams(requestObject).toString(),
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    });
-    const portKeyResObj = await portKeyRes.json();
-    if (portKeyRes?.ok && portKeyResObj?.access_token) {
-      const token = portKeyResObj.access_token;
-      const res = await fetch(
-        portkeyServer + `/api/app/growth/shortLink?projectCode=${projectCode}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const resObj = await res.json();
-      if (res.ok) {
-        return resObj as ShortLinkRes;
-      }
-    }
-    return null;
-  };
-
   const handleCopy = () => {
     setCopied(tgLinkWithCode);
     setIsCopied(true);
   };
 
-  const { data: referralCodeRes, loading } = useRequest(generateCode);
+  const {
+    run: fetchReferralCode,
+    loading,
+    cancel,
+  } = useRequest(
+    async () => {
+      const timestamp = Date.now();
+      const {
+        portkeyInfo: { walletInfo },
+        publicKey,
+      } = wallet?.extraInfo || {};
+      const message = Buffer.from(
+        `${walletInfo?.address}-${timestamp}`
+      ).toString("hex");
+      const signature = AElf.wallet
+        .sign(message, walletInfo?.keyPair)
+        .toString("hex");
+      const requestObject = {
+        grant_type: "signature",
+        client_id: "CAServer_App",
+        scope: "CAServer",
+        signature: signature,
+        pubkey: publicKey,
+        timestamp: timestamp.toString(),
+        ca_hash: wallet?.extraInfo?.portkeyInfo?.caInfo?.caHash,
+        chain_id: chainId,
+      };
+      const portKeyRes = await fetch(connectUrl + "/connect/token", {
+        method: "POST",
+        body: new URLSearchParams(requestObject).toString(),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
+      const portKeyResObj = await portKeyRes.json();
+      if (portKeyRes?.ok && portKeyResObj?.access_token) {
+        const token = portKeyResObj.access_token;
+        const res = await fetch(
+          portkeyServer +
+            `/api/app/growth/shortLink?projectCode=${projectCode}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const resObj = await res.json();
+        if (resObj?.userGrowthInfo?.inviteCode) {
+          setInviteCode(resObj?.userGrowthInfo?.inviteCode);
+          cancel();
+        }
+      }
+    },
+    {
+      manual: true,
+      pollingInterval: 1500,
+    }
+  );
 
-  const inviteCode = referralCodeRes?.userGrowthInfo?.inviteCode;
   const startAppParams: IStartAppParams = {
     referralCode: inviteCode,
   };
   const tgLinkWithCode =
     TgLink +
     (inviteCode ? `?startapp=${stringifyStartAppParams(startAppParams)}` : "");
+
+  useEffect(() => {
+    if (isConnected) {
+      fetchReferralCode();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnected]);
 
   useEffect(() => {
     if (isCopied) {

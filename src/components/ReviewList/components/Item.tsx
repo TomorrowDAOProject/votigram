@@ -18,12 +18,16 @@ const Item = ({ data, className, onClick }: ItemProps) => {
       )}
       onClick={() => data && onClick?.(data)}
     >
-      {data?.commenterPhoto && (
+      {data?.commenterPhoto ? (
         <img
           src={data.commenterPhoto}
           alt="Avatar"
           className="w-[29px] h-[29px] rounded-[47.5px] bg-tertiary shrink-0 object-cover"
         />
+      ) : (
+        <div className="flex items-center justify-center w-[29px] h-[29px] rounded-[47.5px] bg-gradient-to-r from-lime-green to-lime-primary">
+          <span className="font-bold font-outfit text-[14px] text-normal text-white">N</span>
+        </div>
       )}
       <div className="flex flex-col flex-1">
         <div className="flex flex-row items-end gap-[5px]">

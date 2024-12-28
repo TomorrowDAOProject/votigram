@@ -16,6 +16,7 @@ import { VOTE_STATUS } from "@/constants/vote";
 import useRequest from "ahooks/lib/useRequest";
 import { APP_CATEGORY } from "@/constants/discover";
 import { VoteApp } from "@/types/app";
+import { useUserContext } from "@/provider/UserProvider";
 
 interface IVoteItemProps {
   data: VoteApp;
@@ -27,8 +28,8 @@ interface IVoteItemProps {
   proposalId: string;
   hatClassName?: string;
   imgClassName?: string;
-  category?: number | APP_CATEGORY;
-  onVoted?(): void;
+  category?: APP_CATEGORY;
+  onVoted?(addPoints?: number): void;
   onClick?: (item: VoteApp) => void;
 }
 
@@ -46,6 +47,10 @@ const VoteItem = ({
   onVoted,
   onClick,
 }: IVoteItemProps) => {
+  const {
+    user: { userPoints },
+    updateUserPoints,
+  } = useUserContext();
   const elementRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const confettiInstance = useRef<CreateTypes | null>(null);
@@ -69,11 +74,14 @@ const VoteItem = ({
         setLoading(true);
         const { data } = await voteRequest(rawTransaction, result);
         if (data.status === VOTE_STATUS.VOTED) {
-          onVoted?.();
+          if (data?.userTotalPoints) {
+            updateUserPoints(data.userTotalPoints);
+          }
+          onVoted?.(200);
           showConfetti();
           cancel();
           setLoading(false);
-        } else if (data.status === VOTE_STATUS.FAILED) {
+        } else if (!data || data.status === VOTE_STATUS.FAILED) {
           setLoading(false);
           setIsFailed(true);
           cancel();
@@ -144,13 +152,14 @@ const VoteItem = ({
           ],
         });
         setTotalCurrentPoints((prev) => prev + likeCount);
+        onVoted?.(likeCount);
+        updateUserPoints((userPoints?.userTotalPoints || 0) + likeCount)
         setLikeCount(0);
-        onVoted?.();
       }, 2000);
 
       return () => clearTimeout(timer); // Cleanup timeout on unmount or update
     }
-  }, [data.alias, likeCount, onVoted, proposalId]);
+  }, [data.alias, likeCount, onVoted, proposalId, updateUserPoints, userPoints?.userTotalPoints]);
 
   const sedRawTransaction = async () => {
     try {

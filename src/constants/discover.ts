@@ -1,7 +1,7 @@
 import { DiscoverType } from "@/types/app";
 
 export enum APP_CATEGORY {
-  ALL = "",
+  ALL = "All",
   NEW = "New",
   EARN = "Earn",
   GAME = "Game",
