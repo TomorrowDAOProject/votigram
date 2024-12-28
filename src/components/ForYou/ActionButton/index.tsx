@@ -78,6 +78,7 @@ const ActionButton = ({
 
   const onOpenAppClick = () => {
     updateOpenAppClick(item.alias, item.url);
+    window.Telegram.WebApp.HapticFeedback.notificationOccurred("success");
   };
 
   return (
@@ -103,12 +104,17 @@ const ActionButton = ({
           className="flex flex-col items-center gap-1"
           onClick={() => {
             updateReviewClick(item);
+            window.Telegram.WebApp.HapticFeedback.notificationOccurred(
+              "success"
+            );
           }}
         >
           <div className="flex w-[42px] h-[42px] rounded-full bg-white/25 justify-center items-center">
             <i className="votigram-icon-chat-bubble text-[32px] text-primary" />
           </div>
-          <span className="text-[12px] leading-[13px] text-white">{totalComments}</span>
+          <span className="text-[12px] leading-[13px] text-white">
+            {totalComments}
+          </span>
         </div>
         <div
           role="button"
@@ -118,7 +124,9 @@ const ActionButton = ({
           <div className="flex w-[42px] h-[42px] rounded-full bg-white/25 justify-center items-center">
             <i className="votigram-icon-arrow-ninety-degrees text-[26px] text-primary" />
           </div>
-          <span className="text-[12px] leading-[13px] text-white">{totalOpens}</span>
+          <span className="text-[12px] leading-[13px] text-white">
+            {totalOpens}
+          </span>
         </div>
       </div>
       <Confetti onInit={onInit} className="absolute w-full top-0" />

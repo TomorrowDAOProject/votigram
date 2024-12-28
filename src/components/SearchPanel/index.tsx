@@ -21,7 +21,7 @@ const SearchPanel = ({ recommendList, onAppItemClick }: ISearchPanel) => {
       <img
         onClick={showAd}
         className="col-12 rounded-[18px]"
-        src="https://cdn.tmrwdao.com/votigram/assets/imgs/30E58CBD0603.webp"
+        src="https://cdn.tmrwdao.com/votigram/assets/imgs/CB2BE5C102D8.webp"
       />
       <div className="flex flex-col col-12 gap-[22px]">
         {recommendList?.map((item) => (
