@@ -6,6 +6,7 @@ const BackBtn: React.FC = () => {
   const location = useLocation();
 
   const handleGoBack = () => {
+    console.log('location.state', location.state)
     if (location.state?.fromHome) {
       navigate(-1);
     } else {
