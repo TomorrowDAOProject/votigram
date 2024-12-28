@@ -44,12 +44,6 @@ const App = () => {
       window.Telegram.WebApp?.disableVerticalSwipes?.();
       window.Telegram.WebApp?.setHeaderColor?.("#000000");
     }
-
-    const tgBottomStyles = `
-        --tg-safe-area-inset-bottom: 34px;
-      `;
-    htmlElement.style.cssText =
-      htmlElement.style.cssText.concat(tgBottomStyles);
   }, []);
 
   return (
