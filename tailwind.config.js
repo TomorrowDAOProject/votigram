@@ -78,7 +78,7 @@ export default {
       },
       padding: {
         telegramHeader:
-          "calc(var(--tg-content-safe-area-inset-top) + var(--tg-safe-area-inset-top))",
+          "calc(var(--tg-content-safe-area-inset-top) + var(--tg-safe-area-inset-top) + var(--tg-safe-area-custom-top))",
       },
     },
   },
