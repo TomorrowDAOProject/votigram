@@ -1,11 +1,16 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const BackBtn: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleGoBack = () => {
-    navigate(-1);
+    if (location.state?.fromHome) {
+      navigate(-1);
+    } else {
+      navigate('/');
+    }
   };
 
   return (
