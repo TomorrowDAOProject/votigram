@@ -114,7 +114,9 @@ const App = () => {
       const startParam =
         window.Telegram.WebApp.initDataUnsafe.start_param ?? "";
       const params = parseStartAppParams(startParam);
-      if (params && params.pid) {
+      const hasRedirect = sessionStorage.getItem("redirect");
+      if (params && params.pid && !hasRedirect) {
+        sessionStorage.setItem("redirect", '1');
         navigate(`/proposal/${params.pid}`);
       }
     }
