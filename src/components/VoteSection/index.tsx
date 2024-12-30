@@ -7,9 +7,10 @@ import { useNavigate } from "react-router-dom";
 interface IVoteSctionProps {
   data: VoteSectionType;
   className?: string;
+  currentTab: number
 }
 
-const VoteSection = ({ data, className }: IVoteSctionProps) => {
+const VoteSection = ({ data, className, currentTab }: IVoteSctionProps) => {
   const navigate = useNavigate();
 
   return (
@@ -20,7 +21,7 @@ const VoteSection = ({ data, className }: IVoteSctionProps) => {
       )}
       onClick={() =>
         navigate(`/proposal/${data.proposalId}`, {
-          state: { from: "/?tab=2&vote_tab=Community&community=1" },
+          state: { from: `/?tab=2&vote_tab=Community&community=${currentTab}` },
         })
       }
     >
