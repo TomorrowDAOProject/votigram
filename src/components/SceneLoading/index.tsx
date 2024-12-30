@@ -51,7 +51,7 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
           </span>
           <img
             src="https://cdn.tmrwdao.com/votigram/assets/imgs/18B98C6FFC90.webp"
-            className="mt-[5px] mx-auto mb-[25px] h-[60vh]"
+            className="mt-[5px] mx-auto mb-[25px] h-[56vh]"
             data-testid="scene-loading-image"
           />
           <div className="flex col-12 text-[40px] flex-col text-center mb-8">
