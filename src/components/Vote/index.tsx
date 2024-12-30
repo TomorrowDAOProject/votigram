@@ -68,10 +68,10 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
 
   const onTabChange = (index: number) => {
     setCurrentTab(index === 0 ? VOTE_TABS.TMAS : VOTE_TABS.COMMUNITY);
-    updateQueryParam(
-      "vote_tab",
-      index === 0 ? VOTE_TABS.TMAS : VOTE_TABS.COMMUNITY
-    );
+    updateQueryParam({
+      key: "vote_tab",
+      value: index === 0 ? VOTE_TABS.TMAS : VOTE_TABS.COMMUNITY
+    });
   };
 
   useEffect(() => {

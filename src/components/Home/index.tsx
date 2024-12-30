@@ -15,6 +15,8 @@ import DailyRewards from "../DailyRewards";
 import { APP_CATEGORY, DISCOVER_CATEGORY } from "@/constants/discover";
 import { useAdsgram } from "@/hooks/useAdsgram";
 import { TAB_LIST } from "@/constants/navigation";
+import useSetSearchParams from "@/hooks/useSetSearchParams";
+import { VOTE_TABS } from "@/constants/vote";
 
 interface IHomeProps {
   onAppItemClick: (item?: VoteApp) => void;
@@ -43,6 +45,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
     timestamp?: number;
     signature?: string;
   }>({});
+  const { updateQueryParam } = useSetSearchParams();
 
   const { data: searchData, isLoading } = useData(
     isSearching && (category || keyward)
@@ -196,7 +199,19 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
             <div className="mb-[22px] votigram-grid gap-[9px]">
               <div
                 className="col-6 p-[13px] flex flex-col gap-[7px] relative h-[230px] bg-secondary text-black rounded-[18px]"
-                onClick={() => switchTab(TAB_LIST.VOTE)}
+                onClick={() => {
+                  updateQueryParam([
+                    {
+                      key: "vote_tab",
+                      value: VOTE_TABS.TMAS,
+                    },
+                    {
+                      key: "tmas",
+                      value: "1",
+                    },
+                  ]);
+                  switchTab(TAB_LIST.VOTE);
+                }}
               >
                 <img
                   src="https://cdn.tmrwdao.com/votigram/assets/imgs/3F37AB0AEBE1.webp"

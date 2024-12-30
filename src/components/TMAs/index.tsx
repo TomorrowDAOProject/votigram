@@ -11,6 +11,7 @@ import {
   DISCOVERY_CATEGORY_MAP,
 } from "@/constants/discover";
 import { VoteApp } from "@/types/app";
+import useSetSearchParams from "@/hooks/useSetSearchParams";
 
 const emaTabs = [
   {
@@ -30,7 +31,11 @@ interface ITMAsProps {
 }
 
 const TMAs = ({ scrollTop, onTabChange, onAppItemClick }: ITMAsProps) => {
-  const [currentTab, setCurrentTab] = useState(0);
+  const { querys, updateQueryParam } = useSetSearchParams();
+  const activeTab = querys.get("tmas");
+  const [currentTab, setCurrentTab] = useState(
+    activeTab === "1" ? Number(activeTab) : 0
+  );
   const [keyward, setKeyward] = useState("");
   const [category, setCategory] = useState<APP_CATEGORY>(APP_CATEGORY.ALL);
 
@@ -50,11 +55,12 @@ const TMAs = ({ scrollTop, onTabChange, onAppItemClick }: ITMAsProps) => {
   const handleTabChange = (index: number) => {
     setCurrentTab(index);
     onTabChange?.(index);
+    updateQueryParam({ key: "tmas", value: index.toString() })
   };
 
   return (
     <>
-      <Tabs options={emaTabs} onChange={handleTabChange} />
+      <Tabs defaultValue={currentTab} options={emaTabs} onChange={handleTabChange} />
 
       <div className="mt-[14px] col-12 bg-input gap-2 h-[41px] px-4 flex items-center rounded-3xl">
         <i className="votigram-icon-search text-input-placeholder" />
