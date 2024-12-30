@@ -242,7 +242,10 @@ const CreatePoll = () => {
                   );
                   if (typeof formState.activeEndTime !== "object") {
                     handleChange("activeEndTime")(
-                      combineDateAndTime(dayjs(day).add(1, "day").format(), formState.activeStartTime)
+                      combineDateAndTime(
+                        dayjs(day).add(1, "day").format(),
+                        formState.activeStartTime
+                      )
                     );
                   }
                 }}
@@ -267,7 +270,11 @@ const CreatePoll = () => {
             activeItemClassName="h-[26px]"
             onChange={(index) =>
               handleChange("activeEndTime")(
-                index ? dayjs().add(1, "day").valueOf() : defaultEndTime
+                index
+                  ? formState?.activeStartTime === 1
+                    ? dayjs().add(1, "day").valueOf()
+                    : dayjs(formState.activeStartTime).add(1, "day").valueOf()
+                  : defaultEndTime
               )
             }
           />
