@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Accumulative from "./components/Accumulative";
 import Current from "./components/Current";
 import CategoryPillList from "../CategoryPillList";
@@ -57,6 +57,12 @@ const TMAs = ({ scrollTop, onTabChange, onAppItemClick }: ITMAsProps) => {
     onTabChange?.(index);
     updateQueryParam({ key: "tmas", value: index.toString() })
   };
+
+  useEffect(() => {
+    if (activeTab) {
+      setCurrentTab(activeTab === "1" ? Number(activeTab) : 0)
+    }
+  }, [activeTab])
 
   return (
     <>

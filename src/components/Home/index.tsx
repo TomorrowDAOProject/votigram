@@ -42,7 +42,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
   const [keyward, setKeyward] = useState("");
   const [category, setCategory] = useState<APP_CATEGORY>(APP_CATEGORY.ALL);
   const [adPrams, setAdParams] = useState<{
-    timestamp?: number;
+    timeStamp?: number;
     signature?: string;
   }>({});
   const { updateQueryParam } = useSetSearchParams();
@@ -97,7 +97,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
     onReward: updateUserPoints,
     onError: () => {},
     onSkip: () => {},
-    onFinish: (timestamp, signature) => setAdParams({ timestamp, signature }),
+    onFinish: (timeStamp, signature) => setAdParams({ timeStamp, signature }),
   });
 
   useEffect(() => {

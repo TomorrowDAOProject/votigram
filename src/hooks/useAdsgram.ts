@@ -14,7 +14,7 @@ export interface useAdsgramParams {
   onReward: (newPoints: number) => void;
   onError: (result: ShowPromiseResult) => void;
   onSkip: () => void;
-  onFinish?: (timestamp?: number, signature?: string) => void;
+  onFinish?: (timeStamp?: number, signature?: string) => void;
 }
 
 export function useAdsgram({
@@ -58,7 +58,7 @@ export function useAdsgram({
             } else {
               const result = await postWithToken("/api/app/user/view-ad", {
                 chainId,
-                timestamp,
+                timeStamp: timestamp,
                 signature: hash.toString(),
               });
 
