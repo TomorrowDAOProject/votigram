@@ -15,6 +15,8 @@ import useRequest from "ahooks/lib/useRequest";
 import { nftSymbol } from "@/config";
 import { useWalletService } from "@/hooks/useWallet";
 import useSetSearchParams from "@/hooks/useSetSearchParams";
+import { parseStartAppParams } from "@/utils/start-params";
+import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const currentForyouPage = useRef<number>(1);
@@ -23,6 +25,8 @@ const App = () => {
   const [recommendList, setRecommendList] = useState<VoteApp[]>([]);
   const [selectedItem, setSelectItem] = useState<VoteApp>();
   const { isConnected, wallet } = useWalletService();
+
+  const navigate = useNavigate();
 
   const { querys, updateQueryParam } = useSetSearchParams();
   const tab = querys.get("tab");
@@ -105,15 +109,31 @@ const App = () => {
     }
   }, [tab]);
 
+  useEffect(() => {
+    if (window?.Telegram?.WebApp?.initDataUnsafe) {
+      const startParam =
+        window.Telegram.WebApp.initDataUnsafe.start_param ?? "";
+      const params = parseStartAppParams(startParam);
+      if (params && params.pid) {
+        navigate(`/proposal/${params.pid}`);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleTabChange = (tab: TAB_LIST) => {
-    updateQueryParam('tab', tab.toString());
+    updateQueryParam("tab", tab.toString());
     setActiveTab(tab);
-  }
+  };
 
   return (
     <>
       {activeTab === TAB_LIST.HOME && (
-        <Home onAppItemClick={onAppItemClick} recommendList={recommendList} />
+        <Home
+          onAppItemClick={onAppItemClick}
+          recommendList={recommendList}
+          switchTab={setActiveTab}
+        />
       )}
       {activeTab === TAB_LIST.FOR_YOU && (
         <ForYou

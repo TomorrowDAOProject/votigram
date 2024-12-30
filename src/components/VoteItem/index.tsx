@@ -283,7 +283,7 @@ const VoteItem = ({
           ref={elementRef}
         >
           <div className="flex flex-row items-center justify-between">
-            <span className="flex flex-row items-center font-outfit font-bold text-[16px] leading-[16px] text-white">
+            <span className="flex flex-row items-center font-outfit font-bold text-[16px] leading-[16px] text-white max-w-[50vw] truncate">
               {rank && (
                 <span className="mr-[4px] font-outfit font-bold text-[12px] leading-[16px]">
                   {rank}
