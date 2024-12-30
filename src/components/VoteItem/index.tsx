@@ -73,7 +73,11 @@ const VoteItem = ({
       try {
         setLoading(true);
         const { data } = await voteRequest(rawTransaction, result);
-        if (data.status === VOTE_STATUS.VOTED) {
+        if (!data || data.status === VOTE_STATUS.FAILED) {
+          setLoading(false);
+          setIsFailed(true);
+          cancel();
+        } else if (data.status === VOTE_STATUS.VOTED) {
           if (data?.userTotalPoints) {
             updateUserPoints(data.userTotalPoints);
           }
@@ -81,10 +85,6 @@ const VoteItem = ({
           showConfetti();
           cancel();
           setLoading(false);
-        } else if (!data || data.status === VOTE_STATUS.FAILED) {
-          setLoading(false);
-          setIsFailed(true);
-          cancel();
         }
       } catch (error) {
         console.error(error);

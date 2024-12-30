@@ -76,7 +76,7 @@ const InviteFriendsStatus = ({
       const portKeyResObj = await portKeyRes.json();
       if (portKeyRes?.ok && portKeyResObj?.access_token) {
         const token = portKeyResObj.access_token;
-        const res = await fetch(
+        const response = await fetch(
           portkeyServer +
             `/api/app/growth/shortLink?projectCode=${projectCode}`,
           {
@@ -85,7 +85,7 @@ const InviteFriendsStatus = ({
             },
           }
         );
-        const resObj = await res.json();
+        const resObj = await response.json();
         if (resObj?.userGrowthInfo?.inviteCode) {
           setInviteCode(resObj?.userGrowthInfo?.inviteCode);
           cancel();
