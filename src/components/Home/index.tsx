@@ -39,6 +39,10 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
   const [noMore, setNoMore] = useState(false);
   const [keyward, setKeyward] = useState("");
   const [category, setCategory] = useState<APP_CATEGORY>(APP_CATEGORY.ALL);
+  const [adPrams, setAdParams] = useState<{
+    timestamp?: number;
+    signature?: string;
+  }>({});
 
   const { data: searchData, isLoading } = useData(
     isSearching && (category || keyward)
@@ -75,6 +79,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
     try {
       const result = await postWithToken("/api/app/user/login-points/collect", {
         chainId,
+        ...adPrams,
       });
       if (result?.data?.userTotalPoints) {
         updateUserPoints(result?.data?.userTotalPoints);
@@ -89,6 +94,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
     onReward: updateUserPoints,
     onError: () => {},
     onSkip: () => {},
+    onFinish: (timestamp, signature) => setAdParams({ timestamp, signature }),
   });
 
   useEffect(() => {
