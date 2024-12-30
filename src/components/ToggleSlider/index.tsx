@@ -32,6 +32,10 @@ const ToggleSlider = ({
     setActiveIndex(index);
     onChange?.(index);
   };
+
+  useEffect(() => {
+    setActiveIndex(current ?? 0);
+  }, [current])
   
   return (
     <div

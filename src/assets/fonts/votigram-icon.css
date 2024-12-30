@@ -1,11 +1,11 @@
 @font-face {
   font-family: "votigram-icon";
-  src: url('votigram-icon.eot?t=1734666377255'); /* IE9*/
-  src: url('votigram-icon.eot?t=1734666377255#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url("votigram-icon.woff2?t=1734666377255") format("woff2"),
-  url("votigram-icon.woff?t=1734666377255") format("woff"),
-  url('votigram-icon.ttf?t=1734666377255') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('votigram-icon.svg?t=1734666377255#votigram-icon') format('svg'); /* iOS 4.1- */
+  src: url('votigram-icon.eot?t=1735550599796'); /* IE9*/
+  src: url('votigram-icon.eot?t=1735550599796#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url("votigram-icon.woff2?t=1735550599796") format("woff2"),
+  url("votigram-icon.woff?t=1735550599796") format("woff"),
+  url('votigram-icon.ttf?t=1735550599796') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('votigram-icon.svg?t=1735550599796#votigram-icon') format('svg'); /* iOS 4.1- */
 }
 
 [class^="votigram-icon-"], [class*=" votigram-icon-"] {
@@ -33,19 +33,20 @@
 .votigram-icon-navbar-vote:before { content: "\ea0f"; }
 .votigram-icon-plus:before { content: "\ea10"; }
 .votigram-icon-profile:before { content: "\ea11"; }
-.votigram-icon-reset:before { content: "\ea12"; }
-.votigram-icon-schrondinger-logo:before { content: "\ea13"; }
-.votigram-icon-search:before { content: "\ea14"; }
-.votigram-icon-send:before { content: "\ea15"; }
-.votigram-icon-share:before { content: "\ea16"; }
-.votigram-icon-sponsored:before { content: "\ea17"; }
-.votigram-icon-telegram-logo:before { content: "\ea18"; }
-.votigram-icon-tick:before { content: "\ea19"; }
-.votigram-icon-time:before { content: "\ea1a"; }
-.votigram-icon-twitter-x:before { content: "\ea1b"; }
-.votigram-icon-upload:before { content: "\ea1c"; }
-.votigram-icon-warning:before { content: "\ea1d"; }
-.votigram-icon-watch-ads:before { content: "\ea1e"; }
-.votigram-icon-web:before { content: "\ea1f"; }
+.votigram-icon-referral-friends:before { content: "\ea12"; }
+.votigram-icon-reset:before { content: "\ea13"; }
+.votigram-icon-schrondinger-logo:before { content: "\ea14"; }
+.votigram-icon-search:before { content: "\ea15"; }
+.votigram-icon-send:before { content: "\ea16"; }
+.votigram-icon-share:before { content: "\ea17"; }
+.votigram-icon-sponsored:before { content: "\ea18"; }
+.votigram-icon-telegram-logo:before { content: "\ea19"; }
+.votigram-icon-tick:before { content: "\ea1a"; }
+.votigram-icon-time:before { content: "\ea1b"; }
+.votigram-icon-twitter-x:before { content: "\ea1c"; }
+.votigram-icon-upload:before { content: "\ea1d"; }
+.votigram-icon-warning:before { content: "\ea1e"; }
+.votigram-icon-watch-ads:before { content: "\ea1f"; }
+.votigram-icon-web:before { content: "\ea20"; }
 
 

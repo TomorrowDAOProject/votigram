@@ -209,7 +209,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
                       key: "tmas",
                       value: "1",
                     },
-                  ]);
+                  ], true);
                   switchTab(TAB_LIST.VOTE);
                 }}
               >
@@ -259,7 +259,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
                       duration={1000}
                     />
                     <span className="text-[11px] text-white leading-[13px] font-normal">
-                      points
+                      pts
                     </span>
                   </div>
                 </div>

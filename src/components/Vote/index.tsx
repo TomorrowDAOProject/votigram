@@ -23,7 +23,7 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
   } = useUserContext();
   const { querys, updateQueryParam } = useSetSearchParams();
   const activeTab = querys.get("vote_tab");
-  const [currnetTab, setCurrentTab] = useState(activeTab || VOTE_TABS.TMAS);
+  const [currentTab, setCurrentTab] = useState(activeTab || VOTE_TABS.TMAS);
   const scrollViewRef = useRef<HTMLDivElement | null>(null);
   const [seconds, setSeconds] = useState(0);
   const [scrollTop, setScrollTop] = useState(0);
@@ -75,6 +75,12 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
   };
 
   useEffect(() => {
+    if (activeTab) {
+      setCurrentTab(activeTab || VOTE_TABS.TMAS)
+    }
+  }, [activeTab]);
+
+  useEffect(() => {
     const isShowed = localStorage.getItem("showWelcome");
 
     if (!isShowed) {
@@ -99,7 +105,7 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
         <div className="votigram-grid">
           <div className="col-7 h-7 mt-3">
             <ToggleSlider
-              current={TABS.findIndex((tab) => tab === currnetTab)}
+              current={TABS.findIndex((tab) => tab === currentTab)}
               items={TABS}
               onChange={onTabChange}
             />
@@ -113,7 +119,7 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
             </span>
           </div>
           <div className="mt-8 col-12">
-            {currnetTab === VOTE_TABS.TMAS ? (
+            {currentTab === VOTE_TABS.TMAS ? (
               <TMAs
                 scrollTop={scrollTop}
                 onTabChange={setTMATab}

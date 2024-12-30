@@ -39,6 +39,7 @@ const Community = ({ scrollTop }: ICommunityProps) => {
       />
 
       <Archived
+        currentTab={currentTab}
         scrollTop={scrollTop}
         type={
           currentTab === 0

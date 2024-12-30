@@ -57,7 +57,7 @@ const VoteItem = ({
   const [totalCurrentPoints, setTotalCurrentPoints] = useState(
     data.totalPoints || data.pointsAmount || 0
   );
-  const { walletInfo, callSendMethod } = useConnectWallet();
+  const { walletInfo, callSendMethod, isConnected, connectWallet } = useConnectWallet();
 
   const [elementWidth, setElementWidth] = useState(0);
   const [likeCount, setLikeCount] = useState(0);
@@ -164,6 +164,10 @@ const VoteItem = ({
   const sedRawTransaction = async () => {
     try {
       setLoading(true);
+
+      if (!isConnected) {
+        await connectWallet();
+      }
       const result: {
         transactionId: string;
       } = await callSendMethod({

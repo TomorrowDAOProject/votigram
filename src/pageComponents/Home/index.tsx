@@ -124,7 +124,7 @@ const App = () => {
   }, []);
 
   const handleTabChange = (tab: TAB_LIST) => {
-    updateQueryParam("tab", tab.toString());
+    updateQueryParam({key: "tab", value: tab.toString()});
     setActiveTab(tab);
   };
 
