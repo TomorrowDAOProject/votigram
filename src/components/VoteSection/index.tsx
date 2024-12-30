@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 interface IVoteSctionProps {
   data: VoteSectionType;
   className?: string;
-  currentTab: number
+  currentTab?: number
 }
 
 const VoteSection = ({ data, className, currentTab }: IVoteSctionProps) => {

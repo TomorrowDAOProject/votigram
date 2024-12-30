@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 interface IArchivedProps {
   type: COMMUNITY_TYPE;
   scrollTop: number;
-  currentTab: number;
+  currentTab?: number;
 }
 const PAGE_SIZE = 20;
 
