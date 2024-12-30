@@ -13,22 +13,28 @@ const Item = ({ data, className, onClick }: ItemProps) => {
   return (
     <div
       className={clsx(
-        "flex flex-row items-start gap-[19px] py-[9px]",
+        "flex flex-row items-start gap-[19px] py-[9px] max-w-full",
         className
       )}
       onClick={() => data && onClick?.(data)}
     >
-      {data?.commenterPhoto && (
+      {data?.commenterPhoto ? (
         <img
           src={data.commenterPhoto}
           alt="Avatar"
           className="w-[29px] h-[29px] rounded-[47.5px] bg-tertiary shrink-0 object-cover"
         />
+      ) : (
+        <div className="flex items-center justify-center w-[29px] h-[29px] rounded-[47.5px] bg-gradient-to-r from-lime-green to-lime-primary">
+          <span className="font-bold font-outfit text-[14px] text-normal text-white">
+            {data?.commenterFirstName?.slice(0, 1)}
+          </span>
+        </div>
       )}
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 shrink-0 max-w-[calc(100%-48px)]">
         <div className="flex flex-row items-end gap-[5px]">
           <span className="font-normal text-[11px] text-white leading-[13.2px]">
-            {data?.commenterName}
+            {data?.commenterFirstName}
           </span>
           {data?.createTime && (
             <span className="font-normal text-[11px] text-input-placeholder leading-[13.2px]">
@@ -36,7 +42,7 @@ const Item = ({ data, className, onClick }: ItemProps) => {
             </span>
           )}
         </div>
-        <div className="mt-[5px] font-normal text-[14px] text-white leading-[16.8px]">
+        <div className="mt-[5px] font-normal text-[14px] text-white leading-[16.8px] break-words whitespace-normal">
           {data?.comment}
         </div>
       </div>

@@ -5,7 +5,12 @@ import CategoryPillList from "../CategoryPillList";
 import useDebounceFn from "ahooks/lib/useDebounceFn";
 import { COMMUNITY_TYPE } from "@/constants/vote";
 import Tabs from "../Tabs";
-import { APP_CATEGORY, DISCOVER_CATEGORY, DISCOVERY_CATEGORY_MAP } from "@/constants/discover";
+import {
+  APP_CATEGORY,
+  DISCOVER_CATEGORY,
+  DISCOVERY_CATEGORY_MAP,
+} from "@/constants/discover";
+import { VoteApp } from "@/types/app";
 
 const emaTabs = [
   {
@@ -21,12 +26,13 @@ const emaTabs = [
 interface ITMAsProps {
   scrollTop: number;
   onTabChange?: (index: number) => void;
+  onAppItemClick?: (item: VoteApp) => void;
 }
 
-const TMAs = ({ scrollTop, onTabChange }: ITMAsProps) => {
+const TMAs = ({ scrollTop, onTabChange, onAppItemClick }: ITMAsProps) => {
   const [currentTab, setCurrentTab] = useState(0);
   const [keyward, setKeyward] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState<APP_CATEGORY>(APP_CATEGORY.ALL);
 
   const { run: onKeywardChange } = useDebounceFn(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,8 +43,8 @@ const TMAs = ({ scrollTop, onTabChange }: ITMAsProps) => {
     }
   );
 
-  const onCategoryChange = (category: string) => {
-    setCategory(category || "");
+  const onCategoryChange = (category: APP_CATEGORY) => {
+    setCategory(category);
   };
 
   const handleTabChange = (index: number) => {
@@ -64,7 +70,7 @@ const TMAs = ({ scrollTop, onTabChange }: ITMAsProps) => {
             value: APP_CATEGORY.ALL,
             label: DISCOVERY_CATEGORY_MAP[APP_CATEGORY.ALL],
           },
-          ...(DISCOVER_CATEGORY.slice(1)),
+          ...DISCOVER_CATEGORY.slice(1),
         ]}
         className="-mx-5"
         onChange={onCategoryChange}
@@ -75,9 +81,15 @@ const TMAs = ({ scrollTop, onTabChange }: ITMAsProps) => {
           scrollTop={scrollTop}
           keyward={keyward}
           category={category}
+          onAppItemClick={onAppItemClick}
         />
       ) : (
-        <Current scrollTop={scrollTop} keyward={keyward} category={category} />
+        <Current
+          scrollTop={scrollTop}
+          keyward={keyward}
+          category={category}
+          onAppItemClick={onAppItemClick}
+        />
       )}
     </>
   );

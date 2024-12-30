@@ -18,7 +18,9 @@ const VoteSection = ({ data, className }: IVoteSctionProps) => {
         "relative pt-[21px] px-5 rounded-[18px] bg-dark-gray",
         className
       )}
-      onClick={() => navigate(`/proposal/${data.proposalId}`)}
+      onClick={() =>
+        navigate(`/proposal/${data.proposalId}`, { state: { from: '/?tab=2&vote_tab=Community&community=1' } })
+      }
     >
       <span className="text-white font-bold text-[16px] leading-[16px] font-outfit max-h-[32px] line-clamp-2">
         {data.proposalTitle}

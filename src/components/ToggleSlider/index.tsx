@@ -20,6 +20,7 @@ const ToggleSlider = ({
   onChange,
 }: IToggleSlider) => {
   const [activeIndex, setActiveIndex] = useState<number>(current || 0);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
@@ -31,9 +32,10 @@ const ToggleSlider = ({
     setActiveIndex(index);
     onChange?.(index);
   };
-
+  
   return (
     <div
+      ref={ref => (containerRef.current = ref)}
       className={clsx(
         "relative h-full w-full mx-auto bg-tertiary rounded-full flex items-center overflow-hidden",
         className

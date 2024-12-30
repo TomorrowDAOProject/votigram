@@ -58,7 +58,9 @@ const Archived = ({ type, scrollTop }: IArchivedProps) => {
         <button
           className="mb-[12px] w-full h-[40px] bg-primary text-white font-bold text-[14px] font-outfit rounded-[24px]"
           type="button"
-          onClick={() => navigate("/create-poll")}
+          onClick={() =>
+            navigate("/create-poll", { state: { from: '/?tab=2&vote_tab=Community&community=1' } })
+          }
         >
           Create Poll
         </button>

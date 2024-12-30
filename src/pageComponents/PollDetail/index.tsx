@@ -51,9 +51,16 @@ const PollDetail = () => {
 
   const getRemainingSeconds = () => {
     const now = dayjs();
-    const endOfWeek = dayjs().day(7).startOf("day");
-    const secondsRemainingInWeek = endOfWeek.diff(now, "seconds");
-    setSeconds(secondsRemainingInWeek);
+    const dayOfWeek = now.day();
+    const daysUntilSunday = (7 - dayOfWeek) % 7;
+    const nextSundayMidnight = now
+      .add(daysUntilSunday, "day")
+      .startOf("day")
+      .add(1, "day");
+
+    const differenceInMilliseconds = nextSundayMidnight.diff(now);
+    const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
+    setSeconds(differenceInSeconds);
   };
 
   const generateShareUrl = () => {

@@ -37,7 +37,9 @@ const Drawer = ({
     },
   };
 
-  const handleClose = () => {
+  const handleClose = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
     if (canClose) {
       setIsVisibleState(false);
       onClose?.(false);

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AppList from "../AppList";
 import CategoryPillList from "../CategoryPillList";
 import DiscoveryHiddenGems from "../DiscoveryHiddenGems";
@@ -12,21 +12,44 @@ import SearchPanel from "../SearchPanel";
 import { VoteApp } from "@/types/app";
 import { chainId } from "@/constants/app";
 import DailyRewards from "../DailyRewards";
-import { DISCOVER_CATEGORY } from "@/constants/discover";
+import { APP_CATEGORY, DISCOVER_CATEGORY } from "@/constants/discover";
+import { useAdsgram } from "@/hooks/useAdsgram";
 
 interface IHomeProps {
-  onAppItemClick: (item: VoteApp) => void;
+  onAppItemClick: (item?: VoteApp) => void;
   recommendList: VoteApp[];
 }
+
+const PAGE_SIZE = 20;
 
 const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
   const {
     user: { userPoints },
+    updateUserPoints,
     updateDailyLoginPointsStatus,
   } = useUserContext();
-  const [showDailyReward, setShowDailyReward] = useState(
-    !userPoints?.dailyLoginPointsStatus || false
+
+  const [isSearching, setIsSearching] = useState(false);
+  const scrollViewRef = useRef<HTMLDivElement | null>(null);
+  const [searchList, setSearchList] = useState<VoteApp[]>([]);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [newAmount, setNewAmount] = useState(0);
+  const [noMore, setNoMore] = useState(false);
+  const [keyward, setKeyward] = useState("");
+  const [category, setCategory] = useState<APP_CATEGORY>(APP_CATEGORY.ALL);
+
+  const { data: searchData, isLoading } = useData(
+    isSearching && (category || keyward)
+      ? `/api/app/discover/app-list?${new URLSearchParams({
+          chainId,
+          category: category.toString(),
+          search: keyward,
+          skipCount: (pageIndex * PAGE_SIZE).toString(),
+          maxResultCount: PAGE_SIZE.toString(),
+        }).toString()}`
+      : null
   );
+
   const { data: madeForYouResult } = useData(
     "/api/app/user/homepage/made-for-you?chainId=tDVW"
   );
@@ -34,7 +57,17 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
   const { data: votedAppResult } = useData(
     "/api/app/user/homepage?chainId=tDVW"
   );
-  const [isSearching, setIsSearching] = useState(false);
+
+  useEffect(() => {
+    const { data, totalCount } = searchData || {};
+    if (data && Array.isArray(data)) {
+      setSearchList((prev) => (pageIndex === 0 ? data : [...prev, ...data]));
+      setNoMore(data.length < PAGE_SIZE);
+      if (category === APP_CATEGORY.NEW) {
+        setNewAmount(totalCount || 0);
+      }
+    }
+  }, [category, pageIndex, searchData]);
 
   const onClaimClick = async () => {
     try {
@@ -42,27 +75,61 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
         chainId,
       });
       if (result?.data?.userTotalPoints) {
-        updateDailyLoginPointsStatus(result.data.userTotalPoints);
+        updateUserPoints(result?.data?.userTotalPoints);
       }
     } catch (e) {
       console.error(e);
     }
   };
 
+  const showAd = useAdsgram({
+    blockId: import.meta.env.VITE_ADSGRAM_ID.toString() || "",
+    onReward: updateUserPoints,
+    onError: () => {},
+    onSkip: () => {},
+  });
+
   useEffect(() => {
-    setShowDailyReward(!userPoints?.dailyLoginPointsStatus)
-  }, [userPoints?.dailyLoginPointsStatus])
+    const scrollRef = scrollViewRef.current;
+
+    const handleScroll = () => {
+      const scrollRef = scrollViewRef.current;
+      if (!scrollRef) return;
+      if (
+        scrollRef.scrollHeight - scrollRef.scrollTop - scrollRef.clientHeight <
+          50 &&
+        !noMore &&
+        !isLoading
+      ) {
+        setPageIndex((page) => page + 1);
+      }
+    };
+
+    if (scrollRef) {
+      scrollRef.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (scrollRef) {
+        scrollRef.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [isLoading, noMore, scrollViewRef]);
 
   return (
     <>
       <TelegramHeader title={isSearching ? "Discover" : ""} />
-      <div className="h-screen overflow-scroll pt-telegramHeader bg-black">
+      <div
+        className="h-screen overflow-x-scroll pt-telegramHeader bg-black"
+        ref={scrollViewRef}
+      >
         <div className="font-outfit votigram-grid mt-[9px]">
           <div className="col-12 mb-[11px]">
             {isSearching ? (
               <i
                 className="votigram-icon-back text-[19px] leading-[18px] text-white"
                 onClick={() => {
+                  setCategory(APP_CATEGORY.ALL);
                   setIsSearching(false);
                 }}
               />
@@ -79,16 +146,31 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
             <input
               className="w-full bg-transparent text-white outline-none appearence-none placeholder:leading-[19.6px] text-[14px] placeholder:text-input-placeholder placeholder:font-questrial"
               placeholder="Search..."
+              onChange={(e) => {
+                setPageIndex(0);
+                setKeyward(e.target.value);
+              }}
               onFocus={() => {
                 setIsSearching(true);
               }}
             />
           </div>
         </div>
-        <CategoryPillList items={DISCOVER_CATEGORY} />
+        <CategoryPillList
+          value={category}
+          amount={
+            isSearching && category === APP_CATEGORY.NEW ? newAmount : undefined
+          }
+          items={DISCOVER_CATEGORY}
+          onChange={(value) => {
+            setPageIndex(0);
+            setCategory(value);
+            setIsSearching(value !== APP_CATEGORY.ALL);
+          }}
+        />
         {isSearching ? (
           <SearchPanel
-            recommendList={recommendList}
+            recommendList={searchList.length > 0 ? searchList : recommendList}
             onAppItemClick={onAppItemClick}
           />
         ) : (
@@ -110,7 +192,10 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
                 </span>
               </div>
               <div className="col-6 h-[230px] flex flex-col gap-[10px]">
-                <div className="col-12 p-[13px] flex-1 bg-tertiary rounded-[18px]">
+                <div
+                  className="col-12 p-[13px] flex-1 bg-tertiary rounded-[18px]"
+                  onClick={() => onAppItemClick()}
+                >
                   <div className="flex bg-[#00000038] rounded-full w-[32px] aspect-square justify-center items-center">
                     <i className="votigram-icon-navbar-for-you text-[20px] text-white opacity-40" />
                   </div>
@@ -157,14 +242,16 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
           </>
         )}
       </div>
-      <Modal isVisible={showDailyReward} rootClassName="p-5">
+      <Modal isVisible={!userPoints?.dailyLoginPointsStatus} rootClassName="p-5">
         <DailyRewards userPoints={userPoints} />
-        <button className="mt-7 bg-secondary text-black text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mb-2">
+        <button
+          className="mt-7 bg-secondary text-black text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mb-2"
+          onClick={showAd}
+        >
           Watch Ads To Double The Point
         </button>
         <button
           onClick={() => {
-            setShowDailyReward(false);
             updateDailyLoginPointsStatus(true);
             onClaimClick();
           }}

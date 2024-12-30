@@ -1,23 +1,30 @@
 import Loading from "@/components/Loading";
 import VoteItem from "@/components/VoteItem";
-import { VoteItemType } from "@/components/VoteItem/type";
 import { chainId } from "@/constants/app";
+import { APP_CATEGORY } from "@/constants/discover";
 import useData from "@/hooks/useData";
+import { VoteApp } from "@/types/app";
 import { useEffect, useState } from "react";
 
 interface IAccumulativeProps {
   scrollTop: number;
   keyward: string;
-  category: string;
+  category: APP_CATEGORY;
+  onAppItemClick?: (item: VoteApp) => void;
 }
 const PAGE_SIZE = 20;
 
-const Current = ({ scrollTop, keyward, category: cate }: IAccumulativeProps) => {
+const Current = ({
+  scrollTop,
+  keyward,
+  category: cate,
+  onAppItemClick,
+}: IAccumulativeProps) => {
   const [hasMore, setHasMore] = useState(true);
-  const [voteList, setVoteList] = useState<VoteItemType[]>([]);
+  const [voteList, setVoteList] = useState<VoteApp[]>([]);
   const [pageIndex, setPageIndex] = useState(0);
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState<APP_CATEGORY>(APP_CATEGORY.ALL);
   const [proposalId, setProposalId] = useState("");
   const [canVote, setCanVote] = useState(false);
 
@@ -50,7 +57,7 @@ const Current = ({ scrollTop, keyward, category: cate }: IAccumulativeProps) => 
   }, [hasMore, isLoading, scrollTop]);
 
   useEffect(() => {
-    setSearch(keyward || '');
+    setSearch(keyward || "");
     setPageIndex(0);
   }, [keyward]);
 
@@ -58,6 +65,13 @@ const Current = ({ scrollTop, keyward, category: cate }: IAccumulativeProps) => 
     setCategory(cate);
     setPageIndex(0);
   }, [cate]);
+
+  const onVoted = (addPoints: number, index: number) => {
+    setCanVote(false);
+    const list = [...voteList];
+    list[index].totalPoints = (list[index].totalPoints || 0) + addPoints;
+    setVoteList(list);
+  };
 
   return (
     <div className="pt-3 pb-[100px]">
@@ -71,7 +85,8 @@ const Current = ({ scrollTop, keyward, category: cate }: IAccumulativeProps) => 
           className="bg-transparent"
           canVote={canVote}
           category={category}
-          onVoted={() => setCanVote(false)}
+          onVoted={(addPoints: number) => onVoted(addPoints, index)}
+          onClick={onAppItemClick}
           showBtn
         />
       ))}

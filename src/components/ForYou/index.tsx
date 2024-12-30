@@ -5,13 +5,16 @@ import AppDetail from "./AppDetail";
 import Modal from "../Modal";
 import ActionButton from "./ActionButton";
 import CheckboxGroup from "../CheckboxGroup";
-import { DISCOVER_CATEGORY } from "@/constants/discover";
+import { APP_CATEGORY, APP_TYPE, DISCOVER_CATEGORY } from "@/constants/discover";
 import Drawer from "../Drawer";
 import TelegramHeader from "../TelegramHeader";
 import { VoteApp } from "@/types/app";
 import { postWithToken } from "@/hooks/useData";
 import { chainId } from "@/constants/app";
 import ReviewComment from "../ReviewComment";
+import AdVideo from "../AdVideo";
+import { useUserContext } from "@/provider/UserProvider";
+import { useThrottleFn } from "ahooks";
 
 interface IForYouType {
   currentForyouPage: number;
@@ -24,10 +27,16 @@ const ForYou = ({
   fetchForYouData,
   currentForyouPage = 1,
 }: IForYouType) => {
+  const {
+    user: { isNewUser },
+    updateUserStatus,
+  } = useUserContext();
   const currentPage = useRef<number>(currentForyouPage);
   const [forYouItems, setForYouItems] = useState<VoteApp[]>(items);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isShowReviews, setIsShowReviews] = useState(false);
+  const [showChoosen, setShowChoosen] = useState(isNewUser);
+  const [interests, setInterests] = useState<APP_CATEGORY[]>([]);
   const [currentActiveApp, setCurrentActiveApp] = useState<
     VoteApp | undefined
   >();
@@ -82,6 +91,9 @@ const ForYou = ({
       alias,
     });
     window.open(url);
+    const list = [...forYouItems];
+    list[currentIndex].totalOpens = (list[currentIndex].totalOpens || 0) + 1;
+    setForYouItems(list);
   };
 
   const updateReviewClick = (item: VoteApp) => {
@@ -92,6 +104,28 @@ const ForYou = ({
   const onDrawerClose = () => {
     setIsShowReviews(false);
   };
+
+  const onComment = (totalComments: number) => {
+    const list = [...forYouItems];
+    list[currentIndex].totalComments = totalComments;
+    setForYouItems(list);
+  };
+
+  const { run: chooseInterest } = useThrottleFn(
+    async () => {
+      setShowChoosen(false);
+      updateUserStatus(false);
+      try {
+        await postWithToken("/api/app/discover/choose", {
+          chainId,
+          choices: interests,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    { wait: 700 }
+  );
 
   return (
     <>
@@ -116,26 +150,38 @@ const ForYou = ({
             {forYouItems.map((item, index) => (
               <div
                 key={index}
-                className="h-screen pt-[25px] flex flex-col relative items-center"
+                className="h-screen flex flex-col relative items-center"
               >
-                <ImageCarousel items={item.screenshots} />
+                {item.appType === APP_TYPE.AD && index === currentIndex ? (
+                  <AdVideo src={item.url} />
+                ) : (
+                  <>
+                    <ImageCarousel
+                      className="mt-[25px]"
+                      items={item.screenshots}
+                    />
+                    <ActionButton
+                      item={item}
+                      totalLikes={item.totalLikes || 0}
+                      totalComments={item.totalComments || 0}
+                      totalOpens={item.totalOpens || 0}
+                      updateOpenAppClick={updateOpenAppClick}
+                      updateReviewClick={updateReviewClick}
+                    />
+                  </>
+                )}
                 <AppDetail
                   item={item}
                   updateOpenAppClick={updateOpenAppClick}
-                />
-                <ActionButton
-                  item={item}
-                  totalLikes={item.totalLikes || 0}
-                  totalComments={item.totalComments || 0}
-                  totalOpens={item.totalOpens || 0}
-                  updateOpenAppClick={updateOpenAppClick}
-                  updateReviewClick={updateReviewClick}
                 />
               </div>
             ))}
           </motion.div>
         )}
-        <Modal isVisible={false} rootClassName="px-[29px] pt-[45px] pb-[30px]">
+        <Modal
+          isVisible={showChoosen}
+          rootClassName="px-[29px] pt-[45px] pb-[30px]"
+        >
           <span className="block text-[20px] font-bold leading-[20px] font-outfit text-white">
             Select Your Areas of Interest
           </span>
@@ -143,9 +189,15 @@ const ForYou = ({
             Your preferences will help us create a journey unique to you.
           </span>
 
-          <CheckboxGroup options={DISCOVER_CATEGORY} onChange={console.log} />
+          <CheckboxGroup
+            options={DISCOVER_CATEGORY.slice(1)}
+            onChange={setInterests}
+          />
 
-          <button className="mt-[24px] bg-primary text-white text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mt-[24px] mb-[16px]">
+          <button
+            className="mt-[24px] bg-primary text-white text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mt-[24px] mb-[16px]"
+            onClick={chooseInterest}
+          >
             Let's Begin
           </button>
         </Modal>
@@ -155,6 +207,7 @@ const ForYou = ({
           direction="bottom"
         >
           <ReviewComment
+            onComment={onComment}
             onDrawerClose={onDrawerClose}
             currentActiveApp={currentActiveApp}
           />

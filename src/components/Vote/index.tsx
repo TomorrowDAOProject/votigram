@@ -7,16 +7,28 @@ import TelegramHeader from "../TelegramHeader";
 import Countdown from "../Countdown";
 import dayjs from "dayjs";
 import { VOTE_TABS } from "@/constants/vote";
+import { VoteApp } from "@/types/app";
+import useSetSearchParams from "@/hooks/useSetSearchParams";
+import Modal from "../Modal";
 
-const Vote = () => {
+interface IVoteProps {
+  onAppItemClick: (item: VoteApp) => void;
+}
+
+const TABS = [VOTE_TABS.TMAS, VOTE_TABS.COMMUNITY];
+
+const Vote = ({ onAppItemClick }: IVoteProps) => {
   const {
     user: { userPoints },
   } = useUserContext();
-  const [currnetTab, setCurrentTab] = useState(VOTE_TABS.TMAS);
+  const { querys, updateQueryParam } = useSetSearchParams();
+  const activeTab = querys.get("vote_tab");
+  const [currnetTab, setCurrentTab] = useState(activeTab || VOTE_TABS.TMAS);
   const scrollViewRef = useRef<HTMLDivElement | null>(null);
   const [seconds, setSeconds] = useState(0);
   const [scrollTop, setScrollTop] = useState(0);
   const [tmaTab, setTMATab] = useState(0);
+  const [showWelcome, setShowWelCome] = useState(false);
 
   const handleScroll = useCallback(() => {
     const scrollRef = scrollViewRef.current;
@@ -42,10 +54,34 @@ const Vote = () => {
 
   const getRemainingSeconds = () => {
     const now = dayjs();
-    const endOfWeek = dayjs().day(7).startOf("day");
-    const secondsRemainingInWeek = endOfWeek.diff(now, "seconds");
-    setSeconds(secondsRemainingInWeek);
+    const dayOfWeek = now.day();
+    const daysUntilSunday = (7 - dayOfWeek) % 7;
+    const nextSundayMidnight = now
+      .add(daysUntilSunday, "day")
+      .startOf("day")
+      .add(1, "day");
+    
+    const differenceInMilliseconds = nextSundayMidnight.diff(now);
+    const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
+    setSeconds(differenceInSeconds);
   };
+
+  const onTabChange = (index: number) => {
+    setCurrentTab(index === 0 ? VOTE_TABS.TMAS : VOTE_TABS.COMMUNITY);
+    updateQueryParam(
+      "vote_tab",
+      index === 0 ? VOTE_TABS.TMAS : VOTE_TABS.COMMUNITY
+    );
+  };
+
+  useEffect(() => {
+    const isShowed = localStorage.getItem("showWelcome");
+
+    if (!isShowed) {
+      setShowWelCome(!isShowed);
+      localStorage.setItem("showWelcome", "1");
+    }
+  }, []);
 
   return (
     <>
@@ -63,12 +99,9 @@ const Vote = () => {
         <div className="votigram-grid">
           <div className="col-7 h-7 mt-3">
             <ToggleSlider
-              items={[VOTE_TABS.TMAS, VOTE_TABS.COMMUNITY]}
-              onChange={(index) =>
-                setCurrentTab(
-                  index === 0 ? VOTE_TABS.TMAS : VOTE_TABS.COMMUNITY
-                )
-              }
+              current={TABS.findIndex((tab) => tab === currnetTab)}
+              items={TABS}
+              onChange={onTabChange}
             />
           </div>
           <div className="flex flex-col col-5 items-end gap-[6px]">
@@ -81,13 +114,35 @@ const Vote = () => {
           </div>
           <div className="mt-8 col-12">
             {currnetTab === VOTE_TABS.TMAS ? (
-              <TMAs scrollTop={scrollTop} onTabChange={setTMATab} />
+              <TMAs
+                scrollTop={scrollTop}
+                onTabChange={setTMATab}
+                onAppItemClick={onAppItemClick}
+              />
             ) : (
               <Community scrollTop={scrollTop} />
             )}
           </div>
         </div>
       </div>
+      <Modal
+        isVisible={showWelcome}
+        rootClassName="pt-[26px] px-[29px] pb-[22px] bg-primary"
+      >
+        <img
+          className="mx-auto w-[236px] h-[208px] object-contain"
+          src="https://cdn.tmrwdao.com/votigram/assets/imgs/AAF09912A14F.webp"
+          alt="Tips"
+        />
+        <span className="block mt-[12px] text-center text-white whitespace-pre-wrap font-outfit font-bold text-[20px] leading-[20px]">{`Vote For Your Favourite \nTelegram Mini-Apps!`}</span>
+
+        <button
+          className="mt-[18px] w-full py-[10px] text-[14px] font-outfit font-bold text-black leading-[14px] bg-lime-green rounded-[24px]"
+          onClick={() => setShowWelCome(false)}
+        >
+          Let's Go!
+        </button>
+      </Modal>
     </>
   );
 };

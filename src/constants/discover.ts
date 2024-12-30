@@ -1,7 +1,7 @@
 import { DiscoverType } from "@/types/app";
 
 export enum APP_CATEGORY {
-  ALL = "",
+  ALL = "All",
   NEW = "New",
   EARN = "Earn",
   GAME = "Game",
@@ -64,4 +64,9 @@ export enum RANDOM_APP_CATEGORY {
   RECOMMEND = "Recommend",
 }
 
-export const DAILY_REWARDS = [200, 200, 200, 200, 200, 200, 500];
+export enum APP_TYPE {
+  AD = "AD",
+  TELEGRAM = "Telegram",
+}
+
+export const DAILY_REWARDS = [100, 100, 250, 100, 100, 100, 250];

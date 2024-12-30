@@ -6,8 +6,11 @@ import Textarea from "../Textarea";
 import clsx from "clsx";
 import { VoteApp } from "@/types/app";
 import { Comment } from "@/types/comment";
+import { useThrottleFn } from "ahooks";
+import Loading from "../Loading";
 
 interface IReviewDrawerProps {
+  onComment?(totalComments: number): void;
   onDrawerClose: () => void;
   currentActiveApp: VoteApp | undefined;
 }
@@ -15,9 +18,11 @@ interface IReviewDrawerProps {
 const PAGE_SIZE = 20;
 
 const ReviewComment = ({
+  onComment,
   onDrawerClose,
   currentActiveApp,
 }: IReviewDrawerProps) => {
+  const [totalCount, setTotalCount] = useState(0);
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState<Comment[]>([]);
   const [pageIndex, setPageIndex] = useState(0);
@@ -34,25 +39,38 @@ const ReviewComment = ({
   useEffect(() => {
     if (data) {
       setCommentList((prev) => [...prev, ...data.items]);
+      setTotalCount(data.totalCount || 0);
+      onComment?.(data.totalCount);
     }
 
     return () => {
       setCommentList([]);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  const onCommentSubmit = async () => {
-    const { data } = await postWithToken("/api/app/discussion/new-comment", {
-      chainId,
-      alias: currentActiveApp?.alias,
-      comment,
-    });
-
-    if (data?.success) {
-      setCommentList((prev) => [data?.comment, ...prev]);
-      setComment("");
-    }
-  };
+  const { run: onCommentSubmit } = useThrottleFn(
+    async () => {
+      try {
+        const { data } = await postWithToken(
+          "/api/app/discussion/new-comment",
+          {
+            chainId,
+            alias: currentActiveApp?.alias,
+            comment,
+          }
+        );
+        if (data?.success) {
+          setCommentList((prev) => [data?.comment, ...prev]);
+          setComment("");
+          onComment?.(totalCount + 1);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    { wait: 700 }
+  );
 
   const onCommentChange = (value: string) => {
     setComment(value);
@@ -73,16 +91,13 @@ const ReviewComment = ({
         <ReviewList
           hasMore={data?.hasMore || false}
           height="60vh"
+          isLoading={isLoading}
           dataSource={commentList}
           loadData={() => setPageIndex((pageIndex) => pageIndex + 1)}
           emptyText="Write the first review!"
           rootClassname="px-5"
           renderLoading={() =>
-            isLoading && (
-              <div className="flex items-center justify-center h-full">
-                <div className="w-[30px] h-[30px] animate-spin rounded-full bg-white"></div>
-              </div>
-            )
+            isLoading && <Loading iconClassName="w-4 h-4" />
           }
         />
       </div>

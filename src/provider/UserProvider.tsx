@@ -35,12 +35,8 @@ const initialState: UserContextState = {
   error: null,
 };
 
-interface ContextType extends UserContextType {
-  dispatch: React.Dispatch<Action>;
-}
-
 // Create a context
-const UserContext = createContext<ContextType | undefined>(undefined);
+const UserContext = createContext<UserContextType | undefined>(undefined);
 
 type Action =
   | { type: "SET_USER_DATA"; payload: User }
@@ -128,7 +124,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
           type: "SET_USER_DATA",
           payload: {
             isNewUser: !!decodedToken.new_user || false,
-            userPoints: userPointsData?.data || 0,
+            userPoints: userPointsData?.data,
           },
         });
 
@@ -174,9 +170,40 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     });
   };
 
+  const updateUserPoints = (points: number) => {
+    dispatch({
+      type: "SET_USER_DATA",
+      payload: {
+        ...state.user,
+        userPoints: {
+          ...state.user.userPoints,
+          dailyLoginPointsStatus: true,
+          userTotalPoints: points,
+        },
+      } as User,
+    });
+  };
+
+  const updateUserStatus = (isNewUser: boolean) => {
+    const user = { ...state.user };
+    user.isNewUser = isNewUser;
+    dispatch({
+      type: "SET_USER_DATA",
+      payload: {
+        ...user,
+      } as User,
+    });
+  };
+
   return (
     <UserContext.Provider
-      value={{ ...state, hasUserData, updateDailyLoginPointsStatus, dispatch }}
+      value={{
+        ...state,
+        hasUserData,
+        updateDailyLoginPointsStatus,
+        updateUserStatus,
+        updateUserPoints,
+      }}
     >
       {children}
     </UserContext.Provider>

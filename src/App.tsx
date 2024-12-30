@@ -7,9 +7,11 @@ import WebLoginProvider from "./provider/webLoginProvider";
 import ConfigProvider from "./provider/configProvider";
 import { host } from "./config";
 import { IConfigContent } from "./provider/types/ConfigContext";
+import SceneLoading from "./components/SceneLoading";
 
 const App = () => {
   const [cmsData, setCmsData] = useState<IConfigContent | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchCMSData = async () => {
     const cmsRes = await fetch(host + "/cms/items/config", {
@@ -38,23 +40,28 @@ const App = () => {
         htmlElement.style.cssText =
           htmlElement.style.cssText.concat(tgTopStyles);
       }
+      if (window.Telegram.WebApp?.platform?.includes("weba")) {
+        const tgTopStyles = `
+              --tg-safe-area-custom-top: 17px;
+            `;
+        htmlElement.style.cssText =
+          htmlElement.style.cssText.concat(tgTopStyles);
+      }
       window.Telegram.WebApp?.lockOrientation?.();
       window.Telegram.WebApp?.disableVerticalSwipes?.();
       window.Telegram.WebApp?.setHeaderColor?.("#000000");
     }
-
-    const tgBottomStyles = `
-        --tg-safe-area-inset-bottom: 34px;
-      `;
-    htmlElement.style.cssText =
-      htmlElement.style.cssText.concat(tgBottomStyles);
   }, []);
 
   return (
     <WebLoginProvider>
       <UserProvider>
         <ConfigProvider config={cmsData}>
-          <Routes />
+          {isLoading ? (
+            <SceneLoading setIsLoading={setIsLoading} />
+          ) : (
+            <Routes />
+          )}
         </ConfigProvider>
       </UserProvider>
     </WebLoginProvider>
