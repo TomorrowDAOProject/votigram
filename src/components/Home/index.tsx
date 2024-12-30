@@ -152,11 +152,17 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
                 setPageIndex(0);
                 setKeyward(e.target.value);
               }}
+              maxLength={200}
               onFocus={() => {
                 setIsSearching(true);
               }}
             />
           </div>
+          {isSearching && keyward.length >= 200 && (
+            <span className="mt-1 pl-4 block text-[13px] font-normal leading-[16px] text-danger whitespace-nowrap">
+              Should contain no more than 200 characters.
+            </span>
+          )}
         </div>
         <CategoryPillList
           value={category}
@@ -172,7 +178,11 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
         />
         {isSearching ? (
           <SearchPanel
-            recommendList={searchList.length > 0 ? searchList : recommendList}
+            recommendList={
+              searchList.length > 0 || keyward?.length > 0
+                ? searchList
+                : recommendList
+            }
             onAppItemClick={onAppItemClick}
           />
         ) : (

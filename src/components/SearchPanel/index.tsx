@@ -27,6 +27,14 @@ const SearchPanel = ({ recommendList, onAppItemClick }: ISearchPanel) => {
         {recommendList?.map((item) => (
           <AppItem showArrow item={item} onAppItemClick={onAppItemClick} />
         ))}
+
+        {
+          recommendList.length === 0 && (
+            <div className="text-center text-[13px] leading-[16px] text-white">
+              No Results
+            </div>
+          )
+        }
       </div>
     </div>
   );
