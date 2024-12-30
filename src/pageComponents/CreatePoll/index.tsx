@@ -136,6 +136,7 @@ const CreatePoll = () => {
         );
       }
       const methodName = "CreateProposal";
+      console.log(formState.activeStartTime, formState.activeEndTime);
       const timeParams = getProposalTimeParams(
         formState.activeStartTime,
         formState.activeEndTime
@@ -161,7 +162,7 @@ const CreatePoll = () => {
       setFinished(CREATE_STATUS.FAILED);
     }
   };
-  
+
   const handleGoBack = () => {
     if (location.state?.from) {
       navigate(location.state?.from, { replace: true });
@@ -235,11 +236,16 @@ const CreatePoll = () => {
               <SimpleDatePicker
                 className="flex-1"
                 value={dayjs(formState.activeStartTime).format("YYYY-MM-DD")}
-                onChange={(day) =>
+                onChange={(day) => {
                   handleChange("activeStartTime")(
                     combineDateAndTime(day, formState.activeStartTime)
-                  )
-                }
+                  );
+                  if (typeof formState.activeEndTime !== "object") {
+                    handleChange("activeEndTime")(
+                      combineDateAndTime(dayjs(day).add(1, "day").format(), formState.activeStartTime)
+                    );
+                  }
+                }}
               />
               <SimpleTimePicker
                 className="flex-1"
@@ -278,10 +284,28 @@ const CreatePoll = () => {
             <div className="flex flex-row items-center flex-wrap gap-[9px] mt-[12px]">
               <SimpleDatePicker
                 className="flex-1"
+                disabled={{
+                  before:
+                    formState?.activeStartTime === 1
+                      ? dayjs().add(1, "day").toDate()
+                      : dayjs(formState.activeStartTime).add(1, "day").toDate(),
+                }}
                 value={dayjs(formState.activeEndTime).format()}
-                onChange={handleChange("activeEndTime")}
+                onChange={(day) =>
+                  handleChange("activeEndTime")(
+                    combineDateAndTime(day, formState.activeEndTime as number)
+                  )
+                }
               />
-              <SimpleTimePicker className="flex-1" />
+              <SimpleTimePicker
+                className="flex-1"
+                value={formState.activeEndTime}
+                onChange={(time) =>
+                  handleChange("activeEndTime")(
+                    combineDateAndTime(formState.activeEndTime as number, time)
+                  )
+                }
+              />
             </div>
           )}
         </FormItem>
