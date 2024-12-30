@@ -123,7 +123,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         dispatch({
           type: "SET_USER_DATA",
           payload: {
-            isNewUser: !!decodedToken.new_user || false,
+            isNewUser: !!Number(decodedToken.new_user) || false,
             userPoints: userPointsData?.data,
           },
         });

@@ -265,7 +265,7 @@ const CreatePoll = () => {
               )
             }
           />
-          {typeof formState.activeEndTime !== "number" ? (
+          {typeof formState.activeEndTime === "object" ? (
             <ButtonRadio
               className="mt-[12px]"
               options={DURATION_RANGE}
