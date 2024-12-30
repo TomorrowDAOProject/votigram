@@ -193,6 +193,7 @@ const CreatePoll = () => {
           <Input
             onChange={handleChange("proposalTitle")}
             value={formState.proposalTitle}
+            maxLength={50}
             showClearBtn
           />
         </FormItem>

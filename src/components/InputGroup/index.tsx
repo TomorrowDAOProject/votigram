@@ -62,6 +62,7 @@ const InputGroup: React.FC<IInputGroupProps> = ({ value, defaultValues, onChange
             value={option.title}
             onChange={(value) => handleInputChange(index, value)}
             placeholder={`Option ${index + 1}`}
+            maxLength={50}
             showClearBtn
           />
           <div

@@ -71,7 +71,7 @@ const Textarea = ({
         <span
           className={clsx(
             "inline-block mt-[10px] text-[11px] leading-[16.8px] text-input-placeholder",
-            { "text-danger": charCount === maxLength }
+            { "!text-danger": charCount === maxLength }
           )}
         >
           {charCount}/{maxLength}

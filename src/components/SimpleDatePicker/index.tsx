@@ -76,7 +76,9 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
           onSelect={(date) =>
             date && setSelected(dayjs(date).format("YYYY-MM-DD"))
           }
-          captionLayout="dropdown"
+          disabled={{
+            before: new Date(),
+          }}
           weekStartsOn={1}
           components={{
             Weekday: (props: WeekdayProps) => {

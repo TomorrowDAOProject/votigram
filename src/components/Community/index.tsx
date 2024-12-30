@@ -30,7 +30,7 @@ const Community = ({ scrollTop }: ICommunityProps) => {
 
   return (
     <>
-      <Tabs defaultValue={1} options={communityTabs} onChange={onTabChange} />
+      <Tabs defaultValue={activeTab === '0' ? Number(activeTab) : 1} options={communityTabs} onChange={onTabChange} />
 
       <Archived
         scrollTop={scrollTop}

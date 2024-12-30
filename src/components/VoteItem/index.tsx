@@ -73,7 +73,11 @@ const VoteItem = ({
       try {
         setLoading(true);
         const { data } = await voteRequest(rawTransaction, result);
-        if (data.status === VOTE_STATUS.VOTED) {
+        if (!data || data.status === VOTE_STATUS.FAILED) {
+          setLoading(false);
+          setIsFailed(true);
+          cancel();
+        } else if (data.status === VOTE_STATUS.VOTED) {
           if (data?.userTotalPoints) {
             updateUserPoints(data.userTotalPoints);
           }
@@ -81,10 +85,6 @@ const VoteItem = ({
           showConfetti();
           cancel();
           setLoading(false);
-        } else if (!data || data.status === VOTE_STATUS.FAILED) {
-          setLoading(false);
-          setIsFailed(true);
-          cancel();
         }
       } catch (error) {
         console.error(error);
@@ -283,7 +283,7 @@ const VoteItem = ({
           ref={elementRef}
         >
           <div className="flex flex-row items-center justify-between">
-            <span className="flex flex-row items-center font-outfit font-bold text-[16px] leading-[16px] text-white">
+            <span className="flex flex-row items-center font-outfit font-bold text-[16px] leading-[16px] text-white max-w-[50vw] truncate">
               {rank && (
                 <span className="mr-[4px] font-outfit font-bold text-[12px] leading-[16px]">
                   {rank}

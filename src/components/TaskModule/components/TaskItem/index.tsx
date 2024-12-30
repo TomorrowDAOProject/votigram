@@ -135,7 +135,7 @@ const TaskItem = ({
         const result = await fetchWithToken(
           `/api/app/user/complete-task?${new URLSearchParams({
             chainId,
-            userTask: userTask,
+            userTask,
             userTaskDetail: taskId,
           })}`
         );
@@ -173,7 +173,7 @@ const TaskItem = ({
             fetchWithToken(
               `/api/app/user/complete-task?${new URLSearchParams({
                 chainId,
-                userTask: userTask,
+                userTask,
                 userTaskDetail: taskId,
               })}`
             )

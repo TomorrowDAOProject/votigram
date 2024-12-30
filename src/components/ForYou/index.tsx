@@ -5,7 +5,7 @@ import AppDetail from "./AppDetail";
 import Modal from "../Modal";
 import ActionButton from "./ActionButton";
 import CheckboxGroup from "../CheckboxGroup";
-import { APP_CATEGORY, DISCOVER_CATEGORY } from "@/constants/discover";
+import { APP_CATEGORY, APP_TYPE, DISCOVER_CATEGORY } from "@/constants/discover";
 import Drawer from "../Drawer";
 import TelegramHeader from "../TelegramHeader";
 import { VoteApp } from "@/types/app";
@@ -36,7 +36,7 @@ const ForYou = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isShowReviews, setIsShowReviews] = useState(false);
   const [showChoosen, setShowChoosen] = useState(isNewUser);
-  const [intrests, setIntrests] = useState<APP_CATEGORY[]>([]);
+  const [interests, setInterests] = useState<APP_CATEGORY[]>([]);
   const [currentActiveApp, setCurrentActiveApp] = useState<
     VoteApp | undefined
   >();
@@ -111,14 +111,14 @@ const ForYou = ({
     setForYouItems(list);
   };
 
-  const { run: chooseIntrest } = useThrottleFn(
+  const { run: chooseInterest } = useThrottleFn(
     async () => {
       setShowChoosen(false);
       updateUserStatus(false);
       try {
         await postWithToken("/api/app/discover/choose", {
           chainId,
-          choices: intrests,
+          choices: interests,
         });
       } catch (error) {
         console.error(error);
@@ -152,7 +152,7 @@ const ForYou = ({
                 key={index}
                 className="h-screen flex flex-col relative items-center"
               >
-                {item.appType === "AD" && index === currentIndex ? (
+                {item.appType === APP_TYPE.AD && index === currentIndex ? (
                   <AdVideo src={item.url} />
                 ) : (
                   <>
@@ -191,12 +191,12 @@ const ForYou = ({
 
           <CheckboxGroup
             options={DISCOVER_CATEGORY.slice(1)}
-            onChange={setIntrests}
+            onChange={setInterests}
           />
 
           <button
             className="mt-[24px] bg-primary text-white text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mt-[24px] mb-[16px]"
-            onClick={chooseIntrest}
+            onClick={chooseInterest}
           >
             Let's Begin
           </button>

@@ -64,4 +64,9 @@ export enum RANDOM_APP_CATEGORY {
   RECOMMEND = "Recommend",
 }
 
+export enum APP_TYPE {
+  AD = "AD",
+  TELEGRAM = "Telegram",
+}
+
 export const DAILY_REWARDS = [100, 100, 250, 100, 100, 100, 250];
