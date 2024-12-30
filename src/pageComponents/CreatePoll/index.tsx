@@ -26,6 +26,7 @@ import Drawer from "@/components/Drawer";
 import { CREATE_STATUS } from "@/constants/vote";
 import clsx from "clsx";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
 
 const rules = {
   proposalTitle: [
@@ -66,6 +67,7 @@ const CreatePoll = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { communityDaoId } = useConfig() ?? {};
+  const { isConnected, connectWallet } = useConnectWallet();
 
   const initialFormState: FormStateProps = {
     proposalTitle: "",
@@ -80,6 +82,9 @@ const CreatePoll = () => {
 
   const onSubmit = async () => {
     try {
+      if (!isConnected) {
+        await connectWallet();
+      }
       const saveReqApps: VoteOption[] = formState.options.map((item) => ({
         ...item,
         sourceType: 1,

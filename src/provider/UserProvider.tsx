@@ -165,6 +165,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         userPoints: {
           ...state.user.userPoints,
           dailyLoginPointsStatus: value,
+          consecutiveLoginDays:
+            (state.user.userPoints?.consecutiveLoginDays || 0) + 1,
         },
       } as User,
     });

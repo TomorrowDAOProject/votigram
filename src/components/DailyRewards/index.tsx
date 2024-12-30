@@ -23,7 +23,7 @@ const DailyRewards = ({ userPoints }: IDailyRewardsProps) => {
             className="flex flex-col bg-tertiary w-[67px] rounded-[8px] gap-[15px] justify-center aspect-square items-center"
           >
             <span className="text-[9px] leading-[10px]">Day {index + 1}</span>
-            {(userPoints?.consecutiveLoginDays || 1) > index + 1 ? (
+            {(userPoints?.consecutiveLoginDays || 0) >= index + 1 ? (
               <div className="flex w-[20px] h-[20px] items-center justify-center rounded-full bg-primary">
                 <i className="votigram-icon-tick text-[10px]" />
               </div>
