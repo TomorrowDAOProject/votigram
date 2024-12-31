@@ -17,6 +17,7 @@ import useSetSearchParams from "@/hooks/useSetSearchParams";
 import { parseStartAppParams } from "@/utils/start-params";
 import { useNavigate } from "react-router-dom";
 import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
+import { useUserContext } from "@/provider/UserProvider";
 
 const App = () => {
   const currentForyouPage = useRef<number>(1);
@@ -25,6 +26,7 @@ const App = () => {
   const [recommendList, setRecommendList] = useState<VoteApp[]>([]);
   const [selectedItem, setSelectItem] = useState<VoteApp>();
   const { isConnected, walletInfo: wallet } = useConnectWallet();
+  const { fetchTokenAndData } = useUserContext();
 
   const navigate = useNavigate();
 
@@ -50,6 +52,7 @@ const App = () => {
         if (!isClaimedInSystem) {
           fetchTransfer();
         } else {
+          fetchTokenAndData();
           cancel();
         }
       } catch (error) {
@@ -86,11 +89,9 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (isConnected && wallet?.address) {
-      fetchTransferStatus();
-    }
+    fetchTransferStatus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isConnected, wallet?.address]);
 
   useEffect(() => {
     fetchForYouData();
@@ -117,7 +118,7 @@ const App = () => {
       const params = parseStartAppParams(startParam);
       const hasRedirect = sessionStorage.getItem("redirect");
       if (params && params.pid && !hasRedirect) {
-        sessionStorage.setItem("redirect", '1');
+        sessionStorage.setItem("redirect", "1");
         navigate(`/proposal/${params.pid}`);
       }
     }
@@ -125,7 +126,7 @@ const App = () => {
   }, []);
 
   const handleTabChange = (tab: TAB_LIST) => {
-    updateQueryParam({key: "tab", value: tab.toString()});
+    updateQueryParam({ key: "tab", value: tab.toString() });
     setActiveTab(tab);
   };
 
