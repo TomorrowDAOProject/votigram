@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BackBtn from "@/components/BackBtn";
 import FormItem from "@/components/FormItem";
 import Input from "@/components/Input";
@@ -83,11 +83,15 @@ const CreatePoll = () => {
     rules
   );
 
+  useEffect(() => {
+    if (!walletInfo) {
+      fetchTokenAndData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const onSubmit = async () => {
     try {
-      if (!walletInfo) {
-        await fetchTokenAndData();
-      }
       const saveReqApps: VoteOption[] = formState.options.map((item) => ({
         ...item,
         sourceType: 1,

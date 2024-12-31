@@ -50,7 +50,6 @@ const VoteItem = ({
   const {
     user: { userPoints },
     updateUserPoints,
-    fetchTokenAndData,
   } = useUserContext();
   const elementRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -165,10 +164,6 @@ const VoteItem = ({
   const sedRawTransaction = async () => {
     try {
       setLoading(true);
-
-      if (!walletInfo) {
-        await fetchTokenAndData();
-      }
       const result: {
         transactionId: string;
       } = await callSendMethod({
