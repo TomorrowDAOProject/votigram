@@ -49,10 +49,11 @@ const App = () => {
           symbol: nftSymbol,
         });
         const { isClaimedInSystem } = data || {};
-        if (!isClaimedInSystem) {
+        if (!data) {
+          fetchTokenAndData();
+        } else if (!isClaimedInSystem) {
           fetchTransfer();
         } else {
-          fetchTokenAndData();
           cancel();
         }
       } catch (error) {
