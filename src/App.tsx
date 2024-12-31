@@ -4,27 +4,12 @@ import "./App.css";
 import { UserProvider } from "./provider/UserProvider";
 import Routes from "./routes";
 import WebLoginProvider from "./provider/webLoginProvider";
-import ConfigProvider from "./provider/configProvider";
-import { host } from "./config";
-import { IConfigContent } from "./provider/types/ConfigContext";
 import SceneLoading from "./components/SceneLoading";
 
 const App = () => {
-  const [cmsData, setCmsData] = useState<IConfigContent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchCMSData = async () => {
-    const cmsRes = await fetch(host + "/cms/items/config", {
-      cache: "no-store",
-    });
-    const {
-      data: { config },
-    } = await cmsRes.json();
-    setCmsData(config);
-  };
-
   useEffect(() => {
-    fetchCMSData();
     const htmlElement = document.getElementsByTagName("html")[0];
     if (window?.Telegram && isTMA("simple")) {
       if (
@@ -56,13 +41,11 @@ const App = () => {
   return (
     <WebLoginProvider>
       <UserProvider>
-        <ConfigProvider config={cmsData}>
-          {isLoading ? (
-            <SceneLoading setIsLoading={setIsLoading} />
-          ) : (
-            <Routes />
-          )}
-        </ConfigProvider>
+        {isLoading ? (
+          <SceneLoading setIsLoading={setIsLoading} />
+        ) : (
+          <Routes />
+        )}
       </UserProvider>
     </WebLoginProvider>
   );

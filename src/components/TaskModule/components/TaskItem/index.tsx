@@ -1,5 +1,4 @@
 import { USER_TASK_DETAIL } from "@/constants/task";
-import { useConfig } from "@/provider/types/ConfigContext";
 import { TaskInfo } from "@/types/task";
 import { openNewPageWaitPageVisible } from "../../utils";
 import { chainId } from "@/constants/app";
@@ -9,6 +8,7 @@ import { TAB_LIST } from "@/constants/navigation";
 import { useAdsgram } from "@/hooks/useAdsgram";
 import useRequest from "ahooks/lib/useRequest";
 import { fetchWithToken } from "@/hooks/useData";
+import { useUserContext } from "@/provider/UserProvider";
 
 interface ITaskItemProps {
   userTask: string;
@@ -86,11 +86,12 @@ const TaskItem = ({
   refresh,
 }: ITaskItemProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const { cmsData } = useUserContext();
   const {
     retweetVotigramPostURL,
     retweetTmrwdaoPostURL,
     discoverTopBannerRedirectURL,
-  } = useConfig() ?? {};
+  } = cmsData || {};
 
   const jumpExternalList = [
     {

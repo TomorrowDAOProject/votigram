@@ -13,10 +13,10 @@ import { RANDOM_APP_CATEGORY } from "@/constants/discover";
 import Profile from "@/components/Profile";
 import useRequest from "ahooks/lib/useRequest";
 import { nftSymbol } from "@/config";
-import { useWalletService } from "@/hooks/useWallet";
 import useSetSearchParams from "@/hooks/useSetSearchParams";
 import { parseStartAppParams } from "@/utils/start-params";
 import { useNavigate } from "react-router-dom";
+import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
 
 const App = () => {
   const currentForyouPage = useRef<number>(1);
@@ -24,7 +24,7 @@ const App = () => {
   const [forYouList, setForYouList] = useState<VoteApp[]>([]);
   const [recommendList, setRecommendList] = useState<VoteApp[]>([]);
   const [selectedItem, setSelectItem] = useState<VoteApp>();
-  const { isConnected, wallet } = useWalletService();
+  const { isConnected, walletInfo: wallet } = useConnectWallet();
 
   const navigate = useNavigate();
 
@@ -89,7 +89,8 @@ const App = () => {
     if (isConnected && wallet?.address) {
       fetchTransferStatus();
     }
-  }, [fetchTransferStatus, isConnected, wallet?.address]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     fetchForYouData();

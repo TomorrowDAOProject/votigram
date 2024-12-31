@@ -14,9 +14,38 @@ export interface User {
 
 export interface UserContextState {
   user: User;
+  cmsData: IConfigContent | null;
   token: string | null;
   loading: boolean;
   error: string | null;
+}
+
+export interface IConfigContent {
+  loginScreen: {
+    title: string;
+    subtitle: string;
+    progressTips: string[];
+  };
+  earnScreen: {
+    title: string;
+    subtitle: string;
+  };
+  voteMain: {
+    rules: {
+      title: string;
+      description: string[];
+    };
+    listTitle: string;
+    topBannerImages: string[];
+    nftImage: string;
+  };
+  communityDaoId: string;
+  createVotePageTitle: string;
+  rankingAdsBannerUrl: string;
+  discoverTopBannerURL: string;
+  discoverTopBannerRedirectURL: string;
+  retweetVotigramPostURL: string;
+  retweetTmrwdaoPostURL: string;
 }
 
 export interface CustomJwtPayload extends JwtPayload {
@@ -27,5 +56,6 @@ export interface UserContextType extends UserContextState {
   hasUserData: () => boolean;
   updateUserStatus: (isNewUser: boolean) => void;
   updateUserPoints: (points: number) => void;
+  fetchTokenAndData: () => Promise<void>;
   updateDailyLoginPointsStatus: (value: number) => void;
 }

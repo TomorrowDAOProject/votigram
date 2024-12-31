@@ -50,6 +50,7 @@ const VoteItem = ({
   const {
     user: { userPoints },
     updateUserPoints,
+    fetchTokenAndData,
   } = useUserContext();
   const elementRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -57,7 +58,7 @@ const VoteItem = ({
   const [totalCurrentPoints, setTotalCurrentPoints] = useState(
     data.totalPoints || data.pointsAmount || 0
   );
-  const { walletInfo, callSendMethod, isConnected, connectWallet } = useConnectWallet();
+  const { walletInfo, callSendMethod } = useConnectWallet();
 
   const [elementWidth, setElementWidth] = useState(0);
   const [likeCount, setLikeCount] = useState(0);
@@ -165,8 +166,8 @@ const VoteItem = ({
     try {
       setLoading(true);
 
-      if (!isConnected) {
-        await connectWallet();
+      if (!walletInfo) {
+        await fetchTokenAndData();
       }
       const result: {
         transactionId: string;

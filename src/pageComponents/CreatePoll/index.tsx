@@ -21,12 +21,12 @@ import {
   getProposalTimeParams,
 } from "./utils";
 import { proposalCreateContractRequest } from "@/contract/proposalCreateContract";
-import { useConfig } from "@/provider/types/ConfigContext";
 import Drawer from "@/components/Drawer";
 import { CREATE_STATUS } from "@/constants/vote";
 import clsx from "clsx";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
+import { useUserContext } from "@/provider/UserProvider";
 
 const rules = {
   proposalTitle: [
@@ -60,14 +60,17 @@ const defaultEndTime: VoteTimeItem = {
 };
 
 const CreatePoll = () => {
+  const { fetchTokenAndData } = useUserContext();
   const [loading, setLoading] = useState(false);
   const [finished, setFinished] = useState<CREATE_STATUS>(
     CREATE_STATUS.PENDDING
   );
   const navigate = useNavigate();
   const location = useLocation();
-  const { communityDaoId } = useConfig() ?? {};
-  const { isConnected, connectWallet } = useConnectWallet();
+
+  const { cmsData } = useUserContext();
+  const { communityDaoId } = cmsData || {};
+  const { walletInfo } = useConnectWallet();
 
   const initialFormState: FormStateProps = {
     proposalTitle: "",
@@ -82,8 +85,8 @@ const CreatePoll = () => {
 
   const onSubmit = async () => {
     try {
-      if (!isConnected) {
-        await connectWallet();
+      if (!walletInfo) {
+        await fetchTokenAndData();
       }
       const saveReqApps: VoteOption[] = formState.options.map((item) => ({
         ...item,
