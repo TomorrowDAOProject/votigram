@@ -25,7 +25,6 @@ import Drawer from "@/components/Drawer";
 import { CREATE_STATUS } from "@/constants/vote";
 import clsx from "clsx";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
 import { useUserContext } from "@/provider/UserProvider";
 
 const rules = {
@@ -70,7 +69,6 @@ const CreatePoll = () => {
 
   const { cmsData } = useUserContext();
   const { communityDaoId } = cmsData || {};
-  const { walletInfo } = useConnectWallet();
 
   const initialFormState: FormStateProps = {
     proposalTitle: "",
@@ -84,9 +82,7 @@ const CreatePoll = () => {
   );
 
   useEffect(() => {
-    if (!walletInfo) {
-      fetchTokenAndData();
-    }
+    fetchTokenAndData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

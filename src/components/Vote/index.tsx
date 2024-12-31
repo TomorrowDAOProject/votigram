@@ -10,7 +10,6 @@ import { VOTE_TABS } from "@/constants/vote";
 import { VoteApp } from "@/types/app";
 import useSetSearchParams from "@/hooks/useSetSearchParams";
 import Modal from "../Modal";
-import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
 
 interface IVoteProps {
   onAppItemClick: (item: VoteApp) => void;
@@ -31,7 +30,6 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
   const [scrollTop, setScrollTop] = useState(0);
   const [tmaTab, setTMATab] = useState(0);
   const [showWelcome, setShowWelCome] = useState(false);
-  const { walletInfo } = useConnectWallet();
 
   const handleScroll = useCallback(() => {
     const scrollRef = scrollViewRef.current;
@@ -43,9 +41,7 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
   }, [scrollViewRef]);
 
   useEffect(() => {
-    if (!walletInfo) {
-      fetchTokenAndData();
-    }
+    fetchTokenAndData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

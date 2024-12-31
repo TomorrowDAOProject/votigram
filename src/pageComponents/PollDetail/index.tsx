@@ -15,7 +15,6 @@ import { useParams } from "react-router-dom";
 import { useCopyToClipboard } from "react-use";
 import { getShareText } from "./utils";
 import { mutate } from "swr";
-import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
 import { useUserContext } from "@/provider/UserProvider";
 
 const PollDetail = () => {
@@ -27,7 +26,6 @@ const PollDetail = () => {
   const [pollDeta, setPollDeta] = useState<IPollDetail | null>(null);
   const [, copyToClipboard] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);
-  const { walletInfo } = useConnectWallet();
 
   const { data, isLoading } = useData(
     proposalId
@@ -54,9 +52,7 @@ const PollDetail = () => {
   }, [isCopied]);
 
   useEffect(() => {
-    if (!walletInfo) {
-      fetchTokenAndData();
-    }
+    fetchTokenAndData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
