@@ -85,7 +85,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
         ...adPrams,
       });
       if (result?.data?.userTotalPoints) {
-        updateUserPoints(result?.data?.userTotalPoints);
+        updateDailyLoginPointsStatus(result?.data?.userTotalPoints);
       }
     } catch (e) {
       console.error(e);
@@ -192,6 +192,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
                 ? searchList
                 : recommendList
             }
+            updateUserPoints={updateUserPoints}
             onAppItemClick={onAppItemClick}
           />
         ) : (
@@ -293,10 +294,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
           Watch Ads To Double The Point
         </button>
         <button
-          onClick={() => {
-            updateDailyLoginPointsStatus(true);
-            onClaimClick();
-          }}
+          onClick={onClaimClick}
           className="bg-primary text-white text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px]"
         >
           Claim Today's Reward

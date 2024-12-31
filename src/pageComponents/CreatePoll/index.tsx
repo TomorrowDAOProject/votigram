@@ -141,7 +141,6 @@ const CreatePoll = () => {
         );
       }
       const methodName = "CreateProposal";
-      console.log(formState.activeStartTime, formState.activeEndTime);
       const timeParams = getProposalTimeParams(
         formState.activeStartTime,
         formState.activeEndTime
@@ -233,7 +232,9 @@ const CreatePoll = () => {
             itemClassName="h-[33px]"
             activeItemClassName="h-[26px]"
             onChange={(index) =>
-              handleChange("activeStartTime")(index ? dayjs().unix() * 1000 : 1)
+              handleChange("activeStartTime")(
+                index ? dayjs().add(1, "day").unix() * 1000 : 1
+              )
             }
           />
           {formState?.activeStartTime !== 1 && (
@@ -241,14 +242,20 @@ const CreatePoll = () => {
               <SimpleDatePicker
                 className="flex-1"
                 value={dayjs(formState.activeStartTime).format("YYYY-MM-DD")}
+                disabled={{
+                  before: dayjs().add(1, "day").toDate(),
+                }}
                 onChange={(day) => {
                   handleChange("activeStartTime")(
-                    combineDateAndTime(day, formState.activeStartTime)
+                    combineDateAndTime(
+                      dayjs(day).add(1, "day").format(),
+                      formState.activeStartTime
+                    )
                   );
                   if (typeof formState.activeEndTime !== "object") {
                     handleChange("activeEndTime")(
                       combineDateAndTime(
-                        dayjs(day).add(1, "day").format(),
+                        dayjs(day).add(2, "day").format(),
                         formState.activeStartTime
                       )
                     );
@@ -353,7 +360,8 @@ const CreatePoll = () => {
         }
         direction="bottom"
         rootClassName="pt-[34px] pb-[23px] px-5 bg-tertiary"
-        canClose
+        onClose={() => setFinished(CREATE_STATUS.PENDDING)}
+        canClose={finished === CREATE_STATUS.FAILED}
       >
         <span className="block mb-[40px] text-[18px] font-outfit font-bold leading-[18px] text-center text-white">
           {finished === CREATE_STATUS.SUCCESS ? "Success" : "Please Try Again"}

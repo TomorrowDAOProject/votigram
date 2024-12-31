@@ -159,6 +159,7 @@ const Upload = ({ className, needCrop, aspect, children, onFinish }: IUploadProp
           />
           <div className="p-4 absolute top-0 right-0 z-10 pt-telegramHeader">
             <button
+              type="button"
               className="py-2 px-4 bg-primary text-white rounded-[8px] hover:bg-primary-hover"
               onClick={showCroppedImage}
             >

@@ -20,6 +20,7 @@ const Achievements = ({ scrollTop }: IAchievementsProps) => {
   const {
     user: { userPoints },
   } = useUserContext();
+  console.log(userPoints)
   const [inviteList, setInviteList] = useState<InviteItem[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [pageIndex, setPageIndex] = useState(0);

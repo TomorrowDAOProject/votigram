@@ -3,6 +3,7 @@ import { JwtPayload } from "jwt-decode";
 export interface UserPoints {
   consecutiveLoginDays: number;
   dailyLoginPointsStatus: boolean;
+  dailyPointsClaimedStatus: boolean[];
   userTotalPoints: number;
 }
 
@@ -26,5 +27,5 @@ export interface UserContextType extends UserContextState {
   hasUserData: () => boolean;
   updateUserStatus: (isNewUser: boolean) => void;
   updateUserPoints: (points: number) => void;
-  updateDailyLoginPointsStatus: (value: boolean) => void;
+  updateDailyLoginPointsStatus: (value: number) => void;
 }

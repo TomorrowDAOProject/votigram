@@ -26,6 +26,7 @@ const initialState: UserContextState = {
     userPoints: {
       consecutiveLoginDays: 1,
       dailyLoginPointsStatus: true,
+      dailyPointsClaimedStatus: [],
       userTotalPoints: 0,
     },
     isNewUser: false,
@@ -127,10 +128,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
             userPoints: userPointsData?.data,
           },
         });
-
-        if (!isInTelegram() && !isConnected) {
-          login();
-        }
       } catch (error) {
         if (
           error instanceof Error &&
@@ -151,22 +148,35 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     if (state.loading) {
       fetchTokenAndData();
     }
-  }, [isConnected, login, state.loading]);
+  }, [state.loading]);
+
+  useEffect(() => {
+    if (!isInTelegram() && !isConnected) {
+      login();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const hasUserData = () => {
     return state.user.userPoints !== null;
   };
 
-  const updateDailyLoginPointsStatus = (value: boolean) => {
+  const updateDailyLoginPointsStatus = (points: number) => {
+    const userPoints = state.user.userPoints;
+    const currentClaimed =
+      userPoints?.dailyPointsClaimedStatus?.filter((isClaimed) => isClaimed)
+        ?.length || 0;
     dispatch({
       type: "SET_USER_DATA",
       payload: {
         ...state.user,
         userPoints: {
           ...state.user.userPoints,
-          dailyLoginPointsStatus: value,
-          consecutiveLoginDays:
-            (state.user.userPoints?.consecutiveLoginDays || 0) + 1,
+          dailyLoginPointsStatus: true,
+          userTotalPoints: points,
+          dailyPointsClaimedStatus: userPoints?.dailyPointsClaimedStatus.map(
+            (_, index) => index < currentClaimed + 1
+          ),
         },
       } as User,
     });
@@ -179,7 +189,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         ...state.user,
         userPoints: {
           ...state.user.userPoints,
-          dailyLoginPointsStatus: true,
           userTotalPoints: points,
         },
       } as User,
