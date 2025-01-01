@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BackBtn from "@/components/BackBtn";
 import FormItem from "@/components/FormItem";
 import Input from "@/components/Input";
@@ -59,7 +59,6 @@ const defaultEndTime: VoteTimeItem = {
 };
 
 const CreatePoll = () => {
-  const { fetchTokenAndData } = useUserContext();
   const [loading, setLoading] = useState(false);
   const [finished, setFinished] = useState<CREATE_STATUS>(
     CREATE_STATUS.PENDDING
@@ -80,11 +79,6 @@ const CreatePoll = () => {
     initialFormState,
     rules
   );
-
-  useEffect(() => {
-    fetchTokenAndData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const onSubmit = async () => {
     try {

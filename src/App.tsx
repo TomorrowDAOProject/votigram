@@ -25,7 +25,10 @@ const App = () => {
         htmlElement.style.cssText =
           htmlElement.style.cssText.concat(tgTopStyles);
       }
-      if (window.Telegram.WebApp?.platform?.includes("weba")) {
+      if (
+        window.Telegram.WebApp?.platform?.includes("weba") ||
+        window.Telegram.WebApp?.platform === "tdesktop"
+      ) {
         const tgTopStyles = `
               --tg-safe-area-custom-top: 17px;
             `;
@@ -41,11 +44,7 @@ const App = () => {
   return (
     <WebLoginProvider>
       <UserProvider>
-        {isLoading ? (
-          <SceneLoading setIsLoading={setIsLoading} />
-        ) : (
-          <Routes />
-        )}
+        {isLoading ? <SceneLoading setIsLoading={setIsLoading} /> : <Routes />}
       </UserProvider>
     </WebLoginProvider>
   );

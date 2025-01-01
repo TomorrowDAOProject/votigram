@@ -15,11 +15,9 @@ import { useParams } from "react-router-dom";
 import { useCopyToClipboard } from "react-use";
 import { getShareText } from "./utils";
 import { mutate } from "swr";
-import { useUserContext } from "@/provider/UserProvider";
 
 const PollDetail = () => {
   const { proposalId } = useParams();
-  const { fetchTokenAndData } = useUserContext();
   const [seconds, setSeconds] = useState(0);
   const [canVote, setCanVote] = useState(false);
   const [showShare, setShowShare] = useState(false);
@@ -50,11 +48,6 @@ const PollDetail = () => {
       }, 2000);
     }
   }, [isCopied]);
-
-  useEffect(() => {
-    fetchTokenAndData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const getRemainingSeconds = () => {
     const now = dayjs();

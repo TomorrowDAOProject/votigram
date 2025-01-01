@@ -20,15 +20,15 @@ const TABS = [VOTE_TABS.TMAS, VOTE_TABS.COMMUNITY];
 const Vote = ({ onAppItemClick }: IVoteProps) => {
   const {
     user: { userPoints },
-    fetchTokenAndData,
   } = useUserContext();
   const { querys, updateQueryParam } = useSetSearchParams();
   const activeTab = querys.get("vote_tab");
+  const tmasTab = querys.get("tmas");
+  const [tmaTab, setTMATab] = useState(tmasTab === "1" ? Number(tmasTab) : 0);
   const [currentTab, setCurrentTab] = useState(activeTab || VOTE_TABS.TMAS);
   const scrollViewRef = useRef<HTMLDivElement | null>(null);
   const [seconds, setSeconds] = useState(0);
   const [scrollTop, setScrollTop] = useState(0);
-  const [tmaTab, setTMATab] = useState(0);
   const [showWelcome, setShowWelCome] = useState(false);
 
   const handleScroll = useCallback(() => {
@@ -39,11 +39,6 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
       );
     }
   }, [scrollViewRef]);
-
-  useEffect(() => {
-    fetchTokenAndData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     const scrollRef = scrollViewRef.current;
