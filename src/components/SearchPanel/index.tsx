@@ -5,13 +5,18 @@ import { useAdsgram } from "@/hooks/useAdsgram";
 
 interface ISearchPanel {
   recommendList: VoteApp[];
+  updateUserPoints(points: number): void;
   onAppItemClick: (item: VoteApp) => void;
 }
 
-const SearchPanel = ({ recommendList, onAppItemClick }: ISearchPanel) => {
+const SearchPanel = ({
+  recommendList,
+  updateUserPoints,
+  onAppItemClick,
+}: ISearchPanel) => {
   const showAd = useAdsgram({
     blockId: import.meta.env.VITE_ADSGRAM_ID.toString() || "",
-    onReward: () => {},
+    onReward: updateUserPoints,
     onError: () => {},
     onSkip: () => {},
   });
@@ -27,6 +32,12 @@ const SearchPanel = ({ recommendList, onAppItemClick }: ISearchPanel) => {
         {recommendList?.map((item) => (
           <AppItem showArrow item={item} onAppItemClick={onAppItemClick} />
         ))}
+
+        {recommendList.length === 0 && (
+          <div className="text-center text-[13px] leading-[16px] text-white">
+            No Results
+          </div>
+        )}
       </div>
     </div>
   );

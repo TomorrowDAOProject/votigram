@@ -1,5 +1,4 @@
 import { USER_TASK_DETAIL } from "@/constants/task";
-import { useConfig } from "@/provider/types/ConfigContext";
 import { TaskInfo } from "@/types/task";
 import { openNewPageWaitPageVisible } from "../../utils";
 import { chainId } from "@/constants/app";
@@ -9,6 +8,7 @@ import { TAB_LIST } from "@/constants/navigation";
 import { useAdsgram } from "@/hooks/useAdsgram";
 import useRequest from "ahooks/lib/useRequest";
 import { fetchWithToken } from "@/hooks/useData";
+import { useUserContext } from "@/provider/UserProvider";
 
 interface ITaskItemProps {
   userTask: string;
@@ -32,7 +32,7 @@ const taskItemMap: Record<string, { title: string; icon: React.ReactNode }> = {
     title: "Cast A Vote",
   },
   [USER_TASK_DETAIL.DAILY_FIRST_INVITE]: {
-    icon: <i className="votigram-icon-invite-friends" />,
+    icon: <i className="votigram-icon-referral-friends" />,
     title: "Invite A Friend",
   },
   [USER_TASK_DETAIL.EXPLORE_JOIN_VOTIGRAM]: {
@@ -64,15 +64,15 @@ const taskItemMap: Record<string, { title: string; icon: React.ReactNode }> = {
     title: "RT TMRWDAO Post on X",
   },
   [USER_TASK_DETAIL.EXPLORE_CUMULATE_FIVE_INVITE]: {
-    icon: <i className="votigram-icon-invite-friends" />,
+    icon: <i className="votigram-icon-referral-friends" />,
     title: "Invite 5 Friends",
   },
   [USER_TASK_DETAIL.EXPLORE_CUMULATE_TEN_INVITE]: {
-    icon: <i className="votigram-icon-invite-friends" />,
+    icon: <i className="votigram-icon-referral-friends" />,
     title: "Invite 10 Friends",
   },
   [USER_TASK_DETAIL.EXPLORE_CUMULATE_TWENTY_INVITE]: {
-    icon: <i className="votigram-icon-invite-friends" />,
+    icon: <i className="votigram-icon-referral-friends" />,
     title: "Invite 20 Friends",
   },
 };
@@ -86,11 +86,12 @@ const TaskItem = ({
   refresh,
 }: ITaskItemProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const { cmsData } = useUserContext();
   const {
     retweetVotigramPostURL,
     retweetTmrwdaoPostURL,
     discoverTopBannerRedirectURL,
-  } = useConfig() ?? {};
+  } = cmsData || {};
 
   const jumpExternalList = [
     {

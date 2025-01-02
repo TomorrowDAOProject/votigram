@@ -8,6 +8,7 @@ import Confetti from "@/components/Confetti";
 import { chainId } from "@/constants/app";
 import { VoteApp } from "@/types/app";
 import { HEART_SHAPE } from "@/constants/canvas-confetti";
+import { useUserContext } from "@/provider/UserProvider";
 
 interface IActionButton {
   item: VoteApp;
@@ -26,6 +27,10 @@ const ActionButton = ({
   updateOpenAppClick,
   updateReviewClick,
 }: IActionButton) => {
+  const {
+    user: { userPoints },
+    updateUserPoints,
+  } = useUserContext();
   const confettiInstance = useRef<CreateTypes | null>(null);
   const [totalCurrentLikes, setTotalCurrentLikes] = useState(totalLikes);
   const [likeCount, setLikeCount] = useState(0);
@@ -49,6 +54,7 @@ const ActionButton = ({
           ],
         });
         setTotalCurrentLikes((prev) => prev + likeCount);
+        updateUserPoints((userPoints?.userTotalPoints || 0) + likeCount);
         setLikeCount(0);
       }, 2000);
 

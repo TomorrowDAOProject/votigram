@@ -21,11 +21,11 @@ import {
   getProposalTimeParams,
 } from "./utils";
 import { proposalCreateContractRequest } from "@/contract/proposalCreateContract";
-import { useConfig } from "@/provider/types/ConfigContext";
 import Drawer from "@/components/Drawer";
 import { CREATE_STATUS } from "@/constants/vote";
 import clsx from "clsx";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useUserContext } from "@/provider/UserProvider";
 
 const rules = {
   proposalTitle: [
@@ -65,7 +65,9 @@ const CreatePoll = () => {
   );
   const navigate = useNavigate();
   const location = useLocation();
-  const { communityDaoId } = useConfig() ?? {};
+
+  const { cmsData } = useUserContext();
+  const { communityDaoId } = cmsData || {};
 
   const initialFormState: FormStateProps = {
     proposalTitle: "",
@@ -161,7 +163,7 @@ const CreatePoll = () => {
       setFinished(CREATE_STATUS.FAILED);
     }
   };
-  
+
   const handleGoBack = () => {
     if (location.state?.from) {
       navigate(location.state?.from, { replace: true });
@@ -193,6 +195,7 @@ const CreatePoll = () => {
           <Input
             onChange={handleChange("proposalTitle")}
             value={formState.proposalTitle}
+            maxLength={50}
             showClearBtn
           />
         </FormItem>
@@ -226,7 +229,9 @@ const CreatePoll = () => {
             itemClassName="h-[33px]"
             activeItemClassName="h-[26px]"
             onChange={(index) =>
-              handleChange("activeStartTime")(index ? dayjs().unix() * 1000 : 1)
+              handleChange("activeStartTime")(
+                index ? dayjs().add(1, "day").unix() * 1000 : 1
+              )
             }
           />
           {formState?.activeStartTime !== 1 && (
@@ -234,11 +239,25 @@ const CreatePoll = () => {
               <SimpleDatePicker
                 className="flex-1"
                 value={dayjs(formState.activeStartTime).format("YYYY-MM-DD")}
-                onChange={(day) =>
+                disabled={{
+                  before: dayjs().add(1, "day").toDate(),
+                }}
+                onChange={(day) => {
                   handleChange("activeStartTime")(
-                    combineDateAndTime(day, formState.activeStartTime)
-                  )
-                }
+                    combineDateAndTime(
+                      dayjs(day).add(1, "day").format(),
+                      formState.activeStartTime
+                    )
+                  );
+                  if (typeof formState.activeEndTime !== "object") {
+                    handleChange("activeEndTime")(
+                      combineDateAndTime(
+                        dayjs(day).add(2, "day").format(),
+                        formState.activeStartTime
+                      )
+                    );
+                  }
+                }}
               />
               <SimpleTimePicker
                 className="flex-1"
@@ -260,11 +279,15 @@ const CreatePoll = () => {
             activeItemClassName="h-[26px]"
             onChange={(index) =>
               handleChange("activeEndTime")(
-                index ? dayjs().add(1, "day").valueOf() : defaultEndTime
+                index
+                  ? formState?.activeStartTime === 1
+                    ? dayjs().add(1, "day").valueOf()
+                    : dayjs(formState.activeStartTime).add(1, "day").valueOf()
+                  : defaultEndTime
               )
             }
           />
-          {typeof formState.activeEndTime !== "number" ? (
+          {typeof formState.activeEndTime === "object" ? (
             <ButtonRadio
               className="mt-[12px]"
               options={DURATION_RANGE}
@@ -277,10 +300,28 @@ const CreatePoll = () => {
             <div className="flex flex-row items-center flex-wrap gap-[9px] mt-[12px]">
               <SimpleDatePicker
                 className="flex-1"
+                disabled={{
+                  before:
+                    formState?.activeStartTime === 1
+                      ? dayjs().add(1, "day").toDate()
+                      : dayjs(formState.activeStartTime).add(1, "day").toDate(),
+                }}
                 value={dayjs(formState.activeEndTime).format()}
-                onChange={handleChange("activeEndTime")}
+                onChange={(day) =>
+                  handleChange("activeEndTime")(
+                    combineDateAndTime(day, formState.activeEndTime as number)
+                  )
+                }
               />
-              <SimpleTimePicker className="flex-1" />
+              <SimpleTimePicker
+                className="flex-1"
+                value={formState.activeEndTime}
+                onChange={(time) =>
+                  handleChange("activeEndTime")(
+                    combineDateAndTime(formState.activeEndTime as number, time)
+                  )
+                }
+              />
             </div>
           )}
         </FormItem>
@@ -316,7 +357,8 @@ const CreatePoll = () => {
         }
         direction="bottom"
         rootClassName="pt-[34px] pb-[23px] px-5 bg-tertiary"
-        canClose
+        onClose={() => setFinished(CREATE_STATUS.PENDDING)}
+        canClose={finished === CREATE_STATUS.FAILED}
       >
         <span className="block mb-[40px] text-[18px] font-outfit font-bold leading-[18px] text-center text-white">
           {finished === CREATE_STATUS.SUCCESS ? "Success" : "Please Try Again"}

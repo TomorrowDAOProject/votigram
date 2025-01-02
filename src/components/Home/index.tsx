@@ -14,15 +14,19 @@ import { chainId } from "@/constants/app";
 import DailyRewards from "../DailyRewards";
 import { APP_CATEGORY, DISCOVER_CATEGORY } from "@/constants/discover";
 import { useAdsgram } from "@/hooks/useAdsgram";
+import { TAB_LIST } from "@/constants/navigation";
+import useSetSearchParams from "@/hooks/useSetSearchParams";
+import { VOTE_TABS } from "@/constants/vote";
 
 interface IHomeProps {
   onAppItemClick: (item?: VoteApp) => void;
   recommendList: VoteApp[];
+  switchTab: (tab: TAB_LIST) => void;
 }
 
 const PAGE_SIZE = 20;
 
-const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
+const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
   const {
     user: { userPoints },
     updateUserPoints,
@@ -37,6 +41,11 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
   const [noMore, setNoMore] = useState(false);
   const [keyward, setKeyward] = useState("");
   const [category, setCategory] = useState<APP_CATEGORY>(APP_CATEGORY.ALL);
+  const [adPrams, setAdParams] = useState<{
+    timeStamp?: number;
+    signature?: string;
+  }>({});
+  const { updateQueryParam } = useSetSearchParams();
 
   const { data: searchData, isLoading } = useData(
     isSearching && (category || keyward)
@@ -73,9 +82,10 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
     try {
       const result = await postWithToken("/api/app/user/login-points/collect", {
         chainId,
+        ...adPrams,
       });
       if (result?.data?.userTotalPoints) {
-        updateUserPoints(result?.data?.userTotalPoints);
+        updateDailyLoginPointsStatus(result?.data?.userTotalPoints);
       }
     } catch (e) {
       console.error(e);
@@ -87,6 +97,7 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
     onReward: updateUserPoints,
     onError: () => {},
     onSkip: () => {},
+    onFinish: (timeStamp, signature) => setAdParams({ timeStamp, signature }),
   });
 
   useEffect(() => {
@@ -150,11 +161,17 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
                 setPageIndex(0);
                 setKeyward(e.target.value);
               }}
+              maxLength={200}
               onFocus={() => {
                 setIsSearching(true);
               }}
             />
           </div>
+          {isSearching && keyward.length >= 200 && (
+            <span className="mt-1 pl-4 block text-[13px] font-normal leading-[16px] text-danger whitespace-nowrap">
+              Should contain no more than 200 characters.
+            </span>
+          )}
         </div>
         <CategoryPillList
           value={category}
@@ -170,13 +187,33 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
         />
         {isSearching ? (
           <SearchPanel
-            recommendList={searchList.length > 0 ? searchList : recommendList}
+            recommendList={
+              searchList.length > 0 || keyward?.length > 0
+                ? searchList
+                : recommendList
+            }
+            updateUserPoints={updateUserPoints}
             onAppItemClick={onAppItemClick}
           />
         ) : (
           <>
             <div className="mb-[22px] votigram-grid gap-[9px]">
-              <div className="col-6 p-[13px] flex flex-col gap-[7px] relative h-[230px] bg-secondary text-black rounded-[18px]">
+              <div
+                className="col-6 p-[13px] flex flex-col gap-[7px] relative h-[230px] bg-secondary text-black rounded-[18px]"
+                onClick={() => {
+                  updateQueryParam([
+                    {
+                      key: "vote_tab",
+                      value: VOTE_TABS.TMAS,
+                    },
+                    {
+                      key: "tmas",
+                      value: "1",
+                    },
+                  ], true);
+                  switchTab(TAB_LIST.VOTE);
+                }}
+              >
                 <img
                   src="https://cdn.tmrwdao.com/votigram/assets/imgs/3F37AB0AEBE1.webp"
                   className="left-0 bottom-0 absolute w-[118px]"
@@ -203,7 +240,10 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
                     Browse TMAs
                   </span>
                 </div>
-                <div className="col-12 p-[13px] flex-1 bg-primary rounded-[18px] relative">
+                <div
+                  className="col-12 p-[13px] flex-1 bg-primary rounded-[18px] relative"
+                  onClick={() => switchTab(TAB_LIST.PEN)}
+                >
                   <img
                     src="https://cdn.tmrwdao.com/votigram/assets/imgs/E0454AB5B2E6.webp"
                     className="absolute right-[25px] top-0 w-[45px]"
@@ -220,7 +260,7 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
                       duration={1000}
                     />
                     <span className="text-[11px] text-white leading-[13px] font-normal">
-                      points
+                      pts
                     </span>
                   </div>
                 </div>
@@ -242,7 +282,10 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
           </>
         )}
       </div>
-      <Modal isVisible={!userPoints?.dailyLoginPointsStatus} rootClassName="p-5">
+      <Modal
+        isVisible={!userPoints?.dailyLoginPointsStatus}
+        rootClassName="p-5"
+      >
         <DailyRewards userPoints={userPoints} />
         <button
           className="mt-7 bg-secondary text-black text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px] mb-2"
@@ -251,10 +294,7 @@ const Home = ({ onAppItemClick, recommendList }: IHomeProps) => {
           Watch Ads To Double The Point
         </button>
         <button
-          onClick={() => {
-            updateDailyLoginPointsStatus(true);
-            onClaimClick();
-          }}
+          onClick={onClaimClick}
           className="bg-primary text-white text-[14px] leading-[14px] font-outfit font-bold py-[10px] w-full rounded-[24px]"
         >
           Claim Today's Reward

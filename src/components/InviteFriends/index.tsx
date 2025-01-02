@@ -5,12 +5,12 @@ import Drawer from "../Drawer";
 import { InviteDetail, IStartAppParams } from "@/types/task";
 import { stringifyStartAppParams } from "@/utils/start-params";
 import { connectUrl, portkeyServer, TgLink } from "@/config";
-import { useWalletService } from "@/hooks/useWallet";
 import { chainId, projectCode } from "@/constants/app";
 import { useRequest } from "ahooks";
 import Loading from "../Loading";
 import { useCopyToClipboard } from "react-use";
 import { QRCode } from "react-qrcode-logo";
+import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
 
 interface IInviteFriendsStatusProps {
   data?: InviteDetail;
@@ -26,7 +26,7 @@ const InviteFriendsStatus = ({
   const [, setCopied] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);
   const [inviteCode, setInviteCode] = useState("");
-  const { wallet, isConnected } = useWalletService();
+  const { walletInfo: wallet, isConnected } = useConnectWallet();
   const progress = useMemo(() => {
     if (!data?.totalInvitesNeeded) return 0;
     const percentage =

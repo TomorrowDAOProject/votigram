@@ -10,10 +10,11 @@ import { useNavigate } from "react-router-dom";
 interface IArchivedProps {
   type: COMMUNITY_TYPE;
   scrollTop: number;
+  currentTab?: number;
 }
 const PAGE_SIZE = 20;
 
-const Archived = ({ type, scrollTop }: IArchivedProps) => {
+const Archived = ({ type, scrollTop, currentTab }: IArchivedProps) => {
   const [hasMore, setHasMore] = useState(true);
   const [sections, setSections] = useState<VoteSectionType[]>([]);
   const [pageIndex, setPageIndex] = useState(0);
@@ -59,7 +60,9 @@ const Archived = ({ type, scrollTop }: IArchivedProps) => {
           className="mb-[12px] w-full h-[40px] bg-primary text-white font-bold text-[14px] font-outfit rounded-[24px]"
           type="button"
           onClick={() =>
-            navigate("/create-poll", { state: { from: '/?tab=2&vote_tab=Community&community=1' } })
+            navigate("/create-poll", {
+              state: { from: '/?tab=2&vote_tab=Community&community=1' },
+            })
           }
         >
           Create Poll
@@ -67,6 +70,7 @@ const Archived = ({ type, scrollTop }: IArchivedProps) => {
       )}
       {sections?.map((vote, index) => (
         <VoteSection
+          currentTab={currentTab}
           key={`${vote.proposalId}_${index}`}
           data={vote}
           className="mb-3"

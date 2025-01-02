@@ -14,6 +14,7 @@ export interface useAdsgramParams {
   onReward: (newPoints: number) => void;
   onError: (result: ShowPromiseResult) => void;
   onSkip: () => void;
+  onFinish?: (timeStamp?: number, signature?: string) => void;
 }
 
 export function useAdsgram({
@@ -21,6 +22,7 @@ export function useAdsgram({
   onReward,
   onError,
   onSkip,
+  onFinish,
 }: useAdsgramParams): () => Promise<void> {
   const AdControllerRef = useRef<AdController | undefined>(undefined);
 
@@ -51,13 +53,17 @@ export function useAdsgram({
               `${import.meta.env.VITE_HASH_PRIVATE_KEY}-${timestamp}`
             );
 
-            const result = await postWithToken("/api/app/user/view-ad", {
-              chainId,
-              timestamp,
-              signature: hash.toString(),
-            });
+            if (onFinish) {
+              onFinish(timestamp, hash.toString());
+            } else {
+              const result = await postWithToken("/api/app/user/view-ad", {
+                chainId,
+                timeStamp: timestamp,
+                signature: hash.toString(),
+              });
 
-            onReward(result.data);
+              onReward(result.data);
+            }
           }
         })
         .catch((result: ShowPromiseResult) => {

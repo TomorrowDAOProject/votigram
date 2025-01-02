@@ -12,7 +12,6 @@ const BackBtn: React.FC = () => {
       navigate(-1);
     }
   };
-
   return (
     <button
       onClick={handleGoBack}

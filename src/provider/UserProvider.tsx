@@ -4,6 +4,7 @@ import React, {
   useReducer,
   useEffect,
   ReactNode,
+  useState,
 } from "react";
 
 import { jwtDecode } from "jwt-decode";
@@ -12,12 +13,14 @@ import {
   UserContextType,
   CustomJwtPayload,
   User,
+  IConfigContent,
 } from "./types/UserProviderType";
 import { fetchToken } from "@/utils/token";
-import { useWalletService } from "@/hooks/useWallet";
 import { webLoginInstance } from "@/contract/webLogin";
 import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
 import { isInTelegram } from "@/utils/isInTelegram";
+import { useAsyncEffect } from "ahooks";
+import { host } from "@/config";
 
 let RETRY_MAX_COUNT = 3;
 
@@ -26,10 +29,12 @@ const initialState: UserContextState = {
     userPoints: {
       consecutiveLoginDays: 1,
       dailyLoginPointsStatus: true,
+      dailyPointsClaimedStatus: [],
       userTotalPoints: 0,
     },
     isNewUser: false,
   },
+  cmsData: null,
   token: null,
   loading: true,
   error: null,
@@ -94,77 +99,106 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [state, dispatch] = useReducer(dataReducer, initialState);
-  const { isConnected, wallet, login } = useWalletService();
   const webLoginContext = useConnectWallet();
+  const { connectWallet, disConnectWallet, walletInfo, isConnected } =
+    useConnectWallet();
+  const [cmsData, setCmsData] = useState<IConfigContent | null>(null);
 
-  useEffect(() => {
-    if (!wallet) {
-      return;
-    }
-    webLoginInstance.setWebLoginContext(webLoginContext);
-  }, [webLoginContext, wallet]);
+  const fetchCMSData = async () => {
+    const cmsRes = await fetch(host + "/cms/items/config", {
+      cache: "no-store",
+    });
+    const {
+      data: { config },
+    } = await cmsRes.json();
+    setCmsData(config);
+  };
 
-  useEffect(() => {
-    const fetchTokenAndData = async () => {
-      try {
-        const access_token = await fetchToken();
+  const fetchTokenAndData = async () => {
+    try {
+      const access_token = await fetchToken();
 
-        if (!access_token) {
-          const error = new Error("Failed to fetch token");
-          error.name = "401";
-          throw error;
-        }
-
-        dispatch({ type: "SET_TOKEN", payload: access_token });
-        await localStorage.setItem("access_token", access_token);
-        const decodedToken = jwtDecode<CustomJwtPayload>(access_token);
-        const userPointsData = await getUserPoints(access_token);
-        // Combine and set user data
-        dispatch({
-          type: "SET_USER_DATA",
-          payload: {
-            isNewUser: !!decodedToken.new_user || false,
-            userPoints: userPointsData?.data,
-          },
-        });
-
-        if (!isInTelegram() && !isConnected) {
-          login();
-        }
-      } catch (error) {
-        if (
-          error instanceof Error &&
-          error.name === "401" &&
-          RETRY_MAX_COUNT > 0
-        ) {
-          RETRY_MAX_COUNT = RETRY_MAX_COUNT - 1;
-          fetchTokenAndData();
-        } else {
-          RETRY_MAX_COUNT = 3;
-        }
-        console.error("Error fetching data:", error);
-        dispatch({ type: "SET_ERROR", payload: (error as Error).message });
-        dispatch({ type: "SET_LOADING", payload: false });
+      if (!access_token) {
+        await disConnectWallet();
+        const error = new Error("Failed to fetch token");
+        error.name = "401";
+        throw error;
       }
-    };
 
+      dispatch({ type: "SET_TOKEN", payload: access_token });
+      await localStorage.setItem("access_token", access_token);
+      const decodedToken = jwtDecode<CustomJwtPayload>(access_token);
+      const userPointsData = await getUserPoints(access_token);
+      // Combine and set user data
+      dispatch({
+        type: "SET_USER_DATA",
+        payload: {
+          isNewUser: !!Number(decodedToken.new_user) || false,
+          userPoints: userPointsData?.data,
+        },
+      });
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.name === "401" &&
+        RETRY_MAX_COUNT > 0
+      ) {
+        RETRY_MAX_COUNT = RETRY_MAX_COUNT - 1;
+        fetchTokenAndData();
+      } else {
+        RETRY_MAX_COUNT = 3;
+      }
+      console.error("Error fetching data:", error);
+      dispatch({ type: "SET_ERROR", payload: (error as Error).message });
+      dispatch({ type: "SET_LOADING", payload: false });
+    }
+  };
+
+  useEffect(() => {
     if (state.loading) {
       fetchTokenAndData();
     }
-  }, [isConnected, login, state.loading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.loading]);
+
+  useAsyncEffect(async () => {
+    if (!walletInfo) {
+      return;
+    }
+    webLoginInstance.setWebLoginContext(webLoginContext);
+  }, [webLoginContext, walletInfo]);
+
+  useEffect(() => {
+    if (!isInTelegram() && !isConnected) {
+      connectWallet();
+      return;
+    }
+  }, [connectWallet, isConnected]);
+
+  useEffect(() => {
+    fetchCMSData();
+  }, []);
 
   const hasUserData = () => {
     return state.user.userPoints !== null;
   };
 
-  const updateDailyLoginPointsStatus = (value: boolean) => {
+  const updateDailyLoginPointsStatus = (points: number) => {
+    const userPoints = state.user.userPoints;
+    const currentClaimed =
+      userPoints?.dailyPointsClaimedStatus?.filter((isClaimed) => isClaimed)
+        ?.length || 0;
     dispatch({
       type: "SET_USER_DATA",
       payload: {
         ...state.user,
         userPoints: {
           ...state.user.userPoints,
-          dailyLoginPointsStatus: value,
+          dailyLoginPointsStatus: true,
+          userTotalPoints: points,
+          dailyPointsClaimedStatus: userPoints?.dailyPointsClaimedStatus.map(
+            (_, index) => index < currentClaimed + 1
+          ),
         },
       } as User,
     });
@@ -177,7 +211,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         ...state.user,
         userPoints: {
           ...state.user.userPoints,
-          dailyLoginPointsStatus: true,
           userTotalPoints: points,
         },
       } as User,
@@ -199,7 +232,9 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     <UserContext.Provider
       value={{
         ...state,
+        cmsData,
         hasUserData,
+        fetchTokenAndData,
         updateDailyLoginPointsStatus,
         updateUserStatus,
         updateUserPoints,

@@ -23,11 +23,12 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
   } = useUserContext();
   const { querys, updateQueryParam } = useSetSearchParams();
   const activeTab = querys.get("vote_tab");
-  const [currnetTab, setCurrentTab] = useState(activeTab || VOTE_TABS.TMAS);
+  const tmasTab = querys.get("tmas");
+  const [tmaTab, setTMATab] = useState(tmasTab === "1" ? Number(tmasTab) : 0);
+  const [currentTab, setCurrentTab] = useState(activeTab || VOTE_TABS.TMAS);
   const scrollViewRef = useRef<HTMLDivElement | null>(null);
   const [seconds, setSeconds] = useState(0);
   const [scrollTop, setScrollTop] = useState(0);
-  const [tmaTab, setTMATab] = useState(0);
   const [showWelcome, setShowWelCome] = useState(false);
 
   const handleScroll = useCallback(() => {
@@ -60,7 +61,7 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
       .add(daysUntilSunday, "day")
       .startOf("day")
       .add(1, "day");
-    
+
     const differenceInMilliseconds = nextSundayMidnight.diff(now);
     const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
     setSeconds(differenceInSeconds);
@@ -68,11 +69,17 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
 
   const onTabChange = (index: number) => {
     setCurrentTab(index === 0 ? VOTE_TABS.TMAS : VOTE_TABS.COMMUNITY);
-    updateQueryParam(
-      "vote_tab",
-      index === 0 ? VOTE_TABS.TMAS : VOTE_TABS.COMMUNITY
-    );
+    updateQueryParam({
+      key: "vote_tab",
+      value: index === 0 ? VOTE_TABS.TMAS : VOTE_TABS.COMMUNITY,
+    });
   };
+
+  useEffect(() => {
+    if (activeTab) {
+      setCurrentTab(activeTab || VOTE_TABS.TMAS);
+    }
+  }, [activeTab]);
 
   useEffect(() => {
     const isShowed = localStorage.getItem("showWelcome");
@@ -99,7 +106,7 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
         <div className="votigram-grid">
           <div className="col-7 h-7 mt-3">
             <ToggleSlider
-              current={TABS.findIndex((tab) => tab === currnetTab)}
+              current={TABS.findIndex((tab) => tab === currentTab)}
               items={TABS}
               onChange={onTabChange}
             />
@@ -113,7 +120,7 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
             </span>
           </div>
           <div className="mt-8 col-12">
-            {currnetTab === VOTE_TABS.TMAS ? (
+            {currentTab === VOTE_TABS.TMAS ? (
               <TMAs
                 scrollTop={scrollTop}
                 onTabChange={setTMATab}

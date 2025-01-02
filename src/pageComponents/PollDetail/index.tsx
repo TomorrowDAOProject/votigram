@@ -154,10 +154,6 @@ const PollDetail = () => {
               />
             ))}
           </div>
-
-          <span className="block text-center font-normal text-[12px] leading-[13.2px] text-input-placeholder mt-[18px]">
-            First Vote: Earn 1,000 Points!
-          </span>
         </div>
       </div>
 

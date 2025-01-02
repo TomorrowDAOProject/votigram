@@ -29,7 +29,7 @@ const ImageCarousel = ({ className, items }: IImageCarouselProps) => {
     >
       {items?.map((item: string) => (
         <SwiperSlide key={item}>
-          <img src={item} />
+          <img className="max-h-full" src={item} />
         </SwiperSlide>
       ))}
     </Swiper>
