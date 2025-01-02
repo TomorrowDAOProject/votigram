@@ -92,7 +92,7 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
 
   return (
     <>
-      {tmaTab === 1 && (
+      {currentTab === VOTE_TABS.TMAS && tmaTab === 1 && (
         <TelegramHeader
           title={
             <Countdown initialTime={seconds} onFinish={getRemainingSeconds} />
