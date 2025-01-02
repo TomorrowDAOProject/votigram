@@ -21,7 +21,6 @@ try {
   // Configure all application dependencies.
   init(retrieveLaunchParams().startParam === 'debug' || import.meta.env.DEV);
 
-
   if (process.env.NODE_ENV === 'development') {
     root.render(
       <StrictMode>
