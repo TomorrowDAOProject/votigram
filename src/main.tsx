@@ -21,11 +21,16 @@ try {
   // Configure all application dependencies.
   init(retrieveLaunchParams().startParam === 'debug' || import.meta.env.DEV);
 
-  root.render(
-    <StrictMode>
-      <App/>
-    </StrictMode>,
-  );
+
+  if (process.env.NODE_ENV === 'development') {
+    root.render(
+      <StrictMode>
+        <App/>
+      </StrictMode>,
+    );
+  } else {
+    root.render(<App />);
+  }
 } catch (e) {
   root.render(<EnvUnsupported/>);
   console.error(e);
