@@ -3,6 +3,7 @@ on:
   push:
     tags:
       - "v*.*.*"
+    branches: ["chore/update-workflow-main"]
 jobs:
   build-and-push-image:
     runs-on: tmrwdao-runner
