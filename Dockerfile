@@ -17,16 +17,7 @@ RUN pnpm install
 COPY . .
 
 # Pass environment variables during the build process
-ARG VITE_BASE_URL
-ARG VITE_ADSGRAM_ID
-ARG VITE_HASH_PRIVATE_KEY
 ARG BUILD_SCRIPT=build:testnet
-
-ENV VITE_BASE_URL=${VITE_BASE_URL}
-ENV VITE_ADSGRAM_ID=${VITE_ADSGRAM_ID}
-ENV VITE_HASH_PRIVATE_KEY=${VITE_HASH_PRIVATE_KEY}
-
-RUN echo
 
 # Build the application and handle non-root
 RUN yarn ${BUILD_SCRIPT}
