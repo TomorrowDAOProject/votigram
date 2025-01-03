@@ -17,7 +17,6 @@ import { useAdsgram } from "@/hooks/useAdsgram";
 import { TAB_LIST } from "@/constants/navigation";
 import useSetSearchParams from "@/hooks/useSetSearchParams";
 import { VOTE_TABS } from "@/constants/vote";
-import clsx from "clsx";
 
 interface IHomeProps {
   onAppItemClick: (item?: VoteApp) => void;
@@ -132,9 +131,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
     <>
       {isSearching && <TelegramHeader title="Discover" />}
       <div
-        className={clsx("h-screen overflow-x-scroll  bg-black", {
-          "pt-telegramHeader": isSearching,
-        })}
+        className="h-screen overflow-x-scroll pt-telegramHeader bg-black"
         ref={scrollViewRef}
       >
         <div className="font-outfit votigram-grid mt-[9px]">
