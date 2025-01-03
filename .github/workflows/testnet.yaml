@@ -1,7 +1,7 @@
 name: Build and Push Image
 on:
   push:
-    branches: ["dev", "fix/tg-token-bug"]
+    branches: ["dev", "chore/update-workflow"]
 jobs:
   build-and-push-image:
     runs-on: tmrwdao-runner
@@ -44,6 +44,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
+            BUILD_SCRIPT=build:testnet
             VITE_ADSGRAM_ID=${{ secrets.VITE_ADSGRAM_ID }}
             VITE_HASH_PRIVATE_KEY=${{ secrets.VITE_HASH_PRIVATE_KEY }}
             VITE_BASE_URL=${{ secrets.VITE_BASE_URL }}

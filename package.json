@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:testnet": "tsc && ENV_NAME=testnet vite build",
+    "build:mainnet": "tsc && ENV_NAME=mainnet vite build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
