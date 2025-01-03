@@ -36,7 +36,7 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
 
   useEffect(() => {
     if (progress >= 90) {
-      // setIsLoading(isNewUser);
+      setIsLoading(isNewUser);
     }
   }, [isNewUser, progress, setIsLoading]);
 
