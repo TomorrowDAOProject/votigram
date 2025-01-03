@@ -30,10 +30,12 @@ const App = () => {
       if (
         window.Telegram.WebApp?.platform?.includes("web") ||
         window.Telegram.WebApp?.platform === "tdesktop" ||
-        window.Telegram.WebApp?.platform === "macos"
+        window.Telegram.WebApp?.platform === "macos" ||
+        window.Telegram.WebApp?.platform === "unknown"
       ) {
         const tgTopStyles = `
-              --tg-safe-area-custom-top: 17px;
+              --tg-content-safe-area-inset-top: 46px;
+              --tg-safe-area-inset-top: 0px;
             `;
         htmlElement.style.cssText =
           htmlElement.style.cssText.concat(tgTopStyles);

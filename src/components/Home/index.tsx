@@ -17,6 +17,7 @@ import { useAdsgram } from "@/hooks/useAdsgram";
 import { TAB_LIST } from "@/constants/navigation";
 import useSetSearchParams from "@/hooks/useSetSearchParams";
 import { VOTE_TABS } from "@/constants/vote";
+import clsx from "clsx";
 
 interface IHomeProps {
   onAppItemClick: (item?: VoteApp) => void;
@@ -131,7 +132,9 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
     <>
       {isSearching && <TelegramHeader title="Discover" />}
       <div
-        className="h-screen overflow-x-scroll pt-telegramHeader bg-black"
+        className={clsx("h-screen overflow-x-scroll  bg-black", {
+          "pt-telegramHeader": isSearching,
+        })}
         ref={scrollViewRef}
       >
         <div className="font-outfit votigram-grid mt-[9px]">
@@ -201,16 +204,19 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
               <div
                 className="col-6 p-[13px] flex flex-col gap-[7px] relative h-[230px] bg-secondary text-black rounded-[18px]"
                 onClick={() => {
-                  updateQueryParam([
-                    {
-                      key: "vote_tab",
-                      value: VOTE_TABS.TMAS,
-                    },
-                    {
-                      key: "tmas",
-                      value: "1",
-                    },
-                  ], true);
+                  updateQueryParam(
+                    [
+                      {
+                        key: "vote_tab",
+                        value: VOTE_TABS.TMAS,
+                      },
+                      {
+                        key: "tmas",
+                        value: "1",
+                      },
+                    ],
+                    true
+                  );
                   switchTab(TAB_LIST.VOTE);
                 }}
               >
