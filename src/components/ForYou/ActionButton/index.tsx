@@ -17,6 +17,7 @@ interface IActionButton {
   totalOpens: number;
   updateOpenAppClick: (alias: string, url: string) => void;
   updateReviewClick: (item: VoteApp) => void;
+  updateLikeAppClick: (likesCount: number) => void;
 }
 
 const ActionButton = ({
@@ -24,6 +25,7 @@ const ActionButton = ({
   totalLikes = 0,
   totalComments = 0,
   totalOpens = 0,
+  updateLikeAppClick,
   updateOpenAppClick,
   updateReviewClick,
 }: IActionButton) => {
@@ -53,10 +55,11 @@ const ActionButton = ({
             },
           ],
         });
+        updateLikeAppClick(likeCount);
         setTotalCurrentLikes((prev) => prev + likeCount);
         updateUserPoints((userPoints?.userTotalPoints || 0) + likeCount);
         setLikeCount(0);
-      }, 2000);
+      }, 700);
 
       return () => clearTimeout(timer); // Cleanup timeout on unmount or update
     }
