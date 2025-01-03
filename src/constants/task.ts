@@ -14,4 +14,16 @@ export enum USER_TASK_DETAIL {
   EXPLORE_CUMULATE_TWENTY_INVITE = "ExploreCumulateTwentyInvite",
 }
 
-export const USER_TASK_DETAIL_MAP = {};
+export enum USER_TASK_TITLE{
+  DAILY = "Daily",
+  EXPLORE_VOTIGRAM = "ExploreVotigram",
+  EXPLORE_APPS = "ExploreApps",
+  REFERRALS = "Referrals",
+}
+
+export const USER_TASK_TITLE_MAP = {
+  [USER_TASK_TITLE.DAILY]: 'Daily Tasks',
+  [USER_TASK_TITLE.EXPLORE_VOTIGRAM]: 'Explore Votigram',
+  [USER_TASK_TITLE.EXPLORE_APPS]: 'Explore Apps',
+  [USER_TASK_TITLE.REFERRALS]: 'Referrals',
+};

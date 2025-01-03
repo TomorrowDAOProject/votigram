@@ -1,9 +1,10 @@
 import { TaskInfo } from "@/types/task";
 import TaskItem from "./components/TaskItem";
 import { TAB_LIST } from "@/constants/navigation";
+import { USER_TASK_TITLE, USER_TASK_TITLE_MAP } from "@/constants/task";
 
 interface ITaskModuleProps {
-  title: string;
+  title: USER_TASK_TITLE;
   description?: string;
   data: TaskInfo[];
   totalPoints: number;
@@ -25,7 +26,7 @@ const TaskModule = ({
     <div className="my-[14px]">
       <div className="mb-[14px]">
         <span className="block font-bold text-[18px] leading-[18px] text-white font-outfit">
-          {title}
+          {USER_TASK_TITLE_MAP[title]}
         </span>
         {description && (
           <span className="block mt-[6px] text-white font-normal text-[14px] leading-[16px]">
