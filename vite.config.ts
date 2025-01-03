@@ -2,29 +2,8 @@ import { defineConfig, UserConfigExport } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
-// Custom plugin to modify HTML paths
-const modifyIndexHtmlPaths = () => {
-  return {
-    name: "modify-index-html-paths",
-    transformIndexHtml(html: string) {
-      return html
-        .replace(
-          /(<script type="module" crossorigin src=")(\/assets\/.+\.js")/g,
-          "$1https://test.tmrwdao.com/votigram/v1$2"
-        )
-        .replace(
-          /(<link rel="stylesheet" crossorigin href=")(\/assets\/.+\.css")/g,
-          "$1https://test.tmrwdao.com/votigram/v1$2"
-        );
-    },
-  };
-};
-
 export default defineConfig({
-  plugins: [
-    react(),
-    modifyIndexHtmlPaths(),
-  ],
+  plugins: [react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -48,7 +27,8 @@ export default defineConfig({
     VITE_CONNECT_URL: process.env.VITE_CONNECT_URL?.toString(),
     VITE_GRAPHQL_SERVER: process.env.VITE_GRAPHQL_SERVER?.toString(),
     VITE_PORTKEY_SERVER: process.env.VITE_PORTKEY_SERVER?.toString(),
-    VITE_SIDE_CHAIN_CA_CONTRACT_ADDRESS: process.env.VITE_SIDE_CHAIN_CA_CONTRACT_ADDRESS?.toString(),
+    VITE_SIDE_CHAIN_CA_CONTRACT_ADDRESS:
+      process.env.VITE_SIDE_CHAIN_CA_CONTRACT_ADDRESS?.toString(),
     VITE_PROPAL_ADDRESS: process.env.VITE_PROPAL_ADDRESS?.toString(),
     VITE_VOTE_ADDRESS: process.env.VITE_VOTE_ADDRESS?.toString(),
     VITE_HOST: process.env.VITE_HOST?.toString(),
