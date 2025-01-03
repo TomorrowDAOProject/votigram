@@ -28,8 +28,10 @@ ENV VITE_HASH_PRIVATE_KEY=${VITE_HASH_PRIVATE_KEY}
 
 RUN echo
 
-# Build the application
-RUN pnpm run build
+# Build the application and handle non-root
+RUN adduser -D -h /app appuser && \
+    chown -R appuser /app && \
+    su appuser -c "yarn ${BUILD_SCRIPT}"
 
 # Use the official nginx image for serving static files
 FROM nginx:alpine
