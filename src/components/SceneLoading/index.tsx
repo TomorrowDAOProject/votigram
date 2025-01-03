@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import TelegramHeader from "../TelegramHeader";
 import { useUserContext } from "@/provider/UserProvider";
 import { motion } from "framer-motion";
 
@@ -37,14 +36,13 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
 
   useEffect(() => {
     if (progress >= 90) {
-      setIsLoading(isNewUser);
+      // setIsLoading(isNewUser);
     }
   }, [isNewUser, progress, setIsLoading]);
 
   return (
     <>
-      <TelegramHeader />
-      <div className="bg-gradient-to-t from-black to-[#9381FF] min-h-[533px] pt-telegramHeader">
+      <div className="bg-gradient-to-t from-black to-[#9381FF] min-h-[533px]">
         <div className="pt-[42px] h-screen">
           <span className="block text-center font-bold text-base font-outfit">
             VOTIGRAM
