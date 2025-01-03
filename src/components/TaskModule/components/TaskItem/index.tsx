@@ -32,11 +32,11 @@ const taskItemMap: Record<string, { title: string; icon: React.ReactNode }> = {
     title: "Cast A Vote",
   },
   [USER_TASK_DETAIL.DAILY_FIRST_INVITE]: {
-    icon: <i className="votigram-icon-profile" />,
+    icon: <i className="votigram-icon-referral-friends" />,
     title: "Invite A Friend",
   },
   [USER_TASK_DETAIL.EXPLORE_JOIN_VOTIGRAM]: {
-    icon: <i className="votigram-icon-telegram-logo" />,
+    icon: <i className="votigram-icon-telegram" />,
     title: "Join Votigram TG Channel",
   },
   [USER_TASK_DETAIL.EXPLORE_FOLLOW_VOTIGRAM_X]: {
@@ -52,7 +52,7 @@ const taskItemMap: Record<string, { title: string; icon: React.ReactNode }> = {
     title: "Join Schrondinger's Cat",
   },
   [USER_TASK_DETAIL.EXPLORE_JOIN_TG_CHANNEL]: {
-    icon: <i className="votigram-icon-telegram-logo" />,
+    icon: <i className="votigram-icon-telegram" />,
     title: "Join TMRWDAO TG Channel",
   },
   [USER_TASK_DETAIL.EXPLORE_FOLLOW_X]: {
@@ -64,15 +64,15 @@ const taskItemMap: Record<string, { title: string; icon: React.ReactNode }> = {
     title: "RT TMRWDAO Post on X",
   },
   [USER_TASK_DETAIL.EXPLORE_CUMULATE_FIVE_INVITE]: {
-    icon: <i className="votigram-icon-profile" />,
+    icon: <i className="votigram-icon-referral-friends" />,
     title: "Invite 5 Friends",
   },
   [USER_TASK_DETAIL.EXPLORE_CUMULATE_TEN_INVITE]: {
-    icon: <i className="votigram-icon-profile" />,
+    icon: <i className="votigram-icon-referral-friends" />,
     title: "Invite 10 Friends",
   },
   [USER_TASK_DETAIL.EXPLORE_CUMULATE_TWENTY_INVITE]: {
-    icon: <i className="votigram-icon-profile" />,
+    icon: <i className="votigram-icon-referral-friends" />,
     title: "Invite 20 Friends",
   },
 };

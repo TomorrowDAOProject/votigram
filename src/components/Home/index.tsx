@@ -129,7 +129,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
 
   return (
     <>
-      <TelegramHeader title={isSearching ? "Discover" : ""} />
+      {isSearching && <TelegramHeader title="Discover" />}
       <div
         className="h-screen overflow-x-scroll pt-telegramHeader bg-black"
         ref={scrollViewRef}

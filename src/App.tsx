@@ -26,11 +26,12 @@ const App = () => {
           htmlElement.style.cssText.concat(tgTopStyles);
       }
       if (
-        window.Telegram.WebApp?.platform?.includes("weba") ||
-        window.Telegram.WebApp?.platform === "tdesktop"
+        window.Telegram.WebApp?.platform?.includes("web") ||
+        window.Telegram.WebApp?.platform === "tdesktop" ||
+        window.Telegram.WebApp?.platform === "macos"
       ) {
         const tgTopStyles = `
-              --tg-safe-area-custom-top: 17px;
+              --tg-safe-area-custom-top: 15px;
             `;
         htmlElement.style.cssText =
           htmlElement.style.cssText.concat(tgTopStyles);
