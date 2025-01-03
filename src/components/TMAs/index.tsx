@@ -3,7 +3,7 @@ import Accumulative from "./components/Accumulative";
 import Current from "./components/Current";
 import CategoryPillList from "../CategoryPillList";
 import useDebounceFn from "ahooks/lib/useDebounceFn";
-import { COMMUNITY_TYPE } from "@/constants/vote";
+import { COMMUNITY_TYPE, TMSAP_TAB } from "@/constants/vote";
 import Tabs from "../Tabs";
 import {
   APP_CATEGORY,
@@ -16,11 +16,11 @@ import useSetSearchParams from "@/hooks/useSetSearchParams";
 const emaTabs = [
   {
     label: COMMUNITY_TYPE.ACCUMULATIVE,
-    value: 0,
+    value: TMSAP_TAB.ACCUMULATIVE,
   },
   {
     label: COMMUNITY_TYPE.CURRENT,
-    value: 1,
+    value: TMSAP_TAB.CURRENT,
   },
 ];
 
@@ -34,7 +34,7 @@ const TMAs = ({ scrollTop, onTabChange, onAppItemClick }: ITMAsProps) => {
   const { querys, updateQueryParam } = useSetSearchParams();
   const activeTab = querys.get("tmas");
   const [currentTab, setCurrentTab] = useState(
-    activeTab === "1" ? Number(activeTab) : 0
+    activeTab === "1" ? Number(activeTab) : TMSAP_TAB.ACCUMULATIVE
   );
   const [keyward, setKeyward] = useState("");
   const [category, setCategory] = useState<APP_CATEGORY>(APP_CATEGORY.ALL);
@@ -60,7 +60,7 @@ const TMAs = ({ scrollTop, onTabChange, onAppItemClick }: ITMAsProps) => {
 
   useEffect(() => {
     if (activeTab) {
-      setCurrentTab(activeTab === "1" ? Number(activeTab) : 0)
+      setCurrentTab(activeTab === "1" ? Number(activeTab) : TMSAP_TAB.ACCUMULATIVE)
     }
   }, [activeTab])
 
@@ -88,7 +88,7 @@ const TMAs = ({ scrollTop, onTabChange, onAppItemClick }: ITMAsProps) => {
         onChange={onCategoryChange}
       />
 
-      {currentTab === 0 ? (
+      {currentTab === TMSAP_TAB.ACCUMULATIVE ? (
         <Accumulative
           scrollTop={scrollTop}
           keyward={keyward}

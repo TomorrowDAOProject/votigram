@@ -16,7 +16,7 @@ import { APP_CATEGORY, DISCOVER_CATEGORY } from "@/constants/discover";
 import { useAdsgram } from "@/hooks/useAdsgram";
 import { TAB_LIST } from "@/constants/navigation";
 import useSetSearchParams from "@/hooks/useSetSearchParams";
-import { VOTE_TABS } from "@/constants/vote";
+import { TMSAP_TAB, VOTE_TABS } from "@/constants/vote";
 
 interface IHomeProps {
   onAppItemClick: (item?: VoteApp) => void;
@@ -209,7 +209,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
                       },
                       {
                         key: "tmas",
-                        value: "1",
+                        value: TMSAP_TAB.CURRENT.toString(),
                       },
                     ],
                     true
