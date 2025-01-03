@@ -12,6 +12,10 @@ const App = () => {
   useEffect(() => {
     const htmlElement = document.getElementsByTagName("html")[0];
     if (window?.Telegram && isTMA("simple")) {
+      const baseStyles = `
+              --tg-content-safe-area-inset-top: 46px;
+            `;
+      htmlElement.style.cssText = htmlElement.style.cssText.concat(baseStyles);
       if (
         window.Telegram.WebApp?.platform === "ios" ||
         window.Telegram.WebApp?.platform === "android"
@@ -19,19 +23,7 @@ const App = () => {
         window.Telegram.WebApp?.requestFullscreen?.();
 
         const tgTopStyles = `
-              --tg-content-safe-area-inset-top: 46px;
               --tg-safe-area-inset-top: 54px;
-            `;
-        htmlElement.style.cssText =
-          htmlElement.style.cssText.concat(tgTopStyles);
-      }
-      if (
-        window.Telegram.WebApp?.platform?.includes("web") ||
-        window.Telegram.WebApp?.platform === "tdesktop" ||
-        window.Telegram.WebApp?.platform === "macos"
-      ) {
-        const tgTopStyles = `
-              --tg-safe-area-custom-top: 17px;
             `;
         htmlElement.style.cssText =
           htmlElement.style.cssText.concat(tgTopStyles);

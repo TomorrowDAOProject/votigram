@@ -131,7 +131,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
     <>
       {isSearching && <TelegramHeader title="Discover" />}
       <div
-        className="h-screen overflow-x-scroll pt-telegramHeader bg-black"
+        className="h-screen overflow-x-scroll tg-telegramHeader bg-black"
         ref={scrollViewRef}
       >
         <div className="font-outfit votigram-grid mt-[9px]">

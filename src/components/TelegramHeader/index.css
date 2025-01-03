@@ -10,3 +10,7 @@
   width: 100%;
   z-index: 10000;
 }
+
+.telegram-header-container + .tg-telegramHeader {
+  padding-top: calc(var(--tg-content-safe-area-inset-top) + var(--tg-safe-area-inset-top));
+}

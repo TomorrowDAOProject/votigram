@@ -92,15 +92,17 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
 
   return (
     <>
-      {currentTab === VOTE_TABS.TMAS && tmaTab === 1 && (
-        <TelegramHeader
-          title={
+      <TelegramHeader
+        title={
+          currentTab === VOTE_TABS.TMAS && tmaTab === 1 ? (
             <Countdown initialTime={seconds} onFinish={getRemainingSeconds} />
-          }
-        />
-      )}
+          ) : (
+            ""
+          )
+        }
+      />
       <div
-        className="h-screen overflow-scroll pt-telegramHeader bg-black"
+        className="h-screen overflow-scroll tg-telegramHeader bg-black"
         ref={scrollViewRef}
       >
         <div className="votigram-grid">
