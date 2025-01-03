@@ -29,3 +29,7 @@ body {
   min-width: 320px;
   background-color: unset !important;
 }
+
+*::-webkit-scrollbar {
+  display: none;
+}
