@@ -91,45 +91,43 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
   }, []);
 
   return (
-    <>
-      {tmaTab === 1 && (
-        <TelegramHeader
-          title={
+    <div className="h-screen overflow-scroll bg-black" ref={scrollViewRef}>
+      <TelegramHeader
+        className="!relative"
+        title={
+          currentTab === VOTE_TABS.TMAS && tmaTab === 1 ? (
             <Countdown initialTime={seconds} onFinish={getRemainingSeconds} />
-          }
-        />
-      )}
-      <div
-        className="h-screen overflow-scroll pt-telegramHeader bg-black"
-        ref={scrollViewRef}
-      >
-        <div className="votigram-grid">
-          <div className="col-7 h-7 mt-3">
-            <ToggleSlider
-              current={TABS.findIndex((tab) => tab === currentTab)}
-              items={TABS}
-              onChange={onTabChange}
+          ) : (
+            ""
+          )
+        }
+      />
+      <div className="votigram-grid">
+        <div className="col-7 h-7 mt-3">
+          <ToggleSlider
+            current={TABS.findIndex((tab) => tab === currentTab)}
+            items={TABS}
+            onChange={onTabChange}
+          />
+        </div>
+        <div className="flex flex-col col-5 items-end gap-[6px]">
+          <span className="text-[10px] leading-[11px] text-white">
+            Total earned points:
+          </span>
+          <span className="font-pressStart text-secondary tracking-[-1.6] text-[16px] leading-[16px]">
+            {userPoints?.userTotalPoints.toLocaleString() || 0}
+          </span>
+        </div>
+        <div className="mt-8 col-12">
+          {currentTab === VOTE_TABS.TMAS ? (
+            <TMAs
+              scrollTop={scrollTop}
+              onTabChange={setTMATab}
+              onAppItemClick={onAppItemClick}
             />
-          </div>
-          <div className="flex flex-col col-5 items-end gap-[6px]">
-            <span className="text-[10px] leading-[11px] text-white">
-              Total earned points:
-            </span>
-            <span className="font-pressStart text-secondary tracking-[-1.6] text-[16px] leading-[16px]">
-              {userPoints?.userTotalPoints.toLocaleString() || 0}
-            </span>
-          </div>
-          <div className="mt-8 col-12">
-            {currentTab === VOTE_TABS.TMAS ? (
-              <TMAs
-                scrollTop={scrollTop}
-                onTabChange={setTMATab}
-                onAppItemClick={onAppItemClick}
-              />
-            ) : (
-              <Community scrollTop={scrollTop} />
-            )}
-          </div>
+          ) : (
+            <Community scrollTop={scrollTop} />
+          )}
         </div>
       </div>
       <Modal
@@ -150,7 +148,7 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
           Let's Go!
         </button>
       </Modal>
-    </>
+    </div>
   );
 };
 

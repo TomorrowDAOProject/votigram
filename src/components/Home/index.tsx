@@ -16,7 +16,7 @@ import { APP_CATEGORY, DISCOVER_CATEGORY } from "@/constants/discover";
 import { useAdsgram } from "@/hooks/useAdsgram";
 import { TAB_LIST } from "@/constants/navigation";
 import useSetSearchParams from "@/hooks/useSetSearchParams";
-import { VOTE_TABS } from "@/constants/vote";
+import { TMSAP_TAB, VOTE_TABS } from "@/constants/vote";
 
 interface IHomeProps {
   onAppItemClick: (item?: VoteApp) => void;
@@ -129,7 +129,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
 
   return (
     <>
-      <TelegramHeader title={isSearching ? "Discover" : ""} />
+      {isSearching && <TelegramHeader title="Discover" />}
       <div
         className="h-screen overflow-x-scroll pt-telegramHeader bg-black"
         ref={scrollViewRef}
@@ -201,16 +201,19 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
               <div
                 className="col-6 p-[13px] flex flex-col gap-[7px] relative h-[230px] bg-secondary text-black rounded-[18px]"
                 onClick={() => {
-                  updateQueryParam([
-                    {
-                      key: "vote_tab",
-                      value: VOTE_TABS.TMAS,
-                    },
-                    {
-                      key: "tmas",
-                      value: "1",
-                    },
-                  ], true);
+                  updateQueryParam(
+                    [
+                      {
+                        key: "vote_tab",
+                        value: VOTE_TABS.TMAS,
+                      },
+                      {
+                        key: "tmas",
+                        value: TMSAP_TAB.CURRENT.toString(),
+                      },
+                    ],
+                    true
+                  );
                   switchTab(TAB_LIST.VOTE);
                 }}
               >

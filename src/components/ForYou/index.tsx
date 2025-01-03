@@ -85,6 +85,12 @@ const ForYou = ({
     }
   };
 
+  const updateLikeAppClick = (likesCount: number) => {
+    const list = [...forYouItems];
+    list[currentIndex].totalLikes = (list[currentIndex].totalLikes || 0) + likesCount;
+    setForYouItems(list);
+  }
+
   const updateOpenAppClick = (alias: string, url: string) => {
     postWithToken("/api/app/ranking/like", {
       chainId,
@@ -165,6 +171,7 @@ const ForYou = ({
                       totalLikes={item.totalLikes || 0}
                       totalComments={item.totalComments || 0}
                       totalOpens={item.totalOpens || 0}
+                      updateLikeAppClick={updateLikeAppClick}
                       updateOpenAppClick={updateOpenAppClick}
                       updateReviewClick={updateReviewClick}
                     />

@@ -78,6 +78,29 @@ const AppRoutes: React.FC = () => {
     }
   );
 
+  const saveUserInfo = async () => {
+    try {
+      const { first_name, last_name, photo_url, username, id } =
+        window?.Telegram?.WebApp?.initDataUnsafe?.user || {};
+      await postWithToken("/api/app/user/save-tg-info", {
+        telegramId: id?.toString(),
+        chainId,
+        firstName: first_name,
+        lastName: last_name,
+        userName: username,
+        icon: photo_url,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (isInTelegram()) {
+      saveUserInfo();
+    }
+  }, []);
+
   useEffect(() => {
     if (isConnected && wallet?.address) {
       fetchTransferStatus();

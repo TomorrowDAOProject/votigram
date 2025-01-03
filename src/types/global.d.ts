@@ -58,6 +58,7 @@ interface TelegramWebApp {
       notificationOccurred(type: "success" | "warning" | "error"): void;
       selectionChanged(): void;
     };
+    version: string;
     requestFullscreen(): void;
     lockOrientation(): void;
     disableVerticalSwipes(): void;
@@ -66,6 +67,8 @@ interface TelegramWebApp {
     initDataUnsafe: {
       start_param: string;
       user: {
+        id: string;
+        username: string;
         first_name: string;
         last_name: string;
         photo_url: string;

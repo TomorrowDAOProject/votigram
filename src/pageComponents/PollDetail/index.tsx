@@ -173,7 +173,7 @@ const PollDetail = () => {
               className="w-[48px] h-[48px] rounded-[12px] bg-primary flex items-center justify-center"
               onClick={shareToTelegram}
             >
-              <i className="votigram-icon-telegram-logo text-[32px] text-white" />
+              <i className="votigram-icon-telegram text-[32px] text-white" />
             </div>
             <span className="mt-3 block text-white text-normal text-[12px] leading-[13.2px]">
               Share to Telegram

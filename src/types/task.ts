@@ -1,4 +1,4 @@
-import { USER_TASK_DETAIL } from "@/constants/task";
+import { USER_TASK_DETAIL, USER_TASK_TITLE } from "@/constants/task";
 
 export type TaskInfo = {
   points: number;
@@ -10,7 +10,7 @@ export type TaskInfo = {
 
 export type TaskModule = {
   totalCount: number;
-  userTask: string;
+  userTask: USER_TASK_TITLE;
   data: TaskInfo[];
 };
 

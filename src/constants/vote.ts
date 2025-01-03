@@ -14,6 +14,11 @@ export enum COMMUNITY_TYPE {
   CURRENT = "Current",
 }
 
+export enum TMSAP_TAB {
+  ACCUMULATIVE = 0,
+  CURRENT = 1,
+}
+
 export enum VOTE_TABS {
   TMAS = "TMAs",
   COMMUNITY = "Community",

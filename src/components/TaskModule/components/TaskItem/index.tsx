@@ -36,7 +36,7 @@ const taskItemMap: Record<string, { title: string; icon: React.ReactNode }> = {
     title: "Invite A Friend",
   },
   [USER_TASK_DETAIL.EXPLORE_JOIN_VOTIGRAM]: {
-    icon: <i className="votigram-icon-telegram-logo" />,
+    icon: <i className="votigram-icon-telegram" />,
     title: "Join Votigram TG Channel",
   },
   [USER_TASK_DETAIL.EXPLORE_FOLLOW_VOTIGRAM_X]: {
@@ -52,7 +52,7 @@ const taskItemMap: Record<string, { title: string; icon: React.ReactNode }> = {
     title: "Join Schrondinger's Cat",
   },
   [USER_TASK_DETAIL.EXPLORE_JOIN_TG_CHANNEL]: {
-    icon: <i className="votigram-icon-telegram-logo" />,
+    icon: <i className="votigram-icon-telegram" />,
     title: "Join TMRWDAO TG Channel",
   },
   [USER_TASK_DETAIL.EXPLORE_FOLLOW_X]: {
