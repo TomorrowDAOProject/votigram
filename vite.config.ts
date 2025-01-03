@@ -10,13 +10,13 @@ const modifyIndexHtmlPaths = () => {
       return html
         .replace(
           /(<script type="module" crossorigin src=")(\/assets\/.+\.js")/g,
-          process.env.VITE_NETWORK_TYPE?.toString() === "testnet"
+          process.env.VITE_NETWORK_TYPE?.toString() === "TESTNET"
             ? "$1https://test.tmrwdao.com/votigram/v1$2"
             : "$1https://tmrwdao.com/votigram/v1$2"
         )
         .replace(
           /(<link rel="stylesheet" crossorigin href=")(\/assets\/.+\.css")/g,
-          process.env.VITE_NETWORK_TYPE?.toString() === "testnet"
+          process.env.VITE_NETWORK_TYPE?.toString() === "TESTNET"
             ? "$1https://test.tmrwdao.com/votigram/v1$2"
             : "$1https://tmrwdao.com/votigram/v1$2"
         );
