@@ -16,7 +16,12 @@ const App = () => {
         window.Telegram.WebApp?.platform === "ios" ||
         window.Telegram.WebApp?.platform === "android"
       ) {
-        window.Telegram.WebApp?.requestFullscreen?.();
+        if (
+          window.Telegram.WebApp?.version &&
+          Number(window.Telegram.WebApp?.version) >= 8
+        ) {
+          window.Telegram.WebApp?.requestFullscreen?.();
+        }
 
         const tgTopStyles = `
               --tg-content-safe-area-inset-top: 46px;

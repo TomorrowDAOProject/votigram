@@ -58,6 +58,7 @@ interface TelegramWebApp {
       notificationOccurred(type: "success" | "warning" | "error"): void;
       selectionChanged(): void;
     };
+    version: string;
     requestFullscreen(): void;
     lockOrientation(): void;
     disableVerticalSwipes(): void;
