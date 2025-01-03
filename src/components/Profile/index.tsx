@@ -67,7 +67,7 @@ const Profile = ({ switchTab }: IProfileProps) => {
     <>
       <TelegramHeader title="Profile" />
       <div
-        className="h-screen overflow-scroll tg-telegramHeader bg-black pb-28"
+        className="h-screen overflow-scroll pt-telegramHeader bg-black pb-28"
         ref={scrollViewRef}
       >
         <div className="votigram-grid mt-[9px]">

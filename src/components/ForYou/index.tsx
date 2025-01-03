@@ -130,7 +130,7 @@ const ForYou = ({
   return (
     <>
       <TelegramHeader title="For You" />
-      <div className="h-screen overflow-hidden bg-discover-background tg-telegramHeader bg-black">
+      <div className="h-screen overflow-hidden bg-discover-background pt-telegramHeader bg-black">
         {forYouItems?.length > 0 && (
           <motion.div
             animate={{ y: -currentIndex * height }}

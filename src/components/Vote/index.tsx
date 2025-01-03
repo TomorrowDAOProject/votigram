@@ -102,7 +102,7 @@ const Vote = ({ onAppItemClick }: IVoteProps) => {
         }
       />
       <div
-        className="h-screen overflow-scroll tg-telegramHeader bg-black"
+        className="h-screen overflow-scroll pt-telegramHeader bg-black"
         ref={scrollViewRef}
       >
         <div className="votigram-grid">

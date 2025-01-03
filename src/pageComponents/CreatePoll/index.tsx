@@ -182,7 +182,7 @@ const CreatePoll = () => {
   };
 
   return (
-    <div className="tg-telegramHeader bg-black min-h-screen pt-[23px] pb-[27px] px-[20px]">
+    <div className="pt-telegramHeader bg-black min-h-screen pt-[23px] pb-[27px] px-[20px]">
       <BackBtn />
 
       <form onSubmit={handleSubmit(onSubmit)}>
