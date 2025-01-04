@@ -30,7 +30,6 @@ export const fetchToken = async () => {
     const initData =
       window?.Telegram?.WebApp?.initData ||
       import.meta.env.VITE_TELEGRAM_INIT_DATA;
-
     // Fetch token
     const tokenResponse = await fetch(
       `${import.meta.env.VITE_BASE_URL}/connect/token`,
