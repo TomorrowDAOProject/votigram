@@ -20,6 +20,9 @@ import { TMSAP_TAB, VOTE_TABS } from "@/constants/vote";
 import sha256 from "crypto-js/sha256";
 
 interface IHomeProps {
+  weeklyTopVotedApps: VoteApp[];
+  discoverHiddenGems: VoteApp;
+  madeForYouItems: VoteApp[];
   onAppItemClick: (item?: VoteApp) => void;
   recommendList: VoteApp[];
   switchTab: (tab: TAB_LIST) => void;
@@ -27,7 +30,7 @@ interface IHomeProps {
 
 const PAGE_SIZE = 20;
 
-const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
+const Home = ({ onAppItemClick, switchTab, recommendList, weeklyTopVotedApps, discoverHiddenGems, madeForYouItems }: IHomeProps) => {
   const {
     user: { userPoints },
     updateUserPoints,
@@ -58,14 +61,6 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
           maxResultCount: PAGE_SIZE.toString(),
         }).toString()}`
       : null
-  );
-
-  const { data: madeForYouResult } = useData(
-    "/api/app/user/homepage/made-for-you?chainId=tDVW"
-  );
-
-  const { data: votedAppResult } = useData(
-    "/api/app/user/homepage?chainId=tDVW"
   );
 
   useEffect(() => {
@@ -277,16 +272,16 @@ const Home = ({ onAppItemClick, switchTab, recommendList }: IHomeProps) => {
             </div>
             <TopVotedApps
               onAppItemClick={onAppItemClick}
-              items={votedAppResult?.weeklyTopVotedApps}
+              items={weeklyTopVotedApps}
             />
             <DiscoveryHiddenGems
               onAppItemClick={onAppItemClick}
-              item={votedAppResult?.discoverHiddenGems}
+              item={discoverHiddenGems}
             />
             <AppList
               onAppItemClick={onAppItemClick}
               title="Made For You"
-              items={madeForYouResult?.data}
+              items={madeForYouItems}
             />
           </>
         )}

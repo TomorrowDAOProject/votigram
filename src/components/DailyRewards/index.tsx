@@ -7,12 +7,12 @@ interface IDailyRewardsProps {
 }
 
 const DailyRewards = ({ userPoints }: IDailyRewardsProps) => {
-  const getLastConsecutiveTrueLength = (arr: boolean[]) => {
+  const getLastConsecutiveTrueLength = (claimStatus: boolean[]) => {
     let currentLength = 0;
     let maxLength = 0;
 
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i]) {
+    for (let i = 0; i < claimStatus.length; i++) {
+      if (claimStatus[i]) {
         currentLength++;
         maxLength = currentLength;
       } else {
