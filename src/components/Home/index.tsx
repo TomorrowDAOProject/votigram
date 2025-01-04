@@ -86,6 +86,8 @@ const Home = ({ onAppItemClick, switchTab, recommendList, weeklyTopVotedApps, di
       });
       if (result?.data?.userTotalPoints) {
         updateDailyLoginPointsStatus(result?.data?.userTotalPoints);
+      } else {
+        updateDailyLoginPointsStatus(userPoints?.userTotalPoints || 0);
       }
     } catch (e) {
       console.error(e);
