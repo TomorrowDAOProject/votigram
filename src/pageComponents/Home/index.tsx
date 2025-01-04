@@ -5,7 +5,7 @@ import Navigation from "@/components/Navigation";
 import Home from "@/components/Home";
 import ForYou from "@/components/ForYou";
 
-import { postWithToken } from "@/hooks/useData";
+import useData, { postWithToken } from "@/hooks/useData";
 import { chainId } from "@/constants/app";
 import { VoteApp } from "@/types/app";
 import Vote from "@/components/Vote";
@@ -40,6 +40,14 @@ const App = () => {
       currentForyouPage.current++;
     }
   };
+  
+    const { data: madeForYouResult } = useData(
+      "/api/app/user/homepage/made-for-you?chainId=tDVW"
+    );
+  
+    const { data: votedAppResult } = useData(
+      "/api/app/user/homepage?chainId=tDVW"
+    );
 
   const fetchRecommendData = async () => {
     const { data } = await postWithToken("/api/app/discover/random-app-list", {
@@ -91,6 +99,9 @@ const App = () => {
     <>
       {activeTab === TAB_LIST.HOME && (
         <Home
+          weeklyTopVotedApps={votedAppResult?.weeklyTopVotedApps}
+          discoverHiddenGems={votedAppResult?.discoverHiddenGems}
+          madeForYouItems={madeForYouResult?.data || []}
           onAppItemClick={onAppItemClick}
           recommendList={recommendList}
           switchTab={setActiveTab}
