@@ -18,6 +18,9 @@ COPY . .
 
 # Pass environment variables during the build process
 ARG BUILD_SCRIPT=build:testnet
+ARG VITE_HASH
+
+ENV VITE_HASH=${VITE_HASH}
 
 # Build the application and handle non-root
 RUN yarn ${BUILD_SCRIPT}
