@@ -2,8 +2,30 @@ import { defineConfig, UserConfigExport } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
+// Custom plugin to modify HTML paths
+const modifyIndexHtmlPaths = () => {
+  return {
+    name: "modify-index-html-paths",
+    transformIndexHtml(html: string) {
+      return html
+        .replace(
+          /(<script type="module" crossorigin src=")(\/assets\/.+\.js")/g,
+          process.env.VITE_NETWORK_TYPE === "TESTNET"
+            ? "$1https://test.tmrwdao.com/votigram/v1$2"
+            : "$1https://tmrwdao.com/votigram/v1$2"
+        )
+        .replace(
+          /(<link rel="stylesheet" crossorigin href=")(\/assets\/.+\.css")/g,
+          process.env.VITE_NETWORK_TYPE === "TESTNET"
+            ? "$1https://test.tmrwdao.com/votigram/v1$2"
+            : "$1https://tmrwdao.com/votigram/v1$2"
+        );
+    },
+  };
+};
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), modifyIndexHtmlPaths()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -14,11 +36,9 @@ export default defineConfig({
     port: 3000,
   },
   define: {
-    VITE_BASE_URL: JSON.stringify(`${process.env.VITE_BASE_URL}`),
-    VITE_ADSGRAM_ID: JSON.stringify(`${process.env.VITE_ADSGRAM_ID}`),
-    VITE_HASH_PRIVATE_KEY: JSON.stringify(
-      `${process.env.VITE_HASH_PRIVATE_KEY}`
-    ),
+    VITE_BASE_URL: process.env.VITE_BASE_URL?.toString(),
+    VITE_ADSGRAM_ID: process.env.VITE_ADSGRAM_ID?.toString(),
+    VITE_HASH: process.env.VITE_HASH?.toString(),
     VITE_NETWORK_TYPE: process.env.VITE_NETWORK_TYPE?.toString(),
     VITE_RPC_URL_AELF: process.env.VITE_RPC_URL_AELF?.toString(),
     VITE_RPC_URL_TDVV: process.env.VITE_RPC_URL_TDVV?.toString(),
