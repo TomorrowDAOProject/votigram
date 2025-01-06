@@ -24,7 +24,6 @@ export function useAdsgram({
   onSkip,
   onFinish,
 }: useAdsgramParams): () => Promise<void> {
-  console.log("1", import.meta.env.VITE_HASH);
   const AdControllerRef = useRef<AdController | undefined>(undefined);
 
   useEffect(() => {
