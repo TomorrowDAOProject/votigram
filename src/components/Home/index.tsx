@@ -77,7 +77,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList, weeklyTopVotedApps, di
     try {
       const result = await postWithToken("/api/app/user/login-points/collect", {
         chainId,
-        timeStamp: adPrams.timeStamp,
+        timeStamp: adPrams?.timeStamp?.toString(),
         signature: adPrams.signature,
       });
       if (result?.data?.userTotalPoints) {
