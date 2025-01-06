@@ -82,7 +82,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList, weeklyTopVotedApps, di
       const result = await postWithToken("/api/app/user/login-points/collect", {
         chainId,
         timeStamp: adPrams.timeStamp,
-        signature: hash,
+        signature: hash.toString(),
       });
       if (result?.data?.userTotalPoints) {
         updateDailyLoginPointsStatus(result?.data?.userTotalPoints);
