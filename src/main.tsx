@@ -19,6 +19,7 @@ import "./mockEnv.ts";
 
 try {
   console.log("network", import.meta.env.VITE_NETWORK_TYPE);
+  console.log("network", import.meta.env.VITE_HASH);
   // Configure all application dependencies.
   init(retrieveLaunchParams().startParam === "debug" || import.meta.env.DEV);
 

@@ -24,6 +24,7 @@ export function useAdsgram({
   onSkip,
   onFinish,
 }: useAdsgramParams): () => Promise<void> {
+  console.log("1", import.meta.env.VITE_HASH);
   const AdControllerRef = useRef<AdController | undefined>(undefined);
 
   useEffect(() => {
@@ -49,9 +50,7 @@ export function useAdsgram({
         .then(async (result) => {
           if (result?.done) {
             const timestamp = dayjs().valueOf();
-            const hash = sha256(
-              `${import.meta.env.VITE_HASH_PRIVATE_KEY}-${timestamp}`
-            );
+            const hash = sha256(`${import.meta.env.VITE_HASH}-${timestamp}`);
 
             if (onFinish) {
               onFinish(timestamp, hash.toString());
