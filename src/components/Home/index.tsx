@@ -17,7 +17,6 @@ import { useAdsgram } from "@/hooks/useAdsgram";
 import { TAB_LIST } from "@/constants/navigation";
 import useSetSearchParams from "@/hooks/useSetSearchParams";
 import { TMSAP_TAB, VOTE_TABS } from "@/constants/vote";
-import sha256 from "crypto-js/sha256";
 
 interface IHomeProps {
   weeklyTopVotedApps: VoteApp[];
@@ -76,13 +75,10 @@ const Home = ({ onAppItemClick, switchTab, recommendList, weeklyTopVotedApps, di
 
   const onClaimClick = async () => {
     try {
-      const hash = sha256(
-        `${import.meta.env.VITE_HASH_PRIVATE_KEY}-${adPrams.timeStamp}`
-      );
       const result = await postWithToken("/api/app/user/login-points/collect", {
         chainId,
         timeStamp: adPrams.timeStamp,
-        signature: hash.toString(),
+        signature: adPrams.signature,
       });
       if (result?.data?.userTotalPoints) {
         updateDailyLoginPointsStatus(result?.data?.userTotalPoints);
