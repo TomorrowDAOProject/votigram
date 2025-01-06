@@ -22,8 +22,6 @@ ARG VITE_HASH
 
 ENV VITE_HASH=${VITE_HASH}
 
-RUN $VITE_HASH
-
 # Build the application and handle non-root
 RUN yarn ${BUILD_SCRIPT}
 

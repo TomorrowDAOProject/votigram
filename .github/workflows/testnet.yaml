@@ -34,8 +34,7 @@ jobs:
         uses: docker/build-push-action@v5
         env:
           VITE_NETWORK_TYPE: TESTNET
-          VITE_HASH: ${{ secrets.VITE_HASH }}
-        run: echo "Test: $VITE_HASH"
+          VITE_HASH: ${{ secrets.VITE_HASH_TESTNET }}
         with:
           context: .
           push: true
@@ -46,7 +45,7 @@ jobs:
           cache-to: type=gha,mode=max
           build-args: |
             BUILD_SCRIPT=build:testnet
-            VITE_HASH=${{ secrets.VITE_HASH }}
+            VITE_HASH=${{ secrets.VITE_HASH_TESTNET }}
             APP_ENV=testnet
 
   dispatch:
