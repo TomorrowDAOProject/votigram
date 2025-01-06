@@ -38,7 +38,7 @@ export default defineConfig({
   define: {
     VITE_BASE_URL: process.env.VITE_BASE_URL?.toString(),
     VITE_ADSGRAM_ID: process.env.VITE_ADSGRAM_ID?.toString(),
-    VITE_HASH_PRIVATE_KEY: process.env.VITE_HASH_PRIVATE_KEY?.toString(),
+    VITE_HASH: process.env.VITE_HASH?.toString(),
     VITE_NETWORK_TYPE: process.env.VITE_NETWORK_TYPE?.toString(),
     VITE_RPC_URL_AELF: process.env.VITE_RPC_URL_AELF?.toString(),
     VITE_RPC_URL_TDVV: process.env.VITE_RPC_URL_TDVV?.toString(),
