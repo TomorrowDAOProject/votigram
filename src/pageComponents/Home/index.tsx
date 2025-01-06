@@ -40,14 +40,14 @@ const App = () => {
       currentForyouPage.current++;
     }
   };
-  
-    const { data: madeForYouResult } = useData(
-      "/api/app/user/homepage/made-for-you?chainId=tDVW"
-    );
-  
-    const { data: votedAppResult } = useData(
-      "/api/app/user/homepage?chainId=tDVW"
-    );
+
+  const { data: madeForYouResult } = useData(
+    `/api/app/user/homepage/made-for-you?chainId=${chainId}`
+  );
+
+  const { data: votedAppResult } = useData(
+    `/api/app/user/homepage?chainId=${chainId}`
+  );
 
   const fetchRecommendData = async () => {
     const { data } = await postWithToken("/api/app/discover/random-app-list", {
