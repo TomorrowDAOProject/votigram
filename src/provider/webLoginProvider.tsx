@@ -1,8 +1,12 @@
-'use client';
-import { NetworkEnum, SignInDesignEnum, TChainId } from '@aelf-web-login/wallet-adapter-base';
-import { PortkeyAAWallet } from '@aelf-web-login/wallet-adapter-portkey-aa';
-import { IConfigProps } from '@aelf-web-login/wallet-adapter-bridge';
-import { WebLoginProvider } from '@aelf-web-login/wallet-adapter-react';
+"use client";
+import {
+  NetworkEnum,
+  SignInDesignEnum,
+  TChainId,
+} from "@aelf-web-login/wallet-adapter-base";
+import { PortkeyAAWallet } from "@aelf-web-login/wallet-adapter-portkey-aa";
+import { IConfigProps } from "@aelf-web-login/wallet-adapter-bridge";
+import { WebLoginProvider } from "@aelf-web-login/wallet-adapter-react";
 import {
   connectServer,
   connectUrl,
@@ -13,21 +17,25 @@ import {
   rpcUrlTDVV,
   rpcUrlTDVW,
   TELEGRAM_BOT_ID,
-} from '@/config';
-import { useEffect, useMemo } from 'react';
-import { getReferrerCode } from '@/utils/start-params';
-import { chainId, projectCode } from '@/constants/app';
+} from "@/config";
+import { useEffect, useMemo } from "react";
+import { getReferrerCode } from "@/utils/start-params";
+import { chainId, projectCode } from "@/constants/app";
 
-const APP_NAME = 'TMRWDAO';
+const APP_NAME = "TMRWDAO";
 
 function addBasePath(url: string) {
-  if (String(url).startsWith('http')) {
+  if (String(url).startsWith("http")) {
     return url;
   }
   return `${url}`;
 }
 
-export default function LoginSDKProvider({ children }: { children: React.ReactNode }) {
+export default function LoginSDKProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const info: Record<string, string> = {
     networkType: networkType,
     rpcUrlAELF: rpcUrlAELF,
@@ -45,11 +53,11 @@ export default function LoginSDKProvider({ children }: { children: React.ReactNo
 
   const didConfig = {
     graphQLUrl: info.graphqlServer,
-    connectUrl: addBasePath(connectUrl || ''),
+    connectUrl: addBasePath(connectUrl || ""),
     serviceUrl: server,
     requestDefaults: {
-      timeout: networkType === 'TESTNET' ? 300000 : 80000,
-      baseURL: addBasePath(server || ''),
+      timeout: networkType === "TESTNET" ? 300000 : 80000,
+      baseURL: addBasePath(server || ""),
     },
     socialLogin: {
       Telegram: {
@@ -57,7 +65,7 @@ export default function LoginSDKProvider({ children }: { children: React.ReactNo
       },
     },
     referralInfo: {
-      referralCode: referrerCode ?? '',
+      referralCode: referrerCode ?? "",
       projectCode,
     },
   };
@@ -65,7 +73,7 @@ export default function LoginSDKProvider({ children }: { children: React.ReactNo
   const baseConfig = {
     sideChainId: chainId as TChainId,
     omitTelegramScript: true,
-    showVconsole: false,
+    showVconsole: networkType === "TESTNET",
     networkType: networkType as NetworkEnum,
     chainId: chainId as TChainId,
     keyboard: true,
