@@ -49,9 +49,7 @@ export function useAdsgram({
         .then(async (result) => {
           if (result?.done) {
             const timestamp = dayjs().valueOf();
-            const hash = sha256(
-              `${import.meta.env.VITE_HASH_PRIVATE_KEY}-${timestamp}`
-            );
+            const hash = sha256(`${import.meta.env.VITE_HASH}-${timestamp}`);
 
             if (onFinish) {
               onFinish(timestamp, hash.toString());

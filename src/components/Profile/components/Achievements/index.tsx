@@ -105,7 +105,9 @@ const Achievements = ({ scrollTop }: IAchievementsProps) => {
             />
 
             <span className="overflow-hidden text-ellipsis whitespace-nowrap flex-grow min-w-0 text-[14px] font-normal leading-[16.8px]">
-              {myInvited?.inviter || myInfo?.first_name || " "}
+              {window?.Telegram?.WebApp?.initDataUnsafe?.user?.first_name ||
+                myInvited?.firstName ||
+                " "}
               <span className="inline-block h-[12px] px-1 leading-[12px] text-[11px] font-normal leading-[14.4px] text-tertiary bg-lime-green rounded-[5px] ml-[4px]">
                 ME
               </span>
