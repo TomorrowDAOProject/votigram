@@ -35,7 +35,7 @@ jobs:
         uses: docker/build-push-action@v5
         env:
           VITE_ADSGRAM_ID: ${{ secrets.VITE_ADSGRAM_ID }}
-          VITE_HASH_PRIVATE_KEY: ${{ secrets.VITE_HASH_PRIVATE_KEY }}
+          VITE_HASH: ${{ secrets.VITE_HASH_MAINNET }}
         with:
           context: .
           push: true
@@ -47,6 +47,6 @@ jobs:
           build-args: |
             BUILD_SCRIPT=build:mainnet
             VITE_ADSGRAM_ID=${{ secrets.VITE_ADSGRAM_ID }}
-            VITE_HASH_PRIVATE_KEY=${{ secrets.VITE_HASH_PRIVATE_KEY }}
+            VITE_HASH=${{ secrets.VITE_HASH_MAINNET }}
             VITE_BASE_URL=${{ secrets.VITE_BASE_URL }}
             APP_ENV=mainnet
