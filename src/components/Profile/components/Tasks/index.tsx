@@ -5,6 +5,7 @@ import useData from "@/hooks/useData";
 import { useEffect, useState } from "react";
 import { TAB_LIST } from "@/constants/navigation";
 import { mutate } from "swr";
+import { chainId } from "@/constants/app";
 interface ITasksProps {
   totalPoints: number;
   switchTab: (tab: TAB_LIST) => void;
@@ -16,10 +17,10 @@ const Tasks = ({ totalPoints, switchTab, onReward }: ITasksProps) => {
   const [inviteInfo, setInviteInfo] = useState<InviteDetail>();
   const [showShare, setShowShare] = useState(false);
 
-  const { data } = useData("/api/app/user/task-list?chainId=tDVW");
+  const { data } = useData(`/api/app/user/task-list?chainId=${chainId}`);
 
   const { data: inviteDetail } = useData(
-    "/api/app/referral/invite-detail?chainId=tDVW"
+    `/api/app/referral/invite-detail?chainId=${chainId}`
   );
 
   useEffect(() => {
@@ -36,11 +37,11 @@ const Tasks = ({ totalPoints, switchTab, onReward }: ITasksProps) => {
   }, [data, tasks]);
 
   const refresh = (points?: number) => {
-    mutate("/api/app/user/task-list?chainId=tDVW");
+    mutate(`/api/app/user/task-list?chainId=${chainId}`);
     if (points) {
       onReward(points);
     }
-  }
+  };
 
   return (
     <>
