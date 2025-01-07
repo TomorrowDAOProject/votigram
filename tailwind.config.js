@@ -74,7 +74,7 @@ export default {
       },
       inset: {
         telegramHeader:
-          "calc(var(--tg-content-safe-area-inset-top) + var(--tg-safe-area-inset-top) + 14px)",
+          "calc(var(--tg-content-safe-area-inset-top) + var(--tg-safe-area-inset-top) + var(--tg-safe-area-custom-top) + 14px)",
       },
       padding: {
         telegramHeader:
