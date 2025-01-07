@@ -49,16 +49,17 @@ const Textarea = ({
     const textarea = textareaRef.current;
     if (textarea) {
       textarea.style.height = "auto";
+      textarea.style.lineHeight = "13px";
       textarea.style.height = `${Math.min(textarea.scrollHeight, 320)}px`;
     }
   };
 
   return (
-    <div className="flex flex-col min-h-[40px] justify-center bg-input rounded-[20px] flex-1 gap-[8px] overflow-hidden">
+    <div className="flex flex-col min-h-[40px] justify-center py-[12px] px-[16px] bg-input rounded-[20px] flex-1 gap-[8px]">
       <textarea
         ref={textareaRef}
         className={clsx(
-          "py-[12px] px-[16px] rounded-[20px] placeholder:font-questrial caret-white text-[12px] leading-[13px] outline-none resize-none appearance-none overflow-hidden bg-input",
+          "p-0 placeholder:font-questrial text-[12px] leading-[13px] caret-white outline-none resize-none overflow-y-hidden appearance-none bg-input",
           rootClassName
         )}
         value={text}
@@ -70,7 +71,7 @@ const Textarea = ({
       {charCount > 0 && (
         <span
           className={clsx(
-            "inline-block text-[11px] pb-[12px] px-[16px] leading-[16.8px] text-input-placeholder",
+            "inline-block mt-[10px] text-[11px] leading-[16.8px] text-input-placeholder",
             { "!text-danger": charCount === maxLength }
           )}
         >
