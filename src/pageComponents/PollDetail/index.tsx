@@ -99,13 +99,12 @@ const PollDetail = () => {
 
   return (
     <>
+      <TelegramHeader
+        title={
+          <Countdown initialTime={seconds} onFinish={getRemainingSeconds} />
+        }
+      />
       <div className="pt-telegramHeader bg-black w-screen h-screen overflow-y-auto px-5">
-        <TelegramHeader
-          className="!relative"
-          title={
-            <Countdown initialTime={seconds} onFinish={getRemainingSeconds} />
-          }
-        />
         <div className="flex justify-between items-end pt-3 pb-4 border-b-[1px] border-tertiary">
           <BackBtn />
 
