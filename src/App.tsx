@@ -34,7 +34,7 @@ const App = () => {
         window.Telegram.WebApp?.platform === "unknown"
       ) {
         const tgTopStyles = `
-              --tg-content-safe-area-inset-top: 46px;
+              --tg-content-safe-area-inset-top: 0px;
               --tg-safe-area-inset-top: 0px;
             `;
         htmlElement.style.cssText =
