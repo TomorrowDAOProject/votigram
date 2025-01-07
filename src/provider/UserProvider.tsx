@@ -21,6 +21,7 @@ import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
 import { isInTelegram } from "@/utils/isInTelegram";
 import { useAsyncEffect } from "ahooks";
 import { host } from "@/config";
+import { chainId } from "@/constants/app";
 
 let RETRY_MAX_COUNT = 3;
 
@@ -81,7 +82,7 @@ const getUserPoints = async (accessToken: string) => {
   const userPointsResponse = await fetch(
     `${
       import.meta.env.VITE_BASE_URL
-    }/api/app/user/login-points/status?chainId=tDVW`,
+    }/api/app/user/login-points/status?chainId=${chainId}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,

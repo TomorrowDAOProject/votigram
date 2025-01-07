@@ -18,6 +18,7 @@ window.Buffer = Buffer;
 import "./mockEnv.ts";
 
 try {
+  console.log("network", import.meta.env.VITE_SIDECHAIN_ID);
   // Configure all application dependencies.
   init(retrieveLaunchParams().startParam === "debug" || import.meta.env.DEV);
 

@@ -24,6 +24,8 @@ interface IVoteItemProps {
   canVote?: boolean;
   showHat?: boolean;
   showBtn?: boolean;
+  showPoints?: boolean;
+  isTMACurrent?: boolean;
   className?: string;
   proposalId: string;
   hatClassName?: string;
@@ -39,11 +41,13 @@ const VoteItem = ({
   showHat,
   showBtn,
   canVote,
+  showPoints,
   className,
   proposalId,
   hatClassName,
   imgClassName,
   category,
+  isTMACurrent,
   onVoted,
   onClick,
 }: IVoteItemProps) => {
@@ -55,7 +59,7 @@ const VoteItem = ({
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const confettiInstance = useRef<CreateTypes | null>(null);
   const [totalCurrentPoints, setTotalCurrentPoints] = useState(
-    data.totalPoints || data.pointsAmount || 0
+    isTMACurrent ? data.totalPoints : data.pointsAmount
   );
   const { walletInfo, callSendMethod } = useConnectWallet();
 
@@ -135,8 +139,8 @@ const VoteItem = ({
 
   useEffect(() => {
     setLikeCount(0);
-    setTotalCurrentPoints(data.totalPoints || data.pointsAmount || 0);
-  }, [data.totalPoints, data.pointsAmount]);
+    setTotalCurrentPoints(isTMACurrent? data.totalPoints : data.pointsAmount);
+  }, [data.totalPoints, data.pointsAmount, isTMACurrent]);
 
   useEffect(() => {
     if (likeCount > 0) {
@@ -151,15 +155,22 @@ const VoteItem = ({
             },
           ],
         });
-        setTotalCurrentPoints((prev) => prev + likeCount);
+        setTotalCurrentPoints((prev) => (prev || 0) + likeCount);
         onVoted?.(likeCount);
-        updateUserPoints((userPoints?.userTotalPoints || 0) + likeCount)
+        updateUserPoints((userPoints?.userTotalPoints || 0) + likeCount);
         setLikeCount(0);
-      }, 2000);
+      }, 1000);
 
       return () => clearTimeout(timer); // Cleanup timeout on unmount or update
     }
-  }, [data.alias, likeCount, onVoted, proposalId, updateUserPoints, userPoints?.userTotalPoints]);
+  }, [
+    data.alias,
+    likeCount,
+    onVoted,
+    proposalId,
+    updateUserPoints,
+    userPoints?.userTotalPoints,
+  ]);
 
   const sedRawTransaction = async () => {
     try {
@@ -291,15 +302,16 @@ const VoteItem = ({
               )}
               {data?.title}
             </span>
-
-            <span className="font-pressStart font-normal text-[9px] tracking-[-0.9px] leading-[9px] text-lime-green">
-              {(totalCurrentPoints + likeCount)?.toLocaleString()}
-            </span>
+            {showPoints && (
+              <span className="font-pressStart font-normal text-[9px] tracking-[-0.9px] leading-[9px] text-lime-green">
+                {((totalCurrentPoints || 0) + likeCount)?.toLocaleString()}
+              </span>
+            )}
           </div>
 
           <ProgressBar
             width={elementWidth}
-            progress={!canVote ? (data?.pointsPercent || 0) * 100 : 0}
+            progress={showPoints ? (data?.pointsPercent || 0) * 100 : 0}
           />
         </div>
 
