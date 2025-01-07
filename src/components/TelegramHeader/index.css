@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 46px;
+  min-height: calc(var(--tg-content-safe-area-inset-top) + var(--tg-safe-area-inset-top) + var(--tg-safe-area-custom-top));
   padding-top: var(--tg-safe-area-inset-top);
   background-color: black;
   position: fixed;

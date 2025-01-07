@@ -26,6 +26,7 @@ import { CREATE_STATUS } from "@/constants/vote";
 import clsx from "clsx";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUserContext } from "@/provider/UserProvider";
+import TelegramHeader from "@/components/TelegramHeader";
 
 const rules = {
   proposalTitle: [
@@ -182,157 +183,164 @@ const CreatePoll = () => {
   };
 
   return (
-    <div className="pt-telegramHeader bg-black min-h-screen pt-[23px] pb-[27px] px-[20px]">
-      <BackBtn />
+    <>
+      <TelegramHeader title="Create Poll" />
+      <div className="pt-telegramHeader bg-black min-h-screen pt-[23px] pb-[27px] px-[20px]">
+        <BackBtn />
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormItem
-          label="Topic"
-          className="mb-2"
-          errorText={errors.proposalTitle}
-          required
-        >
-          <Input
-            onChange={handleChange("proposalTitle")}
-            value={formState.proposalTitle}
-            maxLength={50}
-            showClearBtn
-          />
-        </FormItem>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormItem
+            label="Topic"
+            className="mb-2"
+            errorText={errors.proposalTitle}
+            required
+          >
+            <Input
+              onChange={handleChange("proposalTitle")}
+              value={formState.proposalTitle}
+              maxLength={50}
+              showClearBtn
+            />
+          </FormItem>
 
-        <FormItem label="Banner" className="mb-2">
-          <Upload onFinish={handleChange("banner")} needCrop aspect={3 / 1}>
-            <i className="votigram-icon-upload text-[24px] text-white" />
-            <span className="block text-[13px] leading-[15.6px] text-white text-center">
-              Upload
-            </span>
-            <span className="mt-1 block text-center text-[11px] text-input-placeholder leading-[13.2px] whitespace-pre-wrap">{`Formats supported: PNG, JPG, JPEG\nRatio: 3:1 , less than 1 MB`}</span>
-          </Upload>
-        </FormItem>
+          <FormItem label="Banner" className="mb-2">
+            <Upload onFinish={handleChange("banner")} needCrop aspect={3 / 1}>
+              <i className="votigram-icon-upload text-[24px] text-white" />
+              <span className="block text-[13px] leading-[15.6px] text-white text-center">
+                Upload
+              </span>
+              <span className="mt-1 block text-center text-[11px] text-input-placeholder leading-[13.2px] whitespace-pre-wrap">{`Formats supported: PNG, JPG, JPEG\nRatio: 3:1 , less than 1 MB`}</span>
+            </Upload>
+          </FormItem>
 
-        <FormItem
-          label="Options"
-          className="mb-2"
-          errorText={errors.options}
-          desc="Minimum of two different options"
-          required
-        >
-          <InputGroup
-            value={formState.options}
-            onChange={handleChange("options")}
-          />
-        </FormItem>
+          <FormItem
+            label="Options"
+            className="mb-2"
+            errorText={errors.options}
+            desc="Minimum of two different options"
+            required
+          >
+            <InputGroup
+              value={formState.options}
+              onChange={handleChange("options")}
+            />
+          </FormItem>
 
-        <FormItem label="Poll Start Time" className="mb-2" required>
-          <ToggleSlider
-            items={["Now", "Specific date & time"]}
-            itemClassName="h-[33px]"
-            activeItemClassName="h-[26px]"
-            onChange={(index) =>
-              handleChange("activeStartTime")(
-                index ? dayjs().add(1, "day").unix() * 1000 : 1
-              )
-            }
-          />
-          {formState?.activeStartTime !== 1 && (
-            <div className="flex flex-row items-center gap-[9px] mt-[12px]">
-              <SimpleDatePicker
-                className="flex-1"
-                value={dayjs(formState.activeStartTime).format("YYYY-MM-DD")}
-                disabled={{
-                  before: dayjs().add(1, "day").toDate(),
-                }}
-                onChange={(day) => {
-                  handleChange("activeStartTime")(
-                    combineDateAndTime(
-                      dayjs(day).add(1, "day").format(),
-                      formState.activeStartTime
-                    )
-                  );
-                  if (typeof formState.activeEndTime !== "object") {
-                    handleChange("activeEndTime")(
+          <FormItem label="Poll Start Time" className="mb-2" required>
+            <ToggleSlider
+              items={["Now", "Specific date & time"]}
+              itemClassName="h-[33px]"
+              activeItemClassName="h-[26px]"
+              onChange={(index) =>
+                handleChange("activeStartTime")(
+                  index ? dayjs().add(1, "day").unix() * 1000 : 1
+                )
+              }
+            />
+            {formState?.activeStartTime !== 1 && (
+              <div className="flex flex-row items-center gap-[9px] mt-[12px]">
+                <SimpleDatePicker
+                  className="flex-1"
+                  value={dayjs(formState.activeStartTime).format("YYYY-MM-DD")}
+                  disabled={{
+                    before: dayjs().add(1, "day").toDate(),
+                  }}
+                  onChange={(day) => {
+                    handleChange("activeStartTime")(
                       combineDateAndTime(
-                        dayjs(day).add(2, "day").format(),
+                        dayjs(day).add(1, "day").format(),
                         formState.activeStartTime
                       )
                     );
+                    if (typeof formState.activeEndTime !== "object") {
+                      handleChange("activeEndTime")(
+                        combineDateAndTime(
+                          dayjs(day).add(2, "day").format(),
+                          formState.activeStartTime
+                        )
+                      );
+                    }
+                  }}
+                />
+                <SimpleTimePicker
+                  className="flex-1"
+                  value={formState.activeStartTime}
+                  onChange={(time) =>
+                    handleChange("activeStartTime")(
+                      combineDateAndTime(formState.activeStartTime, time)
+                    )
                   }
-                }}
-              />
-              <SimpleTimePicker
-                className="flex-1"
-                value={formState.activeStartTime}
-                onChange={(time) =>
-                  handleChange("activeStartTime")(
-                    combineDateAndTime(formState.activeStartTime, time)
-                  )
-                }
-              />
-            </div>
-          )}
-        </FormItem>
+                />
+              </div>
+            )}
+          </FormItem>
 
-        <FormItem label="Poll End Time" required>
-          <ToggleSlider
-            items={["Duration", "Specific date & time"]}
-            itemClassName="h-[33px]"
-            activeItemClassName="h-[26px]"
-            onChange={(index) =>
-              handleChange("activeEndTime")(
-                index
-                  ? formState?.activeStartTime === 1
-                    ? dayjs().add(1, "day").valueOf()
-                    : dayjs(formState.activeStartTime).add(1, "day").valueOf()
-                  : defaultEndTime
-              )
-            }
-          />
-          {typeof formState.activeEndTime === "object" ? (
-            <ButtonRadio
-              className="mt-[12px]"
-              options={DURATION_RANGE}
-              value={formState.activeEndTime}
-              onChange={(endTime) =>
-                handleChange("activeEndTime")(endTime as VoteTimeItem)
+          <FormItem label="Poll End Time" required>
+            <ToggleSlider
+              items={["Duration", "Specific date & time"]}
+              itemClassName="h-[33px]"
+              activeItemClassName="h-[26px]"
+              onChange={(index) =>
+                handleChange("activeEndTime")(
+                  index
+                    ? formState?.activeStartTime === 1
+                      ? dayjs().add(1, "day").valueOf()
+                      : dayjs(formState.activeStartTime).add(1, "day").valueOf()
+                    : defaultEndTime
+                )
               }
             />
-          ) : (
-            <div className="flex flex-row items-center flex-wrap gap-[9px] mt-[12px]">
-              <SimpleDatePicker
-                className="flex-1"
-                disabled={{
-                  before:
-                    formState?.activeStartTime === 1
-                      ? dayjs().add(1, "day").toDate()
-                      : dayjs(formState.activeStartTime).add(1, "day").toDate(),
-                }}
-                value={dayjs(formState.activeEndTime).format()}
-                onChange={(day) =>
-                  handleChange("activeEndTime")(
-                    combineDateAndTime(day, formState.activeEndTime as number)
-                  )
-                }
-              />
-              <SimpleTimePicker
-                className="flex-1"
+            {typeof formState.activeEndTime === "object" ? (
+              <ButtonRadio
+                className="mt-[12px]"
+                options={DURATION_RANGE}
                 value={formState.activeEndTime}
-                onChange={(time) =>
-                  handleChange("activeEndTime")(
-                    combineDateAndTime(formState.activeEndTime as number, time)
-                  )
+                onChange={(endTime) =>
+                  handleChange("activeEndTime")(endTime as VoteTimeItem)
                 }
               />
-            </div>
-          )}
-        </FormItem>
-        <button
-          className="mt-[21px] w-full h-[40px] bg-primary text-white font-bold text-[14px] font-outfit rounded-[24px]"
-          type="submit"
-        >
-          Create
-        </button>
-      </form>
-
+            ) : (
+              <div className="flex flex-row items-center flex-wrap gap-[9px] mt-[12px]">
+                <SimpleDatePicker
+                  className="flex-1"
+                  disabled={{
+                    before:
+                      formState?.activeStartTime === 1
+                        ? dayjs().add(1, "day").toDate()
+                        : dayjs(formState.activeStartTime)
+                            .add(1, "day")
+                            .toDate(),
+                  }}
+                  value={dayjs(formState.activeEndTime).format()}
+                  onChange={(day) =>
+                    handleChange("activeEndTime")(
+                      combineDateAndTime(day, formState.activeEndTime as number)
+                    )
+                  }
+                />
+                <SimpleTimePicker
+                  className="flex-1"
+                  value={formState.activeEndTime}
+                  onChange={(time) =>
+                    handleChange("activeEndTime")(
+                      combineDateAndTime(
+                        formState.activeEndTime as number,
+                        time
+                      )
+                    )
+                  }
+                />
+              </div>
+            )}
+          </FormItem>
+          <button
+            className="mt-[21px] w-full h-[40px] bg-primary text-white font-bold text-[14px] font-outfit rounded-[24px]"
+            type="submit"
+          >
+            Create
+          </button>
+        </form>
+      </div>
       <Drawer
         isVisible={loading}
         direction="bottom"
@@ -390,7 +398,7 @@ const CreatePoll = () => {
           {finished === CREATE_STATUS.SUCCESS ? "Continue" : "Try Again"}
         </button>
       </Drawer>
-    </div>
+    </>
   );
 };
 
