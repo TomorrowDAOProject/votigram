@@ -58,7 +58,7 @@ const Textarea = ({
       <textarea
         ref={textareaRef}
         className={clsx(
-          "p-0 placeholder:font-questrial text-[12px] leading-[13px] outline-none resize-none overflow-hidden appearance-none bg-input",
+          "p-0 placeholder:font-questrial caret-white text-[12px] leading-[13px] outline-none resize-none overflow-hidden bg-input",
           rootClassName
         )}
         value={text}
