@@ -49,8 +49,9 @@ const Textarea = ({
     const textarea = textareaRef.current;
     if (textarea) {
       textarea.style.height = "auto";
-      textarea.style.lineHeight = "13px";
       textarea.style.height = `${Math.min(textarea.scrollHeight, 320)}px`;
+      textarea.style.lineHeight = "13px";
+      textarea.focus();
     }
   };
 
