@@ -54,11 +54,11 @@ const Textarea = ({
   };
 
   return (
-    <div className="flex flex-col min-h-[40px] justify-center py-[12px] px-[16px] bg-input rounded-[20px] flex-1 gap-[8px]">
+    <div className="flex flex-col min-h-[40px] justify-center bg-input rounded-[20px] flex-1 gap-[8px] overflow-hidden">
       <textarea
         ref={textareaRef}
         className={clsx(
-          "p-0 placeholder:font-questrial caret-white text-[12px] leading-[13px] outline-none resize-none overflow-hidden bg-input",
+          "py-[12px] px-[16px] rounded-[20px] placeholder:font-questrial caret-white text-[12px] leading-[13px] outline-none resize-none appearance-none overflow-hidden bg-input",
           rootClassName
         )}
         value={text}
@@ -70,7 +70,7 @@ const Textarea = ({
       {charCount > 0 && (
         <span
           className={clsx(
-            "inline-block mt-[10px] text-[11px] leading-[16.8px] text-input-placeholder",
+            "inline-block text-[11px] pb-[12px] px-[16px] leading-[16.8px] text-input-placeholder",
             { "!text-danger": charCount === maxLength }
           )}
         >
