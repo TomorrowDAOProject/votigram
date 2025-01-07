@@ -36,6 +36,7 @@ export default defineConfig({
     port: 3000,
   },
   define: {
+    VITE_SIDECHAIN_ID: process.env.VITE_SIDECHAIN_ID?.toString(),
     VITE_BASE_URL: process.env.VITE_BASE_URL?.toString(),
     VITE_ADSGRAM_ID: process.env.VITE_ADSGRAM_ID?.toString(),
     VITE_HASH: process.env.VITE_HASH?.toString(),

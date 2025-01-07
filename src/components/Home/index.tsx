@@ -62,6 +62,14 @@ const Home = ({ onAppItemClick, switchTab, recommendList, weeklyTopVotedApps, di
       : null
   );
 
+  const { data: madeForYouResult } = useData(
+    `/api/app/user/homepage/made-for-you?chainId=${chainId}`
+  );
+
+  const { data: votedAppResult } = useData(
+    `/api/app/user/homepage?chainId=${chainId}`
+  );
+
   useEffect(() => {
     const { data, totalCount } = searchData || {};
     if (data && Array.isArray(data)) {
