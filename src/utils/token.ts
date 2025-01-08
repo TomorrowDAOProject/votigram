@@ -37,7 +37,7 @@ export const fetchToken = async () => {
         method: "POST",
         body: toUrlEncoded({
           grant_type: "signature",
-          client_id: "TomorrowDAOServer_App",
+          client_id: "TomorrowDAOServer_App1",
           scope: "TomorrowDAOServer",
           login_type: "TG",
           init_data: initData,
