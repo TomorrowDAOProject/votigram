@@ -57,13 +57,20 @@ const Textarea = ({
 
   useEffect(() => {
     const handleResize = () => {
-      const viewportHeight = window?.visualViewport?.height;
+      const viewportHeight = window.innerHeight;
       document.body.style.height = `${viewportHeight}px`;
     };
-  
+
+    const resetScrollPosition = () => {
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener('focusin', resetScrollPosition);
+    window.addEventListener('focusout', resetScrollPosition);
     window?.visualViewport?.addEventListener('resize', handleResize);
   
     return () => {
+      window.removeEventListener('focusin', resetScrollPosition);
+      window.removeEventListener('focusout', resetScrollPosition);
       window?.visualViewport?.removeEventListener('resize', handleResize);
     };
   }, []);
