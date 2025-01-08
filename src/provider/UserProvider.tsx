@@ -6,7 +6,7 @@ import React, {
   ReactNode,
   useState,
 } from "react";
-
+import AElf from "aelf-sdk";
 import { jwtDecode } from "jwt-decode";
 import {
   UserContextState,
@@ -19,8 +19,8 @@ import { fetchToken } from "@/utils/token";
 import { webLoginInstance } from "@/contract/webLogin";
 import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
 import { isInTelegram } from "@/utils/isInTelegram";
-import { useAsyncEffect } from "ahooks";
-import { host } from "@/config";
+import { useAsyncEffect, useRequest } from "ahooks";
+import { connectUrl, host } from "@/config";
 import { chainId } from "@/constants/app";
 
 let RETRY_MAX_COUNT = 3;
@@ -101,9 +101,54 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [state, dispatch] = useReducer(dataReducer, initialState);
   const webLoginContext = useConnectWallet();
-  const { connectWallet, disConnectWallet, walletInfo, isConnected } =
-    useConnectWallet();
+  const {
+    connectWallet,
+    disConnectWallet,
+    walletInfo: wallet,
+    isConnected,
+  } = useConnectWallet();
   const [cmsData, setCmsData] = useState<IConfigContent | null>(null);
+
+  const { run: fetchPortKeyToken, cancel } = useRequest(
+    async () => {
+      const timestamp = Date.now();
+      const {
+        portkeyInfo: { walletInfo },
+        publicKey,
+      } = wallet?.extraInfo || {};
+      const message = Buffer.from(
+        `${walletInfo?.address}-${timestamp}`
+      ).toString("hex");
+      const signature = AElf.wallet
+        .sign(message, walletInfo?.keyPair)
+        .toString("hex");
+      const requestObject = {
+        grant_type: "signature",
+        client_id: "CAServer_App",
+        scope: "CAServer",
+        signature: signature,
+        pubkey: publicKey,
+        timestamp: timestamp.toString(),
+        ca_hash: wallet?.extraInfo?.portkeyInfo?.caInfo?.caHash,
+        chain_id: chainId,
+      };
+      const portKeyRes = await fetch(connectUrl + "/connect/token", {
+        method: "POST",
+        body: new URLSearchParams(requestObject).toString(),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
+      const portKeyResObj = await portKeyRes.json();
+      if (portKeyRes?.ok && portKeyResObj?.access_token) {
+        cancel();
+      }
+    },
+    {
+      manual: true,
+      pollingInterval: 1500,
+    }
+  );
 
   const fetchCMSData = async () => {
     const cmsRes = await fetch(host + "/cms/items/config", {
@@ -163,11 +208,17 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   }, [state.loading]);
 
   useAsyncEffect(async () => {
-    if (!walletInfo) {
+    if (!wallet) {
       return;
     }
     webLoginInstance.setWebLoginContext(webLoginContext);
-  }, [webLoginContext, walletInfo]);
+  }, [webLoginContext]);
+
+  useEffect(() => {
+    if (isConnected && wallet) {
+      fetchPortKeyToken();
+    }
+  }, [fetchPortKeyToken, isConnected, wallet]);
 
   useEffect(() => {
     if (!isInTelegram() && !isConnected) {
