@@ -51,7 +51,7 @@ const CategoryPillList = ({
         >
           <button className="w-max px-2 py-1 text-[13px] leading-[16px] text-white flex items-center">
             {item.label}
-            {!!amount && item.value === APP_CATEGORY.NEW && (
+            {item.value === APP_CATEGORY.NEW && !!amount && amount > 0 && (
               <span className="ml-1 text-white text-[9px] leading-[10px] bg-primary rounded-[7px] py-[2px] px-[5px]">
                 {amount}
               </span>
