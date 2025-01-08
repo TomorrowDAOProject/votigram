@@ -78,7 +78,7 @@ const ReviewList: React.FC<IReviewListProps> = ({
           </span>
         </div>
       )}
-      <div className={clsx("min-h-full", rootClassname)}>
+      <div className={clsx({"min-h-full": items.length > 0}, rootClassname)}>
         {items.map((item, index) => (
           <Item
             data={item}

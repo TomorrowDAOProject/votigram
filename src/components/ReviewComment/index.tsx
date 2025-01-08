@@ -87,7 +87,7 @@ const ReviewComment = ({
           onClick={onDrawerClose}
         />
       </div>
-      <div className="py-1">
+      <div className="pt-[4px] pb-[75px] h-[calc(60vh+79px)]">
         <ReviewList
           hasMore={data?.hasMore || false}
           height="60vh"
@@ -101,7 +101,7 @@ const ReviewComment = ({
           }
         />
       </div>
-      <div className="flex flex-row gap-2 py-[17px] px-5 border-t-[1px] border-tertiary items-end border-solid">
+      <div className="fixed bottom-0 left-0 w-full flex flex-row gap-2 py-[17px] px-5 border-t-[1px] border-tertiary items-end border-solid">
         <Textarea
           value={comment}
           onChange={onCommentChange}

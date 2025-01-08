@@ -151,6 +151,7 @@ const PollDetail = () => {
                 canVote={canVote}
                 onVoted={onVoted}
                 showBtn
+                showPoints={!canVote}
               />
             ))}
           </div>
