@@ -55,6 +55,19 @@ const Textarea = ({
     }
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      const viewportHeight = window?.visualViewport?.height;
+      document.body.style.height = `${viewportHeight}px`;
+    };
+  
+    window?.visualViewport?.addEventListener('resize', handleResize);
+  
+    return () => {
+      window?.visualViewport?.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <div className="flex flex-col min-h-[40px] justify-center py-[12px] px-[16px] bg-input rounded-[20px] flex-1 gap-[8px]">
       <textarea
