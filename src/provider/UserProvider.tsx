@@ -6,7 +6,6 @@ import React, {
   ReactNode,
   useState,
 } from "react";
-import AElf from "aelf-sdk";
 import { jwtDecode } from "jwt-decode";
 import {
   UserContextState,
@@ -20,7 +19,7 @@ import { webLoginInstance } from "@/contract/webLogin";
 import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
 import { isInTelegram } from "@/utils/isInTelegram";
 import { useAsyncEffect, useRequest } from "ahooks";
-import { connectUrl, host } from "@/config";
+import { host } from "@/config";
 import { chainId } from "@/constants/app";
 
 let RETRY_MAX_COUNT = 3;
@@ -106,39 +105,40 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     disConnectWallet,
     walletInfo: wallet,
     isConnected,
+    getSignature,
   } = useConnectWallet();
   const [cmsData, setCmsData] = useState<IConfigContent | null>(null);
 
   const { run: fetchPortKeyToken, cancel } = useRequest(
     async () => {
       const timestamp = Date.now();
-      const {
-        portkeyInfo: { walletInfo },
-        publicKey,
-      } = wallet?.extraInfo || {};
-      const message = Buffer.from(
-        `${walletInfo?.address}-${timestamp}`
-      ).toString("hex");
-      const signature = AElf.wallet
-        .sign(message, walletInfo?.keyPair)
-        .toString("hex");
+      const sign = await getSignature({
+        appName: "TomorrowDAOServer",
+        address: wallet!.address,
+        signInfo: Buffer.from(`${wallet?.address}-${timestamp}`).toString(
+          "hex"
+        ),
+      });
       const requestObject = {
         grant_type: "signature",
-        client_id: "CAServer_App",
-        scope: "CAServer",
-        signature: signature,
-        pubkey: publicKey,
+        scope: "TomorrowDAOServer",
+        client_id: "TomorrowDAOServer_App",
         timestamp: timestamp.toString(),
-        ca_hash: wallet?.extraInfo?.portkeyInfo?.caInfo?.caHash,
-        chain_id: chainId,
+        signature: sign?.signature ?? "",
+        source: "portkey",
+        publickey: wallet?.extraInfo?.publicKey || "",
+        chain_id: wallet?.extraInfo?.portkeyInfo?.chainId ?? "",
+        ca_hash: wallet?.extraInfo?.portkeyInfo?.caInfo?.caHash ?? "",
+        address: wallet?.address ?? "",
       };
-      const portKeyRes = await fetch(connectUrl + "/connect/token", {
-        method: "POST",
-        body: new URLSearchParams(requestObject).toString(),
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      });
+      const portKeyRes = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/connect/token`,
+        {
+          method: "POST",
+          body: new URLSearchParams(requestObject).toString(),
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        }
+      );
       const portKeyResObj = await portKeyRes.json();
       if (portKeyRes?.ok && portKeyResObj?.access_token) {
         cancel();
