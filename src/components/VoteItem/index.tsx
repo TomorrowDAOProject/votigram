@@ -35,6 +35,8 @@ interface IVoteItemProps {
   onClick?: (item: VoteApp) => void;
 }
 
+let RETRY_MAX_COUNT = 10;
+
 const VoteItem = ({
   data,
   rank,
@@ -77,7 +79,7 @@ const VoteItem = ({
       try {
         setLoading(true);
         const { data } = await voteRequest(rawTransaction, result);
-        if (!data || data.status === VOTE_STATUS.FAILED) {
+        if (!data || data.status === VOTE_STATUS.FAILED || RETRY_MAX_COUNT < 0) {
           setLoading(false);
           setIsFailed(true);
           cancel();
@@ -90,6 +92,7 @@ const VoteItem = ({
           cancel();
           setLoading(false);
         }
+        RETRY_MAX_COUNT--;
       } catch (error) {
         console.error(error);
         setLoading(false);
@@ -129,6 +132,7 @@ const VoteItem = ({
     event.preventDefault();
     event.stopPropagation();
     if (canVote) {
+      RETRY_MAX_COUNT = 10;
       sedRawTransaction();
     } else {
       showConfetti();
