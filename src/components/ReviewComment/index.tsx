@@ -87,7 +87,8 @@ const ReviewComment = ({
           onClick={onDrawerClose}
         />
       </div>
-      <div className="pt-[4px] pb-[75px] h-[calc(60vh+75px+4px)]">
+
+      <div className="pt-[4px] pb-[75px] h-[calc(60vh+79px)]">
         <ReviewList
           hasMore={data?.hasMore || false}
           height="60vh"
