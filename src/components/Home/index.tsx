@@ -74,7 +74,6 @@ const Home = ({ onAppItemClick, switchTab, recommendList, weeklyTopVotedApps, di
   }, [category, pageIndex, searchData]);
 
   useEffect(() => {
-    console.log('bannerInfo', bannerInfo)
     const { notViewedNewAppCount } = bannerInfo || {};
     if (notViewedNewAppCount) {
       setNewAmount(notViewedNewAppCount || 0);
