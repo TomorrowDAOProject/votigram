@@ -79,6 +79,7 @@ interface TelegramWebApp {
 
 interface Window {
   Telegram: TelegramWebApp;
+  visualViewport: VisualViewport;
 }
 
 declare type Chain = "AELF" | "tDVV" | "tDVW";

@@ -87,6 +87,8 @@ const Current = ({
           category={category}
           onVoted={(addPoints: number) => onVoted(addPoints, index)}
           onClick={onAppItemClick}
+          isTMACurrent
+          showPoints
           showBtn
         />
       ))}

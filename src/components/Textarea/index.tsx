@@ -50,15 +50,37 @@ const Textarea = ({
     if (textarea) {
       textarea.style.height = "auto";
       textarea.style.height = `${Math.min(textarea.scrollHeight, 320)}px`;
+      textarea.style.lineHeight = "13px";
+      textarea.focus();
     }
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const viewportHeight = window.innerHeight;
+      document.body.style.height = `${viewportHeight}px`;
+    };
+
+    const resetScrollPosition = () => {
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener('focusin', resetScrollPosition);
+    window.addEventListener('focusout', resetScrollPosition);
+    window?.visualViewport?.addEventListener('resize', handleResize);
+  
+    return () => {
+      window.removeEventListener('focusin', resetScrollPosition);
+      window.removeEventListener('focusout', resetScrollPosition);
+      window?.visualViewport?.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col min-h-[40px] justify-center py-[12px] px-[16px] bg-input rounded-[20px] flex-1 gap-[8px]">
       <textarea
         ref={textareaRef}
         className={clsx(
-          "p-0 placeholder:font-questrial text-[12px] leading-[13px] outline-none resize-none overflow-hidden appearance-none bg-input",
+          "p-0 placeholder:font-questrial text-[12px] leading-[13px] caret-white outline-none resize-none overflow-y-hidden appearance-none bg-input",
           rootClassName
         )}
         value={text}
