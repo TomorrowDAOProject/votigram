@@ -74,6 +74,8 @@ const Accumulative = ({
           className="bg-transparent"
           showBtn={false}
           onClick={onAppItemClick}
+          isTMACurrent
+          showPoints
         />
       ))}
       {isLoading && (
