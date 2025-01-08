@@ -61,25 +61,34 @@ const Home = ({ onAppItemClick, switchTab, recommendList, weeklyTopVotedApps, di
         }).toString()}`
       : null
   );
-
-  const { data: madeForYouResult } = useData(
-    `/api/app/user/homepage/made-for-you?chainId=${chainId}`
+  
+  const { data: bannerInfo } = useData(
+    `/api/app/ranking/banner-info?chainId=${chainId}`
   );
-
-  const { data: votedAppResult } = useData(
-    `/api/app/user/homepage?chainId=${chainId}`
-  );
-
   useEffect(() => {
-    const { data, totalCount } = searchData || {};
+    const { data } = searchData || {};
     if (data && Array.isArray(data)) {
       setSearchList((prev) => (pageIndex === 0 ? data : [...prev, ...data]));
       setNoMore(data.length < PAGE_SIZE);
-      if (category === APP_CATEGORY.NEW) {
-        setNewAmount(totalCount || 0);
-      }
     }
   }, [category, pageIndex, searchData]);
+
+  useEffect(() => {
+    console.log('bannerInfo', bannerInfo)
+    const { notViewedNewAppCount } = bannerInfo || {};
+    if (notViewedNewAppCount) {
+      setNewAmount(notViewedNewAppCount || 0);
+    }
+  }, [bannerInfo]);
+
+  const onViewApp = (item: VoteApp) => {
+    onAppItemClick(item);
+    setNewAmount(prev => prev - 1);
+    postWithToken("/api/app/discover/view-app", {
+      chainId,
+      aliases: [item.alias],
+    });
+  };
 
   const onClaimClick = async () => {
     try {
@@ -182,9 +191,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList, weeklyTopVotedApps, di
         </div>
         <CategoryPillList
           value={category}
-          amount={
-            isSearching && category === APP_CATEGORY.NEW ? newAmount : undefined
-          }
+          amount={newAmount}
           items={DISCOVER_CATEGORY}
           onChange={(value) => {
             setPageIndex(0);
@@ -200,7 +207,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList, weeklyTopVotedApps, di
                 : recommendList
             }
             updateUserPoints={updateUserPoints}
-            onAppItemClick={onAppItemClick}
+            onAppItemClick={onViewApp}
           />
         ) : (
           <>
