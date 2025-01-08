@@ -19,8 +19,9 @@ import { webLoginInstance } from "@/contract/webLogin";
 import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
 import { isInTelegram } from "@/utils/isInTelegram";
 import { useAsyncEffect, useRequest } from "ahooks";
-import { host } from "@/config";
+import { host, nftSymbol } from "@/config";
 import { chainId } from "@/constants/app";
+import { postWithToken } from "@/hooks/useData";
 
 let RETRY_MAX_COUNT = 3;
 
@@ -141,6 +142,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
       );
       const portKeyResObj = await portKeyRes.json();
       if (portKeyRes?.ok && portKeyResObj?.access_token) {
+        fetchTransferStatus();
         cancel();
       }
     },
@@ -199,6 +201,46 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
       dispatch({ type: "SET_LOADING", payload: false });
     }
   };
+
+  const fetchTransfer = async (cancel: () => void) => {
+    const { data } = await postWithToken("/api/app/token/transfer", {
+      chainId,
+      symbol: nftSymbol,
+    });
+    if (!data) {
+      if (isInTelegram()) {
+        window.location.reload();
+      } else {
+        fetchTokenAndData();
+      }
+    } else {
+      cancel();
+    }
+  };
+
+  const { run: fetchTransferStatus, cancel: cancelTransferStatus } = useRequest(
+    async () => {
+      try {
+        const { data } = await postWithToken("/api/app/token/transfer/status", {
+          chainId,
+          address: wallet?.address,
+          symbol: nftSymbol,
+        });
+        const { isClaimedInSystem } = data || {};
+        if (!data || !isClaimedInSystem) {
+          fetchTransfer(cancelTransferStatus);
+        } else {
+          cancelTransferStatus();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    {
+      manual: true,
+      pollingInterval: 1000,
+    }
+  );
 
   useEffect(() => {
     if (state.loading) {
