@@ -15,6 +15,7 @@ import { useParams } from "react-router-dom";
 import { useCopyToClipboard } from "react-use";
 import { getShareText } from "./utils";
 import { mutate } from "swr";
+import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
 
 const PollDetail = () => {
   const { proposalId } = useParams();
@@ -24,9 +25,10 @@ const PollDetail = () => {
   const [pollDeta, setPollDeta] = useState<IPollDetail | null>(null);
   const [, copyToClipboard] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);
+  const { walletInfo, isConnected } = useConnectWallet();
 
   const { data, isLoading } = useData(
-    proposalId
+    proposalId && isConnected && walletInfo
       ? `/api/app/ranking/detail?${new URLSearchParams({
           chainId,
           proposalId,

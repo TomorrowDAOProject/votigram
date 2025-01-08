@@ -35,7 +35,7 @@ interface IVoteItemProps {
   onClick?: (item: VoteApp) => void;
 }
 
-let RETRY_MAX_COUNT = 10;
+let RETRY_MAX_COUNT = 30;
 
 const VoteItem = ({
   data,

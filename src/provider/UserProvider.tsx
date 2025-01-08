@@ -6,7 +6,6 @@ import React, {
   ReactNode,
   useState,
 } from "react";
-
 import { jwtDecode } from "jwt-decode";
 import {
   UserContextState,
@@ -19,9 +18,10 @@ import { fetchToken } from "@/utils/token";
 import { webLoginInstance } from "@/contract/webLogin";
 import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
 import { isInTelegram } from "@/utils/isInTelegram";
-import { useAsyncEffect } from "ahooks";
-import { host } from "@/config";
+import { useAsyncEffect, useRequest } from "ahooks";
+import { host, nftSymbol } from "@/config";
 import { chainId } from "@/constants/app";
+import { postWithToken } from "@/hooks/useData";
 
 let RETRY_MAX_COUNT = 3;
 
@@ -101,9 +101,56 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [state, dispatch] = useReducer(dataReducer, initialState);
   const webLoginContext = useConnectWallet();
-  const { connectWallet, disConnectWallet, walletInfo, isConnected } =
-    useConnectWallet();
+  const {
+    connectWallet,
+    disConnectWallet,
+    walletInfo: wallet,
+    isConnected,
+    getSignature,
+  } = useConnectWallet();
   const [cmsData, setCmsData] = useState<IConfigContent | null>(null);
+
+  const { run: fetchPortKeyToken, cancel } = useRequest(
+    async () => {
+      const timestamp = Date.now();
+      const sign = await getSignature({
+        appName: "TomorrowDAOServer",
+        address: wallet!.address,
+        signInfo: Buffer.from(`${wallet?.address}-${timestamp}`).toString(
+          "hex"
+        ),
+      });
+      const requestObject = {
+        grant_type: "signature",
+        scope: "TomorrowDAOServer",
+        client_id: "TomorrowDAOServer_App",
+        timestamp: timestamp.toString(),
+        signature: sign?.signature ?? "",
+        source: "portkey",
+        publickey: wallet?.extraInfo?.publicKey || "",
+        chain_id: wallet?.extraInfo?.portkeyInfo?.chainId ?? "",
+        ca_hash: wallet?.extraInfo?.portkeyInfo?.caInfo?.caHash ?? "",
+        address: wallet?.address ?? "",
+      };
+      const portKeyRes = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/connect/token`,
+        {
+          method: "POST",
+          body: new URLSearchParams(requestObject).toString(),
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        }
+      );
+      const portKeyResObj = await portKeyRes.json();
+      if (portKeyRes?.ok && portKeyResObj?.access_token) {
+        fetchTransferStatus();
+        cancel();
+      }
+    },
+    {
+      manual: true,
+      pollingInterval: 1500,
+    }
+  );
 
   const fetchCMSData = async () => {
     const cmsRes = await fetch(host + "/cms/items/config", {
@@ -155,6 +202,46 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const fetchTransfer = async (cancel: () => void) => {
+    const { data } = await postWithToken("/api/app/token/transfer", {
+      chainId,
+      symbol: nftSymbol,
+    });
+    if (!data) {
+      if (isInTelegram()) {
+        window.location.reload();
+      } else {
+        fetchTokenAndData();
+      }
+    } else {
+      cancel();
+    }
+  };
+
+  const { run: fetchTransferStatus, cancel: cancelTransferStatus } = useRequest(
+    async () => {
+      try {
+        const { data } = await postWithToken("/api/app/token/transfer/status", {
+          chainId,
+          address: wallet?.address,
+          symbol: nftSymbol,
+        });
+        const { isClaimedInSystem } = data || {};
+        if (!data || !isClaimedInSystem) {
+          fetchTransfer(cancelTransferStatus);
+        } else {
+          cancelTransferStatus();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    {
+      manual: true,
+      pollingInterval: 1000,
+    }
+  );
+
   useEffect(() => {
     if (state.loading) {
       fetchTokenAndData();
@@ -163,11 +250,17 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   }, [state.loading]);
 
   useAsyncEffect(async () => {
-    if (!walletInfo) {
+    if (!wallet) {
       return;
     }
     webLoginInstance.setWebLoginContext(webLoginContext);
-  }, [webLoginContext, walletInfo]);
+  }, [webLoginContext]);
+
+  useEffect(() => {
+    if (isConnected && wallet) {
+      fetchPortKeyToken();
+    }
+  }, [fetchPortKeyToken, isConnected, wallet]);
 
   useEffect(() => {
     if (!isInTelegram() && !isConnected) {
