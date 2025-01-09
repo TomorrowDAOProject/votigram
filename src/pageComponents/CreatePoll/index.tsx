@@ -185,7 +185,7 @@ const CreatePoll = () => {
   return (
     <>
       <TelegramHeader title="Create Poll" />
-      <div className="pt-telegramHeader bg-black min-h-screen pt-[23px] pb-[27px] px-[20px]">
+      <div className="pt-telegramHeader bg-black h-screen pt-[23px] pb-[27px] px-[20px] overflow-y-auto">
         <BackBtn />
 
         <form onSubmit={handleSubmit(onSubmit)}>
