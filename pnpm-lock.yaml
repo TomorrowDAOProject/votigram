@@ -9,35 +9,35 @@ importers:
   .:
     dependencies:
       '@aelf-web-login/utils':
-        specifier: 0.2.2-alpha.5
-        version: 0.2.2-alpha.5(@portkey/did-ui-react@2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+        specifier: 0.2.2-alpha.4
+        version: 0.2.2-alpha.4(@portkey/did-ui-react@2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
       '@aelf-web-login/wallet-adapter-base':
-        specifier: 0.2.2-alpha.5
-        version: 0.2.2-alpha.5(@portkey/did-ui-react@2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+        specifier: 0.2.2-alpha.4
+        version: 0.2.2-alpha.4(@portkey/did-ui-react@2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       '@aelf-web-login/wallet-adapter-bridge':
-        specifier: 0.2.2-alpha.5
-        version: 0.2.2-alpha.5(@portkey/did-ui-react@2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@portkey/request@2.16.0-alpha.0)(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+        specifier: 0.2.2-alpha.4
+        version: 0.2.2-alpha.4(@portkey/did-ui-react@2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@portkey/request@2.15.10)(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
       '@aelf-web-login/wallet-adapter-portkey-aa':
-        specifier: 0.2.2-alpha.5
-        version: 0.2.2-alpha.5(@portkey/did-ui-react@2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@portkey/request@2.16.0-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+        specifier: 0.2.2-alpha.4
+        version: 0.2.2-alpha.4(@portkey/did-ui-react@2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
       '@aelf-web-login/wallet-adapter-react':
-        specifier: 0.2.2-alpha.5
-        version: 0.2.2-alpha.5(@portkey/did-ui-react@2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@portkey/request@2.16.0-alpha.0)(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+        specifier: 0.2.2-alpha.4
+        version: 0.2.2-alpha.4(@portkey/did-ui-react@2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@portkey/request@2.15.10)(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
       '@portkey/contracts':
-        specifier: 2.16.0-alpha.0
-        version: 2.16.0-alpha.0(@portkey/request@2.16.0-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+        specifier: 2.15.10-alpha.0
+        version: 2.15.10-alpha.0(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
       '@portkey/did-ui-react':
-        specifier: 2.15.11-alpha.0
-        version: 2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 2.15.10-alpha.0
+        version: 2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@portkey/provider-types':
-        specifier: ^2.3.5
-        version: 2.3.5
+        specifier: 2.2.1
+        version: 2.2.1
       '@portkey/services':
-        specifier: 2.16.0-alpha.0
-        version: 2.16.0-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 2.15.10-alpha.0
+        version: 2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@portkey/utils':
-        specifier: 2.16.0-alpha.0
-        version: 2.16.0-alpha.0(@portkey/request@2.16.0-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+        specifier: 2.15.10-alpha.0
+        version: 2.15.10-alpha.0(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
       '@rollup/plugin-inject':
         specifier: ^5.0.5
         version: 5.0.5(rollup@4.29.1)
@@ -54,7 +54,7 @@ importers:
         specifier: ^2.1.8
         version: 2.1.8(@types/react-dom@18.3.5(@types/react@18.3.18))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       aelf-sdk:
-        specifier: ^3.4.8
+        specifier: ^3.2.40
         version: 3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7))
       ahooks:
         specifier: ^3.8.4
@@ -219,37 +219,37 @@ packages:
   '@aelf-web-login/utils@0.1.2':
     resolution: {integrity: sha512-5dyEYSjeHRF6phcokIWVUsziceIFecOBG2Z3Z+5Vc2USkiE2zC0JJvxmCU9iuSydNYVRv+U2iAEVuWddtZsUIQ==}
 
-  '@aelf-web-login/utils@0.2.2-alpha.5':
-    resolution: {integrity: sha512-o/Y//FMIpbw1r7cHntjBChjQ8ImRl5rlsyCnnMdl+goCQS3DOzySg1W5OgWzrCrya6NEY4NttoPB4LyUmzbFpQ==}
+  '@aelf-web-login/utils@0.2.2-alpha.4':
+    resolution: {integrity: sha512-KgIBY3v6ha76KtNZoUhLreSaCij+jQWONho2vHoYmi2zcTu6ky9YEDditaZqagWMunqCeIy3P3HXsqfo/jyEUg==}
     peerDependencies:
       '@portkey/did-ui-react': ^2.7.2
 
   '@aelf-web-login/wallet-adapter-base@0.1.2':
     resolution: {integrity: sha512-afZ/auBVJNLw9gJCVRs6fdvfkda6Kx0t+g39ay7o5mbeprARFu9JHqJ6A5EP5ttw3Eyk2PJEnhRn5Cl3URo/Ug==}
 
-  '@aelf-web-login/wallet-adapter-base@0.2.2-alpha.5':
-    resolution: {integrity: sha512-y/E9hV2JxZZDZGHdFYOKFSwaM81mGjmLKsTTFB+tLILRwQG7WsB10HDs9ArD6DA2lBw9nXCtbBBGPdpQgbua8w==}
+  '@aelf-web-login/wallet-adapter-base@0.2.2-alpha.4':
+    resolution: {integrity: sha512-e1+yyWH/Rpbfw5JWnmphesT0YFlMz/1pXDFiNTwbRlcRqwDezm+DhyK/95tEduxIrZ0ANHdodIGkYfhexzJbZw==}
     peerDependencies:
       '@portkey/did-ui-react': ^2.15.9
 
   '@aelf-web-login/wallet-adapter-bridge@0.1.2':
     resolution: {integrity: sha512-qQh3u9nwZuHmTuf7yYJvtQvRYbsZ9GhMm0lMDyRhUjCEvbe2a/oGwtaQSARQj0RvITN3fLRDRY0Ufo1ttGA5Bw==}
 
-  '@aelf-web-login/wallet-adapter-bridge@0.2.2-alpha.5':
-    resolution: {integrity: sha512-YBCeLAw2KJRHJVulZYvx9MwH8NK5Xxts/9s/D7Ihl/b0eu9RPeWYjny4z9GH+gka0UNG3C1zQ+ALcou9abxAUg==}
+  '@aelf-web-login/wallet-adapter-bridge@0.2.2-alpha.4':
+    resolution: {integrity: sha512-uS24CG0gi5JfbETNIBFkyj5ISUiRWBuhtr1Eo7NExeAcWvlMHWlnHd/cQCZcK9pRUOecXio3kNX66GaAJELWlg==}
     peerDependencies:
       '@portkey/did-ui-react': ^2.15.9
 
-  '@aelf-web-login/wallet-adapter-portkey-aa@0.2.2-alpha.5':
-    resolution: {integrity: sha512-JghOtq0PPg2sElbre4BsSBIZMLp4KrjxCNhwKlgmwo45vrWRE27Z/7WwcgFKCiCFhr5kB8TO0bMQQkElbB8Puw==}
+  '@aelf-web-login/wallet-adapter-portkey-aa@0.2.2-alpha.4':
+    resolution: {integrity: sha512-oqS/ofUE22szCqW0hpPoWfjKDtIW0FHUC2BFTP6ozojzEfb3Y/+QbvQ/0ihGLJVatPDdD66+UxZKQ0nC9gCFLA==}
     peerDependencies:
       '@portkey/did-ui-react': ^2.15.9
 
   '@aelf-web-login/wallet-adapter-react@0.1.2':
     resolution: {integrity: sha512-enEH/MRizCguQ4Dx0vUFootLqPAXIwIB1+rzXQ3TlhQ9qbt2QdFFajS/8BDxxoK0qYtl37XzgHKqZW3Nmnn1eA==}
 
-  '@aelf-web-login/wallet-adapter-react@0.2.2-alpha.5':
-    resolution: {integrity: sha512-lGfgyPPNXeOGJztFVIUT0yoQI+C6Vo0R5s06yMr+O1rbLKhqdRzqIgyLYLIzsqJCUWlthyH2X0rbXF92cIDN+Q==}
+  '@aelf-web-login/wallet-adapter-react@0.2.2-alpha.4':
+    resolution: {integrity: sha512-iXhLI2Ww0/3xtYnuJTOawRmfmMRm0MUgl7ZYKDMt3xL13TTZm2FMFDZB1KYP6k9LKTX7yuOv/SeqsEIbfZLPhQ==}
 
   '@aelfqueen/protobufjs@6.8.9':
     resolution: {integrity: sha512-xa8i/rsC/Dj6Wh0DWpgr4eODVu8tVktyTENJU0QGjwmu317PCyp/8p7rEcvplljAteoQ31cFxUCrnzFQ0iLG1g==}
@@ -832,8 +832,8 @@ packages:
   '@polka/url@1.0.0-next.28':
     resolution: {integrity: sha512-8LduaNlMZGwdZ6qWrKlfa+2M4gahzFkprZiAt2TF8uS0qQgBizKXpXURqvTJ4WtmupWxaLqjRb2UCTe72mu+Aw==}
 
-  '@portkey/accounts@2.15.11-alpha.0':
-    resolution: {integrity: sha512-Fc12XnWu3SRKtP83MZMfrZChRjtZW7l32B2bmgQGYzfKrA8LnSPy2PygM2B0qG7je4X5Z0mzZuV03HgtN+nJ7w==}
+  '@portkey/accounts@2.17.6':
+    resolution: {integrity: sha512-WxorXo6wh7HjMMLB0GNMI9LmzZADjIV4q+6VF8qKhQP02VwTpLwSOU9o99SQq2J1ocLwhS1Wab9ZCLgkKU0M2Q==}
     peerDependencies:
       aelf-sdk: ^3.4.7
 
@@ -842,28 +842,28 @@ packages:
     peerDependencies:
       aelf-sdk: ^3.4.7
 
-  '@portkey/contracts@2.15.11-alpha.0':
-    resolution: {integrity: sha512-iMsVeom/phNgfU4fpz5L2TC3XVAXoHshGejVT2jnA3Rw+HUYgxaGkmGbOc5Bi2QMI/VwW5DqVCGKdGBFe7z/DA==}
+  '@portkey/contracts@2.15.10-alpha.0':
+    resolution: {integrity: sha512-kDbw/SH2zX7bcnZk1cHxh7IG+8QvP1So6q9XDefvh8mohnLmUKqg4ia8A/H207bQFjsfB3oFa0qxNNmUyOT0+w==}
     peerDependencies:
       aelf-sdk: ^3.4.7
 
-  '@portkey/contracts@2.16.0-alpha.0':
-    resolution: {integrity: sha512-3VpZdWHsyBUmKo3h2DZdtTggid06rXGlZRoOy4iO9hHKDtTuWsGq13iovDDAwSGlsw2OYy4JQMZHKKSelXoNCQ==}
+  '@portkey/contracts@2.17.6':
+    resolution: {integrity: sha512-abkCovMoxMx/F8vA4XeaODfvKZN9vlVXGEOJIIhSq6jEOCCnVI8LSYdVrUM24Ho+haAH3XE9ySMTKbgfLTaZjA==}
     peerDependencies:
       aelf-sdk: ^3.4.7
 
   '@portkey/detect-provider@2.3.5':
     resolution: {integrity: sha512-x5Jl8IE4EGi6zdfup9LMncL04gXS/d0YxdaESC5vd7TPwvSnjra2ZJPGdZrydBzhQYHMPeKy/bZCyY/o7WH+Cg==}
 
-  '@portkey/did-ui-react@2.15.11-alpha.0':
-    resolution: {integrity: sha512-ZvLJ2aU8FEb1vSajkadL0GINwRqtG7zVvPs5r6i/2MtWjjxz0b0GtwW+F0w1DyYXOTV5LNWeJ5iAAvtdFdTJZw==}
+  '@portkey/did-ui-react@2.15.10-alpha.0':
+    resolution: {integrity: sha512-rVa3NPJQlEY1u6dtqzcHFO7Dszr4CfDLPpAR1PWOZrwOFI5DF/+FfLSh+uzKV98y8uJgCXEzEYW1sSGmdIwtbg==}
     peerDependencies:
       aelf-sdk: ^3.4.7
       react: ^18.2.0
       react-dom: ^18.2.0
 
-  '@portkey/did@2.15.11-alpha.0':
-    resolution: {integrity: sha512-UmwdVAwjRAl+qSUKVKcPoBab2EQSfnEamaEKu/xIN5BVZMihLuuXWSZNzPeGgKrcuI3dxYj/nOnidEQVt9GQgg==}
+  '@portkey/did@2.17.6':
+    resolution: {integrity: sha512-LEOo/+VDpC609Y+ii4GVyrJmOhyaMghM8flsmZSmnjt8nBrA7yW76c79j8eSZLkpQa9cc5tklY9aXpiFabJb4Q==}
     peerDependencies:
       aelf-sdk: ^3.4.7
       react: ^18.2.0
@@ -871,29 +871,26 @@ packages:
   '@portkey/graphql@2.15.10':
     resolution: {integrity: sha512-Y8IxQvSKN+ca2Yx0L/EIYvDnIpmahUQNffVP5fpOdZANuMB382SkbkHmqOhAaCgORXjmZQfCiKPhMp6Xy79NjQ==}
 
-  '@portkey/graphql@2.15.11-alpha.0':
-    resolution: {integrity: sha512-51z2loFvkJOIa5DRxa/V1Xz5jZOnKz97BMdHhJu2SAD5pmXlsPfvKUhDXERRNaRI/wgM9jpEZuGiDgaQUHFeow==}
+  '@portkey/graphql@2.17.6':
+    resolution: {integrity: sha512-iJ010bxYMk+KOyp8gRchnQeOmKRT/8YmuX2V48cgZQ6wnMmruuU35RYK5inyzu9J6pPyeE71YU0s1I+ec7K3Ew==}
 
-  '@portkey/graphql@2.16.0-alpha.0':
-    resolution: {integrity: sha512-uaqmpS4p5savuR8LCtAjAe80yMDincABnEDlSTF3i0IOOzgWIjMPA5p6oar5YxyMtw9xzSA94qZ/URF1r3CaSg==}
+  '@portkey/onboarding@2.17.6':
+    resolution: {integrity: sha512-luCMzCmrGsp0HqbkVwp4Bvlluv4xdNgl94XdsRqHhEGcbz1r5s101TIzUPICHWzSR+Pl0EdqeIEZkK0/YQyxQA==}
 
-  '@portkey/onboarding@2.15.11-alpha.0':
-    resolution: {integrity: sha512-oFxd7/xcfkJvQdH1ifjmkNaopRJ2xtcCNQSVKvhJisOfBxmj2R/CLUNB1z5xyNoZnDmjiY4Zr4P+57vZIPc/vg==}
+  '@portkey/provider-types@2.2.1':
+    resolution: {integrity: sha512-RkYqg0jjfOICJxkcq6IxpeZwMB+RSHyTCr3GOlRgpbc4td5i6HKd3zV+hRy5WlmghJq1YohcveiilegWkkrV2A==}
 
   '@portkey/provider-types@2.3.5':
     resolution: {integrity: sha512-xQeY3dEz+yFptnKr/mB9eo1rW5hsLMntAjwzzpgNyJEWrV6BGBH4S1s+wiK0mdDhu2BzkJ0yVgJ2MwGhWkeLbw==}
 
-  '@portkey/ramp@2.15.11-alpha.0':
-    resolution: {integrity: sha512-fp2FwLhqZxE3E8FOVB2v4nlpoA4mYCsMR+t/ePLm3d3G/m4gaE/O9IsODBtGyAKWyLnA5XGaw5sCg43oTJMhOA==}
+  '@portkey/ramp@2.17.6':
+    resolution: {integrity: sha512-UbXn/qlawjWTmNEdtTZEOsx42IUu4nXfvRnctEP3hWVgezIuzUvLYHPDaM2RTDU8PLXxbyyPVn9el3vpX6W8/A==}
 
   '@portkey/request@2.15.10':
     resolution: {integrity: sha512-XkPVSjMRnU3LcDeH7xXKVSCHAxUVCeNbFkErFm05vXtY/eK0gkJe4fkPYwNcjymGryPRuDNBbX3Mvh9ZIrG7MQ==}
 
-  '@portkey/request@2.15.11-alpha.0':
-    resolution: {integrity: sha512-rPX5SkMZjbEGlWiCtA0PMxp/YGZcpIsYSoiXAGrzUr9/W4mmzGvrdHJf+lxmvl1m/s42VdazqAIKy3YoL6jIAw==}
-
-  '@portkey/request@2.16.0-alpha.0':
-    resolution: {integrity: sha512-X0WUaTx/qb/NXnV7UZ0032AKyxvL78i0tfPUMy+XSSCzqTwipVKOefrQ7yTao06iI1VM6uyCY/ZHm+YpX1jSEg==}
+  '@portkey/request@2.17.6':
+    resolution: {integrity: sha512-Hn7eRCeitdfrHvf5V+6HkovHJt4vgXl0zb1KEOrooMzEjmaCihtDa+IJMfHMGlxtKWOFAve++36kEcAcjH9bkQ==}
 
   '@portkey/services@2.15.10':
     resolution: {integrity: sha512-LTIFSQTuM0kLKFyk4vpGfx/tHHF5VDe/jVYJy/q+T8VXF43idej0QLBnb7lHlCYNq4Woz51byE26GUAn/YQpSA==}
@@ -901,14 +898,14 @@ packages:
       aelf-sdk: ^3.4.7
       query-string: ^7.1.1
 
-  '@portkey/services@2.15.11-alpha.0':
-    resolution: {integrity: sha512-/WRshBHda9K6Lz597XnogNGjNBKNcw/oXoak/FpZ6acB8x0ZdfMKRRmztj7RYoRzPgaMBXTDhwXP8Hfz9O4KFA==}
+  '@portkey/services@2.15.10-alpha.0':
+    resolution: {integrity: sha512-BkZZ5x2TPEA5Y1HB79rIopBt6SyhCchBGew5ZzgK5PEyQK/u5rCdE7AxYfrSVzsxvlpH5c54lrYZQNKc9aU2RA==}
     peerDependencies:
       aelf-sdk: ^3.4.7
       query-string: ^7.1.1
 
-  '@portkey/services@2.16.0-alpha.0':
-    resolution: {integrity: sha512-924ooDUXWnznA0K+b0jXv01ANzg8SqtevTxTOWq71pHBo34MtyjBoh8Wm7o7aymTRlgoST+nKJYt/PKKkdaIUQ==}
+  '@portkey/services@2.17.6':
+    resolution: {integrity: sha512-BK6h+W5OI1JnnJf8UKuEqvGVt8IhZ4z2KT9PCzDkWQYdF5dEGMHFjPnoxYM3sD9s+I51qAD+fkkvOeuiEWCODw==}
     peerDependencies:
       aelf-sdk: ^3.4.7
       query-string: ^7.1.1
@@ -919,17 +916,14 @@ packages:
       aelf-sdk: ^3.4.7
       query-string: ^7.1.1
 
-  '@portkey/socket@2.15.11-alpha.0':
-    resolution: {integrity: sha512-i6PkzeY6jdMsfVayitVCJ9ah8pvQrnS3SYAzdT+wD57vu7hghsYrJShg4YBe85wormeElhxl1Dcg4ntNF62CJA==}
+  '@portkey/socket@2.17.6':
+    resolution: {integrity: sha512-pFylIKAtzSCyeh+zBmda8bv7a29qZSnGd1D/QKuNVR7vYwB6lzL/3TlVGWcX0pJMPziygVJ/2YtwlkNW2CzfIg==}
 
   '@portkey/types@2.15.10':
     resolution: {integrity: sha512-RQddcR9AfWbapYM4ovAkCXOZGULuuYCbTwYkUTaqRf0WflG3IHB+sQvDMUSMJAw0fo4dPND7Qg0hS2mvHVVWRw==}
 
-  '@portkey/types@2.15.11-alpha.0':
-    resolution: {integrity: sha512-v38Jfwqi8Xmlg3tt/cj2OmP7toKCBWy67E4apvOiIJSLUkyQiHJQSY1ny55goSUb69+VcxJSCkUp5dig7DrhnQ==}
-
-  '@portkey/types@2.16.0-alpha.0':
-    resolution: {integrity: sha512-5vt8Qaup3LnYderL16roDhUsq0Alobyjbu7sRleE66UZ0cWWp5YBA/6LOovyypbw/mT8sIBmfENDPIih80UMsw==}
+  '@portkey/types@2.17.6':
+    resolution: {integrity: sha512-HUCPo1PVgxEa3GqKbhg2TyD2uYB3s3+mBNqmE1Vh6Omrs9mR8MlZZoL7bqyqVltjITuXv9+6+2HOXIx9cNySgg==}
 
   '@portkey/utils@2.15.10':
     resolution: {integrity: sha512-2jV+gnfbavEcrAGndR9ePLMdR8V6I4gvRMo1d76m6hdTRRrFf5VpFOd2VN8624RgXUHon5WQocSQ/Pi++eWtdg==}
@@ -938,22 +932,22 @@ packages:
       aelf-sdk: ^3.4.7
       query-string: ^7.1.1
 
-  '@portkey/utils@2.15.11-alpha.0':
-    resolution: {integrity: sha512-B4m0QkyNEd5mnHk2qnBXnx+GnVkqUyzMKT2lXcPWY1SRqCdxSdqAET8JAg3dJIpqdKF4ZUhOFY+nl2TLdNKvQQ==}
+  '@portkey/utils@2.15.10-alpha.0':
+    resolution: {integrity: sha512-M+u5P09Rz0XVb28kahMi/2sN06qBsQrgkj9ZQXszdU3e/GkCVlabENDY4JniyYuBC6P31EcYurRlJM5vrJ1IjA==}
     peerDependencies:
       '@portkey/request': ^2.6.6
       aelf-sdk: ^3.4.7
       query-string: ^7.1.1
 
-  '@portkey/utils@2.16.0-alpha.0':
-    resolution: {integrity: sha512-foRqYKPh3R5lJqkZP/u7uKz87D/obQKXjYGWcpzl+iWDjVCnE7YlysKsiUuDG55eK2ffwfwwY0Jc3q4RGmYA5w==}
+  '@portkey/utils@2.17.6':
+    resolution: {integrity: sha512-bX+/8GC5LK6dn6Ku6NTqRUeg1ZrfJoEUVMVOnsA3JobetaLQWcO2ankr13/Oc7q/edJkt+MWWtRiH29r9O6MyA==}
     peerDependencies:
       '@portkey/request': ^2.6.6
       aelf-sdk: ^3.4.7
       query-string: ^7.1.1
 
-  '@portkey/validator@2.15.11-alpha.0':
-    resolution: {integrity: sha512-cYsiMR+Qg/b+2qNSJ4BgJPUl4YnEFwuhvbUAb1irgwrrwjUEOT/SRmfRw+JiT431LTp3MyzGWUTZjzF40Lv5Eg==}
+  '@portkey/validator@2.17.6':
+    resolution: {integrity: sha512-0wMxCRjA5PqKjT7jD04Cvk++78j2iDH3Wwzb8WBKxgMi4M2N3jOUGkpQVhu8Y3PLWYT/v19hUdXSx8Ko0WpRdQ==}
 
   '@protobufjs/aspromise@1.1.2':
     resolution: {integrity: sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ==}
@@ -4467,11 +4461,11 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@aelf-web-login/utils@0.2.2-alpha.5(@portkey/did-ui-react@2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
+  '@aelf-web-login/utils@0.2.2-alpha.4(@portkey/did-ui-react@2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
     dependencies:
       '@aelf-web-login/wallet-adapter-base': 0.1.2
       '@aelf-web-login/wallet-adapter-react': 0.1.2(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
-      '@portkey/did-ui-react': 2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@portkey/did-ui-react': 2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       bignumber.js: 9.1.2
       dayjs: 1.11.13
       react: 18.3.1
@@ -4489,9 +4483,9 @@ snapshots:
     dependencies:
       eventemitter3: 5.0.1
 
-  '@aelf-web-login/wallet-adapter-base@0.2.2-alpha.5(@portkey/did-ui-react@2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))':
+  '@aelf-web-login/wallet-adapter-base@0.2.2-alpha.4(@portkey/did-ui-react@2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))':
     dependencies:
-      '@portkey/did-ui-react': 2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@portkey/did-ui-react': 2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       eventemitter3: 5.0.1
 
   '@aelf-web-login/wallet-adapter-bridge@0.1.2(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
@@ -4511,11 +4505,11 @@ snapshots:
       - react-redux
       - utf-8-validate
 
-  '@aelf-web-login/wallet-adapter-bridge@0.2.2-alpha.5(@portkey/did-ui-react@2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@portkey/request@2.16.0-alpha.0)(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
+  '@aelf-web-login/wallet-adapter-bridge@0.2.2-alpha.4(@portkey/did-ui-react@2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@portkey/request@2.15.10)(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
     dependencies:
-      '@aelf-web-login/wallet-adapter-base': 0.2.2-alpha.5(@portkey/did-ui-react@2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
-      '@portkey/contracts': 2.15.10(@portkey/request@2.16.0-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
-      '@portkey/did-ui-react': 2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@aelf-web-login/wallet-adapter-base': 0.2.2-alpha.4(@portkey/did-ui-react@2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+      '@portkey/contracts': 2.15.10(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/did-ui-react': 2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@portkey/services': 2.15.10(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@reduxjs/toolkit': 2.5.0(react@18.3.1)
       react: 18.3.1
@@ -4530,12 +4524,12 @@ snapshots:
       - react-redux
       - utf-8-validate
 
-  '@aelf-web-login/wallet-adapter-portkey-aa@0.2.2-alpha.5(@portkey/did-ui-react@2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@portkey/request@2.16.0-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
+  '@aelf-web-login/wallet-adapter-portkey-aa@0.2.2-alpha.4(@portkey/did-ui-react@2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
     dependencies:
-      '@aelf-web-login/wallet-adapter-base': 0.2.2-alpha.5(@portkey/did-ui-react@2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
-      '@portkey/contracts': 2.15.10(@portkey/request@2.16.0-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
-      '@portkey/did-ui-react': 2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@portkey/utils': 2.15.10(@portkey/request@2.16.0-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@aelf-web-login/wallet-adapter-base': 0.2.2-alpha.4(@portkey/did-ui-react@2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+      '@portkey/contracts': 2.15.10(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/did-ui-react': 2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@portkey/utils': 2.15.10(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
     transitivePeerDependencies:
       - '@portkey/request'
       - aelf-sdk
@@ -4556,10 +4550,10 @@ snapshots:
       - react-redux
       - utf-8-validate
 
-  '@aelf-web-login/wallet-adapter-react@0.2.2-alpha.5(@portkey/did-ui-react@2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@portkey/request@2.16.0-alpha.0)(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
+  '@aelf-web-login/wallet-adapter-react@0.2.2-alpha.4(@portkey/did-ui-react@2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@portkey/request@2.15.10)(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
     dependencies:
-      '@aelf-web-login/wallet-adapter-base': 0.2.2-alpha.5(@portkey/did-ui-react@2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
-      '@aelf-web-login/wallet-adapter-bridge': 0.2.2-alpha.5(@portkey/did-ui-react@2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@portkey/request@2.16.0-alpha.0)(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@aelf-web-login/wallet-adapter-base': 0.2.2-alpha.4(@portkey/did-ui-react@2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+      '@aelf-web-login/wallet-adapter-bridge': 0.2.2-alpha.4(@portkey/did-ui-react@2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@portkey/request@2.15.10)(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       vconsole: 3.15.1
@@ -5085,41 +5079,51 @@ snapshots:
 
   '@polka/url@1.0.0-next.28': {}
 
-  '@portkey/accounts@2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
+  '@portkey/accounts@2.17.6(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
     dependencies:
-      '@portkey/types': 2.15.11-alpha.0
-      '@portkey/utils': 2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
-      '@portkey/validator': 2.15.11-alpha.0
+      '@portkey/types': 2.17.6
+      '@portkey/utils': 2.17.6(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/validator': 2.17.6
       aelf-sdk: 3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7))
     transitivePeerDependencies:
       - '@portkey/request'
       - query-string
 
-  '@portkey/contracts@2.15.10(@portkey/request@2.16.0-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
+  '@portkey/accounts@2.17.6(@portkey/request@2.17.6)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
     dependencies:
-      '@portkey/provider-types': 2.3.5
+      '@portkey/types': 2.17.6
+      '@portkey/utils': 2.17.6(@portkey/request@2.17.6)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/validator': 2.17.6
+      aelf-sdk: 3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7))
+    transitivePeerDependencies:
+      - '@portkey/request'
+      - query-string
+
+  '@portkey/contracts@2.15.10(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
+    dependencies:
+      '@portkey/provider-types': 2.2.1
       '@portkey/types': 2.15.10
-      '@portkey/utils': 2.15.10(@portkey/request@2.16.0-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/utils': 2.15.10(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
       aelf-sdk: 3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7))
     transitivePeerDependencies:
       - '@portkey/request'
       - query-string
 
-  '@portkey/contracts@2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
+  '@portkey/contracts@2.15.10-alpha.0(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
     dependencies:
-      '@portkey/provider-types': 2.3.5
-      '@portkey/types': 2.15.11-alpha.0
-      '@portkey/utils': 2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/provider-types': 2.2.1
+      '@portkey/types': 2.15.10
+      '@portkey/utils': 2.15.10-alpha.0(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
       aelf-sdk: 3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7))
     transitivePeerDependencies:
       - '@portkey/request'
       - query-string
 
-  '@portkey/contracts@2.16.0-alpha.0(@portkey/request@2.16.0-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
+  '@portkey/contracts@2.17.6(@portkey/request@2.17.6)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
     dependencies:
-      '@portkey/provider-types': 2.3.5
-      '@portkey/types': 2.16.0-alpha.0
-      '@portkey/utils': 2.16.0-alpha.0(@portkey/request@2.16.0-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/provider-types': 2.2.1
+      '@portkey/types': 2.17.6
+      '@portkey/utils': 2.17.6(@portkey/request@2.17.6)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
       aelf-sdk: 3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7))
     transitivePeerDependencies:
       - '@portkey/request'
@@ -5129,21 +5133,21 @@ snapshots:
     dependencies:
       '@portkey/provider-types': 2.3.5
 
-  '@portkey/did-ui-react@2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@portkey/did-ui-react@2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(i18next@24.2.0(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@matt-block/react-recaptcha-v2': 2.1.0(react@18.3.1)
-      '@portkey/accounts': 2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
-      '@portkey/contracts': 2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
-      '@portkey/did': 2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@portkey/graphql': 2.15.11-alpha.0(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@portkey/onboarding': 2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))
-      '@portkey/ramp': 2.15.11-alpha.0(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))
-      '@portkey/request': 2.15.11-alpha.0
-      '@portkey/services': 2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@portkey/socket': 2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
-      '@portkey/types': 2.15.11-alpha.0
-      '@portkey/utils': 2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
-      '@portkey/validator': 2.15.11-alpha.0
+      '@portkey/accounts': 2.17.6(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/contracts': 2.15.10-alpha.0(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/did': 2.17.6(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@portkey/graphql': 2.15.10(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@portkey/onboarding': 2.17.6(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))
+      '@portkey/ramp': 2.17.6(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))
+      '@portkey/request': 2.15.10
+      '@portkey/services': 2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@portkey/socket': 2.17.6(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/types': 2.15.10
+      '@portkey/utils': 2.15.10-alpha.0(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/validator': 2.17.6
       '@rc-component/portal': 1.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       aelf-sdk: 3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7))
       antd: 4.24.14(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -5170,15 +5174,15 @@ snapshots:
       - react-native
       - utf-8-validate
 
-  '@portkey/did@2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@portkey/did@2.17.6(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@portkey/accounts': 2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
-      '@portkey/contracts': 2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
-      '@portkey/graphql': 2.15.11-alpha.0(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@portkey/request': 2.15.11-alpha.0
-      '@portkey/services': 2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@portkey/types': 2.15.11-alpha.0
-      '@portkey/utils': 2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/accounts': 2.17.6(@portkey/request@2.17.6)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/contracts': 2.17.6(@portkey/request@2.17.6)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/graphql': 2.17.6(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@portkey/request': 2.17.6
+      '@portkey/services': 2.17.6(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@portkey/types': 2.17.6
+      '@portkey/utils': 2.17.6(@portkey/request@2.17.6)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
       aelf-sdk: 3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7))
       react: 18.3.1
     transitivePeerDependencies:
@@ -5203,10 +5207,10 @@ snapshots:
       - react-dom
       - utf-8-validate
 
-  '@portkey/graphql@2.15.11-alpha.0(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@portkey/graphql@2.17.6(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@apollo/client': 3.12.4(@types/react@18.3.18)(graphql@16.10.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(subscriptions-transport-ws@0.11.0(graphql@16.10.0))
-      '@portkey/types': 2.15.11-alpha.0
+      '@portkey/types': 2.17.6
       graphql: 16.10.0
       subscriptions-transport-ws: 0.11.0(graphql@16.10.0)
     transitivePeerDependencies:
@@ -5217,42 +5221,33 @@ snapshots:
       - react-dom
       - utf-8-validate
 
-  '@portkey/graphql@2.16.0-alpha.0(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@apollo/client': 3.12.4(@types/react@18.3.18)(graphql@16.10.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(subscriptions-transport-ws@0.11.0(graphql@16.10.0))
-      '@portkey/types': 2.16.0-alpha.0
-      graphql: 16.10.0
-      subscriptions-transport-ws: 0.11.0(graphql@16.10.0)
-    transitivePeerDependencies:
-      - '@types/react'
-      - bufferutil
-      - graphql-ws
-      - react
-      - react-dom
-      - utf-8-validate
-
-  '@portkey/onboarding@2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))':
+  '@portkey/onboarding@2.17.6(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))':
     dependencies:
       '@portkey/detect-provider': 2.3.5
-      '@portkey/types': 2.15.11-alpha.0
-      '@portkey/utils': 2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/types': 2.17.6
+      '@portkey/utils': 2.17.6(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
       bowser: 2.11.0
       query-string: 7.1.3
     transitivePeerDependencies:
       - '@portkey/request'
       - aelf-sdk
 
-  '@portkey/provider-types@2.3.5':
+  '@portkey/provider-types@2.2.1':
     dependencies:
       '@portkey/types': 2.15.10
       '@types/readable-stream': 2.3.15
 
-  '@portkey/ramp@2.15.11-alpha.0(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))':
+  '@portkey/provider-types@2.3.5':
     dependencies:
-      '@portkey/request': 2.15.11-alpha.0
-      '@portkey/socket': 2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
-      '@portkey/types': 2.15.11-alpha.0
-      '@portkey/utils': 2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/types': 2.17.6
+      '@types/readable-stream': 2.3.15
+
+  '@portkey/ramp@2.17.6(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))':
+    dependencies:
+      '@portkey/request': 2.17.6
+      '@portkey/socket': 2.17.6(@portkey/request@2.17.6)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/types': 2.17.6
+      '@portkey/utils': 2.17.6(@portkey/request@2.17.6)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
       query-string: 7.1.3
     transitivePeerDependencies:
       - aelf-sdk
@@ -5265,14 +5260,9 @@ snapshots:
       '@portkey/types': 2.15.10
       query-string: 7.1.3
 
-  '@portkey/request@2.15.11-alpha.0':
+  '@portkey/request@2.17.6':
     dependencies:
-      '@portkey/types': 2.15.11-alpha.0
-      query-string: 7.1.3
-
-  '@portkey/request@2.16.0-alpha.0':
-    dependencies:
-      '@portkey/types': 2.16.0-alpha.0
+      '@portkey/types': 2.17.6
       query-string: 7.1.3
 
   '@portkey/services@2.15.10(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
@@ -5291,12 +5281,12 @@ snapshots:
       - react-dom
       - utf-8-validate
 
-  '@portkey/services@2.15.11-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@portkey/services@2.15.10-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@portkey/graphql': 2.15.11-alpha.0(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@portkey/request': 2.15.11-alpha.0
-      '@portkey/types': 2.15.11-alpha.0
-      '@portkey/utils': 2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/graphql': 2.15.10(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@portkey/request': 2.15.10
+      '@portkey/types': 2.15.10
+      '@portkey/utils': 2.15.10-alpha.0(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
       aelf-sdk: 3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7))
       query-string: 7.1.3
     transitivePeerDependencies:
@@ -5307,12 +5297,12 @@ snapshots:
       - react-dom
       - utf-8-validate
 
-  '@portkey/services@2.16.0-alpha.0(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@portkey/services@2.17.6(@types/react@18.3.18)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@portkey/graphql': 2.16.0-alpha.0(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@portkey/request': 2.16.0-alpha.0
-      '@portkey/types': 2.16.0-alpha.0
-      '@portkey/utils': 2.16.0-alpha.0(@portkey/request@2.16.0-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/graphql': 2.17.6(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@portkey/request': 2.17.6
+      '@portkey/types': 2.17.6
+      '@portkey/utils': 2.17.6(@portkey/request@2.17.6)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
       aelf-sdk: 3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7))
       query-string: 7.1.3
     transitivePeerDependencies:
@@ -5339,10 +5329,22 @@ snapshots:
       - react-dom
       - utf-8-validate
 
-  '@portkey/socket@2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
+  '@portkey/socket@2.17.6(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
     dependencies:
       '@abp/signalr': 7.4.5
-      '@portkey/utils': 2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+      '@portkey/utils': 2.17.6(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
+    transitivePeerDependencies:
+      - '@portkey/request'
+      - aelf-sdk
+      - bufferutil
+      - encoding
+      - query-string
+      - utf-8-validate
+
+  '@portkey/socket@2.17.6(@portkey/request@2.17.6)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
+    dependencies:
+      '@abp/signalr': 7.4.5
+      '@portkey/utils': 2.17.6(@portkey/request@2.17.6)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)
     transitivePeerDependencies:
       - '@portkey/request'
       - aelf-sdk
@@ -5353,9 +5355,7 @@ snapshots:
 
   '@portkey/types@2.15.10': {}
 
-  '@portkey/types@2.15.11-alpha.0': {}
-
-  '@portkey/types@2.16.0-alpha.0': {}
+  '@portkey/types@2.17.6': {}
 
   '@portkey/utils@2.15.10(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
     dependencies:
@@ -5364,28 +5364,28 @@ snapshots:
       node-forge: 1.3.1
       query-string: 7.1.3
 
-  '@portkey/utils@2.15.10(@portkey/request@2.16.0-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
+  '@portkey/utils@2.15.10-alpha.0(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
     dependencies:
-      '@portkey/request': 2.16.0-alpha.0
+      '@portkey/request': 2.15.10
       aelf-sdk: 3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7))
       node-forge: 1.3.1
       query-string: 7.1.3
 
-  '@portkey/utils@2.15.11-alpha.0(@portkey/request@2.15.11-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
+  '@portkey/utils@2.17.6(@portkey/request@2.15.10)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
     dependencies:
-      '@portkey/request': 2.15.11-alpha.0
+      '@portkey/request': 2.15.10
       aelf-sdk: 3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7))
       node-forge: 1.3.1
       query-string: 7.1.3
 
-  '@portkey/utils@2.16.0-alpha.0(@portkey/request@2.16.0-alpha.0)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
+  '@portkey/utils@2.17.6(@portkey/request@2.17.6)(aelf-sdk@3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7)))(query-string@7.1.3)':
     dependencies:
-      '@portkey/request': 2.16.0-alpha.0
+      '@portkey/request': 2.17.6
       aelf-sdk: 3.4.15(@babel/core@7.26.0)(eslint@9.17.0(jiti@1.21.7))
       node-forge: 1.3.1
       query-string: 7.1.3
 
-  '@portkey/validator@2.15.11-alpha.0': {}
+  '@portkey/validator@2.17.6': {}
 
   '@protobufjs/aspromise@1.1.2': {}
 
@@ -8088,7 +8088,7 @@ snapshots:
   rc-dialog@9.0.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.26.0
-      '@rc-component/portal': 1.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@rc-component/portal': 1.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       classnames: 2.5.1
       rc-motion: 2.9.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       rc-util: 5.44.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -8133,7 +8133,7 @@ snapshots:
   rc-image@5.13.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.26.0
-      '@rc-component/portal': 1.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@rc-component/portal': 1.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       classnames: 2.5.1
       rc-dialog: 9.0.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       rc-motion: 2.9.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -8612,7 +8612,7 @@ snapshots:
 
   ripemd160@2.0.2:
     dependencies:
-      hash-base: 3.0.5
+      hash-base: 3.1.0
       inherits: 2.0.4
 
   rollup@4.29.1:
