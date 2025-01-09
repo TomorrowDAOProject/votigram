@@ -5,8 +5,8 @@ import {
   TChainId,
 } from "@aelf-web-login/wallet-adapter-base";
 import { PortkeyAAWallet } from "@aelf-web-login/wallet-adapter-portkey-aa";
-import { IConfigProps } from "@aelf-web-login/wallet-adapter-bridge";
-import { WebLoginProvider } from "@aelf-web-login/wallet-adapter-react";
+import { IBaseConfig, IConfigProps } from "@aelf-web-login/wallet-adapter-bridge";
+import { init, WebLoginProvider } from "@aelf-web-login/wallet-adapter-react";
 import {
   connectServer,
   connectUrl,
@@ -18,9 +18,10 @@ import {
   rpcUrlTDVW,
   TELEGRAM_BOT_ID,
 } from "@/config";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { getReferrerCode } from "@/utils/start-params";
 import { chainId, projectCode } from "@/constants/app";
+import { GlobalConfigProps } from "@portkey/did-ui-react/dist/_types/src/components/config-provider/types";
 
 const APP_NAME = "TMRWDAO";
 
@@ -51,7 +52,8 @@ export default function LoginSDKProvider({
 
   const referrerCode = getReferrerCode();
 
-  const didConfig = {
+  const didConfig: GlobalConfigProps = useMemo(() => {
+    return {
     graphQLUrl: info.graphqlServer,
     connectUrl: addBasePath(connectUrl || ""),
     serviceUrl: server,
@@ -64,44 +66,53 @@ export default function LoginSDKProvider({
         botId: TELEGRAM_BOT_ID,
       },
     },
+    loginConfig: {
+      recommendIndexes: [0, 1],
+      loginMethodsOrder: ['Google', 'Apple', 'Telegram', 'Email'],
+    },
     referralInfo: {
       referralCode: referrerCode ?? "",
       projectCode,
     },
   };
+}, [info.graphqlServer, referrerCode, server]);
 
-  const baseConfig = {
-    sideChainId: chainId as TChainId,
-    omitTelegramScript: true,
+  const baseConfig: IBaseConfig = useMemo(() => {
+    return {
+      omitTelegramScript: true,
     showVconsole: networkType === "TESTNET",
     networkType: networkType as NetworkEnum,
     chainId: chainId as TChainId,
     keyboard: true,
     noCommonBaseModal: false,
     design: SignInDesignEnum.CryptoDesign,
+    titleForSocialDesign: 'Crypto wallet',
     enableAcceleration: true,
+    sideChainId: chainId as TChainId,
   };
+}, []);
 
-  const aaWallet = useMemo(() => {
-    return new PortkeyAAWallet({
+  const wallets = useMemo(() => {
+    return [new PortkeyAAWallet({
       appName: APP_NAME,
       chainId: chainId as TChainId,
       autoShowUnlock: true,
       noNeedForConfirm: true,
       enableAcceleration: true,
-    });
+    })];
   }, []);
-  const wallets = [aaWallet];
 
-  const config: IConfigProps = {
-    didConfig,
-    baseConfig,
-    wallets,
-  };
+  const config: IConfigProps | null = useMemo(() => {
+    return {
+      didConfig,
+      baseConfig,
+      wallets,
+    };
+  }, [baseConfig, didConfig, wallets]);
 
-  useEffect(() => {
-    aaWallet.setChainId(chainId as TChainId);
-  }, [aaWallet]);
+  const bridgeAPI = useMemo(() => {
+    return config ? init(config) : null;
+  }, [config]);
 
-  return <WebLoginProvider config={config}>{children}</WebLoginProvider>;
+  return bridgeAPI ? <WebLoginProvider bridgeAPI={bridgeAPI}>{children}</WebLoginProvider> : <>{children}</>;
 }
