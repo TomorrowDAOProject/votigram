@@ -28,7 +28,7 @@ const App = () => {
   const tab = querys.get("tab");
 
   const fetchForYouData = async (alias: string[] = []) => {
-    const { data } = await postWithToken("/api/app/discover/random-app-list", {
+    const { data } = await postWithToken("/api1/app/discover/random-app-list", {
       chainId,
       alias,
       category: RANDOM_APP_CATEGORY.FORYOU,
