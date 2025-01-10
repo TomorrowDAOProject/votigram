@@ -25,7 +25,7 @@ const App = () => {
   const navigate = useNavigate();
 
   const { querys, updateQueryParam } = useSetSearchParams();
-  const tab = querys.get("tab");
+  const tab = querys.get("tab1");
 
   const fetchForYouData = async (alias: string[] = []) => {
     const { data } = await postWithToken("/api/app/discover/random-app-list", {
