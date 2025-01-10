@@ -42,7 +42,7 @@ const App = () => {
   };
 
   const { data: madeForYouResult } = useData(
-    `/api/app/user/homepage/made-for-you?chainId=${chainId}`
+    `/api1/app/user/homepage/made-for-you?chainId=${chainId}`
   );
 
   const { data: votedAppResult } = useData(
