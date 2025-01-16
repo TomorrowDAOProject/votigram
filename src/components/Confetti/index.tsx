@@ -29,7 +29,7 @@ const Confetti = ({ className, height = 1000, onInit }: IConfettiProps) => {
     return () => {
       confetti.current?.reset();
     };
-  }, []);
+  }, [onInit]);
 
   return (
     <canvas

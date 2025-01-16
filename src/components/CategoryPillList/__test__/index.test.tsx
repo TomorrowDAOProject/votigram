@@ -1,8 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { describe, it, expect } from "vitest";
-import CategoryPillList from "../index";
+
 import { DISCOVER_CATEGORY } from "@/constants/discover";
+
+import CategoryPillList from "../index";
 
 describe("CategoryPillList Component", () => {
   it("renders the correct number of categories", () => {

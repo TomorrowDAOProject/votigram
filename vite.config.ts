@@ -1,6 +1,6 @@
-import { defineConfig, UserConfigExport } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { defineConfig, UserConfigExport } from "vite";
 
 // Custom plugin to modify HTML paths
 const modifyIndexHtmlPaths = () => {
@@ -77,6 +77,10 @@ export default defineConfig({
         ".env", // Environment configuration file
         "src/types/*.ts",
         "src/main.tsx",
+        "src/__mocks__",
+        "src/constants",
+        "src/config",
+        "src/mockEnv.ts",
       ],
     },
   },
