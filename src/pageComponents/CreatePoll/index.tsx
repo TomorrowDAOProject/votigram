@@ -1,32 +1,36 @@
 import { useState } from "react";
+
+import clsx from "clsx";
+import dayjs from "dayjs";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import BackBtn from "@/components/BackBtn";
+import ButtonRadio from "@/components/ButtonRadio";
+import Drawer from "@/components/Drawer";
 import FormItem from "@/components/FormItem";
 import Input from "@/components/Input";
 import InputGroup from "@/components/InputGroup";
+import { VoteOption } from "@/components/InputGroup/type";
 import SimpleDatePicker from "@/components/SimpleDatePicker";
 import SimpleTimePicker from "@/components/SimpleTimePicker";
+import TelegramHeader from "@/components/TelegramHeader";
 import ToggleSlider from "@/components/ToggleSlider";
-import { DURATION_RANGE } from "@/constants/time-picker";
-import ButtonRadio from "@/components/ButtonRadio";
 import Upload from "@/components/Upload";
-import useForm from "@/hooks/useForm";
-import { VoteOption } from "@/components/InputGroup/type";
-import dayjs from "dayjs";
-import { ProposalType, VoteTimeItem } from "@/types/app";
-import { fetchWithToken, postWithToken } from "@/hooks/useData";
 import { chainId } from "@/constants/app";
+import { ProposalType } from "@/constants/app";
+import { DURATION_RANGE } from "@/constants/time-picker";
+import { CREATE_STATUS } from "@/constants/vote";
+import { proposalCreateContractRequest } from "@/contract/proposalCreateContract";
+import { fetchWithToken, postWithToken } from "@/hooks/useData";
+import useForm from "@/hooks/useForm";
+import { useUserContext } from "@/provider/UserProvider";
+import { VoteTimeItem } from "@/types/app";
+
 import {
   combineDateAndTime,
   formmatDescription,
   getProposalTimeParams,
 } from "./utils";
-import { proposalCreateContractRequest } from "@/contract/proposalCreateContract";
-import Drawer from "@/components/Drawer";
-import { CREATE_STATUS } from "@/constants/vote";
-import clsx from "clsx";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useUserContext } from "@/provider/UserProvider";
-import TelegramHeader from "@/components/TelegramHeader";
 
 const rules = {
   proposalTitle: [

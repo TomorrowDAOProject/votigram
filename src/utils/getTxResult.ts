@@ -1,19 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import AElf from 'aelf-sdk';
-import { sleep } from './time';
-import { SECONDS_60 } from '@/constants/time';
-import { SupportedELFChainId } from '@/types/app';
-import { rpcUrlAELF, rpcUrlTDVV, rpcUrlTDVW } from '@/config';
+import AElf from "aelf-sdk";
 
-export function getAElf(rpcUrl?: string) {
-  const rpc = rpcUrl || '';
+
+import { rpcUrlAELF, rpcUrlTDVV, rpcUrlTDVW } from "@/config";
+import { SECONDS_60 } from "@/constants/time";
+import { SupportedELFChainId } from "@/types/app";
+
+import { sleep } from "./time";
+
+
+const getAElf = (rpcUrl?: string) => {
+  const rpc = rpcUrl || "";
   const httpProviders: any = {};
 
   if (!httpProviders[rpc]) {
     httpProviders[rpc] = new AElf(new AElf.providers.HttpProvider(rpc));
   }
   return httpProviders[rpc];
-}
+};
 
 const getRpcUrls = () => {
   return {
@@ -22,14 +26,14 @@ const getRpcUrls = () => {
     [SupportedELFChainId.TDVW_NET]: rpcUrlTDVW,
   };
 };
-export interface ITxResultProps {
+type ITxResultProps = {
   TransactionId: string;
   chainId: Chain;
   rePendingEnd?: number;
   reNotexistedCount?: number;
   reGetCount?: number;
-}
-export async function getTxResultRetry({
+};
+async function getTxResultRetry({
   TransactionId,
   chainId,
   reGetCount = 10,
@@ -40,7 +44,9 @@ export async function getTxResultRetry({
     const rpcUrl = getRpcUrls()[chainId];
     const txResult = await getAElf(rpcUrl).chain.getTxResult(TransactionId);
     if (txResult.error && txResult.errorMessage) {
-      throw Error(txResult.errorMessage.message || txResult.errorMessage.Message);
+      throw Error(
+        txResult.errorMessage.message || txResult.errorMessage.Message
+      );
     }
 
     if (!txResult) {
@@ -56,10 +62,12 @@ export async function getTxResultRetry({
         });
       }
 
-      throw Error(`get transaction result failed. transaction id: ${TransactionId}`);
+      throw Error(
+        `get transaction result failed. transaction id: ${TransactionId}`
+      );
     }
 
-    if (txResult.Status.toLowerCase() === 'pending') {
+    if (txResult.Status.toLowerCase() === "pending") {
       const current = new Date().getTime();
       if (rePendingEnd && rePendingEnd <= current) {
         throw Error(`transaction ${TransactionId} is still pending`);
@@ -75,7 +83,10 @@ export async function getTxResultRetry({
       });
     }
 
-    if (txResult.Status.toLowerCase() === 'notexisted' && reNotexistedCount > 1) {
+    if (
+      txResult.Status.toLowerCase() === "notexisted" &&
+      reNotexistedCount > 1
+    ) {
       await sleep(1000);
       reNotexistedCount--;
       return getTxResultRetry({
@@ -87,12 +98,14 @@ export async function getTxResultRetry({
       });
     }
 
-    if (txResult.Status.toLowerCase() === 'mined') {
+    if (txResult.Status.toLowerCase() === "mined") {
       return { TransactionId, txResult };
     }
-    throw Error(`can not get transaction status, transaction id: ${TransactionId}`);
+    throw Error(
+      `can not get transaction status, transaction id: ${TransactionId}`
+    );
   } catch (error) {
-    console.error('=====getTxResult error', error);
+    console.error("=====getTxResult error", error);
     if (reGetCount > 1) {
       await sleep(1000);
       reGetCount--;
@@ -104,10 +117,13 @@ export async function getTxResultRetry({
         reGetCount,
       });
     }
-    throw Error('get transaction result error, Please try again later.');
+    throw Error("get transaction result error, Please try again later.");
   }
 }
 
-export async function getTxResult(TransactionId: string, chainId: Chain): Promise<any> {
+export async function getTxResult(
+  TransactionId: string,
+  chainId: Chain
+): Promise<any> {
   return getTxResultRetry({ TransactionId, chainId });
 }

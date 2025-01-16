@@ -23,15 +23,15 @@ type HandlerType = () => void;
 
 export interface AdController {
   show(): Promise<ShowPromiseResult>;
-  addEventListener(event: EventType, handler: HandlerType): void;
-  removeEventListener(event: EventType, handler: HandlerType): void;
+  addEventListener(): void;
+  removeEventListener(): void;
   destroy(): void;
 }
 
 declare global {
   interface Window {
     Adsgram?: {
-      init(params: AdsgramInitParams): AdController;
+      init(): AdController;
     };
   }
 }

@@ -1,22 +1,34 @@
 import { Size } from "@/types/app";
 
-export const createImage = (url: string): Promise<HTMLImageElement> =>
+type PixelCrop = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+type FlipSettings = {
+  horizontal: boolean;
+  vertical: boolean;
+};
+
+const createImage = (url: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
     const image = new Image();
-    image.addEventListener('load', () => resolve(image));
-    image.addEventListener('error', (error) => reject(error));
-    image.setAttribute('crossOrigin', 'anonymous'); // needed to avoid cross-origin issues on CodeSandbox
+    image.addEventListener("load", () => resolve(image));
+    image.addEventListener("error", (error) => reject(error));
+    image.setAttribute("crossOrigin", "anonymous"); // needed to avoid cross-origin issues on CodeSandbox
     image.src = url;
   });
 
-export function getRadianAngle(degreeValue: number): number {
+const getRadianAngle = (degreeValue: number): number => {
   return (degreeValue * Math.PI) / 180;
-}
+};
 
 /**
  * Returns the new bounding area of a rotated rectangle.
  */
-export function rotateSize(width: number, height: number, rotation: number): Size {
+const rotateSize = (width: number, height: number, rotation: number): Size => {
   const rotRad = getRadianAngle(rotation);
 
   return {
@@ -25,32 +37,20 @@ export function rotateSize(width: number, height: number, rotation: number): Siz
     height:
       Math.abs(Math.sin(rotRad) * width) + Math.abs(Math.cos(rotRad) * height),
   };
-}
-
-interface PixelCrop {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-
-interface FlipSettings {
-  horizontal: boolean;
-  vertical: boolean;
-}
+};
 
 /**
  * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
  */
-export async function getCroppedImg(
+export const getCroppedImg = async (
   imageSrc: string,
   pixelCrop: PixelCrop,
   rotation: number = 0,
   flip: FlipSettings = { horizontal: false, vertical: false }
-): Promise<Blob | null> {
+): Promise<Blob | null> => {
   const image = await createImage(imageSrc);
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
 
   if (!ctx) {
     return null;
@@ -78,8 +78,8 @@ export async function getCroppedImg(
   // draw rotated image
   ctx.drawImage(image, 0, 0);
 
-  const croppedCanvas = document.createElement('canvas');
-  const croppedCtx = croppedCanvas.getContext('2d');
+  const croppedCanvas = document.createElement("canvas");
+  const croppedCtx = croppedCanvas.getContext("2d");
 
   if (!croppedCtx) {
     return null;
@@ -110,42 +110,6 @@ export async function getCroppedImg(
       } else {
         resolve(null);
       }
-    }, 'image/png');
+    }, "image/png");
   });
-}
-
-export async function getRotatedImage(
-  imageSrc: string,
-  rotation: number = 0
-): Promise<string> {
-  const image = await createImage(imageSrc);
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-
-  const orientationChanged =
-    rotation === 90 || rotation === -90 || rotation === 270 || rotation === -270;
-  
-  if (orientationChanged) {
-    canvas.width = image.height;
-    canvas.height = image.width;
-  } else {
-    canvas.width = image.width;
-    canvas.height = image.height;
-  }
-
-  if (!ctx) {
-    throw new Error('2D context not supported or canvas already initialized');
-  }
-
-  ctx.translate(canvas.width / 2, canvas.height / 2);
-  ctx.rotate((rotation * Math.PI) / 180);
-  ctx.drawImage(image, -image.width / 2, -image.height / 2);
-
-  return new Promise((resolve) => {
-    canvas.toBlob((file) => {
-      if (file) {
-        resolve(URL.createObjectURL(file));
-      }
-    }, 'image/png');
-  });
-}
+};

@@ -1,56 +1,29 @@
+import {
+  DEFAULT_ERROR,
+  SOURCE_ERROR_TYPE,
+  TARGET_ERROR_TYPE,
+} from "@/constants/contract";
 import { IContractError } from "@/types/contract";
-
-export const DEFAULT_ERROR = "Something went wrong. Please try again later.";
-
-export const UserDeniedMessage =
-  "Request rejected. TMRW DAO needs your permission to continue";
-export const EventEnded = "The event has ended";
-export const AIServerError =
-  "The network is currently congested due to the simultaneous generation of numerous images. Please consider trying again later.";
-export const TransactionFeeNotEnough =
-  "Failed. Please transfer some ELF to this address before you try again.";
-
-export const LoginFailed = "Login failed!";
-
-enum SourceErrorType {
-  Error1 = "Operation canceled",
-  Error2 = "You closed the prompt without any action",
-  Error3 = "User denied",
-  Error4 = "User close the prompt",
-  Error5 = "Wallet not login",
-  Error6 = "Insufficient allowance of ELF",
-  Error7 = "User Cancel",
-}
-
-export enum TargetErrorType {
-  Error1 = UserDeniedMessage,
-  Error2 = UserDeniedMessage,
-  Error3 = UserDeniedMessage,
-  Error4 = UserDeniedMessage,
-  Error5 = "Wallet not logged in",
-  Error6 = "The allowance you set is less than required. Please reset it",
-  Error7 = UserDeniedMessage,
-}
 
 export const matchErrorMsg = <T>(message: T) => {
   if (typeof message === "string") {
     const sourceErrors = [
-      SourceErrorType.Error1,
-      SourceErrorType.Error2,
-      SourceErrorType.Error3,
-      SourceErrorType.Error4,
-      SourceErrorType.Error5,
-      SourceErrorType.Error6,
-      SourceErrorType.Error7,
+      SOURCE_ERROR_TYPE.ERROR_1,
+      SOURCE_ERROR_TYPE.ERROR_2,
+      SOURCE_ERROR_TYPE.ERROR_3,
+      SOURCE_ERROR_TYPE.ERROR_4,
+      SOURCE_ERROR_TYPE.ERROR_5,
+      SOURCE_ERROR_TYPE.ERROR_6,
+      SOURCE_ERROR_TYPE.ERROR_7,
     ];
     const targetErrors = [
-      TargetErrorType.Error1,
-      TargetErrorType.Error2,
-      TargetErrorType.Error3,
-      TargetErrorType.Error4,
-      TargetErrorType.Error5,
-      TargetErrorType.Error6,
-      TargetErrorType.Error7,
+      TARGET_ERROR_TYPE.ERROR_1,
+      TARGET_ERROR_TYPE.ERROR_2,
+      TARGET_ERROR_TYPE.ERROR_3,
+      TARGET_ERROR_TYPE.ERROR_4,
+      TARGET_ERROR_TYPE.ERROR_5,
+      TARGET_ERROR_TYPE.ERROR_6,
+      TARGET_ERROR_TYPE.ERROR_7,
     ];
 
     let resMessage: string = message;

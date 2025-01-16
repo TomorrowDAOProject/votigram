@@ -1,23 +1,24 @@
-import { EVoteOption } from '@/types/contract';
-import { getContractBasic } from '@portkey/contracts';
-import { aelf } from '@portkey/utils';
+import { getContractBasic } from "@portkey/contracts";
+import { aelf } from "@portkey/utils";
 
-type IVotePortkeyParams = {
+import { EVoteOption } from "@/types/contract";
+
+type VotePortkeyParams = {
   votingItemId: string;
   voteOption: EVoteOption;
   voteAmount: number;
   memo: string;
-}
+};
 
-interface IRowTransactionPortkeyParams {
+type RowTransactionPortkeyParams = {
   caHash: string;
   privateKey: string;
   contractAddress: string;
   caContractAddress: string;
   rpcUrl: string;
-  params: IVotePortkeyParams;
+  params: VotePortkeyParams;
   methodName: string;
-}
+};
 
 export const getRawTransactionPortkey = async ({
   caHash,
@@ -27,10 +28,10 @@ export const getRawTransactionPortkey = async ({
   rpcUrl,
   params,
   methodName,
-}: IRowTransactionPortkeyParams) => {
+}: RowTransactionPortkeyParams) => {
   try {
     const contract = await getContractBasic({
-      callType: 'ca',
+      callType: "ca",
       caHash: caHash,
       account: aelf.getWallet(privateKey),
       contractAddress: contractAddress,
@@ -38,9 +39,9 @@ export const getRawTransactionPortkey = async ({
       rpcUrl: rpcUrl,
     });
 
-    const a = await contract.encodedTx(methodName, params);
+    const transaction = await contract.encodedTx(methodName, params);
 
-    return a.data;
+    return transaction.data;
   } catch (error) {
     return Promise.reject(error);
   }
