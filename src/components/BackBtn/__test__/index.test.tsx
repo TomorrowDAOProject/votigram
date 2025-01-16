@@ -1,44 +1,57 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
-import { useNavigate } from 'react-router-dom';
-import userEvent from '@testing-library/user-event';
-import BackBtn from '../index';
+// BackBtn.test.tsx
+import { render, screen, fireEvent } from "@testing-library/react";
+import { useNavigate, useLocation } from "react-router-dom";
+import "@testing-library/jest-dom";
+import { describe, it, vi, expect } from "vitest";
 
-// Mock useNavigate from react-router-dom
-vi.mock('react-router-dom', () => ({
+import BackBtn from "../index"; // Adjust the path to wherever your component is located
+
+vi.mock("react-router-dom", () => ({
+  ...vi.importActual("react-router-dom"),
   useNavigate: vi.fn(),
+  useLocation: vi.fn(),
 }));
 
-describe('BackBtn Component', () => {
-  it('should render the back button with correct classes and icon', () => {
-    render(<BackBtn />);
+describe("BackBtn Component", () => {
+  const mockNavigate = vi.fn();
+  const mockLocation = { state: { from: "/previous-route" } };
 
-    // Check button element
-    const button = screen.getByRole('button');
-    expect(button).toBeInTheDocument();
-    expect(button).toHaveClass(
-      'bg-transparent p-0 m-0 w-[24px] h-[24px] leading-[24px] focus:outline-none'
-    );
-
-    // Check icon inside the button
-    const icon = button.querySelector('i');
-    expect(icon).toBeInTheDocument();
-    expect(icon).toHaveClass('votigram-icon-back text-[24px] text-white');
+  beforeEach(() => {
+    // Mock the hooks from react-router-dom
+    (useNavigate as vi.Mock).mockReturnValue(mockNavigate);
+    (useLocation as vi.Mock).mockReturnValue(mockLocation);
+    vi.clearAllMocks();
   });
 
-  it('should call navigate with -1 when button is clicked', async () => {
-    const mockNavigate = vi.fn();
-    (useNavigate as vi.Mock).mockReturnValue(mockNavigate);
-
+  it("renders the button correctly", () => {
     render(<BackBtn />);
+    const button = screen.getByRole("button");
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveClass(
+      "bg-transparent p-0 m-0 w-[24px] h-[24px] leading-[24px] focus:outline-none z-10"
+    );
+    const icon = button.querySelector("i");
+    expect(icon).toHaveClass("votigram-icon-back text-[24px] text-white");
+  });
 
-    // Simulate button click
-    const button = screen.getByRole('button');
-    await userEvent.click(button);
+  it("navigates to the location.state.from URL if it exists", () => {
+    render(<BackBtn />);
+    const button = screen.getByRole("button");
 
-    // Assert navigate is called with -1
+    fireEvent.click(button);
+
+    expect(mockNavigate).toHaveBeenCalledWith(mockLocation.state.from, {
+      replace: true,
+    });
+  });
+
+  it("navigates back using navigate(-1) if location.state.from is undefined", () => {
+    (useLocation as vi.Mock).mockReturnValue({}); // Mock location without state
+    render(<BackBtn />);
+    const button = screen.getByRole("button");
+
+    fireEvent.click(button);
+
     expect(mockNavigate).toHaveBeenCalledWith(-1);
-    expect(mockNavigate).toHaveBeenCalledTimes(1);
   });
 });

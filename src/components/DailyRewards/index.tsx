@@ -1,28 +1,29 @@
+import { useMemo } from "react";
+
 import { DAILY_REWARDS } from "@/constants/discover";
 import { UserPoints } from "@/provider/types/UserProviderType";
-import { useMemo } from "react";
 
 interface IDailyRewardsProps {
   userPoints: UserPoints | null;
 }
 
-const DailyRewards = ({ userPoints }: IDailyRewardsProps) => {
-  const getLastConsecutiveTrueLength = (claimStatus: boolean[]) => {
-    let currentLength = 0;
-    let maxLength = 0;
+export const getLastConsecutiveTrueLength = (claimStatus: boolean[]) => {
+  let currentLength = 0;
+  let maxLength = 0;
 
-    for (let i = 0; i < claimStatus.length; i++) {
-      if (claimStatus[i]) {
-        currentLength++;
-        maxLength = currentLength;
-      } else {
-        currentLength = 0;
-      }
+  for (let i = 0; i < claimStatus.length; i++) {
+    if (claimStatus[i]) {
+      currentLength++;
+      maxLength = currentLength;
+    } else {
+      currentLength = 0;
     }
+  }
 
-    return maxLength;
-  };
+  return maxLength;
+};
 
+const DailyRewards = ({ userPoints }: IDailyRewardsProps) => {
   const claimedDays = useMemo(
     () =>
       getLastConsecutiveTrueLength(userPoints?.dailyPointsClaimedStatus || []),

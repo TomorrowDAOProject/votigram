@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+
 import { isTMA } from "@telegram-apps/bridge";
+
+
 import "./App.css";
-import { UserProvider } from "./provider/UserProvider";
-import Routes from "./routes";
-import WebLoginProvider from "./provider/webLoginProvider";
 import SceneLoading from "./components/SceneLoading";
+import { UserProvider } from "./provider/UserProvider";
+import WebLoginProvider from "./provider/webLoginProvider";
+import Routes from "./routes";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);

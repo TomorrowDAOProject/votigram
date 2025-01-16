@@ -1,11 +1,13 @@
 // AppDetail.test.tsx
 import React from "react";
+
 import { render, screen, fireEvent } from "@testing-library/react";
-import AppDetail from "../index";
-import "@testing-library/jest-dom";
 import { describe, it, expect, vi } from "vitest";
+import "@testing-library/jest-dom";
 
 import { voteAppData } from "@/__mocks__/VoteApp";
+
+import AppDetail from "../index";
 
 const mockUpdateOpenAppClick = vi.fn();
 

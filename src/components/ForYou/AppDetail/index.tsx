@@ -1,8 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import React, { useEffect, useRef, useState } from "react";
+
 import { motion } from "framer-motion";
-import { VoteApp } from "@/types/app";
+
+
 import { DISCOVERY_CATEGORY_MAP } from "@/constants/discover";
+import { VoteApp } from "@/types/app";
 
 const containerVariants = {
   hidden: {
