@@ -1,8 +1,12 @@
 import { useState } from "react";
-import Archived from "./components/Archived";
+
 import { COMMUNITY_LABEL, COMMUNITY_TYPE } from "@/constants/vote";
-import Tabs from "../Tabs";
 import useSetSearchParams from "@/hooks/useSetSearchParams";
+
+import Tabs from "../Tabs";
+import Archived from "./components/Archived";
+
+
 
 const communityTabs = [
   {
