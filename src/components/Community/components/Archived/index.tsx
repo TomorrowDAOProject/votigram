@@ -1,11 +1,13 @@
+import { useEffect, useState } from "react";
+
+import { useNavigate } from "react-router-dom";
+
 import Loading from "@/components/Loading";
 import VoteSection from "@/components/VoteSection";
 import { VoteSectionType } from "@/components/VoteSection/type";
 import { chainId } from "@/constants/app";
 import { COMMUNITY_TYPE } from "@/constants/vote";
 import useData from "@/hooks/useData";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 interface IArchivedProps {
   type: COMMUNITY_TYPE;
@@ -57,11 +59,12 @@ const Archived = ({ type, scrollTop, currentTab }: IArchivedProps) => {
     <div className="pt-3 pb-[100px]">
       {type === COMMUNITY_TYPE.CURRENT && (
         <button
+          role="button"
           className="mb-[12px] w-full h-[40px] bg-primary text-white font-bold text-[14px] font-outfit rounded-[24px]"
           type="button"
           onClick={() =>
             navigate("/create-poll", {
-              state: { from: '/?tab=2&vote_tab=Community&community=1' },
+              state: { from: "/?tab=2&vote_tab=Community&community=1" },
             })
           }
         >

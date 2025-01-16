@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import useSWR, { Arguments, mutate } from "swr";
-import { toUrlEncoded } from "@/utils/token";
 import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
+
+import { toUrlEncoded } from "@/utils/token";
 
 // Fetcher function that includes the Authorization token
 export const fetchWithToken = (endpoint: string, fullUrl?: boolean) => {

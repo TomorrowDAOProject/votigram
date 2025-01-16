@@ -3,7 +3,7 @@ import { VoteApp } from "@/types/app";
 interface IAppItem {
   showArrow?: boolean;
   item: VoteApp;
-  onAppItemClick: (item: VoteApp) => void;
+  onAppItemClick: (_: VoteApp) => void;
 }
 
 const AppItem = ({ showArrow = false, onAppItemClick, item }: IAppItem) => {

@@ -1,15 +1,21 @@
-import { useCallback, useEffect, useRef } from "react";
+
 /**
  * Check Typescript section
  * and use your path to adsgram types
  */
-import type { AdController, ShowPromiseResult } from "@/types/adsgram";
-import dayjs from "dayjs";
+import { useCallback, useEffect, useRef } from "react";
+
 import sha256 from "crypto-js/sha256";
+import dayjs from "dayjs";
+
 import { chainId } from "@/constants/app";
+import type { AdController, ShowPromiseResult } from "@/types/adsgram";
+
 import { postWithToken } from "./useData";
 
-export interface useAdsgramParams {
+
+
+interface useAdsgramParams {
   blockId: string;
   onReward: (newPoints: number) => void;
   onError: (result: ShowPromiseResult) => void;
