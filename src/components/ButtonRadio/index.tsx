@@ -1,5 +1,6 @@
-import clsx from "clsx";
 import { useEffect, useState } from "react";
+
+import clsx from "clsx";
 
 type ButtonRadioOption = {
   label: string;
@@ -11,7 +12,7 @@ interface IButtonRadioProps {
   className?: string;
   radioClassName?: string;
   options: ButtonRadioOption[];
-  onChange?: (value?: ButtonRadioOption) => void;
+  onChange?: (_: ButtonRadioOption) => void;
 }
 
 const ButtonRadio = ({
@@ -21,16 +22,18 @@ const ButtonRadio = ({
   radioClassName,
   onChange,
 }: IButtonRadioProps) => {
-  const [selectedValue, setSelectedValue] = useState<ButtonRadioOption | undefined>();
+  const [selectedValue, setSelectedValue] = useState<
+    ButtonRadioOption | undefined
+  >();
 
   const handleSelect = (value: ButtonRadioOption) => {
     setSelectedValue(value);
     onChange?.(value);
-  }
+  };
 
   useEffect(() => {
     setSelectedValue(value);
-  }, [value])
+  }, [value]);
 
   return (
     <div className={clsx("grid grid-cols-3 gap-[9px]", className)}>

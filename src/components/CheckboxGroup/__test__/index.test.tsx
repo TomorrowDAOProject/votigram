@@ -1,10 +1,11 @@
 // CheckboxGroup.test.tsx
-import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
-import CheckboxGroup from "../index"; // Adjust to your actual path
 import "@testing-library/jest-dom";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
+
 import { APP_CATEGORY, DISCOVER_CATEGORY } from "@/constants/discover";
+
+import CheckboxGroup from "../index"; // Adjust to your actual path
 
 const options = DISCOVER_CATEGORY;
 

@@ -1,8 +1,10 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { describe, it, expect, vi } from "vitest";
-import Navigation from "../index";
+
 import { TAB_LIST } from "@/constants/navigation";
+
+import Navigation from "../index";
 
 describe("Navigation Component", () => {
   const setup = (activeTab = TAB_LIST.HOME) => {

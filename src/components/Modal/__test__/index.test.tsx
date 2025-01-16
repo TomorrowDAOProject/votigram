@@ -1,8 +1,10 @@
 // Modal.test.tsx
 import { render, screen } from "@testing-library/react";
-import Modal from "../index"; // Adjust to your actual path
-import "@testing-library/jest-dom";
 import { describe, it, expect } from "vitest";
+
+import Modal from "../index"; // Adjust to your actual path
+
+import "@testing-library/jest-dom";
 
 describe("Modal Component", () => {
   it("renders children when visible", () => {

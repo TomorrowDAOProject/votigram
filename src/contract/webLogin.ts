@@ -1,5 +1,6 @@
-import { SupportedELFChainId } from '@/types/app';
-import { ICallContractParams } from '@aelf-web-login/wallet-adapter-base';
+import { ICallContractParams } from "@aelf-web-login/wallet-adapter-base";
+
+import { SupportedELFChainId } from "@/constants/app";
 
 export interface IWebLoginContext {
   callSendMethod<T, R>(params: ICallContractParams<T>): Promise<R>;
@@ -37,9 +38,12 @@ export default class WebLoginInstance {
     return this.context; // wallet, login, loginState
   }
 
-  callSendMethod<T, R>(chain: Chain, params: ICallContractParams<T>): Promise<R> {
+  callSendMethod<T, R>(
+    chain: Chain,
+    params: ICallContractParams<T>
+  ): Promise<R> {
     if (!this.context) {
-      throw new Error('Error: WebLoginContext is not set');
+      throw new Error("Error: WebLoginContext is not set");
     }
     switch (chain) {
       case SupportedELFChainId.MAIN_NET:
@@ -49,12 +53,15 @@ export default class WebLoginInstance {
       case SupportedELFChainId.TDVW_NET:
         return this.context.callSendMethod(params);
     }
-    throw new Error('Error: Invalid chainId');
+    throw new Error("Error: Invalid chainId");
   }
 
-  callViewMethod<T, R>(chain: Chain, params: ICallContractParams<T>): Promise<R> {
+  callViewMethod<T, R>(
+    chain: Chain,
+    params: ICallContractParams<T>
+  ): Promise<R> {
     if (!this.context) {
-      throw new Error('Error: WebLoginContext is not set');
+      throw new Error("Error: WebLoginContext is not set");
     }
     switch (chain) {
       case SupportedELFChainId.MAIN_NET:
@@ -64,7 +71,7 @@ export default class WebLoginInstance {
       case SupportedELFChainId.TDVW_NET:
         return this.context.callViewMethod(params);
     }
-    throw new Error('Error: Invalid chainId');
+    throw new Error("Error: Invalid chainId");
   }
 }
 

@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
-import Accumulative from "./components/Accumulative";
-import Current from "./components/Current";
-import CategoryPillList from "../CategoryPillList";
+
 import useDebounceFn from "ahooks/lib/useDebounceFn";
-import { COMMUNITY_TYPE, TMSAP_TAB } from "@/constants/vote";
-import Tabs from "../Tabs";
+
+
 import {
   APP_CATEGORY,
   DISCOVER_CATEGORY,
   DISCOVERY_CATEGORY_MAP,
 } from "@/constants/discover";
-import { VoteApp } from "@/types/app";
+import { COMMUNITY_TYPE, TMSAP_TAB } from "@/constants/vote";
 import useSetSearchParams from "@/hooks/useSetSearchParams";
+import { VoteApp } from "@/types/app";
+
+import CategoryPillList from "../CategoryPillList";
+import Tabs from "../Tabs";
+import Accumulative from "./components/Accumulative";
+import Current from "./components/Current";
+
+
 
 const emaTabs = [
   {
@@ -36,12 +42,12 @@ const TMAs = ({ scrollTop, onTabChange, onAppItemClick }: ITMAsProps) => {
   const [currentTab, setCurrentTab] = useState(
     activeTab === "1" ? Number(activeTab) : TMSAP_TAB.ACCUMULATIVE
   );
-  const [keyward, setKeyward] = useState("");
+  const [keyword, setkeyword] = useState<string>("");
   const [category, setCategory] = useState<APP_CATEGORY>(APP_CATEGORY.ALL);
 
-  const { run: onKeywardChange } = useDebounceFn(
+  const { run: onkeywordChange } = useDebounceFn(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setKeyward(e.target.value);
+      setkeyword(e.target.value);
     },
     {
       wait: 700,
@@ -55,25 +61,31 @@ const TMAs = ({ scrollTop, onTabChange, onAppItemClick }: ITMAsProps) => {
   const handleTabChange = (index: number) => {
     setCurrentTab(index);
     onTabChange?.(index);
-    updateQueryParam({ key: "tmas", value: index.toString() })
+    updateQueryParam({ key: "tmas", value: index.toString() });
   };
 
   useEffect(() => {
     if (activeTab) {
-      setCurrentTab(activeTab === "1" ? Number(activeTab) : TMSAP_TAB.ACCUMULATIVE)
+      setCurrentTab(
+        activeTab === "1" ? Number(activeTab) : TMSAP_TAB.ACCUMULATIVE
+      );
     }
-  }, [activeTab])
+  }, [activeTab]);
 
   return (
     <>
-      <Tabs defaultValue={currentTab} options={emaTabs} onChange={handleTabChange} />
+      <Tabs
+        defaultValue={currentTab}
+        options={emaTabs}
+        onChange={handleTabChange}
+      />
 
       <div className="mt-[14px] col-12 bg-input gap-2 h-[41px] px-4 flex items-center rounded-3xl">
         <i className="votigram-icon-search text-input-placeholder" />
         <input
           className="w-full bg-transparent placeholder:leading-[19.6px] text-[14px] text-white outline-none appearence-none z-10 placeholder:text-input-placeholder placeholder:font-questrial"
           placeholder="Search..."
-          onChange={onKeywardChange}
+          onChange={onkeywordChange}
         />
       </div>
       <CategoryPillList
@@ -91,14 +103,14 @@ const TMAs = ({ scrollTop, onTabChange, onAppItemClick }: ITMAsProps) => {
       {currentTab === TMSAP_TAB.ACCUMULATIVE ? (
         <Accumulative
           scrollTop={scrollTop}
-          keyward={keyward}
+          keyword={keyword}
           category={category}
           onAppItemClick={onAppItemClick}
         />
       ) : (
         <Current
           scrollTop={scrollTop}
-          keyward={keyward}
+          keyword={keyword}
           category={category}
           onAppItemClick={onAppItemClick}
         />

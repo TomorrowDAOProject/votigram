@@ -1,7 +1,10 @@
-import { TaskInfo } from "@/types/task";
-import TaskItem from "./components/TaskItem";
+
 import { TAB_LIST } from "@/constants/navigation";
 import { USER_TASK_TITLE, USER_TASK_TITLE_MAP } from "@/constants/task";
+import { TaskInfo } from "@/types/task";
+
+import TaskItem from "./components/TaskItem";
+
 
 interface ITaskModuleProps {
   title: USER_TASK_TITLE;

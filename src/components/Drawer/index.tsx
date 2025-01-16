@@ -1,6 +1,8 @@
+
 import { ReactNode, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+
 import clsx from "clsx";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface IDrawerProps {
   role?: string;
@@ -54,6 +56,7 @@ const Drawer = ({
     <>
       {isVisibleState && (
         <div
+          data-testid="backdrop-testid"
           className="fixed top-0 left-0 bottom-0 right-0 inset-0 bg-black opacity-50 z-[9998]"
           onClick={handleClose}
         />

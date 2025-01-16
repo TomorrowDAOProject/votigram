@@ -1,5 +1,7 @@
-import clsx from "clsx";
 import React from "react";
+
+import clsx from "clsx";
+
 
 interface IFormItemProps {
   label: string;
@@ -20,7 +22,7 @@ const FormItem: React.FC<IFormItemProps> = ({
   required,
 }) => {
   return (
-    <div className={clsx("py-3", className)}>
+    <div data-testid="form-item-container" className={clsx("py-3", className)}>
       <div className="mb-[12px] flex flex-row items-center justify-between w-full">
         <span className="inline-block relative pr-[8px] font-outfit font-bold text-[16px] text-white leading-[16px]">
           {label}

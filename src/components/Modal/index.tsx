@@ -1,6 +1,8 @@
+
 import React, { ReactNode } from "react";
-import { motion } from "framer-motion";
+
 import clsx from "clsx";
+import { motion } from "framer-motion";
 
 interface IModalProps {
   isVisible: boolean;

@@ -1,5 +1,6 @@
-import { VoteTimeItem } from '@/types/app';
 import dayjs from 'dayjs';
+
+import { VoteTimeItem } from '@/types/app';
 
 export const getProposalTimeParams = (
   startTime: number,

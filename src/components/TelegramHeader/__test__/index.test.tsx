@@ -1,9 +1,10 @@
 // TelegramHeader.test.tsx
-import React from "react";
 import { render, screen } from "@testing-library/react";
-import TelegramHeader from "../index";
-import "@testing-library/jest-dom";
 import { describe, it, expect } from "vitest";
+
+import TelegramHeader from "../index";
+
+import "@testing-library/jest-dom";
 
 describe("TelegramHeader Component", () => {
   it("renders the title when title prop is provided", () => {

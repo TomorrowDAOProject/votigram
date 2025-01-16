@@ -1,5 +1,6 @@
-import { APP_CATEGORY } from "@/constants/discover";
 import { useState } from "react";
+
+import { APP_CATEGORY } from "@/constants/discover";
 
 type ICheckboxOption = {
   value: APP_CATEGORY;

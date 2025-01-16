@@ -1,9 +1,11 @@
-import { Placeholder, AppRoot } from "@telegram-apps/telegram-ui";
-import { retrieveLaunchParams } from "@telegram-apps/sdk-react";
+
 import { useMemo } from "react";
 
+import { retrieveLaunchParams } from "@telegram-apps/sdk-react";
+import { Placeholder, AppRoot } from "@telegram-apps/telegram-ui";
+
 export function EnvUnsupported() {
-  const [platform] = useMemo(() => {
+  const platform = useMemo(() => {
     let platform = "base";
     try {
       const lp = retrieveLaunchParams();
@@ -12,7 +14,7 @@ export function EnvUnsupported() {
       console.error(e);
     }
 
-    return [platform];
+    return platform;
   }, []);
 
   return (

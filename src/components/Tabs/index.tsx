@@ -1,6 +1,9 @@
+
 import React, { useState, useEffect, useRef } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+
 import clsx from "clsx";
+import { AnimatePresence, motion } from "framer-motion";
+
 import { TabItem } from "./type";
 
 interface ITabProps {

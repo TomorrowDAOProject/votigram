@@ -1,12 +1,16 @@
 "use client";
+
+import { useEffect, useMemo } from "react";
+
 import {
   NetworkEnum,
   SignInDesignEnum,
   TChainId,
 } from "@aelf-web-login/wallet-adapter-base";
-import { PortkeyAAWallet } from "@aelf-web-login/wallet-adapter-portkey-aa";
 import { IConfigProps } from "@aelf-web-login/wallet-adapter-bridge";
+import { PortkeyAAWallet } from "@aelf-web-login/wallet-adapter-portkey-aa";
 import { WebLoginProvider } from "@aelf-web-login/wallet-adapter-react";
+
 import {
   connectServer,
   connectUrl,
@@ -18,9 +22,8 @@ import {
   rpcUrlTDVW,
   TELEGRAM_BOT_ID,
 } from "@/config";
-import { useEffect, useMemo } from "react";
-import { getReferrerCode } from "@/utils/start-params";
 import { chainId, projectCode } from "@/constants/app";
+import { getReferrerCode } from "@/utils/start-params";
 
 const APP_NAME = "TMRWDAO";
 

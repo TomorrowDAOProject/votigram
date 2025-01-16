@@ -1,4 +1,5 @@
 import { TelegramPlatform } from '@portkey/did-ui-react';
+
 import { getParamFromQuery } from './url';
 
 export interface IStartAppParams {
