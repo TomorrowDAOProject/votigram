@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import AElf from "aelf-sdk";
 
-
 import { rpcUrlAELF, rpcUrlTDVV, rpcUrlTDVW } from "@/config";
+import { SupportedELFChainId } from "@/constants/app";
 import { SECONDS_60 } from "@/constants/time";
-import { SupportedELFChainId } from "@/types/app";
 
 import { sleep } from "./time";
-
 
 const getAElf = (rpcUrl?: string) => {
   const rpc = rpcUrl || "";
