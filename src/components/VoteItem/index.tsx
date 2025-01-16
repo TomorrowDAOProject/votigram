@@ -1,22 +1,25 @@
-import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
-import ProgressBar from "../ProgressBar";
-import { CreateTypes } from "canvas-confetti";
-import Confetti from "@/components/Confetti";
-import { HEART_SHAPE } from "@/constants/canvas-confetti";
-import { chainId } from "@/constants/app";
+
 import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
+import useRequest from "ahooks/lib/useRequest";
+import { CreateTypes } from "canvas-confetti";
+import clsx from "clsx";
+
+import Confetti from "@/components/Confetti";
 import { rpcUrlTDVW, sideChainCAContractAddress, voteAddress } from "@/config";
+import { chainId } from "@/constants/app";
+import { HEART_SHAPE } from "@/constants/canvas-confetti";
+import { APP_CATEGORY } from "@/constants/discover";
+import { VOTE_STATUS } from "@/constants/vote";
+import { postWithToken } from "@/hooks/useData";
+import { useUserContext } from "@/provider/UserProvider";
+import { VoteApp } from "@/types/app";
 import { EVoteOption } from "@/types/contract";
 import { getRawTransactionPortkey } from "@/utils/getRawTransactionPortkey";
-import { getTrackId } from "./utils";
-import { postWithToken } from "@/hooks/useData";
+
 import Drawer from "../Drawer";
-import { VOTE_STATUS } from "@/constants/vote";
-import useRequest from "ahooks/lib/useRequest";
-import { APP_CATEGORY } from "@/constants/discover";
-import { VoteApp } from "@/types/app";
-import { useUserContext } from "@/provider/UserProvider";
+import ProgressBar from "../ProgressBar";
+import { getTrackId } from "./utils";
 
 interface IVoteItemProps {
   data: VoteApp;
@@ -79,7 +82,11 @@ const VoteItem = ({
       try {
         setLoading(true);
         const { data } = await voteRequest(rawTransaction, result);
-        if (!data || data.status === VOTE_STATUS.FAILED || RETRY_MAX_COUNT < 0) {
+        if (
+          !data ||
+          data.status === VOTE_STATUS.FAILED ||
+          RETRY_MAX_COUNT < 0
+        ) {
           setLoading(false);
           setIsFailed(true);
           cancel();
@@ -143,7 +150,7 @@ const VoteItem = ({
 
   useEffect(() => {
     setLikeCount(0);
-    setTotalCurrentPoints(isTMACurrent? data.totalPoints : data.pointsAmount);
+    setTotalCurrentPoints(isTMACurrent ? data.totalPoints : data.pointsAmount);
   }, [data.totalPoints, data.pointsAmount, isTMACurrent]);
 
   useEffect(() => {

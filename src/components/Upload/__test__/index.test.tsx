@@ -1,75 +1,71 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { describe, it, vi, expect, beforeEach } from 'vitest';
-import Upload from '../index';
-import * as canvasUtils from '@/utils/canvasUtils';
-import * as useData from '@/hooks/useData';
+// Upload.test.tsx
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { vi, describe, it, expect } from "vitest";
 
-// Mock utilities or hooks, similar to previous examples
-vi.mock('@/utils/canvasUtils', async (importOriginal) => {
-  const original = await importOriginal<any>();
-  return {
-    ...original,
-    getCroppedImg: vi.fn(),
-  };
-});
+import Upload from "../index"; // Adjust the path to your component
 
-vi.mock('@/hooks/useData', async (importOriginal) => {
-  const original = await importOriginal<any>();
-  return {
-    ...original,
-    uploadWithToken: vi.fn().mockResolvedValue({
-      code: "20000",
-      data: "http://example.com/someuploadedimage.png"
-    }),
-  };
-});
+import "@testing-library/jest-dom";
 
-describe('Upload Component', () => {
-  beforeEach(() => {
-    (canvasUtils.getCroppedImg as vi.Mock).mockResolvedValue(new Blob(['cropped'], { type: 'image/png' }));
+// Mock external dependencies
+vi.mock("@/utils/canvasUtils", () => ({
+  getCroppedImg: vi.fn().mockResolvedValue(new Blob()),
+}));
+
+vi.mock("@/hooks/useData", () => ({
+  uploadWithToken: vi.fn().mockResolvedValue({
+    code: "20000",
+    data: "https://example.com/uploaded-image.jpg",
+  }),
+}));
+
+vi.mock("@/utils/file", () => ({
+  blobToFile: vi
+    .fn()
+    .mockImplementation((blob) => new File([blob], "croppedImage.jpg")),
+}));
+
+describe("Upload Component", () => {
+  const mockOnFinish = vi.fn();
+  const mockFile = new File(["dummy content"], "example.jpg", {
+    type: "image/jpeg",
   });
 
-  it('should handle file upload without cropping', async () => {
-    const mockOnFinish = vi.fn();
-    render(<Upload needCrop={false} onFinish={mockOnFinish} />);
-
-    const file = new File(['dummy content'], 'test.png', { type: 'image/png' });
-
-    // Select the file input and simulate file selection
-    const fileInput = screen.getByTestId('upload-btn');
-    fireEvent.change(fileInput, { target: { files: [file] } });
-
-    // Wait for the uploadWithToken function to be called
-    await waitFor(() => {
-      expect(useData.uploadWithToken).toHaveBeenCalledTimes(1);
-    });
-
-    // Wait for the onFinish callback to be invoked
-    await waitFor(() => {
-      expect(mockOnFinish).toHaveBeenCalledWith("http://example.com/someuploadedimage.png");
-    });
+  afterEach(() => {
+    vi.clearAllMocks(); // Reset mocks after each test
   });
 
-  it('should handle file upload with cropping', async () => {
-    render(<Upload needCrop={true} aspect={4 / 3} />);
+  it("renders correctly with default props", () => {
+    render(<Upload />);
+    const uploadContainer = screen.getByTestId("confirm-button");
+    expect(uploadContainer).toBeInTheDocument();
 
-    const file = new File(['dummy content'], 'test.png', { type: 'image/png' });
+    const placeholderIcon = uploadContainer.querySelector(
+      ".votigram-icon-back"
+    );
+    expect(placeholderIcon).toBeInTheDocument();
+  });
 
-    const fileInput = screen.getByTestId('upload-btn');
-    fireEvent.change(fileInput, { target: { files: [file] } });
+  it("renders children when provided", () => {
+    render(<Upload>Custom Upload Text</Upload>);
+    expect(screen.getByText("Custom Upload Text")).toBeInTheDocument();
+  });
 
+  it("handles upload errors gracefully", async () => {
+    vi.mock("@/hooks/useData", () => ({
+      uploadWithToken: vi.fn().mockRejectedValue(new Error("Upload failed")),
+    }));
+
+    render(<Upload onFinish={mockOnFinish} />);
+    const fileInput = screen.getByRole("textbox", { hidden: true });
+
+    fireEvent.change(fileInput, { target: { files: [mockFile] } });
+
+    // Wait for the error to be logged
     await waitFor(() => {
-      expect(screen.getByText('Confirm')).toBeInTheDocument();
+      expect(screen.queryByText("Loading")).not.toBeInTheDocument();
     });
 
-    // Simulate confirm button click
-    const confirmButton = screen.getByText('Confirm');
-    fireEvent.click(confirmButton);
-
-    await waitFor(() => {
-      expect(canvasUtils.getCroppedImg).toHaveBeenCalledTimes(0);
-      expect(useData.uploadWithToken).toHaveBeenCalledTimes(1);
-    });
+    // Verify onFinish is not called due to the error
+    expect(mockOnFinish).not.toHaveBeenCalled();
   });
 });

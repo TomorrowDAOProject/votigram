@@ -1,15 +1,21 @@
-import ToggleSlider from "../ToggleSlider";
-import { useUserContext } from "@/provider/UserProvider";
-import TMAs from "../TMAs";
+
 import { useCallback, useEffect, useRef, useState } from "react";
-import Community from "../Community";
-import TelegramHeader from "../TelegramHeader";
-import Countdown from "../Countdown";
+
 import dayjs from "dayjs";
+
+
 import { VOTE_TABS } from "@/constants/vote";
-import { VoteApp } from "@/types/app";
 import useSetSearchParams from "@/hooks/useSetSearchParams";
+import { useUserContext } from "@/provider/UserProvider";
+import { VoteApp } from "@/types/app";
+
+import Community from "../Community";
+import Countdown from "../Countdown";
 import Modal from "../Modal";
+import TelegramHeader from "../TelegramHeader";
+import TMAs from "../TMAs";
+import ToggleSlider from "../ToggleSlider";
+
 
 interface IVoteProps {
   onAppItemClick: (item: VoteApp) => void;

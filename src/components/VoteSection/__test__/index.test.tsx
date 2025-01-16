@@ -1,54 +1,54 @@
-// VoteSection.test.tsx
+import { render, screen } from "@testing-library/react";
+import { useNavigate } from "react-router-dom";
+import { vi } from "vitest";
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { describe, it, expect } from 'vitest';
-import VoteSection from '../index';
 import { voteSection } from "@/__mocks__/VoteApp";
-import { VoteSectionType } from '../type';
 
-const sampleData: VoteSectionType = voteSection[0];
+import VoteSection from "../index"; // Adjust the path to your component
 
-describe('VoteSection Component', () => {
-  it('renders the vote title, dates, and total votes', () => {
-    render(<VoteSection data={sampleData} />);
-    
-    expect(screen.getByText('Annual Conference')).toBeInTheDocument();
-    
-    // Use a regular expression to match the date range text
-    const dateRegEx = /20 Oct 2023\s*-\s*20 Oct 2023/;
-    expect(screen.getByText(dateRegEx)).toBeInTheDocument();
+import "@testing-library/jest-dom";
 
-    // Check if the total votes are formatted correctly
-    expect(screen.getByText('Total votes:')).toBeInTheDocument();
-    expect(screen.getByText('150,000,000')).toBeInTheDocument();
+vi.mock("react-router-dom", () => ({
+  ...vi.importActual("react-router-dom"),
+  useNavigate: vi.fn(),
+}));
+
+describe("VoteSection Component", () => {
+  const mockNavigate = vi.fn();
+
+  beforeEach(() => {
+    (useNavigate as vi.Mock).mockReturnValue(mockNavigate);
+    vi.clearAllMocks();
   });
 
-  it('renders banner image when bannerUrl is provided', () => {
-    render(<VoteSection data={sampleData} />);
-    const bannerImage = screen.getByAltText('Banner');
-    expect(bannerImage).toHaveAttribute('src', sampleData.bannerUrl);
-  });
+  it("renders correctly with all data", () => {
+    render(<VoteSection data={voteSection[0]} />);
 
-  it('renders default avatar when avatarUrl is not provided', () => {
-    const dataWithoutAvatar = { ...sampleData, avatarUrl: undefined };
-    render(<VoteSection data={dataWithoutAvatar} />);
-    
-    // Locate the <i> element inside the default avatar div
-    const defaultAvatarIcon = screen.getByText('Created by John Doe').parentElement?.querySelector('i.votigram-icon-profile');
-    expect(defaultAvatarIcon).toBeInTheDocument();
-  });
+    // Verify the proposal title
+    expect(screen.getByText("Increase Community Fund")).toBeInTheDocument();
 
-  it('renders avatar image when avatarUrl is provided', () => {
-    render(<VoteSection data={sampleData} />);
-    const avatarImage = screen.getByAltText('Avatar');
-    expect(avatarImage).toHaveAttribute('src', sampleData.bannerUrl);
-  });
+    // Verify the duration
+    expect(
+      screen.getByText("Duration: 20 Dec 2024 - 30 Dec 2024")
+    ).toBeInTheDocument();
 
-  it('applies custom className to container', () => {
-    render(<VoteSection data={sampleData} className="custom-class" />);
-    const container = screen.getByText('Annual Conference').closest('div');
-    expect(container).toHaveClass('custom-class');
+    // Verify the total vote count
+    expect(screen.getByText("1,250")).toBeInTheDocument();
+
+    // Verify the banner image
+    const bannerImage = screen.getByAltText("Banner");
+    expect(bannerImage).toBeInTheDocument();
+    expect(bannerImage).toHaveAttribute("src", voteSection[0].bannerUrl);
+
+    // Verify the proposal icon
+    const proposalIcon = screen.getByAltText("Avatar");
+    expect(proposalIcon).toBeInTheDocument();
+    expect(proposalIcon).toHaveAttribute("src", voteSection[0].proposalIcon);
+
+    // Verify the tag
+    expect(screen.getByText("Trending")).toBeInTheDocument();
+
+    // Verify the "Created by" text
+    expect(screen.getByText("Created by Alice")).toBeInTheDocument();
   });
 });

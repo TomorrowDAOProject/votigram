@@ -2,8 +2,10 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { describe, it, expect, vi } from "vitest";
-import ReviewList from "../index";
+
 import { Comment } from "@/types/comment";
+
+import ReviewList from "../index";
 
 // Mock Item component
 vi.mock("./components/Item", () => ({

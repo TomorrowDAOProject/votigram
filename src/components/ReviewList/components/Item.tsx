@@ -1,7 +1,10 @@
 import React from "react";
-import { timeAgo } from "@/utils/time";
+
 import clsx from "clsx";
+
+
 import { Comment } from "@/types/comment";
+import { timeAgo } from "@/utils/time";
 
 interface ItemProps {
   data: Comment;
