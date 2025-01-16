@@ -1,0 +1,34 @@
+name: Build Votigram App on PR to Dev
+
+on:
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18" # Use the version compatible with Vite and your project
+          cache: "pnpm" # Enable pnpm cache for better performance
+
+      # Step 3: Install pnpm (if not already installed)
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      # Step 4: Install dependencies using pnpm
+      - name: Install Dependencies
+        run: pnpm install
+
+      # Step 5: Build the Vite app
+      - name: Build the App
+        run: pnpm run build
