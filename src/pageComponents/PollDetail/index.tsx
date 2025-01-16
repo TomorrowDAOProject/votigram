@@ -1,3 +1,12 @@
+import { useEffect, useState } from "react";
+
+import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
+import dayjs from "dayjs";
+import { useParams } from "react-router-dom";
+import { useCopyToClipboard } from "react-use";
+import { mutate } from "swr";
+
+
 import BackBtn from "@/components/BackBtn";
 import Countdown from "@/components/Countdown";
 import Drawer from "@/components/Drawer";
@@ -9,13 +18,11 @@ import { chainId } from "@/constants/app";
 import useData from "@/hooks/useData";
 import { IPollDetail } from "@/types/app";
 import { stringifyStartAppParams } from "@/utils/start-params";
-import dayjs from "dayjs";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useCopyToClipboard } from "react-use";
+
 import { getShareText } from "./utils";
-import { mutate } from "swr";
-import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
+
+
+
 
 const PollDetail = () => {
   const { proposalId } = useParams();

@@ -6,7 +6,19 @@ import React, {
   ReactNode,
   useState,
 } from "react";
+
+import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
+import { useAsyncEffect, useRequest } from "ahooks";
 import { jwtDecode } from "jwt-decode";
+
+
+import { host, nftSymbol } from "@/config";
+import { chainId } from "@/constants/app";
+import { webLoginInstance } from "@/contract/webLogin";
+import { postWithToken } from "@/hooks/useData";
+import { isInTelegram } from "@/utils/isInTelegram";
+import { fetchToken } from "@/utils/token";
+
 import {
   UserContextState,
   UserContextType,
@@ -14,14 +26,7 @@ import {
   User,
   IConfigContent,
 } from "./types/UserProviderType";
-import { fetchToken } from "@/utils/token";
-import { webLoginInstance } from "@/contract/webLogin";
-import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
-import { isInTelegram } from "@/utils/isInTelegram";
-import { useAsyncEffect, useRequest } from "ahooks";
-import { host, nftSymbol } from "@/config";
-import { chainId } from "@/constants/app";
-import { postWithToken } from "@/hooks/useData";
+
 
 let RETRY_MAX_COUNT = 3;
 

@@ -1,19 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 
-import { TAB_LIST } from "@/constants/navigation";
-import Navigation from "@/components/Navigation";
-import Home from "@/components/Home";
-import ForYou from "@/components/ForYou";
-
-import useData, { postWithToken } from "@/hooks/useData";
-import { chainId } from "@/constants/app";
-import { VoteApp } from "@/types/app";
-import Vote from "@/components/Vote";
-import { RANDOM_APP_CATEGORY } from "@/constants/discover";
-import Profile from "@/components/Profile";
-import useSetSearchParams from "@/hooks/useSetSearchParams";
-import { parseStartAppParams } from "@/utils/start-params";
 import { useNavigate } from "react-router-dom";
+
+import ForYou from "@/components/ForYou";
+import Home from "@/components/Home";
+import Navigation from "@/components/Navigation";
+import Profile from "@/components/Profile";
+import Vote from "@/components/Vote";
+import { chainId } from "@/constants/app";
+import { RANDOM_APP_CATEGORY } from "@/constants/discover";
+import { TAB_LIST } from "@/constants/navigation";
+import useData, { postWithToken } from "@/hooks/useData";
+import useSetSearchParams from "@/hooks/useSetSearchParams";
+import { VoteApp } from "@/types/app";
+import { parseStartAppParams } from "@/utils/start-params";
+
 
 const App = () => {
   const currentForyouPage = useRef<number>(1);
