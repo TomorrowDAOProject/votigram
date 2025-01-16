@@ -1,16 +1,23 @@
+
 import { useEffect, useMemo, useState } from "react";
+
+import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
 import AElf from "aelf-sdk";
+import { useRequest } from "ahooks";
 import clsx from "clsx";
-import Drawer from "../Drawer";
-import { InviteDetail, IStartAppParams } from "@/types/task";
-import { stringifyStartAppParams } from "@/utils/start-params";
+import { QRCode } from "react-qrcode-logo";
+import { useCopyToClipboard } from "react-use";
+
 import { connectUrl, portkeyServer, TgLink } from "@/config";
 import { chainId, projectCode } from "@/constants/app";
-import { useRequest } from "ahooks";
+import { InviteDetail, IStartAppParams } from "@/types/task";
+import { stringifyStartAppParams } from "@/utils/start-params";
+
+import Drawer from "../Drawer";
 import Loading from "../Loading";
-import { useCopyToClipboard } from "react-use";
-import { QRCode } from "react-qrcode-logo";
-import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
+
+
+
 
 interface IInviteFriendsStatusProps {
   data?: InviteDetail;

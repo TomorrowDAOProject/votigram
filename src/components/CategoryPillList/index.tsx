@@ -1,9 +1,11 @@
+import { useEffect, useState } from "react";
+
+import clsx from "clsx";
+
 import { APP_CATEGORY } from "@/constants/discover";
+import { DiscoverType } from "@/types/app";
 
 import "./index.css";
-import clsx from "clsx";
-import { useEffect, useState } from "react";
-import { DiscoverType } from "@/types/app";
 
 interface ICategoryPillListProps {
   value?: APP_CATEGORY;
@@ -28,8 +30,8 @@ const CategoryPillList = ({
   };
 
   useEffect(() => {
-    setActive(value || APP_CATEGORY.ALL)
-  }, [value])
+    setActive(value || APP_CATEGORY.ALL);
+  }, [value]);
 
   return (
     <div

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Picker } from "react-mobile-style-picker";
+
 import "react-mobile-style-picker/dist/index.css";
+import clsx from "clsx";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { Picker } from "react-mobile-style-picker";
+
 import {
   HOUR_RANGE,
   MINUTE_RANGE,
@@ -10,8 +13,8 @@ import {
 } from "@/constants/time-picker";
 
 import Drawer from "../Drawer";
+
 import "./index.css";
-import clsx from "clsx";
 
 interface ISimpleTimePickerProps {
   className?: string;
