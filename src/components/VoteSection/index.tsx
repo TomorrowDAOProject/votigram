@@ -1,8 +1,10 @@
-import dayjs from "dayjs";
-import Tag from "../Tag";
 import clsx from "clsx";
-import { VoteSectionType } from "./type";
+import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
+
+import Tag from "../Tag";
+import { VoteSectionType } from "./type";
+
 
 interface IVoteSctionProps {
   data: VoteSectionType;

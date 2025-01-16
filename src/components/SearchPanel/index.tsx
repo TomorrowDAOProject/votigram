@@ -1,7 +1,9 @@
-import { VoteApp } from "@/types/app";
-import React from "react";
-import AppItem from "../AppItem";
+
 import { useAdsgram } from "@/hooks/useAdsgram";
+import { VoteApp } from "@/types/app";
+
+import AppItem from "../AppItem";
+
 
 interface ISearchPanel {
   recommendList: VoteApp[];
@@ -30,7 +32,12 @@ const SearchPanel = ({
       />
       <div className="flex flex-col col-12 gap-[22px]">
         {recommendList?.map((item) => (
-          <AppItem showArrow item={item} onAppItemClick={onAppItemClick} />
+          <AppItem
+            key={item.id}
+            showArrow
+            item={item}
+            onAppItemClick={onAppItemClick}
+          />
         ))}
 
         {recommendList.length === 0 && (

@@ -1,14 +1,15 @@
+import { useEffect, useState } from "react";
+
 import Loading from "@/components/Loading";
 import VoteItem from "@/components/VoteItem";
 import { chainId } from "@/constants/app";
 import { APP_CATEGORY } from "@/constants/discover";
 import useData from "@/hooks/useData";
 import { VoteApp } from "@/types/app";
-import { useEffect, useState } from "react";
 
 interface IAccumulativeProps {
   scrollTop: number;
-  keyward: string;
+  keyword: string;
   category: number | APP_CATEGORY;
   onAppItemClick?: (item: VoteApp) => void;
 }
@@ -16,7 +17,7 @@ const PAGE_SIZE = 20;
 
 const Accumulative = ({
   scrollTop,
-  keyward,
+  keyword,
   category: categoryValue,
   onAppItemClick,
 }: IAccumulativeProps) => {
@@ -53,9 +54,9 @@ const Accumulative = ({
   }, [hasMore, isLoading, scrollTop]);
 
   useEffect(() => {
-    setSearch(keyward);
+    setSearch(keyword);
     setPageIndex(0);
-  }, [keyward]);
+  }, [keyword]);
 
   useEffect(() => {
     setCategory(categoryValue);
