@@ -1,53 +1,123 @@
 // Textarea.test.tsx
+import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { describe, it, expect, vi } from 'vitest';
-import Textarea from '../index';
+import Textarea from "../index"; // Adjust to the correct file path
 
-describe('Textarea Component', () => {
-  it('renders with placeholder text', () => {
-    render(<Textarea value="" onChange={() => {}} placeholder="Type here..." />);
-    const textarea = screen.getByPlaceholderText('Type here...');
+import "@testing-library/jest-dom";
+
+describe("Textarea Component", () => {
+  const defaultProps = {
+    value: "",
+    onChange: vi.fn(),
+    placeholder: "Enter some text...",
+    maxLength: 100,
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.useFakeTimers();
+    document.body.style.height = "100%";
+  });
+
+  beforeEach(() => {
+    Object.defineProperty(window, "scrollTo", {
+      value: vi.fn(),
+      writable: true,
+    });
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("renders correctly with initial props", () => {
+    render(<Textarea {...defaultProps} />);
+    const textarea = screen.getByPlaceholderText("Enter some text...");
     expect(textarea).toBeInTheDocument();
+    expect(textarea).toHaveValue(""); // Initial value
+    expect(textarea).toHaveAttribute("maxlength", "100");
   });
 
-  it('updates character count and calls onChange on input', () => {
-    const handleChange = vi.fn();
-    render(<Textarea value="" onChange={handleChange} />);
-    const textarea = screen.getByRole('textbox');
+  it("updates the character count and calls onChange as text is entered", () => {
+    render(<Textarea {...defaultProps} />);
+    const textarea = screen.getByPlaceholderText("Enter some text...");
 
-    fireEvent.change(textarea, { target: { value: 'Hello' } });
-    
-    expect(handleChange).toHaveBeenCalledWith('Hello');
-    expect(screen.getByText('5/500')).toBeInTheDocument();
+    // Simulate typing
+    fireEvent.change(textarea, { target: { value: "Hello" } });
+
+    expect(defaultProps.onChange).toHaveBeenCalledWith("Hello");
+    expect(screen.getByText("5/100")).toBeInTheDocument(); // Character count
   });
 
-  it('respects maxLength, applies truncation properly, and displays warning when maxed out', () => {
-    const maxLength = 10;
-    const handleChange = vi.fn();
-    render(<Textarea value="" onChange={handleChange} maxLength={maxLength} />);
-    const textarea = screen.getByRole('textbox');
+  it("does not allow text to exceed maxLength", () => {
+    render(<Textarea {...defaultProps} />);
+    const textarea = screen.getByPlaceholderText("Enter some text...");
 
-    fireEvent.change(textarea, { target: { value: 'This is a long text' } });
-    
-    // Expect truncated value
-    expect(handleChange).toHaveBeenCalledWith('This is a ');
-    expect(textarea).toHaveValue('This is a ');
-    
-    const charCountElement = screen.getByText(`${maxLength}/${maxLength}`);
-    expect(charCountElement).toBeInTheDocument();
-    expect(charCountElement).toHaveClass('text-danger');
+    fireEvent.change(textarea, { target: { value: "a".repeat(110) } });
+
+    // Ensure onChange is called with the truncated value
+    expect(defaultProps.onChange).toHaveBeenCalledWith("a".repeat(100));
+
+    // Ensure the displayed text is truncated
+    expect(textarea).toHaveValue("a".repeat(100));
+
+    // Ensure the character count shows the max length
+    expect(screen.getByText("100/100")).toBeInTheDocument();
   });
 
-  it('auto-resizes when input changes', () => {
-    render(<Textarea value="Short" onChange={() => {}} />);
-    const textarea = screen.getByRole('textbox');
+  it("applies danger class when maxLength is reached", () => {
+    render(<Textarea {...defaultProps} />);
+    const textarea = screen.getByPlaceholderText("Enter some text...");
 
-    const initialHeight = textarea.style.height;
-    fireEvent.change(textarea, { target: { value: 'This is a text with more content that should expand the textarea.' } });
+    fireEvent.change(textarea, { target: { value: "a".repeat(100) } });
 
-    expect(textarea.style.height).not.toBe(initialHeight);
+    const charCount = screen.getByText("100/100");
+    expect(charCount).toHaveClass("!text-danger");
+  });
+
+  it("auto-resizes as text is entered", () => {
+    render(<Textarea {...defaultProps} />);
+    const textarea = screen.getByPlaceholderText("Enter some text...");
+
+    // Mock the scrollHeight property
+    Object.defineProperty(textarea, "scrollHeight", {
+      value: 50,
+      writable: true,
+    });
+
+    fireEvent.change(textarea, { target: { value: "This is a test" } });
+
+    // Check that style.height is updated correctly
+    expect(textarea.style.height).toBe("50px");
+  });
+
+  it("applies and removes event listeners on focus and viewport resize", () => {
+    const addEventListenerSpy = vi.spyOn(window, "addEventListener");
+    const removeEventListenerSpy = vi.spyOn(window, "removeEventListener");
+
+    const { unmount } = render(<Textarea {...defaultProps} />);
+
+    // Ensure event listeners are applied
+    expect(addEventListenerSpy).toHaveBeenCalledWith(
+      "focusin",
+      expect.any(Function)
+    );
+    expect(addEventListenerSpy).toHaveBeenCalledWith(
+      "focusout",
+      expect.any(Function)
+    );
+
+    // Unmount the component and ensure listeners are removed
+    unmount();
+
+    expect(removeEventListenerSpy).toHaveBeenCalledWith(
+      "focusin",
+      expect.any(Function)
+    );
+    expect(removeEventListenerSpy).toHaveBeenCalledWith(
+      "focusout",
+      expect.any(Function)
+    );
   });
 });

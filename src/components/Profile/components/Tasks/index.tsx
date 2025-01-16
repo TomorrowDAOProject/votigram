@@ -1,11 +1,13 @@
+import { useEffect, useState } from "react";
+
+import { mutate } from "swr";
+
 import InviteFriendsStatus from "@/components/InviteFriends";
 import TaskModule from "@/components/TaskModule";
-import { InviteDetail, TaskModule as TaskModuleType } from "@/types/task";
-import useData from "@/hooks/useData";
-import { useEffect, useState } from "react";
-import { TAB_LIST } from "@/constants/navigation";
-import { mutate } from "swr";
 import { chainId } from "@/constants/app";
+import { TAB_LIST } from "@/constants/navigation";
+import useData from "@/hooks/useData";
+import { InviteDetail, TaskModule as TaskModuleType } from "@/types/task";
 interface ITasksProps {
   totalPoints: number;
   switchTab: (tab: TAB_LIST) => void;

@@ -1,12 +1,19 @@
-import TelegramHeader from "@/components/TelegramHeader";
-import { useUserContext } from "@/provider/UserProvider";
 import { useCallback, useEffect, useRef, useState } from "react";
-import Tasks from "./components/Tasks";
-import Achievements from "./components/Achievements";
+
+
+import TelegramHeader from "@/components/TelegramHeader";
 import { TAB_LIST } from "@/constants/navigation";
-import { useAdsgram } from "@/hooks/useAdsgram";
-import Tabs from "../Tabs";
 import { PROFILE_TABS } from "@/constants/vote";
+import { useAdsgram } from "@/hooks/useAdsgram";
+import { useUserContext } from "@/provider/UserProvider";
+
+import Tabs from "../Tabs";
+import Achievements from "./components/Achievements";
+import Tasks from "./components/Tasks";
+
+
+
+
 
 const tabs = [{
   label: PROFILE_TABS.TASK,

@@ -1,20 +1,28 @@
+
 import { useEffect, useRef, useState } from "react";
+
+import { useThrottleFn } from "ahooks";
 import { motion, PanInfo } from "framer-motion";
+
+
+import { chainId } from "@/constants/app";
+import { APP_CATEGORY, APP_TYPE, DISCOVER_CATEGORY } from "@/constants/discover";
+import { postWithToken } from "@/hooks/useData";
+import { useUserContext } from "@/provider/UserProvider";
+import { VoteApp } from "@/types/app";
+
 import ImageCarousel from "../ImageCarousel";
 import AppDetail from "./AppDetail";
+import AdVideo from "../AdVideo";
 import Modal from "../Modal";
 import ActionButton from "./ActionButton";
 import CheckboxGroup from "../CheckboxGroup";
-import { APP_CATEGORY, APP_TYPE, DISCOVER_CATEGORY } from "@/constants/discover";
 import Drawer from "../Drawer";
-import TelegramHeader from "../TelegramHeader";
-import { VoteApp } from "@/types/app";
-import { postWithToken } from "@/hooks/useData";
-import { chainId } from "@/constants/app";
 import ReviewComment from "../ReviewComment";
-import AdVideo from "../AdVideo";
-import { useUserContext } from "@/provider/UserProvider";
-import { useThrottleFn } from "ahooks";
+import TelegramHeader from "../TelegramHeader";
+
+
+
 
 interface IForYouType {
   currentForyouPage: number;

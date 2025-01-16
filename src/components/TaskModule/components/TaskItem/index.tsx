@@ -1,14 +1,20 @@
-import { USER_TASK_DETAIL } from "@/constants/task";
-import { TaskInfo } from "@/types/task";
-import { openNewPageWaitPageVisible } from "../../utils";
-import { chainId } from "@/constants/app";
 import { useState } from "react";
-import Loading from "@/components/Loading";
-import { TAB_LIST } from "@/constants/navigation";
-import { useAdsgram } from "@/hooks/useAdsgram";
+
 import useRequest from "ahooks/lib/useRequest";
+
+
+
+import Loading from "@/components/Loading";
+import { chainId } from "@/constants/app";
+import { TAB_LIST } from "@/constants/navigation";
+import { USER_TASK_DETAIL } from "@/constants/task";
+import { useAdsgram } from "@/hooks/useAdsgram";
 import { fetchWithToken } from "@/hooks/useData";
 import { useUserContext } from "@/provider/UserProvider";
+import { TaskInfo } from "@/types/task";
+
+import { openNewPageWaitPageVisible } from "../../utils";
+
 
 interface ITaskItemProps {
   userTask: string;

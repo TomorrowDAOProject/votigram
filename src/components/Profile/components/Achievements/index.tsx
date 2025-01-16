@@ -1,10 +1,11 @@
+import { useEffect, useState } from "react";
+
 import DailyRewards from "@/components/DailyRewards";
+import Loading from "@/components/Loading";
 import { chainId } from "@/constants/app";
 import useData from "@/hooks/useData";
 import { useUserContext } from "@/provider/UserProvider";
 import { InviteItem } from "@/types/task";
-import { useEffect, useState } from "react";
-import Loading from "@/components/Loading";
 
 interface IAchievementsProps {
   scrollTop: number;

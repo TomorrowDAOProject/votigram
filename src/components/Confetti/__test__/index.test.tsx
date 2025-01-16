@@ -1,10 +1,11 @@
 // Confetti.test.tsx
-import React from "react";
 import { render, screen } from "@testing-library/react";
-import Confetti from "../index";
-import "@testing-library/jest-dom";
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import canvasConfetti from "canvas-confetti";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
+import Confetti from "../index";
+
+import "@testing-library/jest-dom";
 
 vi.mock("canvas-confetti", () => ({
   default: {
