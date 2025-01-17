@@ -92,7 +92,7 @@ const ReviewComment = ({
           onClick={onDrawerClose}
         />
       </div>
-      <div className="pt-[4px] pb-[75px] h-[calc(60vh+79px)]">
+      <div className="pt-[4px] pb-[75px] h-full overflow-scroll">
         <ReviewList
           hasMore={data?.hasMore || false}
           height="60vh"
@@ -104,7 +104,7 @@ const ReviewComment = ({
           renderLoading={() => isLoading && <Loading iconClassName="w-4 h-4" />}
         />
       </div>
-      <div className="fixed bottom-0 left-0 w-full flex flex-row gap-2 py-[17px] px-5 border-t-[1px] border-tertiary items-end border-solid">
+      <div className="fixed bottom-0 bg-black left-0 w-full flex flex-row gap-2 py-[17px] px-5 border-t-[1px] border-tertiary items-end border-solid">
         <Textarea
           value={comment}
           onChange={onCommentChange}

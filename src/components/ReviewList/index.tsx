@@ -2,12 +2,9 @@ import React, { useCallback, useEffect, useRef } from "react";
 
 import clsx from "clsx";
 
-
 import { Comment } from "@/types/comment";
 
 import Item from "./components/Item";
-
-
 
 interface IReviewListProps {
   isLoading?: boolean;
@@ -26,7 +23,6 @@ interface IReviewListProps {
 const ReviewList: React.FC<IReviewListProps> = ({
   isLoading,
   dataSource: items,
-  height = 300,
   threshold = 50,
   loadData,
   hasMore,
@@ -68,14 +64,12 @@ const ReviewList: React.FC<IReviewListProps> = ({
     };
   }, [handleScroll]);
 
-  const calculatedHeight = typeof height === "number" ? `${height}px` : height;
-
   return (
     <div
       ref={listRef}
       role="list"
-      className="overflow-x-hidden overflow-y-auto"
-      style={{ height: calculatedHeight }}
+      className="overflow-x-hidden overflow-y-auto h-[calc(100%-10px)]"
+      // style={{ height: calculatedHeight }}
     >
       {!isLoading && items.length === 0 && (
         <div className="flex items-center justify-center h-full">
@@ -84,7 +78,7 @@ const ReviewList: React.FC<IReviewListProps> = ({
           </span>
         </div>
       )}
-      <div className={clsx({"min-h-full": items.length > 0}, rootClassname)}>
+      <div className={clsx({ "min-h-full": items.length > 0 }, rootClassname)}>
         {items.map((item, index) => (
           <Item
             data={item}
