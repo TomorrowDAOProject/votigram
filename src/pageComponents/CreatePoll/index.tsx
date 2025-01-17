@@ -16,15 +16,13 @@ import SimpleTimePicker from "@/components/SimpleTimePicker";
 import TelegramHeader from "@/components/TelegramHeader";
 import ToggleSlider from "@/components/ToggleSlider";
 import Upload from "@/components/Upload";
-import { chainId } from "@/constants/app";
-import { ProposalType } from "@/constants/app";
+import { chainId, ProposalType } from "@/constants/app";
 import { DURATION_RANGE } from "@/constants/time-picker";
 import { CREATE_STATUS } from "@/constants/vote";
 import { proposalCreateContractRequest } from "@/contract/proposalCreateContract";
 import { fetchWithToken, postWithToken } from "@/hooks/useData";
 import useForm from "@/hooks/useForm";
 import { useUserContext } from "@/provider/UserProvider";
-import { VoteTimeItem } from "@/types/app";
 
 import {
   combineDateAndTime,
@@ -54,19 +52,29 @@ type FormStateProps = {
   options: VoteOption[];
   banner?: string;
   activeStartTime: number;
-  activeEndTime: number | VoteTimeItem;
+  activeEndTime: number;
 };
 
-const defaultEndTime: VoteTimeItem = {
-  label: "1 Hour",
-  unit: "hour",
-  value: 1,
-};
+enum START_TIME_TYPE {
+  NOW = "NOW",
+  CUSTOM = "CUSTOM",
+}
+
+enum END_TIME_TYPE {
+  DURATION = "DURATION",
+  CUSTOM = "CUSTOM",
+}
 
 const CreatePoll = () => {
+  const [startTimeType, setStartTimeType] = useState<START_TIME_TYPE>(
+    START_TIME_TYPE.NOW
+  );
+  const [endTimeType, setEndTimeType] = useState<END_TIME_TYPE>(
+    END_TIME_TYPE.DURATION
+  );
   const [loading, setLoading] = useState(false);
   const [finished, setFinished] = useState<CREATE_STATUS>(
-    CREATE_STATUS.PENDDING
+    CREATE_STATUS.PENDING
   );
   const navigate = useNavigate();
   const location = useLocation();
@@ -77,8 +85,8 @@ const CreatePoll = () => {
   const initialFormState: FormStateProps = {
     proposalTitle: "",
     options: [{ id: Date.now(), title: "" }],
-    activeStartTime: 1,
-    activeEndTime: defaultEndTime,
+    activeStartTime: dayjs().unix() * 1000,
+    activeEndTime: dayjs().add(1, "hour").unix() * 1000,
   };
   const { formState, errors, handleChange, handleSubmit } = useForm(
     initialFormState,
@@ -179,7 +187,7 @@ const CreatePoll = () => {
 
   const handleFinish = () => {
     if (finished === CREATE_STATUS.FAILED) {
-      setFinished(CREATE_STATUS.PENDDING);
+      setFinished(CREATE_STATUS.PENDING);
       onSubmit();
     } else {
       handleGoBack();
@@ -235,32 +243,34 @@ const CreatePoll = () => {
               items={["Now", "Specific date & time"]}
               itemClassName="h-[33px]"
               activeItemClassName="h-[26px]"
-              onChange={(index) =>
-                handleChange("activeStartTime")(
-                  index ? dayjs().add(1, "day").unix() * 1000 : 1
-                )
-              }
+              onChange={(index) => {
+                setStartTimeType(
+                  index === 1 ? START_TIME_TYPE.CUSTOM : START_TIME_TYPE.NOW
+                );
+              }}
             />
-            {formState?.activeStartTime !== 1 && (
+            {startTimeType === START_TIME_TYPE.CUSTOM && (
               <div className="flex flex-row items-center gap-[9px] mt-[12px]">
                 <SimpleDatePicker
                   className="flex-1"
-                  value={dayjs(formState.activeStartTime).format("YYYY-MM-DD")}
+                  value={dayjs(formState.activeStartTime)}
                   disabled={{
-                    before: dayjs().add(1, "day").toDate(),
+                    before: dayjs().toDate(),
                   }}
                   onChange={(day) => {
+                    const selectedEpoch = dayjs(day).unix() * 1000;
                     handleChange("activeStartTime")(
                       combineDateAndTime(
-                        dayjs(day).add(1, "day").format(),
+                        selectedEpoch,
                         formState.activeStartTime
                       )
                     );
-                    if (typeof formState.activeEndTime !== "object") {
+
+                    if (selectedEpoch >= formState.activeEndTime) {
                       handleChange("activeEndTime")(
                         combineDateAndTime(
-                          dayjs(day).add(2, "day").format(),
-                          formState.activeStartTime
+                          selectedEpoch,
+                          formState.activeEndTime
                         )
                       );
                     }
@@ -284,41 +294,34 @@ const CreatePoll = () => {
               items={["Duration", "Specific date & time"]}
               itemClassName="h-[33px]"
               activeItemClassName="h-[26px]"
-              onChange={(index) =>
-                handleChange("activeEndTime")(
-                  index
-                    ? formState?.activeStartTime === 1
-                      ? dayjs().add(1, "day").valueOf()
-                      : dayjs(formState.activeStartTime).add(1, "day").valueOf()
-                    : defaultEndTime
-                )
-              }
+              onChange={(index) => {
+                setEndTimeType(
+                  index === 1 ? END_TIME_TYPE.CUSTOM : END_TIME_TYPE.DURATION
+                );
+              }}
             />
-            {typeof formState.activeEndTime === "object" ? (
+            {endTimeType === END_TIME_TYPE.DURATION ? (
               <ButtonRadio
                 className="mt-[12px]"
                 options={DURATION_RANGE}
-                value={formState.activeEndTime}
-                onChange={(endTime) =>
-                  handleChange("activeEndTime")(endTime as VoteTimeItem)
-                }
+                value={1}
+                onChange={(endTime) => {
+                  handleChange("activeEndTime")(
+                    dayjs(formState.activeStartTime).add(endTime, "hour").unix()
+                  );
+                }}
               />
             ) : (
               <div className="flex flex-row items-center flex-wrap gap-[9px] mt-[12px]">
                 <SimpleDatePicker
                   className="flex-1"
                   disabled={{
-                    before:
-                      formState?.activeStartTime === 1
-                        ? dayjs().add(1, "day").toDate()
-                        : dayjs(formState.activeStartTime)
-                            .add(1, "day")
-                            .toDate(),
+                    before: dayjs(formState.activeStartTime).toDate(),
                   }}
-                  value={dayjs(formState.activeEndTime).format()}
+                  value={dayjs(formState.activeEndTime)}
                   onChange={(day) =>
                     handleChange("activeEndTime")(
-                      combineDateAndTime(day, formState.activeEndTime as number)
+                      combineDateAndTime(day, formState.activeEndTime)
                     )
                   }
                 />
@@ -327,10 +330,7 @@ const CreatePoll = () => {
                   value={formState.activeEndTime}
                   onChange={(time) =>
                     handleChange("activeEndTime")(
-                      combineDateAndTime(
-                        formState.activeEndTime as number,
-                        time
-                      )
+                      combineDateAndTime(formState.activeEndTime, time)
                     )
                   }
                 />
@@ -363,13 +363,10 @@ const CreatePoll = () => {
       </Drawer>
 
       <Drawer
-        isVisible={
-          finished === CREATE_STATUS.SUCCESS ||
-          finished === CREATE_STATUS.FAILED
-        }
+        isVisible={finished !== CREATE_STATUS.PENDING}
         direction="bottom"
         rootClassName="pt-[34px] pb-[23px] px-5 bg-tertiary"
-        onClose={() => setFinished(CREATE_STATUS.PENDDING)}
+        onClose={() => setFinished(CREATE_STATUS.PENDING)}
         canClose={finished === CREATE_STATUS.FAILED}
       >
         <span className="block mb-[40px] text-[18px] font-outfit font-bold leading-[18px] text-center text-white">

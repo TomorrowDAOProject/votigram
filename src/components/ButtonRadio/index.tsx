@@ -8,11 +8,11 @@ type ButtonRadioOption = {
 };
 
 interface IButtonRadioProps {
-  value?: ButtonRadioOption;
+  value?: number;
   className?: string;
   radioClassName?: string;
   options: ButtonRadioOption[];
-  onChange?: (_: ButtonRadioOption) => void;
+  onChange?: (selectedValue: number) => void;
 }
 
 const ButtonRadio = ({
@@ -22,11 +22,9 @@ const ButtonRadio = ({
   radioClassName,
   onChange,
 }: IButtonRadioProps) => {
-  const [selectedValue, setSelectedValue] = useState<
-    ButtonRadioOption | undefined
-  >();
+  const [selectedValue, setSelectedValue] = useState<number | undefined>();
 
-  const handleSelect = (value: ButtonRadioOption) => {
+  const handleSelect = (value: number) => {
     setSelectedValue(value);
     onChange?.(value);
   };
@@ -42,15 +40,15 @@ const ButtonRadio = ({
           className={clsx(
             "py-[12px] px-[14px] border border-tertiary rounded-[10px] transition-[border] duration-200 ease-in-out",
             radioClassName,
-            { "border border-white": selectedValue?.value === item.value }
+            { "border border-white": selectedValue === item.value }
           )}
           key={item.value}
-          onClick={() => handleSelect(item)}
+          onClick={() => handleSelect(item.value)}
         >
           <span
             className={clsx(
               "block w-full text-center font-normal text-[14px] text-input-placeholder leading-[20px] transition-[color] duration-200 ease-in-out",
-              { "text-white": selectedValue?.value === item.value }
+              { "text-white": selectedValue === item.value }
             )}
           >
             {item.label}

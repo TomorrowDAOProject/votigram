@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useThrottleFn } from "ahooks";
 import clsx from "clsx";
 
-
 import { chainId } from "@/constants/app";
 import useData, { postWithToken } from "@/hooks/useData";
 import { VoteApp } from "@/types/app";
@@ -12,9 +11,6 @@ import { Comment } from "@/types/comment";
 import Loading from "../Loading";
 import ReviewList from "../ReviewList";
 import Textarea from "../Textarea";
-
-
-
 
 interface IReviewDrawerProps {
   onComment?(totalComments: number): void;
@@ -29,6 +25,7 @@ const ReviewComment = ({
   onDrawerClose,
   currentActiveApp,
 }: IReviewDrawerProps) => {
+  const [isInputFocus, setIsInputFocus] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState<Comment[]>([]);
@@ -81,6 +78,7 @@ const ReviewComment = ({
 
   const onCommentChange = (value: string) => {
     setComment(value);
+    setIsInputFocus(true);
   };
 
   return (
@@ -103,12 +101,17 @@ const ReviewComment = ({
           loadData={() => setPageIndex((pageIndex) => pageIndex + 1)}
           emptyText="Write the first review!"
           rootClassname="px-5"
-          renderLoading={() =>
-            isLoading && <Loading iconClassName="w-4 h-4" />
-          }
+          renderLoading={() => isLoading && <Loading iconClassName="w-4 h-4" />}
         />
       </div>
-      <div className="fixed bottom-0 left-0 w-full flex flex-row gap-2 py-[17px] px-5 border-t-[1px] border-tertiary items-end border-solid">
+      <div
+        className={clsx(
+          "fixed bottom-0 left-0 w-full flex flex-row gap-2 py-[17px] px-5 border-t-[1px] border-tertiary items-end border-solid",
+          {
+            "h-1/2": isInputFocus,
+          }
+        )}
+      >
         <Textarea
           value={comment}
           onChange={onCommentChange}

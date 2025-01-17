@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import clsx from "clsx";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { DayPicker, DateBefore, WeekdayProps } from "react-day-picker";
 
 import Drawer from "../Drawer";
@@ -12,8 +12,8 @@ import "./index.css";
 
 interface ISimpleDatePickerProps {
   disabled?: DateBefore;
-  value?: string;
-  defaultValue?: string;
+  value?: Dayjs;
+  defaultValue?: Dayjs;
   className?: string;
   onChange?: (value: string) => void;
 }
@@ -27,23 +27,24 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
     onChange,
     ...dayPickerProps
   } = props;
-  const baseValue =
-    value && dayjs(value || "").isValid()
-      ? value
-      : defaultValue && dayjs(defaultValue || "").isValid()
-      ? defaultValue
-      : dayjs().format();
+  // const baseValue =
+  //   value && dayjs(value || "").isValid()
+  //     ? value
+  //     : defaultValue && dayjs(defaultValue || "").isValid()
+  //     ? defaultValue
+  //     : dayjs().format();
   const [isVisible, setIsVisible] = useState(false);
-  const [selected, setSelected] = useState<string>(baseValue);
+  const [selected, setSelected] = useState<Dayjs>(
+    value || defaultValue || dayjs()
+  );
 
-  const formatDate = (dateInput: string) => {
-    const date = dayjs(dateInput);
+  const formatDate = (dateInput: Dayjs) => {
     const currentYear = dayjs().year();
 
-    if (date.year() === currentYear) {
-      return date.format("DD MMM");
+    if (dateInput.year() === currentYear) {
+      return dateInput.format("DD MMM");
     } else {
-      return date.format("DD MMM YYYY");
+      return dateInput.format("DD MMM YYYY");
     }
   };
 
@@ -85,15 +86,9 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
       >
         <DayPicker
           mode="single"
-          selected={new Date(selected)}
-          onSelect={(date) =>
-            date && setSelected(dayjs(date).format("YYYY-MM-DD"))
-          }
-          disabled={
-            disabled || {
-              before: new Date(),
-            }
-          }
+          selected={selected.toDate()}
+          onSelect={(date) => date && setSelected(dayjs(date))}
+          disabled={disabled}
           weekStartsOn={1}
           components={{
             Weekday: (props: WeekdayProps) => {
