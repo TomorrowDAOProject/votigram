@@ -16,6 +16,7 @@ interface IReviewDrawerProps {
   onComment?(totalComments: number): void;
   onDrawerClose: () => void;
   currentActiveApp: VoteApp | undefined;
+  setIsInputFocus: (val: boolean) => void;
 }
 
 const PAGE_SIZE = 20;
@@ -24,8 +25,8 @@ const ReviewComment = ({
   onComment,
   onDrawerClose,
   currentActiveApp,
+  setIsInputFocus,
 }: IReviewDrawerProps) => {
-  const [isInputFocus, setIsInputFocus] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState<Comment[]>([]);
@@ -78,7 +79,6 @@ const ReviewComment = ({
 
   const onCommentChange = (value: string) => {
     setComment(value);
-    setIsInputFocus(true);
   };
 
   return (
@@ -104,18 +104,17 @@ const ReviewComment = ({
           renderLoading={() => isLoading && <Loading iconClassName="w-4 h-4" />}
         />
       </div>
-      <div
-        className={clsx(
-          "fixed bottom-0 left-0 w-full flex flex-row gap-2 py-[17px] px-5 border-t-[1px] border-tertiary items-end border-solid",
-          {
-            "h-1/2": isInputFocus,
-          }
-        )}
-      >
+      <div className="fixed bottom-0 left-0 w-full flex flex-row gap-2 py-[17px] px-5 border-t-[1px] border-tertiary items-end border-solid">
         <Textarea
           value={comment}
           onChange={onCommentChange}
           placeholder="Add a comment"
+          onFocus={() => {
+            setIsInputFocus(true);
+          }}
+          onBlur={() => {
+            setIsInputFocus(false);
+          }}
         />
         <button
           type="button"
