@@ -1,10 +1,15 @@
-import { DayPicker, DateBefore, WeekdayProps } from "react-day-picker";
-import "react-day-picker/style.css";
-import Drawer from "../Drawer";
-import "./index.css";
 import { useEffect, useState } from "react";
-import dayjs from "dayjs";
+
 import clsx from "clsx";
+import dayjs from "dayjs";
+import { DayPicker, DateBefore, WeekdayProps } from "react-day-picker";
+
+import Drawer from "../Drawer";
+
+import "react-day-picker/style.css";
+
+import "./index.css";
+
 interface ISimpleDatePickerProps {
   disabled?: DateBefore;
   value?: string;
@@ -14,7 +19,14 @@ interface ISimpleDatePickerProps {
 }
 
 const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
-  const { value, defaultValue, className, disabled, onChange, ...dayPickerProps } = props;
+  const {
+    value,
+    defaultValue,
+    className,
+    disabled,
+    onChange,
+    ...dayPickerProps
+  } = props;
   const baseValue =
     value && dayjs(value || "").isValid()
       ? value
@@ -77,9 +89,11 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
           onSelect={(date) =>
             date && setSelected(dayjs(date).format("YYYY-MM-DD"))
           }
-          disabled={disabled || {
-            before: new Date(),
-          }}
+          disabled={
+            disabled || {
+              before: new Date(),
+            }
+          }
           weekStartsOn={1}
           components={{
             Weekday: (props: WeekdayProps) => {

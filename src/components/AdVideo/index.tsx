@@ -1,5 +1,7 @@
-import clsx from "clsx";
 import { useRef, useState } from "react";
+
+import clsx from "clsx";
+
 
 interface IAdVideoProps {
   className?: string;
@@ -26,6 +28,7 @@ const AdVideo = ({ src, className }: IAdVideoProps) => {
   return (
     <div className="relative w-full h-[63%] flex items-end">
       <video
+        role="video"
         className={clsx("w-full object-contain", className)}
         ref={videoRef}
         onTimeUpdate={handleTimeUpdate}
@@ -39,8 +42,12 @@ const AdVideo = ({ src, className }: IAdVideoProps) => {
 
       <div className="absolute top-0 left-[20px] w-[calc(100%-40px)] h-[2px] bg-tertiary rounded-[15px]">
         <div
+          data-testid="progress-bar"
+          role="progressbar"
           className="h-[2px] bg-primary rounded-[15px]"
-          style={{ width: `${currentTime / duration * 100}%` }}
+          style={{
+            width: duration > 0 ? `${(currentTime / duration) * 100}%` : "0%",
+          }}
         />
       </div>
     </div>

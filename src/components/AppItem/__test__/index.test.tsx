@@ -1,8 +1,10 @@
-import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import AppItem from "../index";
+
 import { voteAppData } from "@/__mocks__/VoteApp";
+
+import AppItem from "../index";
 
 const mockUpdateOpenAppClick = vi.fn();
 
@@ -40,5 +42,20 @@ describe("AppItem Component", () => {
 
     const arrowIcon = screen.getByTestId("arrow-icon");
     expect(arrowIcon).toBeInTheDocument();
+  });
+
+  it("should catch the onclick function", () => {
+    render(
+      <AppItem
+        showArrow
+        onAppItemClick={mockUpdateOpenAppClick}
+        item={voteAppData}
+      />
+    );
+
+    const button = screen.getByRole("button");
+    fireEvent.click(button);
+
+    expect(mockUpdateOpenAppClick).toHaveBeenCalledWith(voteAppData);
   });
 });

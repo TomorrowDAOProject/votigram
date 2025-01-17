@@ -1,22 +1,31 @@
 import { useEffect, useRef, useState } from "react";
+
+import { chainId } from "@/constants/app";
+import { APP_CATEGORY, DISCOVER_CATEGORY } from "@/constants/discover";
+import { TAB_LIST } from "@/constants/navigation";
+import { TMSAP_TAB, VOTE_TABS } from "@/constants/vote";
+import { useAdsgram } from "@/hooks/useAdsgram";
+import useData, { postWithToken } from "@/hooks/useData";
+import useSetSearchParams from "@/hooks/useSetSearchParams";
+import { useUserContext } from "@/provider/UserProvider";
+import { VoteApp } from "@/types/app";
+
 import AppList from "../AppList";
 import CategoryPillList from "../CategoryPillList";
+import DailyRewards from "../DailyRewards";
 import DiscoveryHiddenGems from "../DiscoveryHiddenGems";
+import Modal from "../Modal";
 import PointsCounter from "../PointsCounter";
+import SearchPanel from "../SearchPanel";
 import TelegramHeader from "../TelegramHeader";
 import TopVotedApps from "../TopVotedApps";
-import { useUserContext } from "@/provider/UserProvider";
-import Modal from "../Modal";
-import useData, { postWithToken } from "@/hooks/useData";
-import SearchPanel from "../SearchPanel";
-import { VoteApp } from "@/types/app";
-import { chainId } from "@/constants/app";
-import DailyRewards from "../DailyRewards";
-import { APP_CATEGORY, DISCOVER_CATEGORY } from "@/constants/discover";
-import { useAdsgram } from "@/hooks/useAdsgram";
-import { TAB_LIST } from "@/constants/navigation";
-import useSetSearchParams from "@/hooks/useSetSearchParams";
-import { TMSAP_TAB, VOTE_TABS } from "@/constants/vote";
+
+
+
+
+
+
+
 
 interface IHomeProps {
   weeklyTopVotedApps: VoteApp[];

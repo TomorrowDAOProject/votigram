@@ -1,10 +1,11 @@
 // DiscoveryHiddenGems.test.tsx
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import DiscoveryHiddenGems from "../index";
 import { describe, it, expect, vi } from "vitest";
+
 import { voteAppData } from "@/__mocks__/VoteApp";
+
+import DiscoveryHiddenGems from "../index";
 
 // Mocking AppItem
 vi.mock("../../AppItem", () => ({

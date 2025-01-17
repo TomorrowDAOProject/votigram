@@ -1,8 +1,10 @@
-import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
+import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import AppList from "../index";
+
 import { voteAppListData } from "@/__mocks__/VoteApp";
+
+import AppList from "../index";
 
 const onAppItemClick = vi.fn();
 

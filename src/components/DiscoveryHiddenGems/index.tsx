@@ -1,5 +1,8 @@
 import { VoteApp } from "@/types/app";
+
 import AppItem from "../AppItem";
+
+
 
 interface IDiscoveryHiddenGemsProps {
   item: VoteApp;

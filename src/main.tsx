@@ -1,14 +1,16 @@
 import { StrictMode } from "react";
+
+import { retrieveLaunchParams } from "@telegram-apps/sdk-react";
+import { Buffer } from "buffer";
 import { createRoot } from "react-dom/client";
+
 import "./styles/theme.css";
 import "./index.css";
 import "./assets/fonts/votigram-icon.css";
-import { Buffer } from "buffer";
-import { retrieveLaunchParams } from "@telegram-apps/sdk-react";
 
 import App from "./App";
-import { init } from "./init";
 import { EnvUnsupported } from "./components/EnvUnsupported";
+import { init } from "./init";
 
 const root = createRoot(document.getElementById("root")!);
 

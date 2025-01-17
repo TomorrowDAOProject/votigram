@@ -1,9 +1,10 @@
 // PointsCounter.test.tsx
-import React from "react";
 import { render, screen, act } from "@testing-library/react";
-import PointsCounter from "../index";
-import "@testing-library/jest-dom";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
+
+import PointsCounter from "../index";
+
+import "@testing-library/jest-dom";
 
 describe("PointsCounter Component", () => {
   let originalRequestAnimationFrame: typeof globalThis.requestAnimationFrame;

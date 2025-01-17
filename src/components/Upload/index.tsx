@@ -1,12 +1,17 @@
 import { ReactNode, useRef, useState } from "react";
-import Drawer from "../Drawer";
-import Cropper, { Area } from "react-easy-crop";
-import { getCroppedImg } from "@/utils/canvasUtils";
-import { uploadWithToken } from "@/hooks/useData";
-import { chainId } from "@/constants/app";
-import { blobToFile } from "@/utils/file";
+
 import clsx from "clsx";
+import Cropper, { Area } from "react-easy-crop";
+
+
+import { chainId } from "@/constants/app";
+import { uploadWithToken } from "@/hooks/useData";
+import { getCroppedImg } from "@/utils/canvasUtils";
+import { blobToFile } from "@/utils/file";
+
+import Drawer from "../Drawer";
 import Loading from "../Loading";
+
 
 interface IUploadProps {
   extensions?: string[];
@@ -18,10 +23,6 @@ interface IUploadProps {
   onFinish?(url: string): void;
 }
 
-interface IUploadProps {
-  onFinish?: (ImgUrl: string) => void;
-}
-
 const readFile = (file: File) => {
   return new Promise((resolve) => {
     const reader = new FileReader();
@@ -30,7 +31,13 @@ const readFile = (file: File) => {
   });
 };
 
-const Upload = ({ className, needCrop, aspect, children, onFinish }: IUploadProps) => {
+const Upload = ({
+  className,
+  needCrop,
+  aspect,
+  children,
+  onFinish,
+}: IUploadProps) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
   const [cropping, setCropping] = useState(false);
@@ -96,7 +103,10 @@ const Upload = ({ className, needCrop, aspect, children, onFinish }: IUploadProp
       formData.append("file", file);
       formData.append("chainId", chainId);
       setLoading(true);
-      const { code, data } = await uploadWithToken("/api/app/file/upload", formData);
+      const { code, data } = await uploadWithToken(
+        "/api/app/file/upload",
+        formData
+      );
       if (code === "20000") {
         onFinish?.(data);
       }
@@ -110,6 +120,7 @@ const Upload = ({ className, needCrop, aspect, children, onFinish }: IUploadProp
   return (
     <>
       <div
+        data-testid="confirm-button"
         className={clsx(
           "relative w-full h-[111px] bg-tertiary flex flex-col items-center justify-center rounded-[12px] cursor-pointer overflow-hidden",
           className
@@ -128,6 +139,7 @@ const Upload = ({ className, needCrop, aspect, children, onFinish }: IUploadProp
           <i className="votigram-icon-back text-[24px]" />
         )}
         <input
+          role="textbox"
           type="file"
           ref={fileInputRef}
           className="hidden"

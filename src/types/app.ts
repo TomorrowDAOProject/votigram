@@ -1,6 +1,7 @@
+import { ManipulateType } from "dayjs";
+
 import { APP_CATEGORY } from "@/constants/discover";
 import { LABEL_TYPE, RANKING_TYPE } from "@/constants/vote";
-import { ManipulateType } from "dayjs";
 
 export type VoteApp = {
   alias: string;
@@ -43,13 +44,13 @@ export type CommentItem = {
   commentStatus: number;
   createTime: number;
   modificationTime: number;
-}
+};
 
 export type VoteTimeItem = {
   value: number;
   unit: ManipulateType;
   label: string;
-}
+};
 
 export type IRankingListItem = {
   alias: string;
@@ -64,7 +65,7 @@ export type IRankingListItem = {
   votePercent: number;
   pointsAmount: number;
   pointsPercent: number;
-}
+};
 
 export type IPollDetail = {
   startTime: string;
@@ -79,28 +80,14 @@ export type IPollDetail = {
   rankingList: VoteApp[];
   activeStartEpochTime: number;
   activeEndEpochTime: number;
-}
+};
 
 export type DiscoverType = {
   value: APP_CATEGORY;
   label: string;
-}
-
-export enum ProposalType {
-  UNSPECIFIED = 0,
-  GOVERNANCE = 1,
-  ADVISORY = 2,
-  VETO = 3,
-  ALL = 'ALL',
-}
-
-export enum SupportedELFChainId {
-  MAIN_NET = 'AELF',
-  TDVV_NET = 'tDVV',
-  TDVW_NET = 'tDVW',
-}
+};
 
 export type Size = {
   width: number;
   height: number;
-}
+};

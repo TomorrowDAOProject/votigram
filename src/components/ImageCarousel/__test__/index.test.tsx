@@ -1,9 +1,12 @@
 // ImageCarousel.test.tsx
 import React from "react";
+
 import { render, screen } from "@testing-library/react";
-import ImageCarousel from "../index"; // Adjust the path as necessary
-import "@testing-library/jest-dom"; // For extended assertions
 import { beforeEach, describe, expect, it, vi } from "vitest";
+
+import ImageCarousel from "../index"; // Adjust the path as necessary
+
+import "@testing-library/jest-dom"; // For extended assertions
 
 // Mock the Telegram WebApp Haptic Feedback
 const mockImpactOccurred = vi.fn();

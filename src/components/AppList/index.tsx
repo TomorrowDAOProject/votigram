@@ -1,10 +1,11 @@
 import { VoteApp } from "@/types/app";
+
 import AppItem from "../AppItem";
 
 interface IAppList {
   title: string;
   items: VoteApp[];
-  onAppItemClick: (item: VoteApp) => void;
+  onAppItemClick: (_: VoteApp) => void;
 }
 
 const AppList = ({ title, items, onAppItemClick }: IAppList) => {

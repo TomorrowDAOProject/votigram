@@ -1,17 +1,23 @@
 // Community.test.tsx
+import { render, screen, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import { MemoryRouter } from "react-router-dom";
+import { describe, it, expect, vi } from "vitest";
 
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { describe, it, expect, vi } from 'vitest';
-import { MemoryRouter } from 'react-router-dom';
+import { IToggleSlider } from "@/components/ToggleSlider/type";
+import { COMMUNITY_TYPE } from "@/constants/vote";
 
-import Community from '../index';
-import { COMMUNITY_TYPE } from '@/constants/vote';
-import { IToggleSlider } from '@/components/ToggleSlider/type';
+import Community from "../index";
 
-vi.mock('../ToggleSlider', () => ({
-  default: ({ items, current, onChange, className, activeItemClassName, itemClassName }: IToggleSlider) => (
+vi.mock("../ToggleSlider", () => ({
+  default: ({
+    items,
+    current,
+    onChange,
+    className,
+    activeItemClassName,
+    itemClassName,
+  }: IToggleSlider) => (
     <div className={className}>
       {items.map((item: string, index: number) => (
         <div
@@ -26,16 +32,18 @@ vi.mock('../ToggleSlider', () => ({
   ),
 }));
 
-vi.mock('./components/Archived', () => ({
+vi.mock("./components/Archived", () => ({
   default: ({ type }: { type: COMMUNITY_TYPE }) => (
     <div data-testid="archived-component">
-      {type === COMMUNITY_TYPE.CURRENT && <button onClick={() => {}}>Create Poll</button>}
+      {type === COMMUNITY_TYPE.CURRENT && (
+        <button onClick={() => {}}>Create Poll</button>
+      )}
     </div>
   ),
 }));
 
-describe('Community Component', () => {
-  it('renders the component with ToggleSlider and Archived', () => {
+describe("Community Component", () => {
+  it("renders the component with ToggleSlider and Archived", () => {
     render(
       <MemoryRouter>
         <Community scrollTop={0} />
@@ -43,14 +51,14 @@ describe('Community Component', () => {
     );
 
     // Ensure ToggleSlider items are rendered
-    expect(screen.getByText('Archived')).toBeInTheDocument();
-    expect(screen.getByText('Current')).toBeInTheDocument();
+    expect(screen.getByText("Archived")).toBeInTheDocument();
+    expect(screen.getByText("Current")).toBeInTheDocument();
 
     // Ensure Archived component renders the button when type is CURRENT
-    expect(screen.queryByText('Create Poll')).toBeInTheDocument();
+    expect(screen.queryByText("Create Poll")).toBeInTheDocument();
   });
 
-  it('switches between tabs correctly and updates Archived component', () => {
+  it("switches between tabs correctly and updates Archived component", () => {
     render(
       <MemoryRouter>
         <Community scrollTop={0} />
@@ -58,15 +66,15 @@ describe('Community Component', () => {
     );
 
     // Click on "Archived" tab
-    fireEvent.click(screen.getByText('Archived'));
+    fireEvent.click(screen.getByText("Archived"));
 
     // Button should not be present if type is not CURRENT
-    expect(screen.queryByText('Create Poll')).not.toBeInTheDocument();
+    expect(screen.queryByText("Create Poll")).not.toBeInTheDocument();
 
     // Click on "Current" tab
-    fireEvent.click(screen.getByText('Current'));
+    fireEvent.click(screen.getByText("Current"));
 
     // Button should be present if type is CURRENT
-    expect(screen.queryByText('Create Poll')).toBeInTheDocument();
+    expect(screen.queryByText("Create Poll")).toBeInTheDocument();
   });
 });

@@ -1,6 +1,9 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useUserContext } from "@/provider/UserProvider";
+
 import { motion } from "framer-motion";
+
+
+import { useUserContext } from "@/provider/UserProvider";
 
 interface ISceneLoadingProps {
   setIsLoading: Dispatch<SetStateAction<boolean>>;

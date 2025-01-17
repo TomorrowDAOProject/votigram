@@ -1,10 +1,13 @@
-import { webLoginInstance } from './webLogin';
-import { chainId } from '@/constants/app';
+
 import { propalAddress } from '@/config';
-import { sleep } from '@/utils/time';
+import { chainId } from '@/constants/app';
 import { ContractMethodType, IContractError, IContractOptions, IContractResult } from '@/types/contract';
-import { formatErrorMsg } from './util';
 import { getTxResult } from '@/utils/getTxResult';
+import { sleep } from '@/utils/time';
+
+import { formatErrorMsg } from './util';
+import { webLoginInstance } from './webLogin';
+
 
 export const proposalCreateContractRequest = async <T>(
   methodName: string,
