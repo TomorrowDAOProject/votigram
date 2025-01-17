@@ -1,4 +1,3 @@
-
 import { render, screen, fireEvent } from "@testing-library/react";
 import dayjs from "dayjs";
 import { describe, expect, it } from "vitest";
@@ -23,7 +22,7 @@ vi.mock("dayjs", () => {
 
 describe("SimpleDatePicker", () => {
   it("renders correctly with default value", () => {
-    const defaultValue = "2024-12-20";
+    const defaultValue = dayjs("2024-12-20");
     render(<SimpleDatePicker defaultValue={defaultValue} />);
 
     const dateDisplay = screen.getByText(dayjs(defaultValue).format("DD MMM"));
@@ -69,8 +68,8 @@ describe("SimpleDatePicker", () => {
   });
 
   it("formats the date correctly for the current year and other years", () => {
-    const dateInCurrentYear = dayjs().format("YYYY-MM-DD");
-    const dateInAnotherYear = "2023-12-25";
+    const dateInCurrentYear = dayjs();
+    const dateInAnotherYear = dayjs("2023-12-25");
 
     const { rerender } = render(<SimpleDatePicker value={dateInCurrentYear} />);
     const currentYearDisplay = screen.getByText(
