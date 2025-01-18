@@ -16,14 +16,14 @@ import SimpleTimePicker from "@/components/SimpleTimePicker";
 import TelegramHeader from "@/components/TelegramHeader";
 import ToggleSlider from "@/components/ToggleSlider";
 import Upload from "@/components/Upload";
-import { chainId } from "@/constants/app";
+import { chainId, ProposalType } from "@/constants/app";
 import { DURATION_RANGE } from "@/constants/time-picker";
 import { CREATE_STATUS } from "@/constants/vote";
 import { proposalCreateContractRequest } from "@/contract/proposalCreateContract";
 import { fetchWithToken, postWithToken } from "@/hooks/useData";
 import useForm from "@/hooks/useForm";
 import { useUserContext } from "@/provider/UserProvider";
-import { ProposalType, VoteTimeItem } from "@/types/app";
+import { VoteTimeItem } from "@/types/app";
 
 import {
   combineDateAndTime,
