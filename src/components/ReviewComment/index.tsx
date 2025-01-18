@@ -95,7 +95,6 @@ const ReviewComment = ({
       <div className="pt-[4px] pb-[75px] h-full overflow-scroll">
         <ReviewList
           hasMore={data?.hasMore || false}
-          height="60vh"
           isLoading={isLoading}
           dataSource={commentList}
           loadData={() => setPageIndex((pageIndex) => pageIndex + 1)}
