@@ -8,7 +8,7 @@ import Navigation from "@/components/Navigation";
 import Profile from "@/components/Profile";
 import Vote from "@/components/Vote";
 import { chainId } from "@/constants/app";
-import { RANDOM_APP_CATEGORY } from "@/constants/discover";
+import { APP_CATEGORY, RANDOM_APP_CATEGORY } from "@/constants/discover";
 import { TAB_LIST } from "@/constants/navigation";
 import useData, { postWithToken } from "@/hooks/useData";
 import useSetSearchParams from "@/hooks/useSetSearchParams";
@@ -113,7 +113,6 @@ const App = () => {
           items={[
             {
               totalPoints: 2,
-              viewed: false,
               totalLikes: 2,
               totalComments: 0,
               totalOpens: 0,
@@ -132,7 +131,7 @@ const App = () => {
                 "https://tmrwdao-arcade.s3.amazonaws.com/votigram/test/asset/img/ebe620f5a176c69ad0b7ee3ca3548aaca44820804b3a16cdac5e8a8bf5e9b3aa_0.webp",
                 "https://tmrwdao-arcade.s3.amazonaws.com/votigram/test/asset/img/ebe620f5a176c69ad0b7ee3ca3548aaca44820804b3a16cdac5e8a8bf5e9b3aa_1.webp",
               ],
-              categories: ["Utility"],
+              categories: [APP_CATEGORY.UTILITY],
               createTime: "2024-09-01T00:00:00Z",
               updateTime: "2024-09-01T00:00:00Z",
               appType: "FindMini",
@@ -141,7 +140,6 @@ const App = () => {
             },
             {
               totalPoints: 15,
-              viewed: false,
               totalLikes: 3,
               totalComments: 0,
               totalOpens: 0,
@@ -162,7 +160,7 @@ const App = () => {
                 "https://tmrwdao-arcade.s3.amazonaws.com/votigram/test/asset/img/b6678f7c74a7b4d7d14f90e85cd27656a965155967e1d1243d011ed6da1fc1f1_2.webp",
                 "https://tmrwdao-arcade.s3.amazonaws.com/votigram/test/asset/img/b6678f7c74a7b4d7d14f90e85cd27656a965155967e1d1243d011ed6da1fc1f1_3.webp",
               ],
-              categories: ["Utility"],
+              categories: [APP_CATEGORY.UTILITY],
               createTime: "2024-09-01T00:00:00Z",
               updateTime: "2024-09-01T00:00:00Z",
               appType: "FindMini",
@@ -171,7 +169,6 @@ const App = () => {
             },
             {
               totalPoints: 3,
-              viewed: false,
               totalLikes: 3,
               totalComments: 0,
               totalOpens: 0,
@@ -190,7 +187,7 @@ const App = () => {
                 "https://tmrwdao-arcade.s3.amazonaws.com/votigram/test/asset/img/628d30f267322196278e8f5bb4bd523ae6a93a6339378742f158e933a1c46859_0.webp",
                 "https://tmrwdao-arcade.s3.amazonaws.com/votigram/test/asset/img/628d30f267322196278e8f5bb4bd523ae6a93a6339378742f158e933a1c46859_1.webp",
               ],
-              categories: ["Utility"],
+              categories: [APP_CATEGORY.UTILITY],
               createTime: "2024-05-06T06:53:45.804+00:00",
               updateTime: "2024-06-17T18:46:25.791+00:00",
               appType: "Telegram",
@@ -199,7 +196,6 @@ const App = () => {
             },
             {
               totalPoints: 6,
-              viewed: false,
               totalLikes: 6,
               totalComments: 0,
               totalOpens: 0,
@@ -218,7 +214,7 @@ const App = () => {
                 "https://tmrwdao-arcade.s3.amazonaws.com/votigram/test/asset/img/a6cfa57b9caf6de8106959c76c916e69a65b1c582e0f518d9af4925f6a780261_1.webp",
                 "https://tmrwdao-arcade.s3.amazonaws.com/votigram/test/asset/img/a6cfa57b9caf6de8106959c76c916e69a65b1c582e0f518d9af4925f6a780261_2.webp",
               ],
-              categories: ["Utility"],
+              categories: [APP_CATEGORY.UTILITY],
               createTime: "2024-09-01T00:00:00Z",
               updateTime: "2024-09-01T00:00:00Z",
               appType: "FindMini",
@@ -227,7 +223,6 @@ const App = () => {
             },
             {
               totalPoints: 10388,
-              viewed: false,
               totalLikes: 416,
               totalComments: 2,
               totalOpens: 0,
@@ -249,7 +244,7 @@ const App = () => {
                 "https://tmrwdao-arcade.s3.amazonaws.com/votigram/test/asset/img/dae0dc6ce26c6228189f45d9769ccc2e1cb155ef01bbcdaedbf45a12b87cdda8_3.webp",
                 "https://tmrwdao-arcade.s3.amazonaws.com/votigram/test/asset/img/dae0dc6ce26c6228189f45d9769ccc2e1cb155ef01bbcdaedbf45a12b87cdda8_4.webp",
               ],
-              categories: ["Utility"],
+              categories: [APP_CATEGORY.UTILITY],
               createTime: "2024-11-30T06:36:39.9403573Z",
               updateTime: "2024-11-30T06:36:39.9403573Z",
               appType: "FindMini",
@@ -258,7 +253,6 @@ const App = () => {
             },
             {
               totalPoints: 2,
-              viewed: false,
               totalLikes: 2,
               totalComments: 0,
               totalOpens: 0,
@@ -278,7 +272,7 @@ const App = () => {
                 "https://tmrwdao-arcade.s3.amazonaws.com/votigram/test/asset/img/50e7853f265a788971200ebf720d1d322acac67d7a563969f4964a3a5b886c71_2.webp",
                 "https://tmrwdao-arcade.s3.amazonaws.com/votigram/test/asset/img/50e7853f265a788971200ebf720d1d322acac67d7a563969f4964a3a5b886c71_3.webp",
               ],
-              categories: ["Utility"],
+              categories: [APP_CATEGORY.UTILITY],
               createTime: "2024-05-11T09:34:08+00:00",
               updateTime: "2024-06-17T18:46:26.133+00:00",
               appType: "Telegram",
@@ -287,7 +281,6 @@ const App = () => {
             },
             {
               totalPoints: 0,
-              viewed: false,
               totalLikes: 0,
               totalComments: 3,
               totalOpens: 0,
@@ -308,7 +301,7 @@ const App = () => {
                 "https://tmrwdao-arcade.s3.amazonaws.com/votigram/test/asset/img/71c90be2629c703e3ec3f89db739cd799b8489d75f6eb9681be9138eec206c0e_3.webp",
                 "https://tmrwdao-arcade.s3.amazonaws.com/votigram/test/asset/img/71c90be2629c703e3ec3f89db739cd799b8489d75f6eb9681be9138eec206c0e_4.webp",
               ],
-              categories: ["Game", "Earn"],
+              categories: [APP_CATEGORY.GAME, APP_CATEGORY.EARN],
               createTime: "2024-09-01T00:00:00Z",
               updateTime: "2024-09-01T00:00:00Z",
               appType: "FindMini",
@@ -317,7 +310,6 @@ const App = () => {
             },
             {
               totalPoints: 1,
-              viewed: false,
               totalLikes: 1,
               totalComments: 0,
               totalOpens: 0,
@@ -340,7 +332,7 @@ const App = () => {
                 "https://tmrwdao-arcade.s3.amazonaws.com/votigram/test/asset/img/46212bda40a6ab244097b60289925763089cdd598478ca9b80023e298539b8da_4.webp",
                 "https://tmrwdao-arcade.s3.amazonaws.com/votigram/test/asset/img/46212bda40a6ab244097b60289925763089cdd598478ca9b80023e298539b8da_5.webp",
               ],
-              categories: ["Game"],
+              categories: [APP_CATEGORY.GAME],
               createTime: "2024-09-01T00:00:00Z",
               updateTime: "2024-09-01T00:00:00Z",
               appType: "FindMini",
