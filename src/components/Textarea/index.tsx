@@ -12,6 +12,7 @@ interface ITextareaProps {
   onSubmit?: (text: string) => void;
   onFocus?: () => void;
   onBlur?: () => void;
+  onKeyDown?(e: React.KeyboardEvent<HTMLTextAreaElement>): void;
 }
 
 const Textarea = ({
@@ -22,6 +23,7 @@ const Textarea = ({
   rootClassName,
   onFocus,
   onBlur,
+  onKeyDown,
 }: ITextareaProps) => {
   const [text, setText] = useState(value);
   const [charCount, setCharCount] = useState(0);
@@ -94,8 +96,10 @@ const Textarea = ({
         placeholder={placeholder || "Please enter..."}
         rows={1}
         adjust-keyboard-to="bottom"
+        enterKeyHint="send"
         onFocus={onFocus}
         onBlur={onBlur}
+        onKeyDown={onKeyDown}
       />
       {charCount > 0 && (
         <span

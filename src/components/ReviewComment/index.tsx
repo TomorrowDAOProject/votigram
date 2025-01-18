@@ -12,9 +12,6 @@ import Loading from "../Loading";
 import ReviewList from "../ReviewList";
 import Textarea from "../Textarea";
 
-
-
-
 interface IReviewDrawerProps {
   onComment?(totalComments: number): void;
   onDrawerClose: () => void;
@@ -118,6 +115,7 @@ const ReviewComment = ({
           onBlur={() => {
             setIsInputFocus(false);
           }}
+          onKeyDown={onCommentSubmit}
         />
         <button
           type="button"
