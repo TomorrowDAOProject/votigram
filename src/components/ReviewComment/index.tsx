@@ -115,7 +115,6 @@ const ReviewComment = ({
           onBlur={() => {
             setIsInputFocus(false);
           }}
-          onKeyDown={onCommentSubmit}
         />
         <button
           type="button"

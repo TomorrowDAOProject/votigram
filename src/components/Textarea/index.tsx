@@ -96,10 +96,8 @@ const Textarea = ({
         placeholder={placeholder || "Please enter..."}
         rows={1}
         adjust-keyboard-to="bottom"
-        enterKeyHint="send"
         onFocus={onFocus}
         onBlur={onBlur}
-        onKeyDown={onKeyDown}
       />
       {charCount > 0 && (
         <span
