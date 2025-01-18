@@ -93,6 +93,7 @@ const Textarea = ({
         onChange={handleChange}
         placeholder={placeholder || "Please enter..."}
         rows={1}
+        adjust-keyboard-to="bottom"
         onFocus={onFocus}
         onBlur={onBlur}
       />
