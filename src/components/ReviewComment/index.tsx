@@ -120,7 +120,7 @@ const ReviewComment = ({
           type="button"
           className="bg-tertiary w-[40px] h-[40px] flex justify-center items-center p-[8px] rounded-[20px] shrink-0"
           disabled={comment.trim().length === 0}
-          onClick={onCommentSubmit}
+          onTouchStart={onCommentSubmit}
         >
           <i
             className={clsx(
