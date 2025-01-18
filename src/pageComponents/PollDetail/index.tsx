@@ -47,6 +47,11 @@ const PollDetail = () => {
     if (data) {
       setPollDeta(data);
       setCanVote(data.canVoteAmount > 0);
+      if (data.endTime) {
+        const now = dayjs().valueOf();
+        const end = dayjs(data.endTime).valueOf();
+        setSeconds((end - now) / 1000);
+      }
     }
   }, [data]);
 
@@ -57,20 +62,6 @@ const PollDetail = () => {
       }, 2000);
     }
   }, [isCopied]);
-
-  const getRemainingSeconds = () => {
-    const now = dayjs();
-    const dayOfWeek = now.day();
-    const daysUntilSunday = (7 - dayOfWeek) % 7;
-    const nextSundayMidnight = now
-      .add(daysUntilSunday, "day")
-      .startOf("day")
-      .add(1, "day");
-
-    const differenceInMilliseconds = nextSundayMidnight.diff(now);
-    const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
-    setSeconds(differenceInSeconds);
-  };
 
   const generateShareUrl = () => {
     const paramsStr = stringifyStartAppParams({
@@ -110,7 +101,7 @@ const PollDetail = () => {
     <>
       <TelegramHeader
         title={
-          <Countdown initialTime={seconds} onFinish={getRemainingSeconds} />
+          <Countdown initialTime={seconds} />
         }
       />
       <div className="pt-telegramHeader bg-black w-screen h-screen overflow-y-auto px-5">

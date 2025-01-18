@@ -16,8 +16,7 @@ import SimpleTimePicker from "@/components/SimpleTimePicker";
 import TelegramHeader from "@/components/TelegramHeader";
 import ToggleSlider from "@/components/ToggleSlider";
 import Upload from "@/components/Upload";
-import { chainId } from "@/constants/app";
-import { ProposalType } from "@/constants/app";
+import { chainId, ProposalType } from "@/constants/app";
 import { DURATION_RANGE } from "@/constants/time-picker";
 import { CREATE_STATUS } from "@/constants/vote";
 import { proposalCreateContractRequest } from "@/contract/proposalCreateContract";
@@ -66,7 +65,7 @@ const defaultEndTime: VoteTimeItem = {
 const CreatePoll = () => {
   const [loading, setLoading] = useState(false);
   const [finished, setFinished] = useState<CREATE_STATUS>(
-    CREATE_STATUS.PENDDING
+    CREATE_STATUS.PENDING
   );
   const navigate = useNavigate();
   const location = useLocation();
@@ -179,7 +178,7 @@ const CreatePoll = () => {
 
   const handleFinish = () => {
     if (finished === CREATE_STATUS.FAILED) {
-      setFinished(CREATE_STATUS.PENDDING);
+      setFinished(CREATE_STATUS.PENDING);
       onSubmit();
     } else {
       handleGoBack();
@@ -252,14 +251,14 @@ const CreatePoll = () => {
                   onChange={(day) => {
                     handleChange("activeStartTime")(
                       combineDateAndTime(
-                        dayjs(day).add(1, "day").format(),
+                        dayjs(day).format(),
                         formState.activeStartTime
                       )
                     );
                     if (typeof formState.activeEndTime !== "object") {
                       handleChange("activeEndTime")(
                         combineDateAndTime(
-                          dayjs(day).add(2, "day").format(),
+                          dayjs(day).add(1, "day").format(),
                           formState.activeStartTime
                         )
                       );
@@ -369,7 +368,7 @@ const CreatePoll = () => {
         }
         direction="bottom"
         rootClassName="pt-[34px] pb-[23px] px-5 bg-tertiary"
-        onClose={() => setFinished(CREATE_STATUS.PENDDING)}
+        onClose={() => setFinished(CREATE_STATUS.PENDING)}
         canClose={finished === CREATE_STATUS.FAILED}
       >
         <span className="block mb-[40px] text-[18px] font-outfit font-bold leading-[18px] text-center text-white">
