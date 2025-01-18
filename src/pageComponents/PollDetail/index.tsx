@@ -20,6 +20,9 @@ import { stringifyStartAppParams } from "@/utils/start-params";
 
 import { getShareText } from "./utils";
 
+
+
+
 const PollDetail = () => {
   const { proposalId } = useParams();
   const [seconds, setSeconds] = useState(0);

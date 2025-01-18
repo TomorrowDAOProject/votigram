@@ -15,6 +15,7 @@ import useSetSearchParams from "@/hooks/useSetSearchParams";
 import { VoteApp } from "@/types/app";
 import { parseStartAppParams } from "@/utils/start-params";
 
+
 const App = () => {
   const currentForyouPage = useRef<number>(1);
   const [activeTab, setActiveTab] = useState(TAB_LIST.HOME);

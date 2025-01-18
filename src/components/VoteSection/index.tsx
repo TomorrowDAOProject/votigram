@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Tag from "../Tag";
 import { VoteSectionType } from "./type";
 
+
 interface IVoteSctionProps {
   data: VoteSectionType;
   className?: string;
