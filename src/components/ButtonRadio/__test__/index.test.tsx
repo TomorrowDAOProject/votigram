@@ -27,7 +27,7 @@ describe("ButtonRadio Component", () => {
     const optionToSelect = screen.getByText("Option 2");
     fireEvent.click(optionToSelect);
 
-    expect(handleChange).toHaveBeenCalledWith(2);
+    expect(handleChange).toHaveBeenCalledWith({ label: "Option 2", value: 2 });
   });
 
   it("correctly applies selected styles on click", () => {
@@ -41,7 +41,8 @@ describe("ButtonRadio Component", () => {
   });
 
   it("sets initial selected value if provided", () => {
-    render(<ButtonRadio options={options} value={3} />);
+    const initialValue = { label: "Option 3", value: 3 };
+    render(<ButtonRadio options={options} value={initialValue} />);
 
     const initiallySelectedOption = screen.getByText("Option 3");
     expect(initiallySelectedOption).toHaveClass("text-white");
