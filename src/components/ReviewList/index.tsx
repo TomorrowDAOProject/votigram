@@ -69,7 +69,6 @@ const ReviewList: React.FC<IReviewListProps> = ({
       ref={listRef}
       role="list"
       className="overflow-x-hidden overflow-y-auto h-[calc(100%-10px)]"
-      // style={{ height: calculatedHeight }}
     >
       {!isLoading && items.length === 0 && (
         <div className="flex items-center justify-center h-full">

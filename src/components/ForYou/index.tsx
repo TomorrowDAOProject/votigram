@@ -221,7 +221,13 @@ const ForYou = ({
           isVisible={isShowReviews}
           onClose={onDrawerClose}
           direction="bottom"
-          rootClassName={true ? "h-2/5" : "h-2/3"}
+          rootClassName={
+            isInputFocus &&
+            (window.Telegram.WebApp?.platform === "ios" ||
+              window.Telegram.WebApp?.platform === "android")
+              ? "h-2/5"
+              : "h-2/3"
+          }
         >
           <ReviewComment
             onComment={onComment}
