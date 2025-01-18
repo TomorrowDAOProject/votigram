@@ -27,12 +27,6 @@ const SimpleDatePicker = (props: ISimpleDatePickerProps) => {
     onChange,
     ...dayPickerProps
   } = props;
-  // const baseValue =
-  //   value && dayjs(value || "").isValid()
-  //     ? value
-  //     : defaultValue && dayjs(defaultValue || "").isValid()
-  //     ? defaultValue
-  //     : dayjs().format();
   const [isVisible, setIsVisible] = useState(false);
   const [selected, setSelected] = useState<Dayjs>(
     value || defaultValue || dayjs()
