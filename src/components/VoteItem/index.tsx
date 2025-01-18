@@ -349,8 +349,8 @@ const VoteItem = ({
         canClose={false}
         rootClassName="pt-[34px] pb-[40px] bg-tertiary"
       >
-        <span className="block mb-[29px] text-[18px] font-outfit font-bold leading-[18px] text-center text-white">
-          Apologise for the delay...
+        <span className="block mb-[29px] text-[18px] font-outfit font-bold whitespace-pre-wrap leading-[18px] text-center text-white">
+          {`We're on it, \nThanks for waiting!`}
         </span>
         <img
           className="mx-auto w-[236px] h-[208px] object-contain"

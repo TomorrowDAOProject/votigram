@@ -55,8 +55,9 @@ const ReviewComment = ({
   }, [data]);
 
   const { run: onCommentSubmit } = useThrottleFn(
-    async () => {
+    async (e) => {
       try {
+        e.preventDefault();
         const { data } = await postWithToken(
           "/api/app/discussion/new-comment",
           {
