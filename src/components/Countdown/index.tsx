@@ -17,7 +17,7 @@ const Countdown: React.FC<CountdownProps> = ({ initialTime, onFinish }) => {
   useEffect(() => {
     if (remainingTime <= 0) {
       onFinish?.();
-    };
+    }
 
     const timer = setInterval(() => {
       setRemainingTime((prevTime) => prevTime - 1);

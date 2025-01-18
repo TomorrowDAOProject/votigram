@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 
 import clsx from "clsx";
 
-
 interface ITextareaProps {
   value: string;
   onChange: (value: string) => void;
@@ -11,6 +10,8 @@ interface ITextareaProps {
   maxLength?: number;
   rootClassName?: string;
   onSubmit?: (text: string) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
 const Textarea = ({
@@ -19,6 +20,8 @@ const Textarea = ({
   placeholder,
   maxLength = 500,
   rootClassName,
+  onFocus,
+  onBlur,
 }: ITextareaProps) => {
   const [text, setText] = useState(value);
   const [charCount, setCharCount] = useState(0);
@@ -66,14 +69,14 @@ const Textarea = ({
     const resetScrollPosition = () => {
       window.scrollTo(0, 0);
     };
-    window.addEventListener('focusin', resetScrollPosition);
-    window.addEventListener('focusout', resetScrollPosition);
-    window?.visualViewport?.addEventListener('resize', handleResize);
-  
+    window.addEventListener("focusin", resetScrollPosition);
+    window.addEventListener("focusout", resetScrollPosition);
+    window?.visualViewport?.addEventListener("resize", handleResize);
+
     return () => {
-      window.removeEventListener('focusin', resetScrollPosition);
-      window.removeEventListener('focusout', resetScrollPosition);
-      window?.visualViewport?.removeEventListener('resize', handleResize);
+      window.removeEventListener("focusin", resetScrollPosition);
+      window.removeEventListener("focusout", resetScrollPosition);
+      window?.visualViewport?.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -90,6 +93,8 @@ const Textarea = ({
         onChange={handleChange}
         placeholder={placeholder || "Please enter..."}
         rows={1}
+        onFocus={onFocus}
+        onBlur={onBlur}
       />
       {charCount > 0 && (
         <span

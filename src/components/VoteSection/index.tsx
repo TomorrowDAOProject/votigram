@@ -9,7 +9,7 @@ import { VoteSectionType } from "./type";
 interface IVoteSctionProps {
   data: VoteSectionType;
   className?: string;
-  currentTab?: number
+  currentTab?: number;
 }
 
 const VoteSection = ({ data, className, currentTab }: IVoteSctionProps) => {
@@ -27,7 +27,7 @@ const VoteSection = ({ data, className, currentTab }: IVoteSctionProps) => {
         })
       }
     >
-      <span className="text-white font-bold text-[16px] leading-[16px] font-outfit max-h-[32px] line-clamp-2">
+      <span className="text-white font-bold text-[16px] leading-[20px] font-outfit h-max line-clamp-2">
         {data.proposalTitle}
       </span>
       <div className="flex flex-row items-center justify-between my-[13px]">

@@ -4,9 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { useThrottleFn } from "ahooks";
 import { motion, PanInfo } from "framer-motion";
 
-
 import { chainId } from "@/constants/app";
-import { APP_CATEGORY, APP_TYPE, DISCOVER_CATEGORY } from "@/constants/discover";
+import {
+  APP_CATEGORY,
+  APP_TYPE,
+  DISCOVER_CATEGORY,
+} from "@/constants/discover";
 import { postWithToken } from "@/hooks/useData";
 import { useUserContext } from "@/provider/UserProvider";
 import { VoteApp } from "@/types/app";
@@ -39,6 +42,7 @@ const ForYou = ({
     user: { isNewUser },
     updateUserStatus,
   } = useUserContext();
+  const [isInputFocus, setIsInputFocus] = useState(false);
   const currentPage = useRef<number>(currentForyouPage);
   const [forYouItems, setForYouItems] = useState<VoteApp[]>(items);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -95,9 +99,10 @@ const ForYou = ({
 
   const updateLikeAppClick = (likesCount: number) => {
     const list = [...forYouItems];
-    list[currentIndex].totalLikes = (list[currentIndex].totalLikes || 0) + likesCount;
+    list[currentIndex].totalLikes =
+      (list[currentIndex].totalLikes || 0) + likesCount;
     setForYouItems(list);
-  }
+  };
 
   const updateOpenAppClick = (alias: string, url: string) => {
     postWithToken("/api/app/ranking/like", {
@@ -220,11 +225,19 @@ const ForYou = ({
           isVisible={isShowReviews}
           onClose={onDrawerClose}
           direction="bottom"
+          rootClassName={
+            isInputFocus &&
+            (window.Telegram.WebApp?.platform === "ios" ||
+              window.Telegram.WebApp?.platform === "android")
+              ? "h-2/5"
+              : "h-2/3"
+          }
         >
           <ReviewComment
             onComment={onComment}
             onDrawerClose={onDrawerClose}
             currentActiveApp={currentActiveApp}
+            setIsInputFocus={setIsInputFocus}
           />
         </Drawer>
       </div>

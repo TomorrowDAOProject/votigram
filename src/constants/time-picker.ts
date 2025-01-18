@@ -23,21 +23,21 @@ export const DURATION_RANGE: VoteTimeItem[] = [
   {
     label: "3 Day",
     unit: "day",
-    value: 3,
+    value: 72,
   },
   {
     label: "5 Day",
     unit: "day",
-    value: 5,
+    value: 120,
   },
   {
     label: "1 Week",
     unit: "day",
-    value: 7,
+    value: 168,
   },
   {
     label: "2 Weeks",
     unit: "day",
-    value: 14,
+    value: 336,
   },
 ];

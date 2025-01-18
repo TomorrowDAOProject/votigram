@@ -138,7 +138,7 @@ const Achievements = ({ scrollTop }: IAchievementsProps) => {
               <span className="overflow-hidden text-ellipsis whitespace-nowrap flex-grow min-w-0 text-[14px] font-normal leading-[16.8px]">
                 {item?.firstName
                   ? `${item?.firstName} ${item?.lastName}`
-                  : `ELF_${item.inviter}_tDVW`}
+                  : `ELF_${item.inviter}_${chainId}`}
               </span>
             </div>
             <span className="block w-[36px] h-[32px] leading-[32px] text-right shrink-0 font-pressStart text-[10px] -tracking-[1px]">
