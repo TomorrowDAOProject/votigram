@@ -87,6 +87,14 @@ export type DiscoverType = {
   label: string;
 };
 
+export enum ProposalType {
+  UNSPECIFIED = 0,
+  GOVERNANCE = 1,
+  ADVISORY = 2,
+  VETO = 3,
+  ALL = 'ALL',
+}
+
 export type Size = {
   width: number;
   height: number;
