@@ -38,6 +38,7 @@ const ForYou = ({
     user: { isNewUser },
     updateUserStatus,
   } = useUserContext();
+  const [isInputFocus, setIsInputFocus] = useState(false);
   const currentPage = useRef<number>(currentForyouPage);
   const [forYouItems, setForYouItems] = useState<VoteApp[]>(items);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -219,11 +220,19 @@ const ForYou = ({
           isVisible={isShowReviews}
           onClose={onDrawerClose}
           direction="bottom"
+          rootClassName={
+            isInputFocus &&
+            (window.Telegram.WebApp?.platform === "ios" ||
+              window.Telegram.WebApp?.platform === "android")
+              ? "h-2/5"
+              : "h-2/3"
+          }
         >
           <ReviewComment
             onComment={onComment}
             onDrawerClose={onDrawerClose}
             currentActiveApp={currentActiveApp}
+            setIsInputFocus={setIsInputFocus}
           />
         </Drawer>
       </div>

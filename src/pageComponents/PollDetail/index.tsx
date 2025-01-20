@@ -43,6 +43,7 @@ const PollDetail = () => {
     if (data) {
       setPollDeta(data);
       setCanVote(data.canVoteAmount > 0);
+      setSeconds(data?.endEpochTime / 1000 - dayjs().unix());
     }
   }, [data]);
 
@@ -53,20 +54,6 @@ const PollDetail = () => {
       }, 2000);
     }
   }, [isCopied]);
-
-  const getRemainingSeconds = () => {
-    const now = dayjs();
-    const dayOfWeek = now.day();
-    const daysUntilSunday = (7 - dayOfWeek) % 7;
-    const nextSundayMidnight = now
-      .add(daysUntilSunday, "day")
-      .startOf("day")
-      .add(1, "day");
-
-    const differenceInMilliseconds = nextSundayMidnight.diff(now);
-    const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
-    setSeconds(differenceInSeconds);
-  };
 
   const generateShareUrl = () => {
     const paramsStr = stringifyStartAppParams({
@@ -109,11 +96,7 @@ Vote Now and Earn USDT airdrop on Votigram! 🚀
 
   return (
     <>
-      <TelegramHeader
-        title={
-          <Countdown initialTime={seconds} onFinish={getRemainingSeconds} />
-        }
-      />
+      <TelegramHeader title={<Countdown initialTime={seconds} />} />
       <div className="pt-telegramHeader bg-black w-screen h-screen overflow-y-auto px-5">
         <div className="flex justify-between items-end pt-3 pb-4 border-b-[1px] border-tertiary">
           <BackBtn />

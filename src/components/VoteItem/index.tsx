@@ -302,7 +302,7 @@ const VoteItem = ({
           ref={elementRef}
         >
           <div className="flex flex-row items-center justify-between">
-            <span className="block font-outfit font-bold text-[16px] leading-[16px] text-white max-w-[50vw] truncate">
+            <span className="block font-outfit font-bold text-[16px] leading-[20px] text-white max-w-[50vw] truncate">
               {rank && (
                 <span className="mr-[4px] font-outfit font-bold text-[12px] align-bottom">
                   {rank}
@@ -346,8 +346,8 @@ const VoteItem = ({
         canClose={false}
         rootClassName="pt-[34px] pb-[40px] bg-tertiary"
       >
-        <span className="block mb-[29px] text-[18px] font-outfit font-bold leading-[18px] text-center text-white">
-          Apologise for the delay...
+        <span className="block mb-[29px] text-[18px] font-outfit font-bold whitespace-pre-wrap leading-[18px] text-center text-white">
+          {`We're on it, \nThanks for waiting!`}
         </span>
         <img
           className="mx-auto w-[236px] h-[208px] object-contain"

@@ -52,8 +52,8 @@ const SimpleTimePicker = ({
 
   useEffect(() => {
     if (value && dayjs(value).isValid()) {
-      setSelectedTime(dayjs(value).format("HH:mm A"));
-      setSelectedHour(dayjs(value).format("HH"));
+      setSelectedTime(dayjs(value).format("hh:mm A"));
+      setSelectedHour(dayjs(value).format("h"));
       setSelectedMinute(dayjs(value).format("mm"));
       setSelectedPeriod(dayjs(value).format("A"));
     }
