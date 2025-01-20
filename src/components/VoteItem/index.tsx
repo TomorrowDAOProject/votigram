@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
 import useRequest from "ahooks/lib/useRequest";
@@ -153,35 +153,32 @@ const VoteItem = ({
     setTotalCurrentPoints(isTMACurrent ? data.totalPoints : data.pointsAmount);
   }, [data.totalPoints, data.pointsAmount, isTMACurrent]);
 
+  const fetchRankingLike = useCallback(async (likeCount: number) => {
+    const res = await postWithToken("/api/app/ranking/like", {
+      chainId,
+      proposalId,
+      likeList: [
+        {
+          alias: data.alias,
+          likeAmount: likeCount,
+        },
+      ],
+    });
+    updateUserPoints(0);
+  }, [data.alias, proposalId, updateUserPoints])
+
   useEffect(() => {
     if (likeCount > 0) {
       const timer = setTimeout(() => {
-        postWithToken("/api/app/ranking/like", {
-          chainId,
-          proposalId,
-          likeList: [
-            {
-              alias: data.alias,
-              likeAmount: likeCount,
-            },
-          ],
-        });
         setTotalCurrentPoints((prev) => (prev || 0) + likeCount);
         onVoted?.(likeCount);
-        updateUserPoints((userPoints?.userTotalPoints || 0) + likeCount);
+        fetchRankingLike(likeCount);
         setLikeCount(0);
       }, 1000);
 
       return () => clearTimeout(timer); // Cleanup timeout on unmount or update
     }
-  }, [
-    data.alias,
-    likeCount,
-    onVoted,
-    proposalId,
-    updateUserPoints,
-    userPoints?.userTotalPoints,
-  ]);
+  }, [data.alias, fetchRankingLike, likeCount, onVoted, proposalId]);
 
   const sedRawTransaction = async () => {
     try {

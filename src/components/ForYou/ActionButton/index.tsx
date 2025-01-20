@@ -96,7 +96,7 @@ const ActionButton = ({
 
   const generateShareUrl = () => {
     const paramsStr = stringifyStartAppParams({
-      alias: `[${item.alias}]`,
+      alias: btoa(item.alias),
     });
     return `${TgLink}?startapp=${paramsStr}`;
   };
