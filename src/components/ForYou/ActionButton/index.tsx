@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { CreateTypes } from "canvas-confetti";
 
@@ -44,23 +44,32 @@ const ActionButton = ({
     setLikeCount((prevCount) => prevCount + 1);
   };
 
+  const fetchRankingLike = useCallback(
+    async (likeCount: number) => {
+      const {
+        data: { userTotalPoints },
+      } = await postWithToken("/api/app/ranking/like", {
+        chainId,
+        proposalId: "",
+        likeList: [
+          {
+            alias: item.alias,
+            likeAmount: likeCount,
+          },
+        ],
+      });
+      updateUserPoints(userTotalPoints || userPoints?.userTotalPoints);
+    },
+    [updateUserPoints, userPoints?.userTotalPoints]
+  );
+
   // Effect to handle debouncing
   useEffect(() => {
     if (likeCount > 0) {
       const timer = setTimeout(() => {
-        postWithToken("/api/app/ranking/like", {
-          chainId,
-          proposalId: "",
-          likeList: [
-            {
-              alias: item.alias,
-              likeAmount: likeCount,
-            },
-          ],
-        });
         updateLikeAppClick(likeCount);
         setTotalCurrentLikes((prev) => prev + likeCount);
-        updateUserPoints((userPoints?.userTotalPoints || 0) + likeCount);
+        fetchRankingLike(likeCount);
         setLikeCount(0);
       }, 700);
 

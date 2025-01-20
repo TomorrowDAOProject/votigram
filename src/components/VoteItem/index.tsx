@@ -154,7 +154,7 @@ const VoteItem = ({
   }, [data.totalPoints, data.pointsAmount, isTMACurrent]);
 
   const fetchRankingLike = useCallback(async (likeCount: number) => {
-    const res = await postWithToken("/api/app/ranking/like", {
+    const { data: { userTotalPoints } } = await postWithToken("/api/app/ranking/like", {
       chainId,
       proposalId,
       likeList: [
@@ -164,8 +164,8 @@ const VoteItem = ({
         },
       ],
     });
-    updateUserPoints(0);
-  }, [data.alias, proposalId, updateUserPoints])
+    updateUserPoints(userTotalPoints || userPoints?.userTotalPoints);
+  }, [data.alias, proposalId, updateUserPoints, userPoints?.userTotalPoints])
 
   useEffect(() => {
     if (likeCount > 0) {
