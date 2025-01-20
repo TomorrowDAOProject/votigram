@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --mode testnet",
     "build": "tsc -b && vite build",
     "build:testnet": "tsc && VITE_NETWORK_TYPE=TESTNET vite build --mode testnet",
     "build:mainnet": "tsc && VITE_NETWORK_TYPE=MAINNET vite build --mode mainnet",

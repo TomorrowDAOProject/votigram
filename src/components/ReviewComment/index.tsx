@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useThrottleFn } from "ahooks";
 import clsx from "clsx";
 
-
 import { chainId } from "@/constants/app";
 import useData, { postWithToken } from "@/hooks/useData";
 import { VoteApp } from "@/types/app";
@@ -13,13 +12,11 @@ import Loading from "../Loading";
 import ReviewList from "../ReviewList";
 import Textarea from "../Textarea";
 
-
-
-
 interface IReviewDrawerProps {
   onComment?(totalComments: number): void;
   onDrawerClose: () => void;
   currentActiveApp: VoteApp | undefined;
+  setIsInputFocus: (val: boolean) => void;
 }
 
 const PAGE_SIZE = 20;
@@ -28,6 +25,7 @@ const ReviewComment = ({
   onComment,
   onDrawerClose,
   currentActiveApp,
+  setIsInputFocus,
 }: IReviewDrawerProps) => {
   const [totalCount, setTotalCount] = useState(0);
   const [comment, setComment] = useState("");
@@ -57,8 +55,9 @@ const ReviewComment = ({
   }, [data]);
 
   const { run: onCommentSubmit } = useThrottleFn(
-    async () => {
+    async (e) => {
       try {
+        e.preventDefault();
         const { data } = await postWithToken(
           "/api/app/discussion/new-comment",
           {
@@ -94,25 +93,28 @@ const ReviewComment = ({
           onClick={onDrawerClose}
         />
       </div>
-      <div className="pt-[4px] pb-[75px] h-[calc(60vh+79px)]">
+      <div className="pt-[4px] pb-[75px] h-full overflow-scroll">
         <ReviewList
           hasMore={data?.hasMore || false}
-          height="60vh"
           isLoading={isLoading}
           dataSource={commentList}
           loadData={() => setPageIndex((pageIndex) => pageIndex + 1)}
           emptyText="Write the first review!"
           rootClassname="px-5"
-          renderLoading={() =>
-            isLoading && <Loading iconClassName="w-4 h-4" />
-          }
+          renderLoading={() => isLoading && <Loading iconClassName="w-4 h-4" />}
         />
       </div>
-      <div className="fixed bottom-0 left-0 w-full flex flex-row gap-2 py-[17px] px-5 border-t-[1px] border-tertiary items-end border-solid">
+      <div className="fixed bottom-0 bg-black left-0 w-full flex flex-row gap-2 py-[17px] px-5 border-t-[1px] border-tertiary items-end border-solid">
         <Textarea
           value={comment}
           onChange={onCommentChange}
           placeholder="Add a comment"
+          onFocus={() => {
+            setIsInputFocus(true);
+          }}
+          onBlur={() => {
+            setIsInputFocus(false);
+          }}
         />
         <button
           type="button"
