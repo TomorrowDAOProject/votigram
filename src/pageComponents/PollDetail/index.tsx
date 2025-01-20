@@ -58,20 +58,6 @@ const PollDetail = () => {
     }
   }, [isCopied]);
 
-  // const getRemainingSeconds = () => {
-  //   const now = dayjs();
-  //   const dayOfWeek = now.day();
-  //   const daysUntilSunday = (7 - dayOfWeek) % 7;
-  //   const nextSundayMidnight = now
-  //     .add(daysUntilSunday, "day")
-  //     .startOf("day")
-  //     .add(1, "day");
-
-  //   const differenceInMilliseconds = nextSundayMidnight.diff(now);
-  //   const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
-  //   setSeconds(differenceInSeconds);
-  // };
-
   const generateShareUrl = () => {
     const paramsStr = stringifyStartAppParams({
       pid: proposalId,
