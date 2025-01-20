@@ -106,7 +106,12 @@ const App = () => {
       }
       if (params && params.alias && !hasRedirect) {
         sessionStorage.setItem("redirect", "1");
-        setAlias(params.alias);
+        const regex = /\[(.*?)\]/;
+        const match = params.alias.match(regex)
+        const content = match?.[1];
+        if (content) {
+          setAlias(params.alias);
+        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
