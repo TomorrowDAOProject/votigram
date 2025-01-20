@@ -82,7 +82,7 @@ const PollDetail = () => {
         getShareText(
           data.proposalTitle ?? "",
           `Make your voice heard!📢\n
-Vote Now and Earn USDT airdrop on Votigram! 🚀\n
+Vote Now and Earn USDT airdrop on Votigram! 🚀
         `
         )
       );

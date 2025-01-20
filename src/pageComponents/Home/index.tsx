@@ -69,13 +69,6 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (forYouAppp && forYouAppp?.items?.length) {
-      setSelectItem(forYouAppp?.items[0]);
-      setActiveTab(TAB_LIST.FOR_YOU);
-    }
-  }, [forYouAppp]);
-
-  useEffect(() => {
     fetchForYouData();
     fetchRecommendData();
   }, []);
@@ -88,10 +81,13 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (tab && !isNaN(Number(tab))) {
+    if (forYouAppp && forYouAppp?.items?.length) {
+      setSelectItem(forYouAppp?.items[0]);
+      setActiveTab(TAB_LIST.FOR_YOU);
+    } else if (tab && !isNaN(Number(tab))) {
       setActiveTab(Number(tab));
     }
-  }, [tab]);
+  }, [tab, forYouAppp]);
 
   useEffect(() => {
     if (window?.Telegram?.WebApp?.initDataUnsafe) {
