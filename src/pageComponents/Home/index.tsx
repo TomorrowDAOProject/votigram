@@ -15,13 +15,13 @@ import useSetSearchParams from "@/hooks/useSetSearchParams";
 import { VoteApp } from "@/types/app";
 import { parseStartAppParams } from "@/utils/start-params";
 
-
 const App = () => {
   const currentForyouPage = useRef<number>(1);
   const [activeTab, setActiveTab] = useState(TAB_LIST.HOME);
   const [forYouList, setForYouList] = useState<VoteApp[]>([]);
   const [recommendList, setRecommendList] = useState<VoteApp[]>([]);
   const [selectedItem, setSelectItem] = useState<VoteApp>();
+  const [alias, setAlias] = useState("");
 
   const navigate = useNavigate();
 
@@ -50,6 +50,15 @@ const App = () => {
     `/api/app/user/homepage?chainId=${chainId}`
   );
 
+  const { data: forYouAppp } = useData(
+    alias
+      ? `/api/app/telegram/apps?${new URLSearchParams({
+          chainId,
+          aliases: alias,
+        }).toString()}`
+      : null
+  );
+
   const fetchRecommendData = async () => {
     const { data } = await postWithToken("/api/app/discover/random-app-list", {
       chainId,
@@ -72,10 +81,18 @@ const App = () => {
   };
 
   useEffect(() => {
+    if (forYouAppp && forYouAppp?.items?.length) {
+      setSelectItem(forYouAppp?.items[0]);
+      setActiveTab(TAB_LIST.FOR_YOU);
+    }
+  }, [forYouAppp]);
+
+  useEffect(() => {
     if (tab && !isNaN(Number(tab))) {
       setActiveTab(Number(tab));
     }
-  }, [tab]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (window?.Telegram?.WebApp?.initDataUnsafe) {
@@ -86,6 +103,10 @@ const App = () => {
       if (params && params.pid && !hasRedirect) {
         sessionStorage.setItem("redirect", "1");
         navigate(`/proposal/${params.pid}`);
+      }
+      if (params && params.alias && !hasRedirect) {
+        sessionStorage.setItem("redirect", "1");
+        setAlias(atob(params.alias));
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 
 import { useThrottleFn } from "ahooks";
@@ -23,9 +22,6 @@ import CheckboxGroup from "../CheckboxGroup";
 import Drawer from "../Drawer";
 import ReviewComment from "../ReviewComment";
 import TelegramHeader from "../TelegramHeader";
-
-
-
 
 interface IForYouType {
   currentForyouPage: number;
@@ -104,12 +100,11 @@ const ForYou = ({
     setForYouItems(list);
   };
 
-  const updateOpenAppClick = (alias: string, url: string) => {
+  const updateOpenAppClick = (alias: string) => {
     postWithToken("/api/app/ranking/like", {
       chainId,
       alias,
     });
-    window.open(url);
     const list = [...forYouItems];
     list[currentIndex].totalOpens = (list[currentIndex].totalOpens || 0) + 1;
     setForYouItems(list);

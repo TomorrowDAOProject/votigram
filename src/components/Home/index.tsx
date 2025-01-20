@@ -20,13 +20,6 @@ import SearchPanel from "../SearchPanel";
 import TelegramHeader from "../TelegramHeader";
 import TopVotedApps from "../TopVotedApps";
 
-
-
-
-
-
-
-
 interface IHomeProps {
   weeklyTopVotedApps: VoteApp[];
   discoverHiddenGems: VoteApp;
@@ -38,7 +31,14 @@ interface IHomeProps {
 
 const PAGE_SIZE = 20;
 
-const Home = ({ onAppItemClick, switchTab, recommendList, weeklyTopVotedApps, discoverHiddenGems, madeForYouItems }: IHomeProps) => {
+const Home = ({
+  onAppItemClick,
+  switchTab,
+  recommendList,
+  weeklyTopVotedApps,
+  discoverHiddenGems,
+  madeForYouItems,
+}: IHomeProps) => {
   const {
     user: { userPoints },
     updateUserPoints,
@@ -70,7 +70,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList, weeklyTopVotedApps, di
         }).toString()}`
       : null
   );
-  
+
   const { data: bannerInfo } = useData(
     `/api/app/ranking/banner-info?chainId=${chainId}`
   );
@@ -91,7 +91,7 @@ const Home = ({ onAppItemClick, switchTab, recommendList, weeklyTopVotedApps, di
 
   const onViewApp = (item: VoteApp) => {
     onAppItemClick(item);
-    setNewAmount(prev => prev - 1);
+    setNewAmount((prev) => prev - 1);
     postWithToken("/api/app/discover/view-app", {
       chainId,
       aliases: [item.alias],
@@ -324,6 +324,8 @@ const Home = ({ onAppItemClick, switchTab, recommendList, weeklyTopVotedApps, di
         >
           Claim Today's Reward
         </button>
+
+        <span className="block mt-7 p-[10px] bg-dark-gray rounded-[6px] text-center text-lime-green font-normal text-[10px] leading-[11px] whitespace-pre-wrap">{`Tips: Earn more points to get you a bigger \nshare of the USDT Airdrop!`}</span>
       </Modal>
     </>
   );
