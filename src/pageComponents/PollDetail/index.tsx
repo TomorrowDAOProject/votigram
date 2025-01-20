@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 import { useCopyToClipboard } from "react-use";
 import { mutate } from "swr";
 
-
 import BackBtn from "@/components/BackBtn";
 import Countdown from "@/components/Countdown";
 import Drawer from "@/components/Drawer";
@@ -20,9 +19,6 @@ import { IPollDetail } from "@/types/app";
 import { stringifyStartAppParams } from "@/utils/start-params";
 
 import { getShareText } from "./utils";
-
-
-
 
 const PollDetail = () => {
   const { proposalId } = useParams();
@@ -83,7 +79,12 @@ const PollDetail = () => {
     if (window?.Telegram?.WebApp?.openTelegramLink) {
       const url = encodeURIComponent(generateShareUrl());
       const shareText = encodeURIComponent(
-        getShareText(data.proposalTitle ?? "")
+        getShareText(
+          data.proposalTitle ?? "",
+          `Make your voice heard!📢\n
+Vote Now and Earn USDT airdrop on Votigram! 🚀\n
+        `
+        )
       );
       window?.Telegram?.WebApp?.openTelegramLink(
         `https://t.me/share/url?url=${url}&text=${shareText}`

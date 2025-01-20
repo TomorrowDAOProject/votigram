@@ -1,4 +1,3 @@
-
 import { useEffect, useMemo, useState } from "react";
 
 import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
@@ -15,9 +14,7 @@ import { stringifyStartAppParams } from "@/utils/start-params";
 
 import Drawer from "../Drawer";
 import Loading from "../Loading";
-
-
-
+import { getShareText } from "@/pageComponents/PollDetail/utils";
 
 interface IInviteFriendsStatusProps {
   data?: InviteDetail;
@@ -111,6 +108,21 @@ const InviteFriendsStatus = ({
   const tgLinkWithCode =
     TgLink +
     (inviteCode ? `?startapp=${stringifyStartAppParams(startAppParams)}` : "");
+
+  const shareToTelegram = () => {
+    if (window?.Telegram?.WebApp?.openTelegramLink) {
+      const url = encodeURIComponent(tgLinkWithCode);
+      const shareText = encodeURIComponent(
+        getShareText(
+          `Join Votigram, and Discover more fun Telegram apps with me! 🌐`,
+          `Vote Now and Earn points for USDT airdrop! 🎉`
+        )
+      );
+      window?.Telegram?.WebApp?.openTelegramLink(
+        `https://t.me/share/url?url=${url}&text=${shareText}`
+      );
+    }
+  };
 
   useEffect(() => {
     if (isConnected) {
@@ -218,13 +230,7 @@ const InviteFriendsStatus = ({
               <button
                 className="w-full h-[40px] bg-primary text-white font-bold text-[14px] font-outfit rounded-[24px]"
                 type="button"
-                onClick={() => {
-                  if (window?.Telegram?.WebApp?.openTelegramLink) {
-                    window?.Telegram?.WebApp?.openTelegramLink(
-                      `https://t.me/share/url?url=${tgLinkWithCode}`
-                    );
-                  }
-                }}
+                onClick={shareToTelegram}
               >
                 Invite friends
               </button>

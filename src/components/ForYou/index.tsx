@@ -1,12 +1,14 @@
-
 import { useEffect, useRef, useState } from "react";
 
 import { useThrottleFn } from "ahooks";
 import { motion, PanInfo } from "framer-motion";
 
-
 import { chainId } from "@/constants/app";
-import { APP_CATEGORY, APP_TYPE, DISCOVER_CATEGORY } from "@/constants/discover";
+import {
+  APP_CATEGORY,
+  APP_TYPE,
+  DISCOVER_CATEGORY,
+} from "@/constants/discover";
 import { postWithToken } from "@/hooks/useData";
 import { useUserContext } from "@/provider/UserProvider";
 import { VoteApp } from "@/types/app";
@@ -20,9 +22,6 @@ import CheckboxGroup from "../CheckboxGroup";
 import Drawer from "../Drawer";
 import ReviewComment from "../ReviewComment";
 import TelegramHeader from "../TelegramHeader";
-
-
-
 
 interface IForYouType {
   currentForyouPage: number;
@@ -95,16 +94,16 @@ const ForYou = ({
 
   const updateLikeAppClick = (likesCount: number) => {
     const list = [...forYouItems];
-    list[currentIndex].totalLikes = (list[currentIndex].totalLikes || 0) + likesCount;
+    list[currentIndex].totalLikes =
+      (list[currentIndex].totalLikes || 0) + likesCount;
     setForYouItems(list);
-  }
+  };
 
-  const updateOpenAppClick = (alias: string, url: string) => {
+  const updateOpenAppClick = (alias: string) => {
     postWithToken("/api/app/ranking/like", {
       chainId,
       alias,
     });
-    window.open(url);
     const list = [...forYouItems];
     list[currentIndex].totalOpens = (list[currentIndex].totalOpens || 0) + 1;
     setForYouItems(list);

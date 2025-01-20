@@ -1,7 +1,7 @@
 name: Build and Push Image
 on:
   push:
-    branches: ["dev", "chore/update-workflow"]
+    branches: ["dev", "feat/v1.0.11"]
 jobs:
   build-and-push-image:
     runs-on: tmrwdao-runner

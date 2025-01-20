@@ -41,6 +41,7 @@ export default {
       },
       animation: {
         slideIn: "slideIn 0.3s forwards",
+        spin: "spin 8s linear infinite",
       },
       keyframes: {
         slideIn: {
@@ -53,6 +54,10 @@ export default {
             transform: "scaleX(1)",
           },
         },
+        spin: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        }
       },
       colors: {
         background: "var(--background)",

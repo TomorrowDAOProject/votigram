@@ -4,6 +4,7 @@ import { getParamFromQuery } from './url';
 
 export interface IStartAppParams {
   pid?: string;
+  alias?: string;
   referralCode?: string;
   source?: string;
 }
