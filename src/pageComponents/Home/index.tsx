@@ -84,10 +84,15 @@ const App = () => {
     if (forYouAppp && forYouAppp?.items?.length) {
       setSelectItem(forYouAppp?.items[0]);
       setActiveTab(TAB_LIST.FOR_YOU);
-    } else if (tab && !isNaN(Number(tab))) {
+    }
+  }, [forYouAppp]);
+
+  useEffect(() => {
+    if (tab && !isNaN(Number(tab))) {
       setActiveTab(Number(tab));
     }
-  }, [tab, forYouAppp]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (window?.Telegram?.WebApp?.initDataUnsafe) {
