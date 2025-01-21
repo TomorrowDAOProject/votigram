@@ -17,7 +17,7 @@ const containerVariants = {
 
 const descriptionVariants = {
   hidden: { opacity: 0, height: 0 },
-  visible: { opacity: 1, height: "max-content", marginBottom: 14 },
+  visible: { opacity: 1, height: 'auto', marginBottom: 14, maxHeight: 500 },
 };
 
 interface IAppDetailProps {
