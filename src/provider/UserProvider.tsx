@@ -44,6 +44,7 @@ const initialState: UserContextState = {
   token: null,
   loading: true,
   error: null,
+  redirected: false,
 };
 
 // Create a context
@@ -53,7 +54,8 @@ type Action =
   | { type: "SET_USER_DATA"; payload: User }
   | { type: "SET_TOKEN"; payload: string }
   | { type: "SET_LOADING"; payload: boolean }
-  | { type: "SET_ERROR"; payload: string | null };
+  | { type: "SET_ERROR"; payload: string | null }
+  | { type: "SET_REDIREDTED"; payload: boolean };
 
 const dataReducer = (
   state: UserContextState,
@@ -68,6 +70,8 @@ const dataReducer = (
       return { ...state, loading: action.payload };
     case "SET_ERROR":
       return { ...state, error: action.payload };
+    case "SET_REDIREDTED":
+      return { ...state, redirected: action.payload };
     default:
       throw new Error(`Unhandled action type: ${JSON.stringify(action)}`);
   }
@@ -327,6 +331,10 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     });
   };
 
+  const updateRedirectedStatus = (redirected: boolean) => {
+    dispatch({ type: "SET_REDIREDTED", payload: redirected });
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -334,6 +342,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         cmsData,
         hasUserData,
         fetchTokenAndData,
+        updateRedirectedStatus,
         updateDailyLoginPointsStatus,
         updateUserStatus,
         updateUserPoints,

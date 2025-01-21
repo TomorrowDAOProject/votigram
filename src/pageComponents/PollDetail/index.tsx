@@ -20,9 +20,6 @@ import { stringifyStartAppParams } from "@/utils/start-params";
 
 import { getShareText } from "./utils";
 
-
-
-
 const PollDetail = () => {
   const { proposalId } = useParams();
   const [seconds, setSeconds] = useState(0);
@@ -69,7 +66,12 @@ const PollDetail = () => {
     if (window?.Telegram?.WebApp?.openTelegramLink) {
       const url = encodeURIComponent(generateShareUrl());
       const shareText = encodeURIComponent(
-        getShareText(data.proposalTitle ?? "")
+        getShareText(
+          data.proposalTitle ?? "",
+          `Make your voice heard!📢\n
+Vote Now and Earn USDT airdrop on Votigram! 🚀
+        `
+        )
       );
       window?.Telegram?.WebApp?.openTelegramLink(
         `https://t.me/share/url?url=${url}&text=${shareText}`

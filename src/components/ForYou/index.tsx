@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 
 import { useThrottleFn } from "ahooks";
@@ -23,9 +22,6 @@ import CheckboxGroup from "../CheckboxGroup";
 import Drawer from "../Drawer";
 import ReviewComment from "../ReviewComment";
 import TelegramHeader from "../TelegramHeader";
-
-
-
 
 interface IForYouType {
   currentForyouPage: number;
@@ -104,15 +100,22 @@ const ForYou = ({
     setForYouItems(list);
   };
 
-  const updateOpenAppClick = (alias: string, url: string) => {
-    postWithToken("/api/app/ranking/like", {
+  const updateShareAppClick = (alias: string) => {
+    postWithToken("/api/app/user/share-app", {
       chainId,
       alias,
     });
-    window.open(url);
     const list = [...forYouItems];
-    list[currentIndex].totalOpens = (list[currentIndex].totalOpens || 0) + 1;
+    list[currentIndex].totalShares = (list[currentIndex].totalShares || 0) + 1;
     setForYouItems(list);
+  };
+
+  const updateOpenAppClick = (alias: string, url: string) => {
+    postWithToken("/api/app/user/open-app", {
+      chainId,
+      alias,
+    });
+    window.open(url)
   };
 
   const updateReviewClick = (item: VoteApp) => {
@@ -183,17 +186,14 @@ const ForYou = ({
                       item={item}
                       totalLikes={item.totalLikes || 0}
                       totalComments={item.totalComments || 0}
-                      totalOpens={item.totalOpens || 0}
+                      totalShares={item.totalShares || 0}
                       updateLikeAppClick={updateLikeAppClick}
-                      updateOpenAppClick={updateOpenAppClick}
+                      updateOpenAppClick={updateShareAppClick}
                       updateReviewClick={updateReviewClick}
                     />
                   </>
                 )}
-                <AppDetail
-                  item={item}
-                  updateOpenAppClick={updateOpenAppClick}
-                />
+                <AppDetail item={item} updateOpenAppClick={updateOpenAppClick} />
               </div>
             ))}
           </motion.div>

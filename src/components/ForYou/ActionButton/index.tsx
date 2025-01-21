@@ -1,21 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { CreateTypes } from "canvas-confetti";
 
 import Confetti from "@/components/Confetti";
+import { TgLink } from "@/config";
 import { chainId } from "@/constants/app";
 import { HEART_SHAPE } from "@/constants/canvas-confetti";
 import { postWithToken } from "@/hooks/useData";
+import { getShareText } from "@/pageComponents/PollDetail/utils";
 import { useUserContext } from "@/provider/UserProvider";
 import { VoteApp } from "@/types/app";
+import { stringifyStartAppParams, stringToHex } from "@/utils/start-params";
 
 interface IActionButton {
   item: VoteApp;
   totalLikes: number;
   totalComments: number;
-  totalOpens: number;
-  updateOpenAppClick: (alias: string, url: string) => void;
+  totalShares: number;
+  updateOpenAppClick: (alias: string) => void;
   updateReviewClick: (item: VoteApp) => void;
   updateLikeAppClick: (likesCount: number) => void;
 }
@@ -24,7 +27,7 @@ const ActionButton = ({
   item,
   totalLikes = 0,
   totalComments = 0,
-  totalOpens = 0,
+  totalShares = 0,
   updateLikeAppClick,
   updateOpenAppClick,
   updateReviewClick,
@@ -41,23 +44,32 @@ const ActionButton = ({
     setLikeCount((prevCount) => prevCount + 1);
   };
 
+  const fetchRankingLike = useCallback(
+    async (likeCount: number) => {
+      const {
+        data: { userTotalPoints },
+      } = await postWithToken("/api/app/ranking/like", {
+        chainId,
+        proposalId: "",
+        likeList: [
+          {
+            alias: item.alias,
+            likeAmount: likeCount,
+          },
+        ],
+      });
+      updateUserPoints(userTotalPoints || userPoints?.userTotalPoints);
+    },
+    [updateUserPoints, userPoints?.userTotalPoints]
+  );
+
   // Effect to handle debouncing
   useEffect(() => {
     if (likeCount > 0) {
       const timer = setTimeout(() => {
-        postWithToken("/api/app/ranking/like", {
-          chainId,
-          proposalId: "",
-          likeList: [
-            {
-              alias: item.alias,
-              likeAmount: likeCount,
-            },
-          ],
-        });
         updateLikeAppClick(likeCount);
         setTotalCurrentLikes((prev) => prev + likeCount);
-        updateUserPoints((userPoints?.userTotalPoints || 0) + likeCount);
+        fetchRankingLike(likeCount);
         setLikeCount(0);
       }, 700);
 
@@ -86,8 +98,31 @@ const ActionButton = ({
   };
 
   const onOpenAppClick = () => {
-    updateOpenAppClick(item.alias, item.url);
+    shareToTelegram();
+    updateOpenAppClick(item.alias);
     window.Telegram.WebApp.HapticFeedback.notificationOccurred("success");
+  };
+
+  const generateShareUrl = () => {
+    const paramsStr = stringifyStartAppParams({
+      alias: stringToHex(item.alias),
+    });
+    return `${TgLink}?startapp=${paramsStr}`;
+  };
+
+  const shareToTelegram = () => {
+    if (window?.Telegram?.WebApp?.openTelegramLink) {
+      const url = encodeURIComponent(generateShareUrl());
+      const shareText = encodeURIComponent(
+        getShareText(
+          `I just found this awesome app "${item.title}" on Votigram! 🌟`,
+          `Join me on Votigram to discover more fun apps, and earn points for USDT airdrops! 💎 \n`
+        )
+      );
+      window?.Telegram?.WebApp?.openTelegramLink(
+        `https://t.me/share/url?url=${url}&text=${shareText}`
+      );
+    }
   };
 
   return (
@@ -134,7 +169,7 @@ const ActionButton = ({
             <i className="votigram-icon-arrow-ninety-degrees text-[26px] text-primary" />
           </div>
           <span className="text-[12px] leading-[13px] text-white">
-            {totalOpens}
+            {totalShares}
           </span>
         </div>
       </div>

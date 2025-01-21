@@ -2,7 +2,6 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
 
-
 import { useUserContext } from "@/provider/UserProvider";
 
 interface ISceneLoadingProps {
@@ -44,31 +43,35 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
   }, [isNewUser, progress, setIsLoading]);
 
   return (
-    <div className="bg-gradient-to-t from-black to-[#9381FF] min-h-[533px] pt-telegramHeader">
-      <div className="pt-[42px] h-screen">
-        <span className="block text-center font-bold text-base font-outfit">
-          VOTIGRAM
-        </span>
+    <div className="bg-primary min-h-[533px] pt-telegramHeader">
+      <div className="relative h-screen">
+        <div className="absolute top-[10vh] left-1/2 -translate-x-1/2 w-full h-[62.8vh] z-0">
+          <img
+            src="https://cdn.tmrwdao.com/votigram/assets/imgs/4A063293E0F8.webp"
+            className="animate-spin w-auto h-full"
+            data-testid="scene-loading-image"
+          />
+        </div>
+
         <img
-          src="https://cdn.tmrwdao.com/votigram/assets/imgs/18B98C6FFC90.webp"
-          className="mt-[5px] mx-auto mb-[25px] h-[56vh]"
+          src="https://cdn.tmrwdao.com/votigram/assets/imgs/DF6ECDDBE37D.webp"
+          className="relative mx-auto h-[62.8vh] z-10"
           data-testid="scene-loading-image"
         />
-        <div className="flex col-12 text-[40px] flex-col text-center mb-8">
-          <span className="leading-[40px] font-black font-outfit">
-            YOUR <span className="text-primary">VOTE,</span>
-            <br />
-            YOUR <span className="text-secondary">CHOICE</span>
-          </span>
-        </div>
+        <img
+          src="https://cdn.tmrwdao.com/votigram/assets/imgs/C0EE0D2FC207.webp"
+          className="relative mx-auto mb-[25px] h-[14.6vh] z-10"
+          data-testid="scene-loading-image"
+        />
+
         <div className="px-[49px]">
-          {progress >= 90 ? (
+          {isNewUser && progress >= 90 ? (
             <button
               data-testid="cta-button"
               onClick={() => {
                 setIsLoading(false);
               }}
-              className="bg-primary w-full rounded-3xl py-2.5 leading-[14px] text-[14px] font-bold font-outfit"
+              className="bg-white text-primary w-full rounded-3xl py-2.5 leading-[14px] text-[14px] font-bold font-outfit"
             >
               Get Started!
             </button>

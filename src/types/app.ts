@@ -21,6 +21,7 @@ export type VoteApp = {
   url: string;
   pointsAmount?: number;
   totalLikes?: number;
+  totalShares?: number;
   totalComments?: number;
   totalOpens?: number;
   totalPoints?: number;
