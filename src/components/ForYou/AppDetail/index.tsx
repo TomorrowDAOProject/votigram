@@ -1,8 +1,6 @@
- 
 import React, { useEffect, useRef, useState } from "react";
 
 import { motion } from "framer-motion";
-
 
 import { DISCOVERY_CATEGORY_MAP } from "@/constants/discover";
 import { VoteApp } from "@/types/app";
@@ -24,10 +22,9 @@ const descriptionVariants = {
 
 interface IAppDetailProps {
   item: VoteApp;
-  updateOpenAppClick: (alias: string, url: string) => void;
 }
 
-const AppDetail = ({ item, updateOpenAppClick }: IAppDetailProps) => {
+const AppDetail = ({ item }: IAppDetailProps) => {
   const [isExpand, setIsExpand] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -49,7 +46,7 @@ const AppDetail = ({ item, updateOpenAppClick }: IAppDetailProps) => {
   }, []);
 
   const onOpenAppClick = () => {
-    updateOpenAppClick(item.alias, item.url);
+    window.open(item.url);
   };
 
   return (

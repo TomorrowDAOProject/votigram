@@ -101,7 +101,7 @@ const ForYou = ({
   };
 
   const updateOpenAppClick = (alias: string) => {
-    postWithToken("/api/app/ranking/like", {
+    postWithToken("/api/app/user/open-app", {
       chainId,
       alias,
     });
@@ -185,10 +185,7 @@ const ForYou = ({
                     />
                   </>
                 )}
-                <AppDetail
-                  item={item}
-                  updateOpenAppClick={updateOpenAppClick}
-                />
+                <AppDetail item={item} />
               </div>
             ))}
           </motion.div>
