@@ -325,7 +325,7 @@ const Home = ({
           Claim Today's Reward
         </button>
 
-        <span className="block mt-7 p-[10px] bg-dark-gray rounded-[6px] text-center text-lime-green font-normal text-[10px] leading-[11px] whitespace-pre-wrap">{`Tips: Earn more points to get you a bigger \nshare of the USDT Airdrop!`}</span>
+        <span className="block mt-7 p-[10px] bg-dark-gray rounded-[6px] text-center text-lime-green font-normal text-[11px] leading-[12px] whitespace-pre-wrap">{`Tips: Earn more points to get you a bigger \nshare of the USDT Airdrop!`}</span>
       </Modal>
     </>
   );
