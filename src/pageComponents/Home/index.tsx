@@ -12,10 +12,15 @@ import { RANDOM_APP_CATEGORY } from "@/constants/discover";
 import { TAB_LIST } from "@/constants/navigation";
 import useData, { postWithToken } from "@/hooks/useData";
 import useSetSearchParams from "@/hooks/useSetSearchParams";
+import { useUserContext } from "@/provider/UserProvider";
 import { VoteApp } from "@/types/app";
 import { parseStartAppParams } from "@/utils/start-params";
 
 const App = () => {
+  const {
+    redirected,
+    updateRedirectedStatus,
+  } = useUserContext();
   const currentForyouPage = useRef<number>(1);
   const [activeTab, setActiveTab] = useState(TAB_LIST.HOME);
   const [forYouList, setForYouList] = useState<VoteApp[]>([]);
@@ -99,14 +104,13 @@ const App = () => {
       const startParam =
         window.Telegram.WebApp.initDataUnsafe.start_param ?? "";
       const params = parseStartAppParams(startParam);
-      const hasRedirect = sessionStorage.getItem("redirect");
-      if (params && params.pid && !hasRedirect) {
-        sessionStorage.setItem("redirect", "1");
+      if (params && params.pid && !redirected) {
         navigate(`/proposal/${params.pid}`);
+        updateRedirectedStatus(true)
       }
-      if (params && params.alias && !hasRedirect) {
-        sessionStorage.setItem("redirect", "1");
+      if (params && params.alias && !redirected) {
         setAlias(atob(params.alias));
+        updateRedirectedStatus(true)
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -64,7 +64,7 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
           data-testid="scene-loading-image"
         />
 
-        <div className="relative px-[49px] z-10">
+        <div className="px-[49px]">
           {progress >= 90 ? (
             <button
               data-testid="cta-button"

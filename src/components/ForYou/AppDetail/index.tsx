@@ -22,9 +22,10 @@ const descriptionVariants = {
 
 interface IAppDetailProps {
   item: VoteApp;
+  updateOpenAppClick(alias: string, url: string): void
 }
 
-const AppDetail = ({ item }: IAppDetailProps) => {
+const AppDetail = ({ item, updateOpenAppClick }: IAppDetailProps) => {
   const [isExpand, setIsExpand] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -46,7 +47,7 @@ const AppDetail = ({ item }: IAppDetailProps) => {
   }, []);
 
   const onOpenAppClick = () => {
-    window.open(item.url);
+    updateOpenAppClick(item.alias, item.url);
   };
 
   return (

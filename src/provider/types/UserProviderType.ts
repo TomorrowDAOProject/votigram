@@ -18,6 +18,7 @@ export interface UserContextState {
   token: string | null;
   loading: boolean;
   error: string | null;
+  redirected?: boolean;
 }
 
 export interface IConfigContent {
@@ -57,5 +58,6 @@ export interface UserContextType extends UserContextState {
   updateUserStatus: (isNewUser: boolean) => void;
   updateUserPoints: (points: number) => void;
   fetchTokenAndData: () => Promise<void>;
+  updateRedirectedStatus: (redirected: boolean) => void;
   updateDailyLoginPointsStatus: (value: number) => void;
 }

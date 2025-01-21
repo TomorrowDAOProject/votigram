@@ -193,7 +193,7 @@ const ForYou = ({
                     />
                   </>
                 )}
-                <AppDetail item={item} />
+                <AppDetail item={item} updateOpenAppClick={updateOpenAppClick} />
               </div>
             ))}
           </motion.div>
