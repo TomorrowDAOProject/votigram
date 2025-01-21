@@ -100,14 +100,22 @@ const ForYou = ({
     setForYouItems(list);
   };
 
-  const updateOpenAppClick = (alias: string) => {
-    postWithToken("/api/app/user/open-app", {
+  const updateShareAppClick = (alias: string) => {
+    postWithToken("/api/app/user/share-app", {
       chainId,
       alias,
     });
     const list = [...forYouItems];
-    list[currentIndex].totalOpens = (list[currentIndex].totalOpens || 0) + 1;
+    list[currentIndex].totalShares = (list[currentIndex].totalShares || 0) + 1;
     setForYouItems(list);
+  };
+
+  const updateOpenAppClick = (alias: string, url: string) => {
+    postWithToken("/api/app/user/open-app", {
+      chainId,
+      alias,
+    });
+    window.open(url)
   };
 
   const updateReviewClick = (item: VoteApp) => {
@@ -178,9 +186,9 @@ const ForYou = ({
                       item={item}
                       totalLikes={item.totalLikes || 0}
                       totalComments={item.totalComments || 0}
-                      totalOpens={item.totalOpens || 0}
+                      totalShares={item.totalShares || 0}
                       updateLikeAppClick={updateLikeAppClick}
-                      updateOpenAppClick={updateOpenAppClick}
+                      updateOpenAppClick={updateShareAppClick}
                       updateReviewClick={updateReviewClick}
                     />
                   </>

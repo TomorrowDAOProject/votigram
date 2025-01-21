@@ -17,7 +17,7 @@ interface IActionButton {
   item: VoteApp;
   totalLikes: number;
   totalComments: number;
-  totalOpens: number;
+  totalShares: number;
   updateOpenAppClick: (alias: string) => void;
   updateReviewClick: (item: VoteApp) => void;
   updateLikeAppClick: (likesCount: number) => void;
@@ -27,7 +27,7 @@ const ActionButton = ({
   item,
   totalLikes = 0,
   totalComments = 0,
-  totalOpens = 0,
+  totalShares = 0,
   updateLikeAppClick,
   updateOpenAppClick,
   updateReviewClick,
@@ -98,8 +98,8 @@ const ActionButton = ({
   };
 
   const onOpenAppClick = () => {
-    updateOpenAppClick(item.alias);
     shareToTelegram();
+    updateOpenAppClick(item.alias);
     window.Telegram.WebApp.HapticFeedback.notificationOccurred("success");
   };
 
@@ -169,7 +169,7 @@ const ActionButton = ({
             <i className="votigram-icon-arrow-ninety-degrees text-[26px] text-primary" />
           </div>
           <span className="text-[12px] leading-[13px] text-white">
-            {totalOpens}
+            {totalShares}
           </span>
         </div>
       </div>
