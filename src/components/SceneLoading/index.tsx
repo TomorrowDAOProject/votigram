@@ -65,7 +65,7 @@ const SceneLoading = ({ setIsLoading }: ISceneLoadingProps) => {
         />
 
         <div className="px-[49px]">
-          {progress >= 90 ? (
+          {isNewUser && progress >= 90 ? (
             <button
               data-testid="cta-button"
               onClick={() => {
