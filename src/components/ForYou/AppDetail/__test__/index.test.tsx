@@ -9,16 +9,9 @@ import { voteAppData } from "@/__mocks__/VoteApp";
 
 import AppDetail from "../index";
 
-const mockUpdateOpenAppClick = vi.fn();
-
 describe("AppDetail Component", () => {
   it("renders correctly with initial collapsed view", () => {
-    render(
-      <AppDetail
-        item={voteAppData}
-        updateOpenAppClick={mockUpdateOpenAppClick}
-      />
-    );
+    render(<AppDetail item={voteAppData} />);
     expect(screen.getByText("Tonalytics")).toBeInTheDocument();
     expect(screen.getByText("Follow 👉🏻 @tonalytics1")).toBeInTheDocument();
     const descriptionElement = screen.getByText(
@@ -28,24 +21,14 @@ describe("AppDetail Component", () => {
   });
 
   it("expands description on click", () => {
-    render(
-      <AppDetail
-        item={voteAppData}
-        updateOpenAppClick={mockUpdateOpenAppClick}
-      />
-    );
+    render(<AppDetail item={voteAppData} />);
     const container = screen.getByText("Tonalytics").closest("div");
     fireEvent.click(container!);
     expect(screen.getByText("Tonalytics")).toBeInTheDocument();
   });
 
   it("collapses when clicking outside", () => {
-    render(
-      <AppDetail
-        item={voteAppData}
-        updateOpenAppClick={mockUpdateOpenAppClick}
-      />
-    );
+    render(<AppDetail item={voteAppData} />);
     const container = screen.getByText("Tonalytics").closest("div");
     fireEvent.click(container!);
     expect(screen.getByText("Tonalytics")).toBeInTheDocument();
