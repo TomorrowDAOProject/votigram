@@ -1,50 +1,51 @@
-# React + TypeScript + Vite
+# Votigram Bot
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to **Votigram Bot**! 🎉 Your interactive Telegram mini app designed to make voting fun and rewarding. Whether you're choosing the next movie night flick or making community decisions, Votigram has you covered! 🚀
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Create Polls**: Easily set up polls within your Telegram groups. 📝
+- **Vote and Earn**: Participate in polls and earn points for each vote. Accumulate points to exchange for token rewards! 🏆
+- **Discover Polls**: Explore and join trending polls across various topics. 🔍
+- **Seamless Integration**: Operates directly within Telegram—no additional downloads required. 📲
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. **Add Votigram Bot to Telegram**: Search for `@VotigramBot` in Telegram and start a chat. 🤖
+2. **Create a Poll**: Access the Votigram mini app within Telegram to set up your poll. ✍️
+3. **Vote on Polls**: Browse existing polls and cast your vote with a simple tap. 📊
+4. **Earn Rewards**: Participate regularly to earn points and exchange them for token rewards. 🎁
 
-- Configure the top-level `parserOptions` property like this:
+## Installation for Developers
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+Clone the repository:
+
+```bash
+git clone https://github.com/TomorrowDAOProject/votigram-interface.git
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Navigate to the project directory:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+cd votigram-interface
 ```
+
+Install dependencies:
+
+```bash
+pnpm install
+```
+
+Start the development server:
+
+```bash
+pnpm run dev
+```
+
+## License
+
+This project is licensed under the **MIT License**. For more information, see the [LICENSE](LICENSE) file. 📄
+
+## Acknowledgments
+
+Special thanks to the [TomorrowDAO](https://tmrwdao.com) team for their dedication and hard work. 💪
