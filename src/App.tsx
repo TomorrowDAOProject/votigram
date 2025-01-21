@@ -21,6 +21,7 @@ const App = () => {
         window.Telegram.WebApp?.version &&
         Number(window.Telegram.WebApp?.version) >= 8
       ) {
+        window.Telegram.WebApp?.expand?.()
         window.Telegram.WebApp?.requestFullscreen?.();
 
         const tgTopStyles = `

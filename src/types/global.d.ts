@@ -59,6 +59,7 @@ interface TelegramWebApp {
       selectionChanged(): void;
     };
     version: string;
+    expand(): void;
     requestFullscreen(): void;
     lockOrientation(): void;
     disableVerticalSwipes(): void;
