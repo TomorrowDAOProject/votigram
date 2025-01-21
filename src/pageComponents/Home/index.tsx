@@ -14,13 +14,10 @@ import useData, { postWithToken } from "@/hooks/useData";
 import useSetSearchParams from "@/hooks/useSetSearchParams";
 import { useUserContext } from "@/provider/UserProvider";
 import { VoteApp } from "@/types/app";
-import { parseStartAppParams } from "@/utils/start-params";
+import { hexToString, parseStartAppParams } from "@/utils/start-params";
 
 const App = () => {
-  const {
-    redirected,
-    updateRedirectedStatus,
-  } = useUserContext();
+  const { redirected, updateRedirectedStatus } = useUserContext();
   const currentForyouPage = useRef<number>(1);
   const [activeTab, setActiveTab] = useState(TAB_LIST.HOME);
   const [forYouList, setForYouList] = useState<VoteApp[]>([]);
@@ -106,11 +103,11 @@ const App = () => {
       const params = parseStartAppParams(startParam);
       if (params && params.pid && !redirected) {
         navigate(`/proposal/${params.pid}`);
-        updateRedirectedStatus(true)
+        updateRedirectedStatus(true);
       }
       if (params && params.alias && !redirected) {
-        setAlias(atob(params.alias));
-        updateRedirectedStatus(true)
+        setAlias(hexToString(params.alias) || "");
+        updateRedirectedStatus(true);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

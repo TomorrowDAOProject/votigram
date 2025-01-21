@@ -11,7 +11,7 @@ import { postWithToken } from "@/hooks/useData";
 import { getShareText } from "@/pageComponents/PollDetail/utils";
 import { useUserContext } from "@/provider/UserProvider";
 import { VoteApp } from "@/types/app";
-import { stringifyStartAppParams } from "@/utils/start-params";
+import { stringifyStartAppParams, stringToHex } from "@/utils/start-params";
 
 interface IActionButton {
   item: VoteApp;
@@ -105,7 +105,7 @@ const ActionButton = ({
 
   const generateShareUrl = () => {
     const paramsStr = stringifyStartAppParams({
-      alias: btoa(item.alias),
+      alias: stringToHex(item.alias),
     });
     return `${TgLink}?startapp=${paramsStr}`;
   };
